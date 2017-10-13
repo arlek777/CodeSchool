@@ -13,6 +13,12 @@ namespace CodeSchool_Web.Controllers
             return View();
         }
 
+        public IActionResult Test()
+        {
+            return View();
+        }
+
+
         public IActionResult Error()
         {
             return View();

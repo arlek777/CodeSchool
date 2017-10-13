@@ -1,0 +1,25 @@
+﻿<script src="dist/jasmine/jasmine.js"></script>
+<script src="dist/jasmine/jasmine-html.js"></script>
+<script src="dist/jasmine/boot.js"></script>
+
+<script>
+    var myReporter = {
+        specDone: function (result) {
+            window.parent.resultsReceived(result);
+
+            //console.log(result);
+            //console.log('Spec: ' + result.description + ' was ' + result.status);
+
+            //for(var i = 0; i < result.failedExpectations.length; i++) {
+            //    console.log('Failure: ' + result.failedExpectations[i].message);
+            //    console.log(result.failedExpectations[i].stack);
+            //}
+
+            //console.log(result.passedExpectations.length);
+        }
+    };
+
+    jasmine.getEnv().clearReporters();
+    jasmine.getEnv().addReporter(myReporter);
+</script>
+    
