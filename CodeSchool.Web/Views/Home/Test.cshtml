@@ -6,6 +6,7 @@
     var myReporter = {
         specDone: function (result) {
             window.parent.resultsReceived(result);
+            //window.location.reload();
 
             //console.log(result);
             //console.log('Spec: ' + result.description + ' was ' + result.status);
@@ -21,5 +22,12 @@
 
     jasmine.getEnv().clearReporters();
     jasmine.getEnv().addReporter(myReporter);
+
+    describe("1 Lesson Tests", function () {
+        it("should show alert Test", function () {
+            spyOn(window, 'alert');
+            expect(window.alert).toHaveBeenCalledWith('Test');
+        });
+    });
 </script>
     
