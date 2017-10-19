@@ -28,7 +28,7 @@ namespace CodeSchool.Web.Controllers
                 alert(сообщение)
             Отображает окно с сообщением и ждёт, пока посетитель не нажмёт «Ок».";
 
-            var code = " alert( 'Привет, Мир!' );";
+            var code = "alert('Test');";
 
             var unitTestCode = System.IO.File.ReadAllText(_environment.ContentRootPath + "/LessonUnitTests/1/1.js");
 
@@ -47,8 +47,10 @@ namespace CodeSchool.Web.Controllers
     {
         public int Id { get; set; }
         public int ChapterId { get; set; }
+        public string Title { get; set; }
         public string Text { get; set; }
         public string Code { get; set; }
+        public string ReporterCode { get; set; }
         public string UnitTestCode { get; set; }
     }
 }

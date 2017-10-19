@@ -4,10 +4,7 @@ import { BackendService } from "../../services/backend.service";
 
 export class TaskTestResult {
     tips:string[] = [];
-    status: string;
-    get isSucceeded() {
-        return status === "success";
-    }
+    isSucceeded: boolean;
 }
 
 @Component({
@@ -26,7 +23,8 @@ export class LessonPage {
     testTask() {
         var that = this;
         (<any>window).resultsReceived = function (result) {
-            that.result.status = result.status;
+            console.log(result);
+            that.result.isSucceeded = result.status == "passed";
             if (that.result.isSucceeded) return;
 
             var tips = [];
@@ -44,7 +42,7 @@ export class LessonPage {
         var code = iframe.contentDocument.createElement("script");
         code.innerHTML = this.lesson.code;
         var testEl = iframe.contentDocument.createElement("script");
-        testEl.innerHTML = "window.runJasmine();";
+        testEl.innerHTML = this.lesson.unitTestCode;
 
         iframe.contentDocument.body.appendChild(code);
         iframe.contentDocument.body.appendChild(testEl);

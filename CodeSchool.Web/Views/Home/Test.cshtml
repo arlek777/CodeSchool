@@ -6,28 +6,11 @@
     var myReporter = {
         specDone: function (result) {
             window.parent.resultsReceived(result);
-            //window.location.reload();
-
-            //console.log(result);
-            //console.log('Spec: ' + result.description + ' was ' + result.status);
-
-            //for(var i = 0; i < result.failedExpectations.length; i++) {
-            //    console.log('Failure: ' + result.failedExpectations[i].message);
-            //    console.log(result.failedExpectations[i].stack);
-            //}
-
-            //console.log(result.passedExpectations.length);
+            window.location.reload();
         }
     };
 
     jasmine.getEnv().clearReporters();
     jasmine.getEnv().addReporter(myReporter);
-
-    describe("1 Lesson Tests", function () {
-        it("should show alert Test", function () {
-            spyOn(window, 'alert');
-            expect(window.alert).toHaveBeenCalledWith('Test');
-        });
-    });
 </script>
     

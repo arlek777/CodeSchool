@@ -20,7 +20,8 @@
                      style="min-height: 500px; width:100%; overflow: auto;"></div>
             </div>
             
-            <div class="alert alert-danger">
+            Result: {{result.isSucceeded  }}
+            <div class="alert" [ngClass]="{'alert-danger': !result.isSucceeded, 'alert-success': result.isSucceeded }">
                 <span *ngFor="let tip of result.tips">{{ tip }}</span>
             </div>
             
