@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeSchool.Web", "CodeSchool.Web\CodeSchool.Web.csproj", "{8FB1B073-1F67-4200-A701-FF3CB0A37831}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeSchool.Domain", "CodeSchool.Domain\CodeSchool.Domain.csproj", "{37358562-B602-4FFE-A81A-ED44E91FEEF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeSchool.DataAccess", "CodeSchool.DataAccess\CodeSchool.DataAccess.csproj", "{7795343F-8B3D-4558-A47C-ECC3C652A21B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{8FB1B073-1F67-4200-A701-FF3CB0A37831}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FB1B073-1F67-4200-A701-FF3CB0A37831}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FB1B073-1F67-4200-A701-FF3CB0A37831}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37358562-B602-4FFE-A81A-ED44E91FEEF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37358562-B602-4FFE-A81A-ED44E91FEEF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37358562-B602-4FFE-A81A-ED44E91FEEF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37358562-B602-4FFE-A81A-ED44E91FEEF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7795343F-8B3D-4558-A47C-ECC3C652A21B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7795343F-8B3D-4558-A47C-ECC3C652A21B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7795343F-8B3D-4558-A47C-ECC3C652A21B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7795343F-8B3D-4558-A47C-ECC3C652A21B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
