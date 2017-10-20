@@ -11,6 +11,7 @@ import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
 
 import { LessonPage } from './pages/lesson/lesson.page';
+import { ChaptersPage } from './pages/chapters/chapters.page';
 import { BackendService } from "./services/backend.service";
 
 
@@ -20,16 +21,18 @@ import { BackendService } from "./services/backend.service";
         AppComponent,
         NavMenuComponent,
         HomeComponent,
-        LessonPage
+        LessonPage,
+        ChaptersPage
     ],
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
         RouterModule.forRoot([
-            { path: '', redirectTo: 'lesson', pathMatch: 'full' },
-            { path: 'lesson', component: LessonPage },
-            { path: '**', redirectTo: 'lesson' }
+            { path: '', redirectTo: 'chapters', pathMatch: 'full' },
+            { path: 'chapters', component: ChaptersPage },
+            { path: 'lesson/:chapterId/:id', component: LessonPage },
+            { path: '**', redirectTo: 'chapters' }
         ]),
         AceEditorModule
     ],

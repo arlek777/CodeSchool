@@ -1,16 +1,4 @@
 ﻿<script src="dist/jasmine/jasmine.js"></script>
 <script src="dist/jasmine/jasmine-html.js"></script>
 <script src="dist/jasmine/boot.js"></script>
-
-<script>
-    var myReporter = {
-        specDone: function (result) {
-            window.parent.resultsReceived(result);
-            window.location.reload();
-        }
-    };
-
-    jasmine.getEnv().clearReporters();
-    jasmine.getEnv().addReporter(myReporter);
-</script>
     

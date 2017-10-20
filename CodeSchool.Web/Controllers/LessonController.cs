@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using CodeSchool.DataAccess.Services;
+using CodeSchool.Web.Models;
 
 namespace CodeSchool.Web.Controllers
 {
@@ -19,14 +20,14 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var lesson = await _lessonService.Get(id);
-            return Ok(lesson);
+            return Ok(new LessonModel(lesson));
         }
 
         [Route("[action]/{chapterId}/{id}")]
         public async Task<IActionResult> GetNext(int chapterId, int id)
         {
             var nextLesson = await _lessonService.GetNext(chapterId, id);
-            return Ok(nextLesson);
+            return Ok(new LessonModel(nextLesson));
         }
     }
 }

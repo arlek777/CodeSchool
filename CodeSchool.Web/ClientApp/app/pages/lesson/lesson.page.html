@@ -11,7 +11,7 @@
             <div class="panel-heading">Code</div>
             <div class="panel-body">
                 <div ace-editor
-                     [(text)]="lesson.code"
+                     [(text)]="lesson.startCode"
                      [mode]="'javascript'"
                      [theme]="'eclipse'"
                      [readOnly]="false"
@@ -25,9 +25,10 @@
                 <span *ngFor="let tip of result.tips">{{ tip }}</span>
             </div>
             
-            <button (click)="testTask()" class="btn btn-success">Check</button>
+            <button (click)="testLesson()" class="btn btn-success">Test</button>
+            <button (click)="getNextLesson()" class="btn btn-primary">Next Lesson</button>
             
-            <iframe width="0" height="0" style="border: none" id="testCode" src="http://localhost:51352/Home/Test"></iframe>
+            <iframe width="0" height="0" style="border: none" id="testLessonIframe" src="/Home/Test"></iframe>
         </div>
     </div>
 </div>

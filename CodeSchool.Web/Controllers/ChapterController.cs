@@ -1,5 +1,7 @@
+using System.Linq;
 using System.Threading.Tasks;
 using CodeSchool.DataAccess.Services;
+using CodeSchool.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeSchool.Web.Controllers
@@ -18,7 +20,7 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> Get()
         {
             var chapters = await _chapterService.GetShortcutChapters();
-            return Ok(chapters);
+            return Ok(chapters.Select(c => new ChapterModel(c)).ToList());
         }
     }
 }
