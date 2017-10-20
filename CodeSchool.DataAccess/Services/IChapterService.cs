@@ -7,5 +7,7 @@ namespace CodeSchool.DataAccess.Services
     public interface IChapterService
     {
         Task<IEnumerable<Chapter>> GetShortcutChapters();
+        Task Remove(int id);
+        Task<Chapter> AddOrUpdate(Chapter chapter);
     }
 }

@@ -7,5 +7,7 @@ namespace CodeSchool.DataAccess.Services
     {
         Task<Lesson> Get(int id);
         Task<Lesson> GetNext(int chapterId, int id);
+        Task<Lesson> AddOrUpdate(Lesson model);
+        Task Remove(int id);
     }
 }

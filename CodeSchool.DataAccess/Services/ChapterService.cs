@@ -35,5 +35,28 @@ namespace CodeSchool.DataAccess.Services
 
             return result;
         }
+
+        public async Task Remove(int id)
+        {
+            var chapter = await _dbContext.Set<Chapter>().FirstOrDefaultAsync(c => c.Id == id);
+            _dbContext.Set<Chapter>().Remove(chapter);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Chapter> AddOrUpdate(Chapter model)
+        {
+            var chapter = await _dbContext.Set<Chapter>().FirstOrDefaultAsync(c => c.Id == model.Id);
+            if (chapter == null)
+            {
+                chapter = _dbContext.Set<Chapter>().Add(model);
+            }
+            else
+            {
+                chapter.Title = model.Title;
+            }
+
+            await _dbContext.SaveChangesAsync();
+            return chapter;
+        }
     }
 }

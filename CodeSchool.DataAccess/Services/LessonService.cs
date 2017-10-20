@@ -32,5 +32,32 @@ namespace CodeSchool.DataAccess.Services
                 ? lessons[currentIndex] 
                 : lessons[nextIndex];
         }
+
+        public async Task<Lesson> AddOrUpdate(Lesson model)
+        {
+            var lesson = await Get(model.Id);
+            if (lesson == null)
+            {
+                lesson = _dbContext.Set<Lesson>().Add(model);
+            }
+            else
+            {
+                lesson.ReporterCode = model.ReporterCode;
+                lesson.UnitTestsCode = model.UnitTestsCode;
+                lesson.StartCode = model.StartCode;
+                lesson.Text = model.Text;
+                lesson.Title = model.Title;
+            }
+           
+            await _dbContext.SaveChangesAsync();
+            return lesson;
+        }
+
+        public async Task Remove(int id)
+        {
+            var lesson = await Get(id);
+            _dbContext.Set<Lesson>().Remove(lesson);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }
