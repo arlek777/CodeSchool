@@ -1,10 +1,15 @@
 ﻿using System.Data.Entity;
 using CodeSchool.Domain;
 
-namespace CodeSchool.DataAccess
+namespace CodeSchool.DataAccess.Db
 {
     public class CodeSchoolDbContext: DbContext
     {
+        static CodeSchoolDbContext()
+        {
+            Database.SetInitializer(new DbInitializer());
+        }
+
         public CodeSchoolDbContext(string connString): base(connString)
         {
         }

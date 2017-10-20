@@ -1,3 +1,6 @@
+using System.Data.Entity;
+using CodeSchool.DataAccess.Db;
+using CodeSchool.DataAccess.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
@@ -24,6 +27,11 @@ namespace CodeSchool.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<DbContext>((provider) => new CodeSchoolDbContext(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddTransient<IChapterService, ChapterService>();
+            services.AddTransient<ILessonService, LessonService>();
+
             // Add framework services.
             services.AddMvc();
         }
