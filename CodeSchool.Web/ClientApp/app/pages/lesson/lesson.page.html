@@ -28,7 +28,7 @@
             <button (click)="checkLesson()" class="btn btn-success">Test</button>
             <button (click)="getNextLesson()" class="btn btn-primary">Next Lesson</button>
             
-            <iframe lesson-tester (onTestResultsReceived)="onTestResultsReceived" src="/Home/Test"></iframe>
+            <iframe lesson-tester (onTestResultsReceived)="onTestResultsReceived($event)" src="/Home/Test"></iframe>
         </div>
     </div>
 </div>

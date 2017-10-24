@@ -1,20 +1,46 @@
-<div class="row">
-    <div class="col-md-12">
-        <div class="input-group">
-            <input class="form-control" placeholder="Chapter title" [(ngModel)]="chapter.title"/>
-            <button (click)="addOrUpdateChapter()" class="btn btn-primary">Save</button>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="input-group">
+                <input class="form-control" placeholder="Chapter title" [(ngModel)]="chapter.title" />
+                <span class="input-group-btn">
+                    <button (click)="addOrUpdateChapter()" class="btn btn-primary">Create/Update</button>
+                </span>
+            </div>
         </div>
     </div>
-</div>
+    
+    <hr/>
 
-<div class="row">
-    <div *ngFor="let chapter of chapters" class="col-md-12">
-        <a href="javascript: " (click)="editChapter(chapter)">{{ chapter.title }}</a>
-        <a [routerLink]="['/adminlesson', chapter.id]"><span class="glyphicon glyphicon-plus"></span></a>
-        <a href="javascript: " (click)="removeChapter(chapter.id)"><span class="glyphicon glyphicon-remove"></span></a>
-        <div class="col-md-12" *ngFor="let lesson of chapter.lessons">
-            <a [routerLink]="['/adminlesson', chapter.id, lesson.id]">{{ lesson.title }}</a>
-            <a href="javascript: " (click)="removeLesson(chapter, lesson.id)"><span class="glyphicon glyphicon-remove"></span></a>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h4>Chapters</h4></div>
+                <div class="panel-body">
+                    <div *ngFor="let chapter of chapters" class="col-md-12">
+                        
+                        <div class="col-md-3">
+                            <a href="javascript: " (click)="editChapter(chapter)"><h4 style="display: inline-block">{{ chapter.title }}</h4></a>
+                            <a class="alert-success" [routerLink]="['/adminlesson', chapter.id]">
+                                <span class="info glyphicon glyphicon-plus"></span>
+                            </a>
+                            <a class="alert-danger" href="javascript: " (click)="removeChapter(chapter.id)">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                        </div>
+
+                        <div class="col-md-12" *ngFor="let lesson of chapter.lessons">
+                            <a [routerLink]="['/adminlesson', chapter.id, lesson.id]">
+                                <h5 style="display: inline-block">{{ lesson.title }}</h5>
+                            </a>
+                            <a class="alert-danger" href="javascript: " (click)="removeLesson(chapter, lesson.id)">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

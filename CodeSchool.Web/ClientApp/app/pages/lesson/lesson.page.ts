@@ -33,7 +33,6 @@ export class LessonPage implements OnInit {
     }
 
     onTestResultsReceived(result) {
-        console.log(result);
         this.result = result;
     }
 

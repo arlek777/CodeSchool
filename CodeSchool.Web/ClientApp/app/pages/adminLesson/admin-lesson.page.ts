@@ -23,6 +23,7 @@ export class AdminLessonPage implements OnInit {
         var lessonId = this.route.snapshot.params["id"];
         if (!lessonId) {
             this.lesson.chapterId = this.route.snapshot.params["chapterId"];
+            return;
         }
 
         this.backendService.getLesson(lessonId).then(lesson => {

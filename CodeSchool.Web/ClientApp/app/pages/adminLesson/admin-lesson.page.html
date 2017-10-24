@@ -60,7 +60,7 @@
     </div>
 </div>
 
-<iframe lesson-tester (onTestResultsReceived)="onTestResultsReceived" src="/Home/Test"></iframe>
+<iframe lesson-tester (onTestResultsReceived)="onTestResultsReceived($event)" src="/Home/Test"></iframe>
 
 <div class="col-md-offset-10">
     <button (click)="testLesson()" class="btn btn-primary">Test</button>
