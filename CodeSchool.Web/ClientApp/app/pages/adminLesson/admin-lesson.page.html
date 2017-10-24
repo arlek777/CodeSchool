@@ -1,0 +1,68 @@
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">Title</div>
+        <input class="form-control" [(ngModel)]="lesson.title" />
+    </div>
+</div>
+
+<div class="col-md-6">
+    <div class="panel panel-default" style="min-height: 600px">
+        <div class="panel-heading">Text</div>
+        <textarea class="form-control" [(ngModel)]="lesson.text"></textarea>
+    </div>
+</div>
+
+<div class="col-md-6">
+    <div class="panel panel-default" style="min-height: 600px">
+        <div class="panel-heading">Code</div>
+        <div class="panel-body">
+            <div ace-editor
+                    [(text)]="lesson.startCode"
+                    [mode]="'javascript'"
+                    [theme]="'eclipse'"
+                    [readOnly]="false"
+                    [autoUpdateContent]="true"
+                    [durationBeforeCallback]="1000"
+                    style="min-height: 500px; width:100%; overflow: auto;"></div>
+        </div>
+    </div>
+</div>
+    
+<div class="col-md-6">
+    <div class="panel panel-default" style="min-height: 600px">
+        <div class="panel-heading">Unit Tests</div>
+        <div class="panel-body">
+            <div ace-editor
+                    [(text)]="lesson.unitTestsCode"
+                    [mode]="'javascript'"
+                    [theme]="'eclipse'"
+                    [readOnly]="false"
+                    [autoUpdateContent]="true"
+                    [durationBeforeCallback]="1000"
+                    style="min-height: 500px; width:100%; overflow: auto;"></div>
+        </div>
+    </div>
+</div>
+    
+<div class="col-md-6">
+    <div class="panel panel-default" style="min-height: 600px">
+        <div class="panel-heading">Reporter</div>
+        <div class="panel-body">
+            <div ace-editor
+                    [(text)]="lesson.reporterCode"
+                    [mode]="'javascript'"
+                    [theme]="'eclipse'"
+                    [readOnly]="false"
+                    [autoUpdateContent]="true"
+                    [durationBeforeCallback]="1000"
+                 style="min-height: 500px; width:100%; overflow: auto;"></div>
+        </div>
+    </div>
+</div>
+
+<iframe lesson-tester (onTestResultsReceived)="onTestResultsReceived" src="/Home/Test"></iframe>
+
+<div class="col-md-offset-10">
+    <button (click)="testLesson()" class="btn btn-primary">Test</button>
+    <button (click)="addOrUpdate()" class="btn btn-success">Save</button>
+</div>

@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using CodeSchool.DataAccess.Services;
 using CodeSchool.Domain;
@@ -53,9 +52,9 @@ namespace CodeSchool.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Remove([FromBody] int id)
+        public async Task<IActionResult> Remove([FromBody] RemoveRequestModel model)
         {
-            await _lessonService.Remove(id);
+            await _lessonService.Remove(model.Id);
             return Ok();
         }
     }

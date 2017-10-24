@@ -25,10 +25,10 @@
                 <span *ngFor="let tip of result.tips">{{ tip }}</span>
             </div>
             
-            <button (click)="testLesson()" class="btn btn-success">Test</button>
+            <button (click)="checkLesson()" class="btn btn-success">Test</button>
             <button (click)="getNextLesson()" class="btn btn-primary">Next Lesson</button>
             
-            <iframe width="0" height="0" style="border: none" id="testLessonIframe" src="/Home/Test"></iframe>
+            <iframe lesson-tester (onTestResultsReceived)="onTestResultsReceived" src="/Home/Test"></iframe>
         </div>
     </div>
 </div>

@@ -40,9 +40,9 @@ namespace CodeSchool.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Remove([FromBody] int id)
+        public async Task<IActionResult> Remove([FromBody] RemoveRequestModel model)
         {
-            await _chapterService.Remove(id);
+            await _chapterService.Remove(model.Id);
             return Ok();
         }
     }

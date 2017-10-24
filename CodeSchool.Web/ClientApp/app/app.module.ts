@@ -12,8 +12,11 @@ import { HomeComponent } from './components/home/home.component';
 
 import { LessonPage } from './pages/lesson/lesson.page';
 import { ChaptersPage } from './pages/chapters/chapters.page';
-import { BackendService } from "./services/backend.service";
+import { AdminLessonPage } from './pages/adminLesson/admin-lesson.page';
+import { AdminChaptersPage } from './pages/adminChapters/admin-chapters.page';
 
+import { BackendService } from "./services/backend.service";
+import { LessonTesterDirective } from "./directives/lesson-tester.directive";
 
 @NgModule({
     bootstrap: [AppComponent],
@@ -21,8 +24,11 @@ import { BackendService } from "./services/backend.service";
         AppComponent,
         NavMenuComponent,
         HomeComponent,
+        LessonTesterDirective,
         LessonPage,
-        ChaptersPage
+        ChaptersPage,
+        AdminLessonPage,
+        AdminChaptersPage
     ],
     imports: [
         BrowserModule,
@@ -32,6 +38,9 @@ import { BackendService } from "./services/backend.service";
             { path: '', redirectTo: 'chapters', pathMatch: 'full' },
             { path: 'chapters', component: ChaptersPage },
             { path: 'lesson/:chapterId/:id', component: LessonPage },
+            { path: 'adminchapters', component: AdminChaptersPage },
+            { path: 'adminlesson/:chapterId/:id', component: AdminLessonPage },
+            { path: 'adminlesson/:chapterId', component: AdminLessonPage },
             { path: '**', redirectTo: 'chapters' }
         ]),
         AceEditorModule
