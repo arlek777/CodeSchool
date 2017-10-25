@@ -21,6 +21,14 @@
     <Content Remove="ClientApp\**" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="wwwroot\jasmine\boot.js" />
+    <Content Include="wwwroot\jasmine\console.js" />
+    <Content Include="wwwroot\jasmine\jasmine-html.js" />
+    <Content Include="wwwroot\jasmine\jasmine.css" />
+    <Content Include="wwwroot\jasmine\jasmine.js" />
+    <Content Include="wwwroot\jasmine\jasmine_favicon.png" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\CodeSchool.DataAccess\CodeSchool.DataAccess.csproj" />
     <ProjectReference Include="..\CodeSchool.Domain\CodeSchool.Domain.csproj" />
   </ItemGroup>

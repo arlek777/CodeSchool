@@ -23,6 +23,16 @@ export class AdminLessonPage implements OnInit {
         var lessonId = this.route.snapshot.params["id"];
         if (!lessonId) {
             this.lesson.chapterId = this.route.snapshot.params["chapterId"];
+            this.lesson.reporterCode = ` 
+            var myReporter = {
+                specDone: function (result) {
+                    window.parent.resultsReceived(result);
+                    window.location.reload();
+                }
+            };
+
+            jasmine.getEnv().clearReporters();
+            jasmine.getEnv().addReporter(myReporter);`;
             return;
         }
 
@@ -31,10 +41,19 @@ export class AdminLessonPage implements OnInit {
         });
     }
 
-    addOrUpdate() {
+    addOrUpdate(finished: boolean) {
         this.backendService.addOrUpdateLesson(this.lesson).then((lesson) => {
-            this.router.navigate(['/adminchapters']);
+            if (finished) {
+                this.router.navigate(['/adminchapters']);
+            }
         });
+    }
+
+    back() {
+        var result = confirm("Are you sure?");
+        if (!result) return;
+
+        this.router.navigate(['/adminchapters']);
     }
 
     onTestResultsReceived(result) {

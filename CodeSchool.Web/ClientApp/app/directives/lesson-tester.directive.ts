@@ -23,9 +23,15 @@ export class LessonTesterDirective {
     }
 
     checkLesson(lesson: LessonViewModel) {
-        this.createAndAppendScriptElement(lesson.startCode);
+        var code = `function lesson() { 
+                ${lesson.startCode} 
+            }`;
+
+        var unitTestsCode = lesson.unitTestsCode + " window.runJasmine();";
+
+        this.createAndAppendScriptElement(code);
         this.createAndAppendScriptElement(lesson.reporterCode);
-        this.createAndAppendScriptElement(lesson.unitTestsCode);
+        this.createAndAppendScriptElement(unitTestsCode);
     }
 
     testLesson(lesson: LessonViewModel) {
@@ -40,9 +46,15 @@ export class LessonTesterDirective {
             jasmine.getEnv().clearReporters();
             jasmine.getEnv().addReporter(myReporter);`;
 
-        this.createAndAppendScriptElement(lesson.startCode);
+        var code = `function lesson() { 
+                ${lesson.startCode} 
+            }`;
+
+        var unitTestsCode = lesson.unitTestsCode + " window.runJasmine();";
+
+        this.createAndAppendScriptElement(code);
         this.createAndAppendScriptElement(reporterCode);
-        this.createAndAppendScriptElement(lesson.unitTestsCode);
+        this.createAndAppendScriptElement(unitTestsCode);
     }
 
     private createAndAppendScriptElement(content) {

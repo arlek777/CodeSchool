@@ -1,12 +1,12 @@
 ﻿<div class="col-md-6">
-    <div class="panel panel-default" style="min-height: 600px">
+    <div class="panel panel-default" style="height: 600px; overflow-y: auto">
         <div class="panel-heading">Text</div>
-        <div class="panel-body">{{ lesson.text }}</div>
+        <div class="panel-body" [innerHtml]="sanitizedLessonText"></div>
     </div>
 </div>
 
 <div class="col-md-6">
-    <div class="panel panel-default" style="min-height: 600px">
+    <div class="panel panel-default" style="height: 600px; overflow-y: auto">
         <div class="panel-heading">Code</div>
         <div class="panel-body">
             <div ace-editor
@@ -24,12 +24,13 @@
 </div>
 
 <div class="col-md-offset-6 col-md-6">
-    <div *ngIf="result" class="alert" [ngClass]="{'alert-danger': !result.isSucceeded, 'alert-success': result.isSucceeded }">
-        <span *ngFor="let tip of result.tips">{{ tip }}</span>
-        <span *ngIf="result.isSucceeded">Выполненно!</span>
+    <div class="form-group">
+        <button (click)="checkLesson()" class="btn btn-success btn-lg">Test</button>
+        <button (click)="getNextLesson()" class="btn btn-primary btn-lg">Next Lesson</button>
     </div>
-            
-    <button (click)="checkLesson()" class="btn btn-success btn-lg">Test</button>
-    <button (click)="getNextLesson()" class="btn btn-primary btn-lg">Next Lesson</button>
+
+    <div *ngIf="result" class="alert" [ngClass]="{'alert-danger': !result.isSucceeded, 'alert-success': result.isSucceeded }">
+        <span *ngFor="let message of result.messages">{{ message }}</span>
+    </div>
 </div>
 

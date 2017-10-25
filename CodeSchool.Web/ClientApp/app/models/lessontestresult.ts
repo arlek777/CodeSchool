@@ -1,11 +1,11 @@
 ﻿export class LessonTestResult {
     constructor(model?: any) {
         if (model) {
-            this.tips = model.tips;
+            this.messages = model.messages;
             this.isSucceeded = model.isSucceeded;
         }
     }
 
-    tips: string[] = [];
+    messages: string[] = [];
     isSucceeded: boolean;
 }

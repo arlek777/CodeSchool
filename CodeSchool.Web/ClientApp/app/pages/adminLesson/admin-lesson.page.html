@@ -1,7 +1,9 @@
-<div class="col-md-offset-11">
-    <div class="form-group">
+<div class="col-md-offset-10">
+    <div class="form-group pull-right">
         <button (click)="testLesson()" class="btn btn-primary btn-lg">Test</button>
-        <button (click)="addOrUpdate()" class="btn btn-success btn-lg">Save</button>
+        <button (click)="addOrUpdate(false)" class="btn btn-warning btn-lg">Save</button>
+        <button (click)="addOrUpdate(true)" class="btn btn-success btn-lg">Finish</button>
+        <button (click)="back()" class="btn btn-danger btn-lg">Back</button>
     </div>
 </div>
 
@@ -70,9 +72,11 @@
 
 <iframe lesson-tester (onTestResultsReceived)="onTestResultsReceived($event)" src="/Home/Test"></iframe>
 
-<div class="col-md-offset-11">
-    <div class="form-group">
+<div class="col-md-offset-10">
+    <div class="form-group pull-right">
         <button (click)="testLesson()" class="btn btn-primary btn-lg">Test</button>
-        <button (click)="addOrUpdate()" class="btn btn-success btn-lg">Save</button>
+        <button (click)="addOrUpdate(false)" class="btn btn-warning btn-lg">Save</button>
+        <button (click)="addOrUpdate(true)" class="btn btn-success btn-lg">Finish</button>
+        <button (click)="back()" class="btn btn-danger btn-lg">Back</button>
     </div>
 </div>
