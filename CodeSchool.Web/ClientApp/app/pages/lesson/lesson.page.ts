@@ -10,7 +10,7 @@ import { LessonTesterDirective } from "../../directives/lesson-tester.directive"
 })
 export class LessonPage implements OnInit {
     lesson: LessonViewModel = new LessonViewModel();
-    result: LessonTestResult = new LessonTestResult();
+    result: LessonTestResult;
 
     @ViewChild(LessonTesterDirective)
     private lessonTester: LessonTesterDirective;

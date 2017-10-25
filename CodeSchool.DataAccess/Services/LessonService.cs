@@ -27,7 +27,7 @@ namespace CodeSchool.DataAccess.Services
             var currentIndex = lessons.FindIndex(l => l.Id == id);
             if (currentIndex == -1) return null;
 
-            var nextIndex = currentIndex++;
+            var nextIndex = ++currentIndex;
             return nextIndex == lessons.Count 
                 ? lessons[currentIndex] 
                 : lessons[nextIndex];
