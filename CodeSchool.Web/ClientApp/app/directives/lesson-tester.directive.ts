@@ -36,9 +36,11 @@ export class LessonTesterDirective {
     }
 
     testLesson(lesson: LessonViewModel) {
-        var code = `function lesson() { 
-                ${lesson.startCode} 
-            }`;
+        var code = `
+${lesson.startCode}
+function runLesson() { 
+    ${lesson.startCode} 
+}`;
 
         var unitTestsCode = lesson.unitTestsCode + " window.runJasmine();";
 

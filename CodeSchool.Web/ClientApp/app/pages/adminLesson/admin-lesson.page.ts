@@ -27,7 +27,7 @@ export class AdminLessonPage implements OnInit {
         if (!lessonId) {
             this.lesson.chapterId = this.route.snapshot.params["chapterId"];
             this.lesson.unitTestsCode = Constants.startUnitTest;
-            this.lesson.reporterCode = Constants.defaultLessonReporter;
+            this.lesson.reporterCode = Constants.startLessonReporter;
             return;
         }
 
