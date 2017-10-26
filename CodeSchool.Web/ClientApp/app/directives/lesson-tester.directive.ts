@@ -1,6 +1,7 @@
 import { Directive, ElementRef, Output, EventEmitter } from '@angular/core';
 import { LessonViewModel } from "../models/lesson";
 import { LessonTestResult } from "../models/lessontestresult";
+import { Constants } from "../constants";
 
 @Directive({
     selector: '[lesson-tester]'
@@ -35,17 +36,6 @@ export class LessonTesterDirective {
     }
 
     testLesson(lesson: LessonViewModel) {
-        var reporterCode = ` 
-            var myReporter = {
-                specDone: function (result) {
-                    window.parent.resultsReceived(result);
-                    window.location.reload();
-                }
-            };
-
-            jasmine.getEnv().clearReporters();
-            jasmine.getEnv().addReporter(myReporter);`;
-
         var code = `function lesson() { 
                 ${lesson.startCode} 
             }`;
@@ -53,7 +43,7 @@ export class LessonTesterDirective {
         var unitTestsCode = lesson.unitTestsCode + " window.runJasmine();";
 
         this.createAndAppendScriptElement(code);
-        this.createAndAppendScriptElement(reporterCode);
+        this.createAndAppendScriptElement(Constants.defaultLessonReporter);
         this.createAndAppendScriptElement(unitTestsCode);
     }
 

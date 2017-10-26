@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { LessonTestResult } from "../../models/lessontestresult";
 import { LessonTesterDirective } from "../../directives/lesson-tester.directive";
 import { PopupService } from "../../services/popup.service";
+import { Constants } from "../../constants";
 
 @Component({
     templateUrl: './admin-lesson.page.html'
@@ -25,16 +26,8 @@ export class AdminLessonPage implements OnInit {
         var lessonId = this.route.snapshot.params["id"];
         if (!lessonId) {
             this.lesson.chapterId = this.route.snapshot.params["chapterId"];
-            this.lesson.reporterCode = ` 
-            var myReporter = {
-                specDone: function (result) {
-                    window.parent.resultsReceived(result);
-                    window.location.reload();
-                }
-            };
-
-            jasmine.getEnv().clearReporters();
-            jasmine.getEnv().addReporter(myReporter);`;
+            this.lesson.unitTestsCode = Constants.startUnitTest;
+            this.lesson.reporterCode = Constants.defaultLessonReporter;
             return;
         }
 
