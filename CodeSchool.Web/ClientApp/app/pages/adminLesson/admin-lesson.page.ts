@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+﻿import { Component, OnInit, ViewChild } from '@angular/core';
 import { LessonViewModel } from "../../models/lesson";
 import { BackendService } from "../../services/backend.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { LessonTestResult } from "../../models/lessontestresult";
 import { LessonTesterDirective } from "../../directives/lesson-tester.directive";
+import { PopupService } from "../../services/popup.service";
 
 @Component({
     templateUrl: './admin-lesson.page.html'
@@ -16,7 +17,8 @@ export class AdminLessonPage implements OnInit {
 
     constructor(private backendService: BackendService,
         private route: ActivatedRoute,
-        private router: Router) {
+        private router: Router,
+        private popupService: PopupService) {
     }
 
     ngOnInit(): void {
@@ -46,6 +48,7 @@ export class AdminLessonPage implements OnInit {
             if (finished) {
                 this.router.navigate(['/adminchapters']);
             }
+            this.popupService.newSuccessMessage("Урок добавлен/обновлен.");
         });
     }
 

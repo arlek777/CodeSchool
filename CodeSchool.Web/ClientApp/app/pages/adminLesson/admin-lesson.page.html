@@ -1,9 +1,9 @@
-<div class="col-md-offset-10">
+﻿<div class="col-md-offset-9">
     <div class="form-group pull-right">
-        <button (click)="testLesson()" class="btn btn-primary btn-lg">Test</button>
-        <button (click)="addOrUpdate(false)" class="btn btn-warning btn-lg">Save</button>
-        <button (click)="addOrUpdate(true)" class="btn btn-success btn-lg">Finish</button>
-        <button (click)="back()" class="btn btn-danger btn-lg">Back</button>
+        <button (click)="testLesson()" class="btn btn-primary btn-lg">Тест</button>
+        <button (click)="addOrUpdate(false)" class="btn btn-warning btn-lg">Сохранить</button>
+        <button (click)="addOrUpdate(true)" class="btn btn-success btn-lg">Готово</button>
+        <button (click)="back()" class="btn btn-danger btn-lg">Назад</button>
     </div>
 </div>
 
@@ -24,7 +24,7 @@
 
 <div class="col-md-6">
     <div class="panel panel-default" style="min-height: 600px">
-        <div class="panel-heading">Code</div>
+        <div class="panel-heading">Код</div>
         <div class="panel-body">
             <div ace-editor
                  [(text)]="lesson.startCode"
@@ -40,7 +40,7 @@
 
 <div class="col-md-6">
     <div class="panel panel-default" style="min-height: 600px">
-        <div class="panel-heading">Unit Tests</div>
+        <div class="panel-heading">Тесты</div>
         <div class="panel-body">
             <div ace-editor
                  [(text)]="lesson.unitTestsCode"
@@ -56,7 +56,7 @@
 
 <div class="col-md-6">
     <div class="panel panel-default" style="min-height: 600px">
-        <div class="panel-heading">Reporter</div>
+        <div class="panel-heading">Отчет</div>
         <div class="panel-body">
             <div ace-editor
                  [(text)]="lesson.reporterCode"
@@ -72,11 +72,11 @@
 
 <iframe lesson-tester (onTestResultsReceived)="onTestResultsReceived($event)" src="/Home/Test"></iframe>
 
-<div class="col-md-offset-10">
+<div class="col-md-offset-9">
     <div class="form-group pull-right">
-        <button (click)="testLesson()" class="btn btn-primary btn-lg">Test</button>
-        <button (click)="addOrUpdate(false)" class="btn btn-warning btn-lg">Save</button>
-        <button (click)="addOrUpdate(true)" class="btn btn-success btn-lg">Finish</button>
-        <button (click)="back()" class="btn btn-danger btn-lg">Back</button>
+        <button (click)="testLesson()" class="btn btn-primary btn-lg">Тест</button>
+        <button (click)="addOrUpdate(false)" class="btn btn-warning btn-lg">Сохранить</button>
+        <button (click)="addOrUpdate(true)" class="btn btn-success btn-lg">Готово</button>
+        <button (click)="back()" class="btn btn-danger btn-lg">Назад</button>
     </div>
 </div>

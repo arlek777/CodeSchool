@@ -1,13 +1,13 @@
 ﻿<div class="col-md-6">
     <div class="panel panel-default" style="height: 600px; overflow-y: auto">
-        <div class="panel-heading">Text</div>
+        <div class="panel-heading"><h4>{{ lesson.title }}</h4></div>
         <div class="panel-body" [innerHtml]="sanitizedLessonText"></div>
     </div>
 </div>
 
 <div class="col-md-6">
     <div class="panel panel-default" style="height: 600px; overflow-y: auto">
-        <div class="panel-heading">Code</div>
+        <div class="panel-heading"><h4>Задание</h4></div>
         <div class="panel-body">
             <div ace-editor
                  [(text)]="lesson.startCode"
@@ -25,8 +25,8 @@
 
 <div class="col-md-offset-6 col-md-6">
     <div class="form-group">
-        <button (click)="checkLesson()" class="btn btn-success btn-lg">Test</button>
-        <button (click)="getNextLesson()" class="btn btn-primary btn-lg">Next Lesson</button>
+        <button (click)="checkLesson()" class="btn btn-success btn-lg">Проверить</button>
+        <button (click)="getNextLesson()" class="btn btn-primary btn-lg">Следующий Урок</button>
     </div>
 
     <div *ngIf="result" class="alert" [ngClass]="{'alert-danger': !result.isSucceeded, 'alert-success': result.isSucceeded }">

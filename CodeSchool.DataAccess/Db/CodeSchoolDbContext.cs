@@ -7,7 +7,7 @@ namespace CodeSchool.DataAccess.Db
     {
         static CodeSchoolDbContext()
         {
-            Database.SetInitializer(new DbInitializer());
+           // Database.SetInitializer(new DbInitializer());
         }
 
         public CodeSchoolDbContext(string connString): base(connString)

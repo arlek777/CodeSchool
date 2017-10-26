@@ -3,8 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AceEditorModule } from 'ng2-ace-editor';
+import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
@@ -16,7 +18,14 @@ import { AdminLessonPage } from './pages/adminLesson/admin-lesson.page';
 import { AdminChaptersPage } from './pages/adminChapters/admin-chapters.page';
 
 import { BackendService } from "./services/backend.service";
+import { PopupService } from "./services/popup.service";
 import { LessonTesterDirective } from "./directives/lesson-tester.directive";
+
+export class CustomToastOption extends ToastOptions {
+    maxShown = 1;
+    toastLife = 3000;
+    showCloseButton = true;
+}
 
 @NgModule({
     bootstrap: [AppComponent],
@@ -43,11 +52,15 @@ import { LessonTesterDirective } from "./directives/lesson-tester.directive";
             { path: 'adminlesson/:chapterId', component: AdminLessonPage },
             { path: '**', redirectTo: 'chapters' }
         ]),
-        AceEditorModule
+        AceEditorModule,
+        BrowserAnimationsModule,
+        ToastModule.forRoot()
     ],
     providers: [
         { provide: 'ORIGIN_URL', useValue: location.origin },
-        BackendService
+        { provide: ToastOptions, useClass: CustomToastOption },
+        BackendService,
+        PopupService
     ]
 })
 export class AppModule {

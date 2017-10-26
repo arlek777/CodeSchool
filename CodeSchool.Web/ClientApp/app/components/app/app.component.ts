@@ -1,9 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, ViewContainerRef, OnInit } from '@angular/core';
+import { ToastsManager } from 'ng2-toastr';
+import { PopupService } from "../../services/popup.service";
 
 @Component({
     selector: 'app',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+    constructor(private popupService: PopupService,
+        private toastr: ToastsManager,
+        private viewRef: ViewContainerRef) {
+
+        this.toastr.setRootViewContainerRef(viewRef);
+    }
+
+    ngOnInit() {
+        this.popupService.successMessages$.subscribe((text: string) => {
+            setTimeout(() => {
+                this.toastr.success(text);
+            });
+        });
+    }
 }

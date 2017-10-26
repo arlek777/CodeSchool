@@ -1,10 +1,10 @@
-<div class="container">
+﻿<div class="container">
     <div class="row">
         <div class="col-md-6">
             <div class="input-group">
-                <input class="form-control" placeholder="Chapter title" [(ngModel)]="chapter.title" />
+                <input class="form-control" placeholder="Название раздела" [(ngModel)]="chapter.title" />
                 <span class="input-group-btn">
-                    <button (click)="addOrUpdateChapter()" class="btn btn-primary">Create/Update</button>
+                    <button (click)="addOrUpdateChapter()" class="btn btn-primary">Создать</button>
                 </span>
             </div>
         </div>
@@ -15,7 +15,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading"><h4>Chapters</h4></div>
+                <div class="panel-heading"><h4>Разделы</h4></div>
                 <div class="panel-body">
                     <div *ngFor="let chapter of chapters" class="col-md-12">
                         
