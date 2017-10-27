@@ -48,6 +48,8 @@ namespace CodeSchool.DataAccess.Services
             var chapter = await _dbContext.Set<Chapter>().FirstOrDefaultAsync(c => c.Id == model.Id);
             if (chapter == null)
             {
+                var nextOrder = await this.GetNextOrder();
+                model.Order = nextOrder;
                 chapter = _dbContext.Set<Chapter>().Add(model);
             }
             else
@@ -88,6 +90,14 @@ namespace CodeSchool.DataAccess.Services
             return nextIndex == chapters.Count 
                 ? chapters[chapterIndex] 
                 : chapters[nextIndex];
+        }
+
+        private async Task<int> GetNextOrder()
+        {
+            var lastChapter = (await _dbContext.Set<Chapter>()
+                .OrderBy(c => c.Order).ToListAsync()).LastOrDefault();
+
+            return lastChapter == null ? 0 : ++lastChapter.Order;
         }
     }
 }

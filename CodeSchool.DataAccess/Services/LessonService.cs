@@ -79,5 +79,13 @@ namespace CodeSchool.DataAccess.Services
             _dbContext.Set<Lesson>().Remove(lesson);
             await _dbContext.SaveChangesAsync();
         }
+
+        private async Task<int> GetNextOrder()
+        {
+            var lastChapter = (await _dbContext.Set<Lesson>()
+                .OrderBy(c => c.Order).ToListAsync()).LastOrDefault();
+
+            return lastChapter == null ? 0 : ++lastChapter.Order;
+        }
     }
 }
