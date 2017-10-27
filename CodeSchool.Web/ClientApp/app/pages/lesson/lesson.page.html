@@ -29,7 +29,7 @@
         <button (click)="getNextLesson()" class="btn btn-primary btn-lg">Следующий Урок</button>
     </div>
 
-    <div *ngIf="result" class="alert" [ngClass]="{'alert-danger': !result.isSucceeded, 'alert-success': result.isSucceeded }">
+    <div *ngIf="result" class="alert" [ngClass]="{'alert-danger': !result.isPassed, 'alert-success': result.isPassed }">
         <span *ngFor="let message of result.messages">{{ message }}</span>
     </div>
 </div>

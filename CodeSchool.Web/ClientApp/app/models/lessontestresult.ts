@@ -2,10 +2,10 @@
     constructor(model?: any) {
         if (model) {
             this.messages = model.messages;
-            this.isSucceeded = model.isSucceeded;
+            this.isPassed = model.isPassed;
         }
     }
 
     messages: string[] = [];
-    isSucceeded: boolean;
+    isPassed: boolean;
 }

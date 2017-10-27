@@ -24,29 +24,27 @@ export class LessonTesterDirective {
     }
 
     checkLesson(lesson: LessonViewModel) {
-        var code = `function lesson() { 
-                ${lesson.startCode} 
-            }`;
-
         var unitTestsCode = lesson.unitTestsCode + " window.runJasmine();";
 
-        this.createAndAppendScriptElement(code);
+        this.createAndAppendScriptElement(this.decorateCodeWithFunction(lesson.startCode));
         this.createAndAppendScriptElement(lesson.reporterCode);
         this.createAndAppendScriptElement(unitTestsCode);
     }
 
     testLesson(lesson: LessonViewModel) {
-        var code = `
-${lesson.startCode}
-function runLesson() { 
-    ${lesson.startCode} 
-}`;
-
         var unitTestsCode = lesson.unitTestsCode + " window.runJasmine();";
 
-        this.createAndAppendScriptElement(code);
+        this.createAndAppendScriptElement(this.decorateCodeWithFunction(lesson.startCode));
         this.createAndAppendScriptElement(Constants.defaultLessonReporter);
         this.createAndAppendScriptElement(unitTestsCode);
+    }
+
+    private decorateCodeWithFunction(code: string): string {
+        return `
+${code}
+function runLesson() { 
+    ${code} 
+}`;
     }
 
     private createAndAppendScriptElement(content) {
