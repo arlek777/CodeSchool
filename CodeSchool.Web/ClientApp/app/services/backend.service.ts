@@ -48,4 +48,16 @@ export class BackendService {
         return this.http.post("/api/lesson/remove", { id: id }).toPromise().then((response) => {
         });
     }
+
+    changeLessonOrder(upId, downId): Promise<void> {
+        return this.http.post("/api/lesson/changeorder", { upId: upId, downId: downId }).toPromise()
+            .then((response) => {
+        });
+    }
+
+    changeChapterOrder(upId, downId): Promise<void> {
+        return this.http.post("/api/chapter/changeorder", { upId: upId, downId: downId }).toPromise()
+            .then((response) => {
+        });
+    }
 }

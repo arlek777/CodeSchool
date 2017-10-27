@@ -8,10 +8,12 @@ namespace CodeSchool.DataAccess.Services
     public class LessonService : ILessonService
     {
         private readonly DbContext _dbContext;
+        private readonly IChapterService _chapterService;
 
-        public LessonService(DbContext dbContext)
+        public LessonService(DbContext dbContext, IChapterService chapterService)
         {
             _dbContext = dbContext;
+            _chapterService = chapterService;
         }
 
         public async Task<Lesson> Get(int id)
@@ -22,15 +24,21 @@ namespace CodeSchool.DataAccess.Services
         public async Task<Lesson> GetNext(int chapterId, int id)
         {
             var chapter = await _dbContext.Set<Chapter>().FirstOrDefaultAsync(c => c.Id == chapterId);
-            var lessons = chapter.Lessons.ToList();
+            var lessons = chapter.Lessons.OrderBy(l => l.Order).ToList();
 
             var currentIndex = lessons.FindIndex(l => l.Id == id);
             if (currentIndex == -1) return null;
 
             var nextIndex = ++currentIndex;
-            return nextIndex == lessons.Count 
-                ? lessons[currentIndex] 
-                : lessons[nextIndex];
+
+            if (nextIndex == lessons.Count)
+            {
+                chapter = await _chapterService.GetNext(chapterId);
+                var lesson = chapter.Lessons.OrderBy(l => l.Order).FirstOrDefault();
+                return lesson;
+            }
+
+            return lessons[nextIndex];
         }
 
         public async Task<Lesson> AddOrUpdate(Lesson model)
@@ -51,6 +59,18 @@ namespace CodeSchool.DataAccess.Services
            
             await _dbContext.SaveChangesAsync();
             return lesson;
+        }
+
+        public async Task ChangeOrder(int upLessonId, int downLessonId)
+        {
+            var upLesson = await Get(upLessonId);
+            var downLesson = await Get(downLessonId);
+
+            var downLessonOrder = downLesson.Order;
+            downLesson.Order = upLesson.Order;
+            upLesson.Order = downLessonOrder;
+
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task Remove(int id)

@@ -15,6 +15,8 @@ namespace CodeSchool.Domain
         [Required]
         public string Title { get; set; }
 
+        public int Order { get; set; }
+
         public virtual ICollection<Lesson> Lessons { get; set; }
     }
 }

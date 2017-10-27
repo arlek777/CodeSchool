@@ -9,5 +9,8 @@ namespace CodeSchool.DataAccess.Services
         Task<IEnumerable<Chapter>> GetShortcutChapters();
         Task Remove(int id);
         Task<Chapter> AddOrUpdate(Chapter chapter);
+        Task<Chapter> GetNext(int chapterId);
+        Task ChangeOrder(int upChapterId, int downChapterId);
+        Task<Chapter> Get(int chapterId);
     }
 }

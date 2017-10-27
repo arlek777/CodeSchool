@@ -45,5 +45,13 @@ namespace CodeSchool.Web.Controllers
             await _chapterService.Remove(model.Id);
             return Ok();
         }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> ChangeOrder([FromBody] ChangeOrderModel model)
+        {
+            await _chapterService.ChangeOrder(model.UpId, model.DownId);
+            return Ok();
+        }
     }
 }

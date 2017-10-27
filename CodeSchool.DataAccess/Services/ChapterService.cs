@@ -58,5 +58,36 @@ namespace CodeSchool.DataAccess.Services
             await _dbContext.SaveChangesAsync();
             return chapter;
         }
+
+        public async Task<Chapter> Get(int chapterId)
+        {
+            var chapter = await _dbContext.Set<Chapter>().FirstOrDefaultAsync(c => c.Id == chapterId);
+            return chapter;
+        }
+
+        public async Task ChangeOrder(int upChapterId, int downChapterId)
+        {
+            var upChapter = await Get(upChapterId);
+            var downChapter = await Get(downChapterId);
+
+            var downChapterOrder = downChapter.Order;
+            downChapter.Order = upChapter.Order;
+            upChapter.Order = downChapterOrder;
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Chapter> GetNext(int chapterId)
+        {
+            var chapters = await _dbContext.Set<Chapter>()
+                .OrderBy(c => c.Order).ToListAsync();
+
+            var chapterIndex = chapters.FindIndex(c => c.Id == chapterId);
+
+            var nextIndex = ++chapterIndex;
+            return nextIndex == chapters.Count 
+                ? chapters[chapterIndex] 
+                : chapters[nextIndex];
+        }
     }
 }

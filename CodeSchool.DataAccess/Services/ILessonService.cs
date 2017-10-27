@@ -9,5 +9,6 @@ namespace CodeSchool.DataAccess.Services
         Task<Lesson> GetNext(int chapterId, int id);
         Task<Lesson> AddOrUpdate(Lesson model);
         Task Remove(int id);
+        Task ChangeOrder(int upLessonId, int downLessonId);
     }
 }

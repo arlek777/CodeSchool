@@ -17,6 +17,8 @@ namespace CodeSchool.Domain
         [Required]
         public string ReporterCode { get; set; }
 
+        public int Order { get; set; }
+
         public virtual Chapter Chapter { get; set; }
     }
 
