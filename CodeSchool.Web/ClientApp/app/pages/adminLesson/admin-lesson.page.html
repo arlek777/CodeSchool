@@ -14,17 +14,17 @@
 </div>
 
 <div class="col-md-6">
-    <div class="panel panel-default" style="min-height: 600px;">
-        <div class="panel-heading">Text</div>
+    <div class="panel panel-default lesson-panel">
+        <div class="panel-heading">Текст</div>
         <div class="panel-body">
-            <textarea class="form-control" [(ngModel)]="lesson.text" rows="20" cols="20"></textarea>
+            <app-tinymce [(ngModel)]='lesson.text'></app-tinymce>
         </div>
     </div>
 </div>
 
 <div class="col-md-6">
-    <div class="panel panel-default" style="min-height: 600px">
-        <div class="panel-heading">Код</div>
+    <div class="panel panel-default lesson-panel">
+        <div class="panel-heading">Задание</div>
         <div class="panel-body">
             <div ace-editor
                  [(text)]="lesson.startCode"
@@ -39,7 +39,7 @@
 </div>
 
 <div class="col-md-6">
-    <div class="panel panel-default" style="min-height: 600px">
+    <div class="panel panel-default lesson-panel">
         <div class="panel-heading">Тесты</div>
         <div class="panel-body">
             <div ace-editor
@@ -55,7 +55,7 @@
 </div>
 
 <div class="col-md-6">
-    <div class="panel panel-default" style="min-height: 600px">
+    <div class="panel panel-default lesson-panel">
         <div class="panel-heading">Отчет</div>
         <div class="panel-body">
             <div ace-editor

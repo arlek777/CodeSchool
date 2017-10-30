@@ -1,3 +1,8 @@
 .body-content {
     padding-top: 90px;
 }
+
+.lesson-panel {
+    height: 600px;
+    overflow-y: auto
+}

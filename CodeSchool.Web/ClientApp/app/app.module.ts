@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AceEditorModule } from 'ng2-ace-editor';
 import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { TinymceModule } from 'angular2-tinymce';
 
 import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
@@ -54,7 +55,8 @@ export class CustomToastOption extends ToastOptions {
         ]),
         AceEditorModule,
         BrowserAnimationsModule,
-        ToastModule.forRoot()
+        ToastModule.forRoot(),
+        TinymceModule.withConfig({})
     ],
     providers: [
         { provide: 'ORIGIN_URL', useValue: location.origin },

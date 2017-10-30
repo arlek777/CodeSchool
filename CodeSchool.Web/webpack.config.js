@@ -2,10 +2,12 @@ const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = (env) => {
     // Configuration in common to both client-side and server-side bundles
     const isDevBuild = !(env && env.prod);
+    const extractCSS = new ExtractTextPlugin('bundle.css');
     const sharedConfig = {
         stats: { modules: false },
         context: __dirname,
@@ -18,11 +20,17 @@ module.exports = (env) => {
             rules: [
                 { test: /\.ts$/, include: /ClientApp/, use: ['awesome-typescript-loader?silent=true', 'angular2-template-loader'] },
                 { test: /\.html$/, use: 'html-loader?minimize=false' },
-                { test: /\.css$/, use: [ 'to-string-loader', isDevBuild ? 'css-loader' : 'css-loader?minimize' ] },
+                {
+                    test: /\.css$/,
+                    loaders: ['to-string-loader'].concat(extractCSS.extract({
+                        fallback: "style-loader",
+                        use: ['css-loader?sourceMap']
+                    }))
+                },
                 { test: /\.(png|jpg|jpeg|gif|svg)$/, use: 'url-loader?limit=25000' }
             ]
         },
-        plugins: [new CheckerPlugin()]
+        plugins: [new CheckerPlugin(), extractCSS]
     };
 
     // Configuration for client-side bundle suitable for running in browsers
