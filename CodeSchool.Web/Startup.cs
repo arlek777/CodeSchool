@@ -1,12 +1,15 @@
 using System.Data.Entity;
+using System.Text;
 using CodeSchool.DataAccess.Db;
 using CodeSchool.DataAccess.Services;
+using CodeSchool.Web.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace CodeSchool.Web
 {
@@ -37,7 +40,8 @@ namespace CodeSchool.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,
+            ILoggerFactory loggerFactory, IOptions<JWTSettings> optionsAccessor)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -54,6 +58,23 @@ namespace CodeSchool.Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            //// Authentication JWT Settings
+            //var jwtSettings = optionsAccessor.Value;
+            //var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.SecretKey));
+
+            //var tokenValidationParameters = GetTokenValidationParameters(signingKey, jwtSettings);
+
+            //app.UseJwtBearerAuthentication(new JwtBearerOptions
+            //{
+            //    TokenValidationParameters = tokenValidationParameters
+            //});
+
+            //app.UseCookieAuthentication(new CookieAuthenticationOptions
+            //{
+            //    AutomaticAuthenticate = false,
+            //    AutomaticChallenge = false
+            //});
+
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
@@ -67,5 +88,24 @@ namespace CodeSchool.Web
                     defaults: new { controller = "Home", action = "Index" });
             });
         }
+
+        //private TokenValidationParameters GetTokenValidationParameters(SymmetricSecurityKey signingKey,
+        //    JWTSettings jwtSettings)
+        //{
+        //    var tokenValidationParameters = new TokenValidationParameters
+        //    {
+        //        ValidateIssuerSigningKey = true,
+        //        IssuerSigningKey = signingKey,
+
+        //        // Validate the JWT Issuer (iss) claim
+        //        ValidateIssuer = true,
+        //        ValidIssuer = jwtSettings.Issuer,
+
+        //        // Validate the JWT Audience (aud) claim
+        //        ValidateAudience = true,
+        //        ValidAudience = jwtSettings.Audience
+        //    };
+        //    return tokenValidationParameters;
+        //}
     }
 }
