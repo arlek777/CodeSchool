@@ -24,17 +24,13 @@ export class LessonPage implements OnInit {
 
     ngOnInit(): void {
         this.backendService.getLesson(this.route.snapshot.params["id"]).then(lesson => {
-            this.lesson = lesson;
-            this.sanitizedLessonText = this.sanitizer.bypassSecurityTrustHtml(this.lesson.text);
+            this._initLesson(lesson);
         });
     }
 
     getNextLesson() {
-        var chapterId = this.route.snapshot.params["chapterId"];
-        var lessonId = this.route.snapshot.params["id"];
-        this.backendService.getNextLesson(chapterId, lessonId).then(lesson => {
-            this.lesson = lesson;
-            this.sanitizedLessonText = this.sanitizer.bypassSecurityTrustHtml(this.lesson.text);
+        this.backendService.getNextLesson(this.lesson.chapterId, this.lesson.id).then(lesson => {
+            this._initLesson(lesson);
         });
     }
 
@@ -44,5 +40,10 @@ export class LessonPage implements OnInit {
 
     checkLesson() {
         this.lessonTester.checkLesson(this.lesson);
+    }
+
+    private _initLesson(lesson) {
+        this.lesson = lesson;
+        this.sanitizedLessonText = this.sanitizer.bypassSecurityTrustHtml(this.lesson.text);
     }
 }

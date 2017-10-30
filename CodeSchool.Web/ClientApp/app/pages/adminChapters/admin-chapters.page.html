@@ -17,7 +17,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h4>Разделы</h4></div>
                 <div class="panel-body">
-                    <div *ngFor="let chapter of chapters" class="col-md-12">
+                    <div *ngFor="let chapter of chapters; let i = index;" class="col-md-12">
                         
                         <div class="col-md-3">
                             <a href="javascript: " (click)="editChapter(chapter)"><h4 style="display: inline-block">{{ chapter.title }}</h4></a>
@@ -27,14 +27,26 @@
                             <a class="alert-danger" href="javascript: " (click)="removeChapter(chapter.id)">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </a>
+                            <a *ngIf="i != 0" class="alert-info" href="javascript: " (click)="changeChapterOrder(chapter.id, 'up')">
+                                <span class="glyphicon glyphicon-arrow-up"></span>
+                            </a>
+                            <a *ngIf="i != chapters.length-1" class="alert-info" href="javascript: " (click)="changeChapterOrder(chapter.id, 'down')">
+                                <span class="glyphicon glyphicon-arrow-down"></span>
+                            </a>
                         </div>
 
-                        <div class="col-md-12" *ngFor="let lesson of chapter.lessons">
+                        <div class="col-md-12" *ngFor="let lesson of chapter.lessons; let i = index;">
                             <a [routerLink]="['/adminlesson', chapter.id, lesson.id]">
                                 <h5 style="display: inline-block">{{ lesson.title }}</h5>
                             </a>
                             <a class="alert-danger" href="javascript: " (click)="removeLesson(chapter, lesson.id)">
                                 <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                            <a *ngIf="i != 0" class="alert-info" href="javascript: " (click)="changeLessonOrder(chapter, lesson.id, 'up')">
+                                <span class="glyphicon glyphicon-arrow-up"></span>
+                            </a>
+                            <a *ngIf="i != chapter.lessons.length-1" class="alert-info" href="javascript: " (click)="changeLessonOrder(chapter, lesson.id, 'down')">
+                                <span class="glyphicon glyphicon-arrow-down"></span>
                             </a>
                         </div>
 

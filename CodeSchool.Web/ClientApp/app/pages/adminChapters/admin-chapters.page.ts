@@ -49,4 +49,39 @@ export class AdminChaptersPage implements OnInit {
             this.chapters = this.chapters.filter(ch => ch.id !== id);
         });
     }
+
+    changeChapterOrder(currentId, mode) {
+        var toSwapId = this._swapByOrder(currentId, mode, this.chapters);
+        this._sortChaptersByOrder();
+
+        this.backendService.changeChapterOrder(currentId, toSwapId);
+    }
+
+    changeLessonOrder(chapter, currentId, mode) {
+        var toSwapId = this._swapByOrder(currentId, mode, chapter.lessons);
+        this._sortLessonsByOrder();
+
+        this.backendService.changeLessonOrder(currentId, toSwapId);
+    }
+
+    private _swapByOrder(currentId, mode, array) {
+        var currentIndex = array.findIndex(c => c.id === currentId);
+        var tempCurrentIndex = currentIndex;
+        var toSwapIndex = mode === 'up' ? --tempCurrentIndex : ++tempCurrentIndex;
+        var toSwapId = array[toSwapIndex].id;
+
+        var toSwapOrder = array[toSwapIndex].order;
+        array[toSwapIndex].order = array[currentIndex].order;
+        array[currentIndex].order = toSwapOrder;
+
+        return toSwapId;
+    }
+
+    private _sortChaptersByOrder() {
+        this.chapters = this.chapters.sort((a, b) => a.order - b.order);
+    }
+
+    private _sortLessonsByOrder() {
+        this.chapters.forEach(c => c.lessons = c.lessons.sort((a, b) => a.order - b.order));
+    }
 }

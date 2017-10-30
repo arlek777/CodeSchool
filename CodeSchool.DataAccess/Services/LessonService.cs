@@ -46,6 +46,7 @@ namespace CodeSchool.DataAccess.Services
             var lesson = await Get(model.Id);
             if (lesson == null)
             {
+                model.Order = await GetNextOrder(model.ChapterId);
                 lesson = _dbContext.Set<Lesson>().Add(model);
             }
             else
@@ -61,14 +62,14 @@ namespace CodeSchool.DataAccess.Services
             return lesson;
         }
 
-        public async Task ChangeOrder(int upLessonId, int downLessonId)
+        public async Task ChangeOrder(int currentLessonId, int toSwapLessonId)
         {
-            var upLesson = await Get(upLessonId);
-            var downLesson = await Get(downLessonId);
+            var currentLesson = await Get(currentLessonId);
+            var toSwapLesson = await Get(toSwapLessonId);
 
-            var downLessonOrder = downLesson.Order;
-            downLesson.Order = upLesson.Order;
-            upLesson.Order = downLessonOrder;
+            var toSwapOrder = toSwapLesson.Order;
+            toSwapLesson.Order = currentLesson.Order;
+            currentLesson.Order = toSwapOrder;
 
             await _dbContext.SaveChangesAsync();
         }
@@ -80,12 +81,12 @@ namespace CodeSchool.DataAccess.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        private async Task<int> GetNextOrder()
+        private async Task<int> GetNextOrder(int chapterId)
         {
-            var lastChapter = (await _dbContext.Set<Lesson>()
-                .OrderBy(c => c.Order).ToListAsync()).LastOrDefault();
+            var chapter = await _chapterService.Get(chapterId);
+            var lastLesson = chapter.Lessons.OrderBy(l => l.Order).LastOrDefault();
 
-            return lastChapter == null ? 0 : ++lastChapter.Order;
+            return lastLesson == null ? 0 : ++lastLesson.Order;
         }
     }
 }

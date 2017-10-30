@@ -17,6 +17,7 @@ namespace CodeSchool.Web.Models
             StartCode = lesson.StartCode;
             UnitTestsCode = lesson.UnitTestsCode;
             ReporterCode = lesson.ReporterCode;
+            Order = lesson.Order;
         }
 
         public int Id { get; set; }
@@ -26,5 +27,6 @@ namespace CodeSchool.Web.Models
         public string StartCode { get; set; }
         public string UnitTestsCode { get; set; }
         public string ReporterCode { get; set; }
+        public int Order { get; set; }
     }
 }

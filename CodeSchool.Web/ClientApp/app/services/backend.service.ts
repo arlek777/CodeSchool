@@ -49,14 +49,14 @@ export class BackendService {
         });
     }
 
-    changeLessonOrder(upId, downId): Promise<void> {
-        return this.http.post("/api/lesson/changeorder", { upId: upId, downId: downId }).toPromise()
+    changeLessonOrder(currentId, toSwapId): Promise<void> {
+        return this.http.post("/api/lesson/changeorder", { currentId: currentId, toSwapId: toSwapId }).toPromise()
             .then((response) => {
         });
     }
 
-    changeChapterOrder(upId, downId): Promise<void> {
-        return this.http.post("/api/chapter/changeorder", { upId: upId, downId: downId }).toPromise()
+    changeChapterOrder(currentId, toSwapId): Promise<void> {
+        return this.http.post("/api/chapter/changeorder", { currentId: currentId, toSwapId: toSwapId }).toPromise()
             .then((response) => {
         });
     }

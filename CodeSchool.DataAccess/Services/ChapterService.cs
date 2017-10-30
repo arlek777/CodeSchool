@@ -19,18 +19,22 @@ namespace CodeSchool.DataAccess.Services
 
         public async Task<IEnumerable<Chapter>> GetShortcutChapters()
         {
-            var chapters = await _dbContext.Set<Chapter>().ToListAsync();
+            var chapters = await _dbContext.Set<Chapter>()
+                .OrderBy(c => c.Order)
+                .ToListAsync();
 
             var result = chapters.Select(c => new Chapter()
             {
                 Id = c.Id,
                 Title = c.Title,
+                Order = c.Order,
                 Lessons = c.Lessons.Select(l => new Lesson()
                 {
                     Id = l.Id,
                     ChapterId = l.ChapterId,
-                    Title = l.Title
-                }).ToList()
+                    Title = l.Title,
+                    Order = l.Order
+                }).OrderBy(l => l.Order).ToList()
             });
 
             return result;
@@ -67,14 +71,14 @@ namespace CodeSchool.DataAccess.Services
             return chapter;
         }
 
-        public async Task ChangeOrder(int upChapterId, int downChapterId)
+        public async Task ChangeOrder(int currentChapterId, int toSwapChapterId)
         {
-            var upChapter = await Get(upChapterId);
-            var downChapter = await Get(downChapterId);
+            var currentChapter = await Get(currentChapterId);
+            var toSwapChapter = await Get(toSwapChapterId);
 
-            var downChapterOrder = downChapter.Order;
-            downChapter.Order = upChapter.Order;
-            upChapter.Order = downChapterOrder;
+            var currentOrder = currentChapter.Order;
+            currentChapter.Order = toSwapChapter.Order;
+            toSwapChapter.Order = currentOrder;
 
             await _dbContext.SaveChangesAsync();
         }

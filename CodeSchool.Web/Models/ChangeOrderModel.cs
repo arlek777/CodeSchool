@@ -2,7 +2,7 @@ namespace CodeSchool.Web.Models
 {
     public class ChangeOrderModel
     {
-        public int UpId { get; set; }
-        public int DownId { get; set; }
+        public int CurrentId { get; set; }
+        public int ToSwapId { get; set; }
     }
 }

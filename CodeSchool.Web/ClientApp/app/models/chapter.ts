@@ -13,4 +13,5 @@ export class ChapterViewModel {
     id: number;
     text: string;
     lessons: LessonViewModel[];
+    order: number;
 }

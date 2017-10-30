@@ -62,7 +62,7 @@ namespace CodeSchool.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> ChangeOrder([FromBody] ChangeOrderModel model)
         {
-            await _lessonService.ChangeOrder(model.UpId, model.DownId);
+            await _lessonService.ChangeOrder(model.CurrentId, model.ToSwapId);
             return Ok();
         }
     }
