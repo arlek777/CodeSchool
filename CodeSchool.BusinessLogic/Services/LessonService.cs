@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CodeSchool.Domain;
 
-namespace CodeSchool.DataAccess.Services
+namespace CodeSchool.BusinessLogic.Services
 {
     public class LessonService : ILessonService
     {

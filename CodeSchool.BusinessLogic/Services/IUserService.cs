@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using CodeSchool.Domain;
 
-namespace CodeSchool.DataAccess.Services
+namespace CodeSchool.BusinessLogic.Services
 {
     public interface IUserService
     {

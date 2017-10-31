@@ -1,7 +1,7 @@
 using System.Data.Entity;
-using System.Text;
-using CodeSchool.DataAccess.Db;
-using CodeSchool.DataAccess.Services;
+using CodeSchool.BusinessLogic.Services;
+using CodeSchool.DataAccess;
+using CodeSchool.Web.Infrastructure;
 using CodeSchool.Web.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,13 +30,9 @@ namespace CodeSchool.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<DbContext>((provider) => new CodeSchoolDbContext(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddTransient<IChapterService, ChapterService>();
-            services.AddTransient<ILessonService, LessonService>();
-
             // Add framework services.
             services.AddMvc();
+            services.AddCodeSchool(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

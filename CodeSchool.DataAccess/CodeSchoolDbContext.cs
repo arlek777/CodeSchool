@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity;
 using CodeSchool.Domain;
 
-namespace CodeSchool.DataAccess.Db
+namespace CodeSchool.DataAccess
 {
     public class CodeSchoolDbContext: DbContext
     {

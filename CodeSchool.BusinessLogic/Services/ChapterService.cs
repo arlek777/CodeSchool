@@ -1,25 +1,23 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using CodeSchool.DataAccess;
 using CodeSchool.Domain;
 
-namespace CodeSchool.DataAccess.Services
+namespace CodeSchool.BusinessLogic.Services
 {
     public class ChapterService : IChapterService
     {
-        private readonly DbContext _dbContext;
+        private readonly IGenericRepository _repository;
 
-        public ChapterService(DbContext dbContext)
+        public ChapterService(IGenericRepository repository)
         {
-            _dbContext = dbContext;
+            _repository = repository;
         }
 
         public async Task<IEnumerable<Chapter>> GetShortcutChapters()
         {
-            var chapters = await _dbContext.Set<Chapter>()
-                .OrderBy(c => c.Order)
-                .ToListAsync();
+            var chapters = (await _repository.GetAll<Chapter>()).OrderBy(c => c.Order);
 
             var result = chapters.Select(c => new Chapter()
             {
@@ -40,32 +38,33 @@ namespace CodeSchool.DataAccess.Services
 
         public async Task Remove(int id)
         {
-            var chapter = await _dbContext.Set<Chapter>().FirstOrDefaultAsync(c => c.Id == id);
-            _dbContext.Set<Chapter>().Remove(chapter);
-            await _dbContext.SaveChangesAsync();
+            var chapter = await _repository.Find<Chapter>(c => c.Id == id);
+            _repository.Remove(chapter);
+            await _repository.SaveChanges();
         }
 
         public async Task<Chapter> AddOrUpdate(Chapter model)
         {
-            var chapter = await _dbContext.Set<Chapter>().FirstOrDefaultAsync(c => c.Id == model.Id);
+            var chapter = await _repository.Find<Chapter>(c => c.Id == model.Id);
             if (chapter == null)
             {
                 var nextOrder = await this.GetNextOrder();
                 model.Order = nextOrder;
-                chapter = _dbContext.Set<Chapter>().Add(model);
+                _repository.Add(model);
+                chapter = model;
             }
             else
             {
                 chapter.Title = model.Title;
             }
 
-            await _dbContext.SaveChangesAsync();
+            await _repository.SaveChanges();
             return chapter;
         }
 
         public async Task<Chapter> Get(int chapterId)
         {
-            var chapter = await _dbContext.Set<Chapter>().FirstOrDefaultAsync(c => c.Id == chapterId);
+            var chapter = await _repository.Find<Chapter>(c => c.Id == chapterId);
             return chapter;
         }
 
@@ -78,13 +77,14 @@ namespace CodeSchool.DataAccess.Services
             currentChapter.Order = toSwapChapter.Order;
             toSwapChapter.Order = currentOrder;
 
-            await _dbContext.SaveChangesAsync();
+            await _repository.SaveChanges();
         }
 
         public async Task<Chapter> GetNext(int chapterId)
         {
-            var chapters = await _dbContext.Set<Chapter>()
-                .OrderBy(c => c.Order).ToListAsync();
+            var chapters = (await _repository.GetAll<Chapter>())
+                .OrderBy(c => c.Order)
+                .ToList();
 
             var chapterIndex = chapters.FindIndex(c => c.Id == chapterId);
 
@@ -96,8 +96,8 @@ namespace CodeSchool.DataAccess.Services
 
         private async Task<int> GetNextOrder()
         {
-            var lastChapter = (await _dbContext.Set<Chapter>()
-                .OrderBy(c => c.Order).ToListAsync()).LastOrDefault();
+            var lastChapter = (await _repository.GetAll<Chapter>())
+                .OrderBy(c => c.Order).LastOrDefault();
 
             return lastChapter == null ? 0 : ++lastChapter.Order;
         }

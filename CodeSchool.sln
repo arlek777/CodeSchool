@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeSchool.Domain", "CodeSc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeSchool.DataAccess", "CodeSchool.DataAccess\CodeSchool.DataAccess.csproj", "{7795343F-8B3D-4558-A47C-ECC3C652A21B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeSchool.BusinessLogic", "CodeSchool.BusinessLogic\CodeSchool.BusinessLogic.csproj", "{57834AE5-944C-413E-B503-DF19212B4C13}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{7795343F-8B3D-4558-A47C-ECC3C652A21B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7795343F-8B3D-4558-A47C-ECC3C652A21B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7795343F-8B3D-4558-A47C-ECC3C652A21B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57834AE5-944C-413E-B503-DF19212B4C13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57834AE5-944C-413E-B503-DF19212B4C13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57834AE5-944C-413E-B503-DF19212B4C13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57834AE5-944C-413E-B503-DF19212B4C13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

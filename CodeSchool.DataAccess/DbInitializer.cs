@@ -2,7 +2,7 @@
 using System.Data.Entity;
 using CodeSchool.Domain;
 
-namespace CodeSchool.DataAccess.Db
+namespace CodeSchool.DataAccess
 {
     public class DbInitializer: DropCreateDatabaseIfModelChanges<CodeSchoolDbContext>
     {

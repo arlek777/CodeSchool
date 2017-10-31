@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
+using CodeSchool.BusinessLogic.Services;
 using Microsoft.AspNetCore.Mvc;
-using CodeSchool.DataAccess.Services;
 using CodeSchool.Domain;
 using CodeSchool.Web.Models;
 

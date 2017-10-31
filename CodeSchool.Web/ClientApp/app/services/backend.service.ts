@@ -2,11 +2,25 @@
 import { Http } from "@angular/http";
 import { LessonViewModel } from "../models/lesson";
 import { ChapterViewModel } from "../models/chapter";
+import { LoginViewModel } from "../models/auth/login";
+import { RegistrationViewModel } from "../models/auth/registration";
+import { User } from "../models/user";
+import { JWTTokens } from "../models/auth/jwttokens";
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class BackendService {
     constructor(private http: Http) {
+    }
+
+    login(model: LoginViewModel): Promise<JWTTokens> {
+        return this.http.post("/api/auth/login", model).toPromise()
+            .then((result) => { return new JWTTokens(result.json()); });
+    }
+
+    register(model: RegistrationViewModel): Promise<JWTTokens> {
+        return this.http.post("/api/auth/register", model).toPromise()
+            .then((result) => { return new JWTTokens(result.json()); });
     }
 
     getLesson(id: number): Promise<LessonViewModel> {

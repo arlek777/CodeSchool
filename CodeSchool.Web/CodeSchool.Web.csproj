@@ -7,6 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.1.3" />
+    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="1.1.1" />
@@ -29,8 +30,15 @@
     <Content Include="wwwroot\jasmine\jasmine_favicon.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CodeSchool.BusinessLogic\CodeSchool.BusinessLogic.csproj" />
     <ProjectReference Include="..\CodeSchool.DataAccess\CodeSchool.DataAccess.csproj" />
     <ProjectReference Include="..\CodeSchool.Domain\CodeSchool.Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ClientApp\app\models\auth\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.IdentityModel" />
   </ItemGroup>
   <Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->

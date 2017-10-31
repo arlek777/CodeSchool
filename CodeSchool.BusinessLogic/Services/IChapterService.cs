@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CodeSchool.Domain;
 
-namespace CodeSchool.DataAccess.Services
+namespace CodeSchool.BusinessLogic.Services
 {
     public interface IChapterService
     {
