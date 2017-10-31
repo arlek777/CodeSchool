@@ -1,29 +1,29 @@
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using CodeSchool.DataAccess;
 using CodeSchool.Domain;
 
 namespace CodeSchool.BusinessLogic.Services
 {
     public class LessonService : ILessonService
     {
-        private readonly DbContext _dbContext;
+        private readonly IGenericRepository _repository;
         private readonly IChapterService _chapterService;
 
-        public LessonService(DbContext dbContext, IChapterService chapterService)
+        public LessonService(IGenericRepository repository, IChapterService chapterService)
         {
-            _dbContext = dbContext;
+            _repository = repository;
             _chapterService = chapterService;
         }
 
         public async Task<Lesson> Get(int id)
         {
-            return await _dbContext.Set<Lesson>().FirstOrDefaultAsync(l => l.Id == id);
+            return await _repository.Find<Lesson>(l => l.Id == id);
         }
 
         public async Task<Lesson> GetNext(int chapterId, int id)
         {
-            var chapter = await _dbContext.Set<Chapter>().FirstOrDefaultAsync(c => c.Id == chapterId);
+            var chapter = await _chapterService.Get(chapterId);
             var lessons = chapter.Lessons.OrderBy(l => l.Order).ToList();
 
             var currentIndex = lessons.FindIndex(l => l.Id == id);
@@ -47,7 +47,8 @@ namespace CodeSchool.BusinessLogic.Services
             if (lesson == null)
             {
                 model.Order = await GetNextOrder(model.ChapterId);
-                lesson = _dbContext.Set<Lesson>().Add(model);
+                _repository.Add(model);
+                lesson = model;
             }
             else
             {
@@ -58,7 +59,7 @@ namespace CodeSchool.BusinessLogic.Services
                 lesson.Title = model.Title;
             }
            
-            await _dbContext.SaveChangesAsync();
+            await _repository.SaveChanges();
             return lesson;
         }
 
@@ -71,14 +72,14 @@ namespace CodeSchool.BusinessLogic.Services
             toSwapLesson.Order = currentLesson.Order;
             currentLesson.Order = toSwapOrder;
 
-            await _dbContext.SaveChangesAsync();
+            await _repository.SaveChanges();
         }
 
         public async Task Remove(int id)
         {
             var lesson = await Get(id);
-            _dbContext.Set<Lesson>().Remove(lesson);
-            await _dbContext.SaveChangesAsync();
+            _repository.Remove(lesson);
+            await _repository.SaveChanges();
         }
 
         private async Task<int> GetNextOrder(int chapterId)

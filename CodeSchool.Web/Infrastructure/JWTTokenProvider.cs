@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using CodeSchool.BusinessLogic.Extensions;
 using CodeSchool.Domain;
 using CodeSchool.Web.Models;
+using JWT;
+using JWT.Algorithms;
+using JWT.Serializers;
 using Microsoft.Extensions.Options;
 
 namespace CodeSchool.Web.Infrastructure
@@ -18,12 +21,14 @@ namespace CodeSchool.Web.Infrastructure
 
         public string GetIdToken(User user)
         {
-            var payload = new Dictionary<string, object>
+            
+        var payload = new Dictionary<string, object>
             {
                 { "id", user.Id },
                 { "username", user.UserName },
                 { "email", user.Email },
-                { "isAdmin", user.IsAdmin }
+                { "isAdmin", user.IsAdmin },
+                { "roles", user.IsAdmin ? new [] { "Admin" } : new string [] {}}
             };
             return GetToken(payload);
         }
@@ -47,12 +52,12 @@ namespace CodeSchool.Web.Infrastructure
             payload.Add("iat", DateTime.Now.ConvertToUnixTimestamp());
             payload.Add("exp", DateTime.Now.AddYears(1).ConvertToUnixTimestamp());
 
-            //IJwtAlgorithm algorithm = new HMACSHA256Algorithm();
-            //IJsonSerializer serializer = new JsonNetSerializer();
-            //IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
-            //IJwtEncoder encoder = new JwtEncoder(algorithm, serializer, urlEncoder);
+            IJwtAlgorithm algorithm = new HMACSHA256Algorithm();
+            IJsonSerializer serializer = new JsonNetSerializer();
+            IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
+            IJwtEncoder encoder = new JwtEncoder(algorithm, serializer, urlEncoder);
 
-            return "";
+            return encoder.Encode(payload, secret);
         }
     }
 }

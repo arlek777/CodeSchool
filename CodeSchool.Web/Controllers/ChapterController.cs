@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using CodeSchool.BusinessLogic.Services;
 using CodeSchool.Domain;
 using CodeSchool.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeSchool.Web.Controllers
@@ -25,6 +26,7 @@ namespace CodeSchool.Web.Controllers
             return Ok(chapters.Select(c => new ChapterModel(c)).ToList());
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("[action]")]
         public async Task<IActionResult> AddOrUpdate([FromBody] ChapterModel model)
@@ -38,6 +40,7 @@ namespace CodeSchool.Web.Controllers
             return Ok(new ChapterModel(chapter));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("[action]")]
         public async Task<IActionResult> Remove([FromBody] RemoveRequestModel model)
@@ -46,6 +49,7 @@ namespace CodeSchool.Web.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("[action]")]
         public async Task<IActionResult> ChangeOrder([FromBody] ChangeOrderModel model)

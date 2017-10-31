@@ -23,3 +23,16 @@ export class AuthGuard implements CanActivate {
         return false;
     }
 }
+
+@Injectable()
+export class AdminAuthGuard implements CanActivate {
+    constructor(private authService: AuthService, private router: Router) {
+    }
+
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+        if (this.authService.isAdmin) return true;
+
+        this.router.navigate(['/home']);
+        return false;
+    }
+}

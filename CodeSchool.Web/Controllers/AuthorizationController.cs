@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CodeSchool.Web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     public class AuthorizationController : Controller
     {
         private readonly IUserService _userService;
@@ -46,6 +46,9 @@ namespace CodeSchool.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromBody]RegistrationModel model)
         {
+            var existingUser = await _userService.GetByEmail(model.Email);
+            if (existingUser != null) return BadRequest(ValidationResultMessages.DuplicateEmail);
+
             var user = new User()
             {
                 Email = model.Email,

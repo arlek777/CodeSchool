@@ -7,15 +7,15 @@
                 <span class='icon-bar'></span>
                 <span class='icon-bar'></span>
             </button>
-            <a class='navbar-brand' [routerLink]="['/lesson']">JS Code School</a>
+            <a class='navbar-brand' [routerLink]="['/home']">JS Code School</a>
         </div>
 
         <div class='navbar-collapse collapse'>
             <ul class='nav navbar-nav'>
                 <li [routerLinkActive]="['active']">
-                    <a [routerLink]="['/chapters']">Главная</a>
+                    <a [routerLink]="['/home']">Главная</a>
                 </li>
-                <li [routerLinkActive]="['active']">
+                <li *ngIf="isAdmin" [routerLinkActive]="['active']">
                     <a [routerLink]="['/adminchapters']">Админка</a>
                 </li>
             </ul>

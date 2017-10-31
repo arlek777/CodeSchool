@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, XHRBackend, RequestOptions, Http } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -17,15 +17,26 @@ import { LessonPage } from './pages/lesson/lesson.page';
 import { ChaptersPage } from './pages/chapters/chapters.page';
 import { AdminLessonPage } from './pages/adminLesson/admin-lesson.page';
 import { AdminChaptersPage } from './pages/adminChapters/admin-chapters.page';
+import { LoginPage } from "./pages/login/login.page";
+import { RegisterPage } from "./pages/register/register.page";
 
 import { BackendService } from "./services/backend.service";
 import { PopupService } from "./services/popup.service";
 import { LessonTesterDirective } from "./directives/lesson-tester.directive";
+import { AuthService } from "./services/auth.service";
+import { AdminAuthGuard, AuthGuard } from "./services/auth-guard.service";
+import { GlobalErrorHandler } from "./services/global-error-handler.service";
+import { InterceptedHttp } from "./http.interceptor";
+
 
 export class CustomToastOption extends ToastOptions {
     maxShown = 1;
     toastLife = 3000;
     showCloseButton = true;
+}
+
+function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
+    return new InterceptedHttp(xhrBackend, requestOptions);
 }
 
 @NgModule({
@@ -38,7 +49,9 @@ export class CustomToastOption extends ToastOptions {
         LessonPage,
         ChaptersPage,
         AdminLessonPage,
-        AdminChaptersPage
+        AdminChaptersPage,
+        LoginPage,
+        RegisterPage
     ],
     imports: [
         BrowserModule,
@@ -46,11 +59,14 @@ export class CustomToastOption extends ToastOptions {
         HttpModule,
         RouterModule.forRoot([
             { path: '', redirectTo: 'chapters', pathMatch: 'full' },
-            { path: 'chapters', component: ChaptersPage },
-            { path: 'lesson/:chapterId/:id', component: LessonPage },
-            { path: 'adminchapters', component: AdminChaptersPage },
-            { path: 'adminlesson/:chapterId/:id', component: AdminLessonPage },
-            { path: 'adminlesson/:chapterId', component: AdminLessonPage },
+            { path: 'home', redirectTo: 'chapters' },
+            { path: 'login', component: LoginPage },
+            { path: 'register', component: RegisterPage },
+            { path: 'chapters', component: ChaptersPage, canActivate: [AuthGuard] },
+            { path: 'lesson/:chapterId/:id', component: LessonPage, canActivate: [AuthGuard] },
+            { path: 'adminchapters', component: AdminChaptersPage, canActivate: [AdminAuthGuard] },
+            { path: 'adminlesson/:chapterId/:id', component: AdminLessonPage, canActivate: [AdminAuthGuard] },
+            { path: 'adminlesson/:chapterId', component: AdminLessonPage, canActivate: [AdminAuthGuard] },
             { path: '**', redirectTo: 'chapters' }
         ]),
         AceEditorModule,
@@ -61,8 +77,20 @@ export class CustomToastOption extends ToastOptions {
     providers: [
         { provide: 'ORIGIN_URL', useValue: location.origin },
         { provide: ToastOptions, useClass: CustomToastOption },
+        {
+            provide: Http,
+            useFactory: httpFactory,
+            deps: [XHRBackend, RequestOptions]
+        },
+        {
+            provide: ErrorHandler,
+            useClass: GlobalErrorHandler
+        },
         BackendService,
-        PopupService
+        PopupService,
+        AuthService,
+        AuthGuard,
+        AdminAuthGuard
     ]
 })
 export class AppModule {

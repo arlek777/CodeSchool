@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 using CodeSchool.BusinessLogic.Services;
 using CodeSchool.DataAccess;
 using CodeSchool.Web.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,7 +25,6 @@ namespace CodeSchool.Web.Infrastructure
         {
             services.AddTransient<IGenericRepository, EntityFrameworkRepository>();
             services.AddScoped<DbContext>((provider) => new CodeSchoolDbContext(configuration.GetConnectionString("DefaultConnection")));
-            //DbInitializer.Initialize(new TravelPlannerDbContext(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         private static void ConfigureBusinessLogic(IServiceCollection services)
@@ -30,6 +32,7 @@ namespace CodeSchool.Web.Infrastructure
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ILessonService, LessonService>();
             services.AddTransient<IChapterService, ChapterService>();
+            services.AddTransient<IPasswordHasher, PasswordHasher>();
         }
 
         private static void ConfigureSecurity(IServiceCollection services, IConfigurationRoot configuration)

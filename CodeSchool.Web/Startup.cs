@@ -1,4 +1,5 @@
 using System.Data.Entity;
+using System.Text;
 using CodeSchool.BusinessLogic.Services;
 using CodeSchool.DataAccess;
 using CodeSchool.Web.Infrastructure;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CodeSchool.Web
 {
@@ -54,22 +56,22 @@ namespace CodeSchool.Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            //// Authentication JWT Settings
-            //var jwtSettings = optionsAccessor.Value;
-            //var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.SecretKey));
+            // Authentication JWT Settings
+            var jwtSettings = optionsAccessor.Value;
+            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.SecretKey));
 
-            //var tokenValidationParameters = GetTokenValidationParameters(signingKey, jwtSettings);
+            var tokenValidationParameters = GetTokenValidationParameters(signingKey, jwtSettings);
 
-            //app.UseJwtBearerAuthentication(new JwtBearerOptions
-            //{
-            //    TokenValidationParameters = tokenValidationParameters
-            //});
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            {
+                TokenValidationParameters = tokenValidationParameters
+            });
 
-            //app.UseCookieAuthentication(new CookieAuthenticationOptions
-            //{
-            //    AutomaticAuthenticate = false,
-            //    AutomaticChallenge = false
-            //});
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AutomaticAuthenticate = false,
+                AutomaticChallenge = false
+            });
 
             app.UseStaticFiles();
 
@@ -85,23 +87,23 @@ namespace CodeSchool.Web
             });
         }
 
-        //private TokenValidationParameters GetTokenValidationParameters(SymmetricSecurityKey signingKey,
-        //    JWTSettings jwtSettings)
-        //{
-        //    var tokenValidationParameters = new TokenValidationParameters
-        //    {
-        //        ValidateIssuerSigningKey = true,
-        //        IssuerSigningKey = signingKey,
+        private TokenValidationParameters GetTokenValidationParameters(SymmetricSecurityKey signingKey,
+            JWTSettings jwtSettings)
+        {
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = signingKey,
 
-        //        // Validate the JWT Issuer (iss) claim
-        //        ValidateIssuer = true,
-        //        ValidIssuer = jwtSettings.Issuer,
+                // Validate the JWT Issuer (iss) claim
+                ValidateIssuer = true,
+                ValidIssuer = jwtSettings.Issuer,
 
-        //        // Validate the JWT Audience (aud) claim
-        //        ValidateAudience = true,
-        //        ValidAudience = jwtSettings.Audience
-        //    };
-        //    return tokenValidationParameters;
-        //}
+                // Validate the JWT Audience (aud) claim
+                ValidateAudience = true,
+                ValidAudience = jwtSettings.Audience
+            };
+            return tokenValidationParameters;
+        }
     }
 }

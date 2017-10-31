@@ -3,6 +3,7 @@ using CodeSchool.BusinessLogic.Services;
 using Microsoft.AspNetCore.Mvc;
 using CodeSchool.Domain;
 using CodeSchool.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CodeSchool.Web.Controllers
 {
@@ -32,6 +33,7 @@ namespace CodeSchool.Web.Controllers
             return Ok(new LessonModel(nextLesson));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("[action]")]
         public async Task<IActionResult> AddOrUpdate([FromBody] LessonModel model)
@@ -50,6 +52,7 @@ namespace CodeSchool.Web.Controllers
             return Ok(new LessonModel(lesson));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("[action]")]
         public async Task<IActionResult> Remove([FromBody] RemoveRequestModel model)
@@ -58,6 +61,7 @@ namespace CodeSchool.Web.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("[action]")]
         public async Task<IActionResult> ChangeOrder([FromBody] ChangeOrderModel model)

@@ -38,6 +38,8 @@ export class AuthService {
 
     get isLoggedIn() { return this.user && this.accessToken }
 
+    get isAdmin() { return this.isLoggedIn && this.user.isAdmin; }
+
     login(model: LoginViewModel): Promise<void> {
         return this.backendService.login(model).then((tokens: JWTTokens) => {
             this.setTokensAndUserToLocalStorage(tokens);
@@ -65,7 +67,7 @@ export class AuthService {
             id: userClaims.id,
             userName: userClaims.username,
             email: userClaims.email,
-            phone: userClaims.phone
+            isAdmin: userClaims.isAdmin
         });
 
         localStorage.setItem(Constants.accessTokenKey, tokens.accessToken);
