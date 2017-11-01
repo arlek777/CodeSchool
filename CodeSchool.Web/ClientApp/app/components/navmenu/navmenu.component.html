@@ -19,6 +19,21 @@
                     <a [routerLink]="['/adminchapters']">Админка</a>
                 </li>
             </ul>
+            
+            <ul *ngIf="isLoggedIn" class="nav navbar-nav navbar-right active">
+                <li>
+                    <a class="navbar-brand" href="javascript: ">Добро пожаловать, <strong>{{ userName }}</strong></a>
+                </li>
+                <li>
+                    <a class='navbar-brand' href="javascript: " (click)="logout()">Выйти</a>
+                </li>
+            </ul>
+
+            <ul *ngIf="!isLoggedIn" class="nav navbar-nav navbar-right">
+                <li><a [routerLink]="['/login']">Войти</a></li>
+                <li><a [routerLink]="['/register']">Зарегистрироваться</a></li>
+            </ul>
+
         </div>
     </div>
 </div>

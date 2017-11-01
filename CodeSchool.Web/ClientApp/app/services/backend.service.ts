@@ -7,6 +7,8 @@ import { RegistrationViewModel } from "../models/auth/registration";
 import { User } from "../models/user";
 import { JWTTokens } from "../models/auth/jwttokens";
 import 'rxjs/add/operator/toPromise';
+import { UserLessonProgressModel } from "../models/userlessonprogress";
+import { UserChapterProgressModel } from "../models/userchapterprogress";
 
 @Injectable()
 export class BackendService {
@@ -73,5 +75,30 @@ export class BackendService {
         return this.http.post("/api/chapter/changeorder", { currentId: currentId, toSwapId: toSwapId }).toPromise()
             .then((response) => {
         });
+    }
+
+    getProgressSummary(userId: string): Promise<UserChapterProgressModel[]> {
+        return this.http.get(`/api/userprogress/getsummary/${userId}`).toPromise().then((response) => {
+            return response.json().map(c => new UserChapterProgressModel(c));
+        });
+    }
+
+    getLatestLessonProgress(userId: string, chapterId: number): Promise<UserLessonProgressModel> {
+        return this.http.get(`/api/userprogress/getlatestlesson/${userId}/${chapterId}`).toPromise().then((response) => {
+            return new UserLessonProgressModel(response.json());
+        });
+    }
+
+    getLessonProgress(userId: string, lessonId: number): Promise<UserLessonProgressModel> {
+        return this.http.get(`/api/userprogress/getlessonprogress/${userId}/${lessonId}`).toPromise().then((response) => {
+            return new UserLessonProgressModel(response.json());
+        });
+    }
+
+    createOrUpdateProgress(model: UserLessonProgressModel): Promise<UserLessonProgressModel> {
+        return this.http.post("/api/userprogress/createorupdate", model).toPromise()
+            .then((response) => {
+                return new UserLessonProgressModel(response.json());
+            });
     }
 }

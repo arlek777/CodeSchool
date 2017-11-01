@@ -14,4 +14,17 @@ export class NavMenuComponent {
     get isAdmin(): boolean {
         return this.authService.isAdmin;
     }
+
+    get isLoggedIn(): boolean {
+        return this.authService.isLoggedIn;
+    }
+
+    get userName(): string {
+        return this.authService.user.userName;
+    }
+
+    logout() {
+        this.authService.logout();
+    }
 }
+

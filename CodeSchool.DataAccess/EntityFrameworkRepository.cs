@@ -22,7 +22,7 @@ namespace CodeSchool.DataAccess
             return item;
         }
 
-        public async Task<ICollection<T>> GetList<T>(Expression<Func<T, bool>> predicate) where T : class
+        public async Task<ICollection<T>> Where<T>(Expression<Func<T, bool>> predicate) where T : class
         {
             return await _context.Set<T>().Where(predicate).ToListAsync();
         }

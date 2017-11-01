@@ -52,8 +52,10 @@
     <Compile Include="Services\ChapterService.cs" />
     <Compile Include="Services\IChapterService.cs" />
     <Compile Include="Services\ILessonService.cs" />
+    <Compile Include="Services\IUserProgressService.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\LessonService.cs" />
+    <Compile Include="Services\UserProgressService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>

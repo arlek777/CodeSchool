@@ -5,13 +5,14 @@ import { RegistrationViewModel } from "../models/auth/registration";
 import { User } from "../models/user";
 import { JWTTokens } from "../models/auth/jwttokens";
 import { Constants } from "../constants";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class AuthService {
     private _accessToken: string;
     private _user: User;
 
-    constructor(private backendService: BackendService) {
+    constructor(private backendService: BackendService, private router: Router) {
     }
 
     redirectUrl: string;
@@ -36,9 +37,8 @@ export class AuthService {
         return null;
     }
 
-    get isLoggedIn() { return this.user && this.accessToken }
-
-    get isAdmin() { return this.isLoggedIn && this.user.isAdmin; }
+    get isLoggedIn(): boolean { return this.user !== null && this.accessToken !== null }
+    get isAdmin(): boolean { return this.isLoggedIn && this.user.isAdmin; }
 
     login(model: LoginViewModel): Promise<void> {
         return this.backendService.login(model).then((tokens: JWTTokens) => {
@@ -55,8 +55,9 @@ export class AuthService {
     logout(): void {
         localStorage.removeItem(Constants.accessTokenKey);
         localStorage.removeItem(Constants.currentUserKey);
-
         this._user = null;
+
+        this.router.navigate(['/login']);
     }
 
     private setTokensAndUserToLocalStorage(tokens: JWTTokens) {
