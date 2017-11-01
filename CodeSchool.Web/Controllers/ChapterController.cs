@@ -31,6 +31,11 @@ namespace CodeSchool.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> AddOrUpdate([FromBody] ChapterModel model)
         {
+            if (!ModelState.IsValid && ModelState.Any())
+            {
+                return BadRequest(ModelState.FirstOrDefault().Value?.Errors?.FirstOrDefault());
+            }
+
             var chapter = await _chapterService.AddOrUpdate(new Chapter()
             {
                 Id = model.Id,
@@ -45,6 +50,11 @@ namespace CodeSchool.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Remove([FromBody] RemoveRequestModel model)
         {
+            if (!ModelState.IsValid && ModelState.Any())
+            {
+                return BadRequest(ModelState.FirstOrDefault().Value?.Errors?.FirstOrDefault());
+            }
+
             await _chapterService.Remove(model.Id);
             return Ok();
         }
@@ -54,6 +64,11 @@ namespace CodeSchool.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> ChangeOrder([FromBody] ChangeOrderModel model)
         {
+            if (!ModelState.IsValid && ModelState.Any())
+            {
+                return BadRequest(ModelState.FirstOrDefault().Value?.Errors?.FirstOrDefault());
+            }
+
             await _chapterService.ChangeOrder(model.CurrentId, model.ToSwapId);
             return Ok();
         }

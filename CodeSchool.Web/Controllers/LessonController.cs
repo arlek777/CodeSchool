@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using CodeSchool.BusinessLogic.Services;
 using Microsoft.AspNetCore.Mvc;
 using CodeSchool.Domain;
@@ -38,6 +39,11 @@ namespace CodeSchool.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> AddOrUpdate([FromBody] LessonModel model)
         {
+            if (!ModelState.IsValid && ModelState.Any())
+            {
+                return BadRequest(ModelState.FirstOrDefault().Value?.Errors?.FirstOrDefault());
+            }
+
             var lesson = await _lessonService.AddOrUpdate(new Lesson()
             {
                 Id = model.Id,
@@ -57,6 +63,11 @@ namespace CodeSchool.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Remove([FromBody] RemoveRequestModel model)
         {
+            if (!ModelState.IsValid && ModelState.Any())
+            {
+                return BadRequest(ModelState.FirstOrDefault().Value?.Errors?.FirstOrDefault());
+            }
+
             await _lessonService.Remove(model.Id);
             return Ok();
         }
@@ -66,6 +77,11 @@ namespace CodeSchool.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> ChangeOrder([FromBody] ChangeOrderModel model)
         {
+            if (!ModelState.IsValid && ModelState.Any())
+            {
+                return BadRequest(ModelState.FirstOrDefault().Value?.Errors?.FirstOrDefault());
+            }
+
             await _lessonService.ChangeOrder(model.CurrentId, model.ToSwapId);
             return Ok();
         }
