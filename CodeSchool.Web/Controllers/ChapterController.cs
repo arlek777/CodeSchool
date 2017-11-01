@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CodeSchool.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     public class ChapterController : Controller
     {
@@ -22,11 +23,10 @@ namespace CodeSchool.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Get()
         {
-            var chapters = await _chapterService.GetShortcutChapters();
+            var chapters = await _chapterService.GetChapters();
             return Ok(chapters.Select(c => new ChapterModel(c)).ToList());
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("[action]")]
         public async Task<IActionResult> AddOrUpdate([FromBody] ChapterModel model)
@@ -45,7 +45,6 @@ namespace CodeSchool.Web.Controllers
             return Ok(new ChapterModel(chapter));
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("[action]")]
         public async Task<IActionResult> Remove([FromBody] RemoveRequestModel model)
@@ -59,7 +58,6 @@ namespace CodeSchool.Web.Controllers
             return Ok();
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("[action]")]
         public async Task<IActionResult> ChangeOrder([FromBody] ChangeOrderModel model)

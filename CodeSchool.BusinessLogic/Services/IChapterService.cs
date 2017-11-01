@@ -6,11 +6,10 @@ namespace CodeSchool.BusinessLogic.Services
 {
     public interface IChapterService
     {
-        Task<IEnumerable<Chapter>> GetShortcutChapters();
-        Task Remove(int id);
+        Task<IEnumerable<Chapter>> GetChapters();
+        Task<Chapter> GetById(int chapterId);
         Task<Chapter> AddOrUpdate(Chapter chapter);
-        Task<Chapter> GetNext(int chapterId);
+        Task Remove(int id);
         Task ChangeOrder(int upChapterId, int downChapterId);
-        Task<Chapter> Get(int chapterId);
     }
 }

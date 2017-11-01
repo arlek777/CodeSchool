@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using CodeSchool.DataAccess;
 using CodeSchool.Domain;
@@ -15,25 +14,9 @@ namespace CodeSchool.BusinessLogic.Services
             _repository = repository;
         }
 
-        public async Task<IEnumerable<Chapter>> GetShortcutChapters()
+        public async Task<IEnumerable<Chapter>> GetChapters()
         {
-            var chapters = (await _repository.GetAll<Chapter>()).OrderBy(c => c.Order);
-
-            var result = chapters.Select(c => new Chapter()
-            {
-                Id = c.Id,
-                Title = c.Title,
-                Order = c.Order,
-                Lessons = c.Lessons.Select(l => new Lesson()
-                {
-                    Id = l.Id,
-                    ChapterId = l.ChapterId,
-                    Title = l.Title,
-                    Order = l.Order
-                }).OrderBy(l => l.Order).ToList()
-            });
-
-            return result;
+            return await _repository.GetAll<Chapter>();
         }
 
         public async Task Remove(int id)
@@ -48,8 +31,6 @@ namespace CodeSchool.BusinessLogic.Services
             var chapter = await _repository.Find<Chapter>(c => c.Id == model.Id);
             if (chapter == null)
             {
-                var nextOrder = await this.GetNextOrder();
-                model.Order = nextOrder;
                 _repository.Add(model);
                 chapter = model;
             }
@@ -62,7 +43,7 @@ namespace CodeSchool.BusinessLogic.Services
             return chapter;
         }
 
-        public async Task<Chapter> Get(int chapterId)
+        public async Task<Chapter> GetById(int chapterId)
         {
             var chapter = await _repository.Find<Chapter>(c => c.Id == chapterId);
             return chapter;
@@ -70,36 +51,14 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task ChangeOrder(int currentChapterId, int toSwapChapterId)
         {
-            var currentChapter = await Get(currentChapterId);
-            var toSwapChapter = await Get(toSwapChapterId);
+            var currentChapter = await GetById(currentChapterId);
+            var toSwapChapter = await GetById(toSwapChapterId);
 
             var currentOrder = currentChapter.Order;
             currentChapter.Order = toSwapChapter.Order;
             toSwapChapter.Order = currentOrder;
 
             await _repository.SaveChanges();
-        }
-
-        public async Task<Chapter> GetNext(int chapterId)
-        {
-            var chapters = (await _repository.GetAll<Chapter>())
-                .OrderBy(c => c.Order)
-                .ToList();
-
-            var chapterIndex = chapters.FindIndex(c => c.Id == chapterId);
-
-            var nextIndex = ++chapterIndex;
-            return nextIndex == chapters.Count 
-                ? chapters[chapterIndex] 
-                : chapters[nextIndex];
-        }
-
-        private async Task<int> GetNextOrder()
-        {
-            var lastChapter = (await _repository.GetAll<Chapter>())
-                .OrderBy(c => c.Order).LastOrDefault();
-
-            return lastChapter == null ? 0 : ++lastChapter.Order;
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿import { Mapper } from "../utils/helpers";
+import { LessonViewModel } from "./lesson";
 
-export class UserLessonProgressModel {
-    constructor(model?: UserLessonProgressModel) {
+export class UserLessonModel {
+    constructor(model?: UserLessonModel) {
         if (model) {
             Mapper.map(model, this);
         }
@@ -9,9 +10,10 @@ export class UserLessonProgressModel {
 
     id: string;
     lessonId: number;
-    userChapterProgressId: string;
+    userChapterId: string;
     userId: string;
     isPassed: boolean;
     code: string;
     updatedDt: any;
+    lesson: LessonViewModel;
 }

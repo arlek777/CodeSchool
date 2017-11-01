@@ -1,17 +1,19 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CodeSchool.Domain
 {
-    public class UserLessonProgress
+    public class UserChapter
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
-        public int LessonId { get; set; }
-        public Guid UserChapterProgressId { get; set; }
         public Guid UserId { get; set; }
+        public int ChapterId { get; set; }
         public bool IsPassed { get; set; }
-        public string Code { get; set; }
-        public DateTime UpdatedDt { get; set; }
+
+        public virtual User User { get; set; }
+        public virtual Chapter Chapter { get; set; }
+        public virtual ICollection<UserLesson> UserLessons { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace CodeSchool.DataAccess
         public DbSet<Chapter> Chapters { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<UserChapterProgress> UserChapterProgresses { get; set; }
-        public DbSet<UserLessonProgress> UserLessonProgresses { get; set; }
+        public DbSet<UserChapter> UserChapters{ get; set; }
+        public DbSet<UserLesson> UserLessons { get; set; }
     }
 }

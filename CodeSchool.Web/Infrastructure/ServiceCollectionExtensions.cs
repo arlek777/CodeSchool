@@ -32,7 +32,7 @@ namespace CodeSchool.Web.Infrastructure
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ILessonService, LessonService>();
             services.AddTransient<IChapterService, ChapterService>();
-            services.AddTransient<IUserProgressService, UserProgressService>();
+            services.AddTransient<IUserLessonService, UserLessonService>();
             services.AddTransient<IPasswordHasher, PasswordHasher>();
         }
 

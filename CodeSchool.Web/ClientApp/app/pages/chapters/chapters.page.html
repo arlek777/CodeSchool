@@ -3,10 +3,15 @@
         <div class="panel-heading"><h4>Разделы</h4></div>
         <div class="panel-body">
             <div class="row">
-                <div *ngFor="let chapter of chapters" class="col-md-12">
-                    <a [routerLink]="['/lesson', chapter.id, chapter.lessons[0].id]"><h4>{{ chapter.title }}</h4></a>
-                    <div class="col-md-12" *ngFor="let lesson of chapter.lessons">
-                        <a [routerLink]="['/lesson', chapter.id, lesson.id]">{{ lesson.title }}</a>
+                <div *ngFor="let userChapter of userChapters" class="col-md-12">
+                    <a (click)="navigateToLatestLesson(userChapter.chapterId)">
+                        <h4>{{ userChapter.chapter.title }}</h4>
+                    </a>
+
+                    <div class="col-md-12" *ngFor="let userLesson of userChapter.userLessons">
+                        <a [routerLink]="['/lesson', userChapter.chapterId, userLesson.lessonId]">
+                            {{ userLesson.lesson.title }}
+                        </a>
                     </div>
                 </div>
             </div>

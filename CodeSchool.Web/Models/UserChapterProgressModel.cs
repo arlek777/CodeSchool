@@ -5,26 +5,26 @@ using CodeSchool.Domain;
 
 namespace CodeSchool.Web.Models
 {
-    public class UserChapterProgressModel
+    public class UserChapterModel
     {
-        public UserChapterProgressModel()
+        public UserChapterModel()
         {
             
         }
 
-        public UserChapterProgressModel(UserChapterProgress model)
+        public UserChapterModel(UserChapter model)
         {
             Id = model.Id;
             UserId = model.UserId;
             ChapterId = model.ChapterId;
             IsPassed = model.IsPassed;
-            UserLessonProgresses = model.UserLessonProgresses.Select(l => new UserLessonProgressModel(l));
+            UserLessons = model.UserLessons.Select(l => new UserLessonModel(l));
         }
 
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public int ChapterId { get; set; }
         public bool IsPassed { get; set; }
-        public IEnumerable<UserLessonProgressModel> UserLessonProgresses { get; set; }
+        public IEnumerable<UserLessonModel> UserLessons { get; set; }
     }
 }

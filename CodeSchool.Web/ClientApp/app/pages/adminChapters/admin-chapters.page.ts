@@ -7,7 +7,6 @@ import { BackendService } from "../../services/backend.service";
 })
 export class AdminChaptersPage implements OnInit {
     chapters: ChapterViewModel[] = [];
-    oldChapter: ChapterViewModel;
     chapter: ChapterViewModel = new ChapterViewModel();
 
     constructor(private backendService: BackendService) {
@@ -15,7 +14,8 @@ export class AdminChaptersPage implements OnInit {
 
     ngOnInit() {
         this.backendService.getChapters().then(chapters => {
-            this.chapters = chapters;
+            this.chapters = this._sortArrayByOrder(chapters);
+            this._sortLessonsByOrder();
         });
     }
 
@@ -52,7 +52,7 @@ export class AdminChaptersPage implements OnInit {
 
     changeChapterOrder(currentId, mode) {
         var toSwapId = this._swapByOrder(currentId, mode, this.chapters);
-        this._sortChaptersByOrder();
+        this.chapters = this._sortArrayByOrder(this.chapters);
 
         this.backendService.changeChapterOrder(currentId, toSwapId);
     }
@@ -64,7 +64,7 @@ export class AdminChaptersPage implements OnInit {
         this.backendService.changeLessonOrder(currentId, toSwapId);
     }
 
-    private _swapByOrder(currentId, mode, array) {
+    private _swapByOrder(currentId: any, mode: string, array: Array<any>) {
         var currentIndex = array.findIndex(c => c.id === currentId);
         var tempCurrentIndex = currentIndex;
         var toSwapIndex = mode === 'up' ? --tempCurrentIndex : ++tempCurrentIndex;
@@ -77,11 +77,11 @@ export class AdminChaptersPage implements OnInit {
         return toSwapId;
     }
 
-    private _sortChaptersByOrder() {
-        this.chapters = this.chapters.sort((a, b) => a.order - b.order);
+    private _sortArrayByOrder(array: Array<any>): Array<any> {
+        return array.sort((a, b) => a.order - b.order);
     }
 
     private _sortLessonsByOrder() {
-        this.chapters.forEach(c => c.lessons = c.lessons.sort((a, b) => a.order - b.order));
+        this.chapters.forEach(c => c.lessons = this._sortArrayByOrder(c.lessons));
     }
 }

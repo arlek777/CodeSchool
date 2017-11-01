@@ -5,11 +5,13 @@ using CodeSchool.Domain;
 
 namespace CodeSchool.BusinessLogic.Services
 {
-    public interface IUserProgressService
+    public interface IUserLessonService
     {
-        Task<ICollection<UserChapterProgress>> GetProgressSummary(Guid userId);
-        Task<UserLessonProgress> GetLatestLesson(Guid userId, int chapterId);
-        Task<UserLessonProgress> GetLessonProgress(Guid userId, int lessonId);
-        Task<UserLessonProgress> CreateOrUpdateLessonProgress(UserLessonProgress model);
+        Task CreateForNewUser(Guid userId);
+        Task<ICollection<UserChapter>> GetUserChapters(Guid userId);
+        Task<ICollection<UserLesson>> GetUserLessonsByChapter(Guid userId, int chapterId);
+        Task<UserLesson> GetById(Guid userId, int lessonId);
+        Task<UserLesson> GetLatestLesson(Guid userId, int chapterId);
+        Task<UserLesson> UpdateLesson(UserLesson model);
     }
 }

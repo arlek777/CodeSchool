@@ -14,12 +14,17 @@ namespace CodeSchool.Web.Controllers
         private readonly IUserService _userService;
         private readonly JWTTokenProvider _jwtTokenProvider;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IUserLessonService _userLessonService;
 
-        public AuthorizationController(IUserService userService, JWTTokenProvider jwtTokenProvider, IPasswordHasher passwordHasher)
+        public AuthorizationController(IUserService userService, 
+            JWTTokenProvider jwtTokenProvider, 
+            IPasswordHasher passwordHasher,
+            IUserLessonService userLessonService)
         {
             _userService = userService;
             _jwtTokenProvider = jwtTokenProvider;
             _passwordHasher = passwordHasher;
+            _userLessonService = userLessonService;
         }
 
         [Route("[action]")]
@@ -57,6 +62,8 @@ namespace CodeSchool.Web.Controllers
             };
 
             user = await _userService.CreateNew(user);
+            await _userLessonService.CreateForNewUser(user.Id);
+
             var tokens = GetJWTTokens(user);
             return Ok(tokens);
         }
