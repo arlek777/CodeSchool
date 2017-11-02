@@ -23,7 +23,7 @@ export class AdminLessonPage implements OnInit {
     }
 
     ngOnInit(): void {
-        var lessonId = this.route.snapshot.params["id"];
+        var lessonId = this.route.snapshot.params["lessonId"];
         if (!lessonId) {
             this.lesson.chapterId = this.route.snapshot.params["chapterId"];
             this.lesson.unitTestsCode = Constants.startUnitTest;

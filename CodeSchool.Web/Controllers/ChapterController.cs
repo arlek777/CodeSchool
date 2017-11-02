@@ -15,10 +15,12 @@ namespace CodeSchool.Web.Controllers
     public class ChapterController : Controller
     {
         private readonly IChapterService _chapterService;
+        private readonly IUserLessonService _userLessonService;
 
-        public ChapterController(IChapterService chapterService)
+        public ChapterController(IChapterService chapterService, IUserLessonService userLessonService)
         {
             _chapterService = chapterService;
+            _userLessonService = userLessonService;
         }
 
         [HttpGet]
@@ -50,6 +52,11 @@ namespace CodeSchool.Web.Controllers
                 Id = model.Id,
                 Title = model.Title
             });
+
+            if(model.Id == 0)
+            {
+                await _userLessonService.AddUserChapterToAllUsers(chapter.Id);
+            }
 
             model.Id = chapter.Id;
             model.Order = chapter.Order;

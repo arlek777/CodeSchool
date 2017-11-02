@@ -29,26 +29,27 @@ export class LessonPage implements OnInit {
 
     ngOnInit(): void {
         var chapterId = this.route.snapshot.params["chapterId"];
-        var lessonId = this.route.snapshot.params["id"];
+        var lessonId = this.route.snapshot.params["lessonId"];
         this.backendService.getUserLesson(UserHelper.getUserId(), lessonId)
             .then(lesson => {
+                console.log(lesson);
                 this._initLesson(lesson);
             });
 
-        this.backendService.getUserLessonIds(UserHelper.getUserId(), chapterId).then((ids) => {
-            this.userLessonIds = ids;
-            this.currentLessonIndex = this.userLessonIds.indexOf(lessonId);
-        });
+        //this.backendService.getUserLessonIds(UserHelper.getUserId(), chapterId).then((ids) => {
+        //    this.userLessonIds = ids;
+        //    this.currentLessonIndex = this.userLessonIds.indexOf(lessonId);
+        //});
     }
 
     getNextLesson() {
         if (!this.userLesson.isPassed) return;
 
         var nextIndex = ++this.currentLessonIndex;
-        if (nextIndex == this.userLessonIds.length) {
-            this.router.navigate(['/chapters']);
-            this.popupService.newSuccessMessage("Поздравляем с окончанием раздела!");
-        }
+        //if (nextIndex == this.userLessonIds.length) {
+        //    this.router.navigate(['/chapters']);
+        //    this.popupService.newSuccessMessage("Поздравляем с окончанием раздела!");
+        //}
 
         this.backendService.getUserLesson(UserHelper.getUserId(), this.userLessonIds[nextIndex])
             .then(lesson => {

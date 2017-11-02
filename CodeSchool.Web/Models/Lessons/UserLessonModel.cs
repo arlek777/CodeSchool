@@ -5,9 +5,9 @@ namespace CodeSchool.Web.Models.Lessons
 {
     public class UserLessonShortcutModel
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public int LessonId { get; set; }
-        public Guid UserChapterId { get; set; }
+        public int UserChapterId { get; set; }
         public Guid UserId { get; set; }
         public bool IsPassed { get; set; }
         public string LessonTitle { get; set; }

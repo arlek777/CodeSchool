@@ -8,9 +8,9 @@ export class UserLessonModel {
         }
     }
 
-    id: string;
+    id: number;
     lessonId: number;
-    userChapterId: string;
+    userChapterId: number;
     userId: string;
     isPassed: boolean;
     code: string;

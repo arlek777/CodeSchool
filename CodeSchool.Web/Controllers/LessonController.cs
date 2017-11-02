@@ -15,10 +15,12 @@ namespace CodeSchool.Web.Controllers
     public class LessonController : Controller
     {
         private readonly ILessonService _lessonService;
+        private readonly IUserLessonService _userLessonService;
 
-        public LessonController(ILessonService lessonService)
+        public LessonController(ILessonService lessonService, IUserLessonService userLessonService)
         {
             _lessonService = lessonService;
+            _userLessonService = userLessonService;
         }
 
         [HttpGet]
@@ -48,6 +50,11 @@ namespace CodeSchool.Web.Controllers
                 ReporterCode = model.ReporterCode,
                 UnitTestsCode = model.UnitTestsCode
             });
+
+            if(model.Id == 0)
+            {
+                await _userLessonService.AddUserLessonToAllUsers(lesson.Id, model.ChapterId);
+            }
 
             model.Order = lesson.Order;
             model.Id = lesson.Id;

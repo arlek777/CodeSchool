@@ -11,7 +11,7 @@ export class UserChapterModel {
         }
     }
 
-    id: string;
+    id: number;
     userId: string;
     chapterId: number;
     chapterTitle: string;

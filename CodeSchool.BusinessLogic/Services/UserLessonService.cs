@@ -11,12 +11,14 @@ namespace CodeSchool.BusinessLogic.Services
     {
         private readonly IGenericRepository _repository;
         private readonly IChapterService _chapterService;
+        private readonly ILessonService _lessonService;
 
         public UserLessonService(IGenericRepository repository, 
-            IChapterService chapterService)
+            IChapterService chapterService, ILessonService lessonService)
         {
             _repository = repository;
             _chapterService = chapterService;
+            _lessonService = lessonService;
         }
 
         public async Task<ICollection<UserChapter>> GetUserChapters(Guid userId)
@@ -25,26 +27,63 @@ namespace CodeSchool.BusinessLogic.Services
             return userChapters;
         }
 
-        public async Task<ICollection<UserLesson>> GetUserLessonsByChapter(Guid userId, int chapterId)
+        public async Task<ICollection<UserLesson>> GetUserLessonsByChapter(Guid userId, int userChapterId)
         {
-            var userLessons = await _repository.Where<UserLesson>(c => c.UserId == userId && c.UserChapter.ChapterId == chapterId);
+            var userLessons = await _repository.Where<UserLesson>(c => c.UserId == userId && c.UserChapterId == userChapterId);
             return userLessons;
         }
 
-        public async Task<UserLesson> GetLatestLesson(Guid userId, int chapterId)
+        public async Task<UserLesson> GetLatestLesson(Guid userId, int userChapterId)
         {
             var chapterProgress =
-                await _repository.Find<UserChapter>(c => c.ChapterId == chapterId && c.UserId == userId);
+                await _repository.Find<UserChapter>(c => c.Id == userChapterId && c.UserId == userId);
 
             return chapterProgress?.UserLessons.OrderBy(l => l.UpdatedDt).LastOrDefault();
         }
 
-        public async Task<UserLesson> GetById(Guid userId, int lessonId)
+        public async Task<UserLesson> GetLessonById(Guid userId, int userLessonId)
         {
             var userLesson =
-                await _repository.Find<UserLesson>(c => c.LessonId == lessonId && c.UserId == userId);
+                await _repository.Find<UserLesson>(c => c.Id == userLessonId && c.UserId == userId);
 
             return userLesson;
+        }
+
+        public async Task AddUserChapterToAllUsers(int chapterId)
+        {
+            var users = await _repository.GetAll<User>();
+            foreach(var user in users)
+            {
+                var userChapter = new UserChapter()
+                {
+                    UserId = user.Id,
+                    ChapterId = chapterId
+                };
+
+                _repository.Add(userChapter);
+            }
+           
+            await _repository.SaveChanges();
+        }
+
+        public async Task AddUserLessonToAllUsers(int lessonId, int chapterId)
+        {
+            var users = await _repository.GetAll<User>();
+            foreach (var user in users)
+            {
+                var userChapter = await _repository.Find<UserChapter>(c => c.UserId == user.Id && c.ChapterId == chapterId);
+                var lesson = await _lessonService.GetById(lessonId);
+
+                _repository.Add(new UserLesson()
+                {
+                    UserId = user.Id,
+                    UserChapterId = userChapter.Id,
+                    LessonId = lessonId,
+                    Code = lesson.StartCode,
+                    UpdatedDt = DateTime.UtcNow
+                });
+            }
+            await _repository.SaveChanges();
         }
 
         public async Task CreateForNewUser(Guid userId)
@@ -81,7 +120,7 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task<UserLesson> UpdateLesson(UserLesson model)
         {
-            var userLesson = await GetById(model.UserId, model.LessonId);
+            var userLesson = await GetLessonById(model.UserId, model.Id);
             userLesson.IsPassed = model.IsPassed;
             userLesson.UpdatedDt = DateTime.UtcNow;
             userLesson.Code = model.Code;

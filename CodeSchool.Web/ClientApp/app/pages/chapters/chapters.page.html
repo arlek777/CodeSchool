@@ -4,12 +4,12 @@
         <div class="panel-body">
             <div class="row">
                 <div *ngFor="let userChapter of userChapters" class="col-md-12">
-                    <a href="javascript: " (click)="goToLatestLesson(userChapter.chapterId)">
+                    <a href="javascript: " (click)="goToLatestLesson(userChapter.id)">
                         <h4>{{ userChapter.chapterTitle }}</h4>
                     </a>
 
                     <div class="col-md-12" *ngFor="let userLesson of userChapter.userLessons">
-                        <a [routerLink]="['/lesson', userChapter.chapterId, userLesson.lessonId]">
+                        <a [routerLink]="['/lesson', userChapter.id, userLesson.id]">
                             {{ userLesson.lessonTitle }}
                         </a>
                     </div>

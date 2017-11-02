@@ -35,8 +35,6 @@ namespace CodeSchool.Web.Controllers
                 return shortcut;
             }).OrderBy(c => c.ChapterOrder);
 
-            var ll = new LinkedList<UserChapterShortcutModel>(chapterShortcuts);
-
             return Ok(chapterShortcuts);
         }
 
@@ -49,10 +47,10 @@ namespace CodeSchool.Web.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{userId}/{chapterId}")]
+        [Route("[action]/{userId}/{lessonId}")]
         public async Task<IActionResult> GetLesson(Guid userId, int lessonId)
         {
-            var userlesson = await _userLessonService.GetById(userId, lessonId);
+            var userlesson = await _userLessonService.GetLessonById(userId, lessonId);
             return Ok(Mapper.Map<UserLessonModel>(userlesson));
         }
 
@@ -62,6 +60,7 @@ namespace CodeSchool.Web.Controllers
         {
             var userlesson = await _userLessonService.UpdateLesson(new UserLesson()
             {
+                Id = model.Id,
                 Code = model.Code,
                 LessonId = model.LessonId,
                 IsPassed = model.IsPassed,

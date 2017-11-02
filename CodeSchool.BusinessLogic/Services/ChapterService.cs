@@ -38,7 +38,6 @@ namespace CodeSchool.BusinessLogic.Services
             {
                 chapter.Title = model.Title;
             }
-
             await _repository.SaveChanges();
             return chapter;
         }
