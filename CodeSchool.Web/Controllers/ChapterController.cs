@@ -1,8 +1,10 @@
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CodeSchool.BusinessLogic.Services;
 using CodeSchool.Domain;
 using CodeSchool.Web.Models;
+using CodeSchool.Web.Models.Chapters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,12 +26,19 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> Get()
         {
             var chapters = await _chapterService.GetChapters();
-            return Ok(chapters.Select(c => new ChapterModel(c)).ToList());
+            var chapterShortcuts = chapters.Select(c =>
+            {
+                var shortCut = Mapper.Map<ChapterShortcutModel>(c);
+                shortCut.Lessons = shortCut.Lessons.OrderBy(l => l.Order);
+                return shortCut;
+            }).OrderBy(c => c.Order);
+
+            return Ok(chapterShortcuts);
         }
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> AddOrUpdate([FromBody] ChapterModel model)
+        public async Task<IActionResult> AddOrUpdate([FromBody] ChapterShortcutModel model)
         {
             if (!ModelState.IsValid && ModelState.Any())
             {
@@ -42,7 +51,9 @@ namespace CodeSchool.Web.Controllers
                 Title = model.Title
             });
 
-            return Ok(new ChapterModel(chapter));
+            model.Id = chapter.Id;
+            model.Order = chapter.Order;
+            return Ok(model);
         }
 
         [HttpPost]

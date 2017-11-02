@@ -56,6 +56,8 @@ namespace CodeSchool.Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            AutoMapperConfig.Configure();
+
             // Authentication JWT Settings
             var jwtSettings = optionsAccessor.Value;
             var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.SecretKey));

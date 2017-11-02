@@ -1,10 +1,12 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CodeSchool.Domain;
-using CodeSchool.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using CodeSchool.BusinessLogic.Services;
+using CodeSchool.Web.Models.Chapters;
+using CodeSchool.Web.Models.Lessons;
 
 namespace CodeSchool.Web.Controllers
 {
@@ -23,7 +25,14 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> GetUserChapters(Guid userId)
         {
             var chapters = await _userLessonService.GetUserChapters(userId);
-            return Ok(chapters.Select(s => new UserChapterModel(s)));
+            var chapterShortcuts = chapters.Select(c =>
+            {
+                var shortcut = Mapper.Map<UserChapterShortcutModel>(c);
+                shortcut.UserLessons = shortcut.UserLessons.OrderBy(l => l.LessonOrder);
+                return shortcut;
+            }).OrderBy(c => c.ChapterOrder);
+
+            return Ok(chapterShortcuts);
         }
 
         [HttpGet]
@@ -31,7 +40,7 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> GetLatestLesson(Guid userId, int chapterId)
         {
             var latest = await _userLessonService.GetLatestLesson(userId, chapterId);
-            return Ok(new UserLessonModel(latest));
+            return Ok(Mapper.Map<UserLessonModel>(latest));
         }
 
         [HttpGet]
@@ -39,7 +48,7 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> GetLesson(Guid userId, int lessonId)
         {
             var userlesson = await _userLessonService.GetById(userId, lessonId);
-            return Ok(new UserLessonModel(userlesson));
+            return Ok(Mapper.Map<UserLessonModel>(userlesson));
         }
 
         [HttpPost]
@@ -54,7 +63,7 @@ namespace CodeSchool.Web.Controllers
                 UserId = model.UserId,
                 UserChapterId = model.UserChapterId
             });
-            return Ok(new UserLessonModel(userlesson));
+            return Ok(Mapper.Map<UserLessonModel>(userlesson));
         }
     }
 }

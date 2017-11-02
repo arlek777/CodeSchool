@@ -1,9 +1,11 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CodeSchool.BusinessLogic.Services;
 using Microsoft.AspNetCore.Mvc;
 using CodeSchool.Domain;
 using CodeSchool.Web.Models;
+using CodeSchool.Web.Models.Lessons;
 using Microsoft.AspNetCore.Authorization;
 
 namespace CodeSchool.Web.Controllers
@@ -24,7 +26,7 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var lesson = await _lessonService.GetById(id);
-            return Ok(new LessonModel(lesson));
+            return Ok(Mapper.Map<LessonModel>(lesson));
         }
 
         [HttpPost]
@@ -47,7 +49,9 @@ namespace CodeSchool.Web.Controllers
                 UnitTestsCode = model.UnitTestsCode
             });
 
-            return Ok(new LessonModel(lesson));
+            model.Order = lesson.Order;
+            model.Id = lesson.Id;
+            return Ok(model);
         }
 
         [HttpPost]
