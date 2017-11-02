@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using CodeSchool.Domain;
 
 namespace CodeSchool.DataAccess
@@ -12,6 +13,12 @@ namespace CodeSchool.DataAccess
 
         public CodeSchoolDbContext(string connString): base(connString)
         {
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Chapter> Chapters { get; set; }

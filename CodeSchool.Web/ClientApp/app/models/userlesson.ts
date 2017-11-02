@@ -15,5 +15,7 @@ export class UserLessonModel {
     isPassed: boolean;
     code: string;
     updatedDt: any;
+    lessonTitle: string;
+    lessonOrder: number;
     lesson: LessonViewModel;
 }

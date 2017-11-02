@@ -27,8 +27,7 @@ namespace CodeSchool.Web.Infrastructure
                 { "id", user.Id },
                 { "username", user.UserName },
                 { "email", user.Email },
-                { "isAdmin", user.IsAdmin },
-                { "roles", user.IsAdmin ? new [] { "Admin" } : new string [] {}}
+                { "isAdmin", user.IsAdmin }
             };
             return GetToken(payload);
         }
@@ -38,7 +37,8 @@ namespace CodeSchool.Web.Infrastructure
             var payload = new Dictionary<string, object>
             {
                 { "sub", user.Id },
-                { "email", user.Email }
+                { "email", user.Email },
+                { "roles", user.IsAdmin ? new [] { "Admin" } : new string [] {}}
             };
             return GetToken(payload);
         }

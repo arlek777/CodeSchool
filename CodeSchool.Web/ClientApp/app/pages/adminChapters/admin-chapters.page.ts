@@ -14,8 +14,7 @@ export class AdminChaptersPage implements OnInit {
 
     ngOnInit() {
         this.backendService.getChapters().then(chapters => {
-            this.chapters = this._sortArrayByOrder(chapters);
-            this._sortLessonsByOrder();
+            this.chapters = chapters;
         });
     }
 

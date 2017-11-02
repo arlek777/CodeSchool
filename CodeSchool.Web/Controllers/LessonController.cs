@@ -35,7 +35,7 @@ namespace CodeSchool.Web.Controllers
         {
             if (!ModelState.IsValid && ModelState.Any())
             {
-                return BadRequest(ModelState.FirstOrDefault().Value?.Errors?.FirstOrDefault());
+                return BadRequest(ModelState.FirstOrDefault().Value?.Errors?.FirstOrDefault()?.ErrorMessage);
             }
 
             var lesson = await _lessonService.AddOrUpdate(new Lesson()
@@ -60,7 +60,7 @@ namespace CodeSchool.Web.Controllers
         {
             if (!ModelState.IsValid && ModelState.Any())
             {
-                return BadRequest(ModelState.FirstOrDefault().Value?.Errors?.FirstOrDefault());
+                return BadRequest(ModelState.FirstOrDefault().Value?.Errors?.FirstOrDefault()?.ErrorMessage);
             }
 
             await _lessonService.Remove(model.Id);
@@ -73,7 +73,7 @@ namespace CodeSchool.Web.Controllers
         {
             if (!ModelState.IsValid && ModelState.Any())
             {
-                return BadRequest(ModelState.FirstOrDefault().Value?.Errors?.FirstOrDefault());
+                return BadRequest(ModelState.FirstOrDefault().Value?.Errors?.FirstOrDefault()?.ErrorMessage);
             }
 
             await _lessonService.ChangeOrder(model.CurrentId, model.ToSwapId);

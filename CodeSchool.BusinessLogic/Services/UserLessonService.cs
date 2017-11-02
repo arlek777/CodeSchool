@@ -72,7 +72,7 @@ namespace CodeSchool.BusinessLogic.Services
                         UpdatedDt = DateTime.UtcNow
                     };
 
-                    _repository.Add(newChapter);
+                    _repository.Add(newLesson);
                 }
 
                 await _repository.SaveChanges();

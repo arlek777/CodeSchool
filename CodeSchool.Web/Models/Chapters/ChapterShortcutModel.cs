@@ -6,6 +6,11 @@ namespace CodeSchool.Web.Models.Chapters
 {
     public class ChapterShortcutModel
     {
+        public ChapterShortcutModel()
+        {
+            Lessons = new List<LessonShortcutModel>();
+        }
+
         public int Id { get; set; }
 
         [Required]

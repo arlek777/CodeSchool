@@ -42,7 +42,7 @@ namespace CodeSchool.Web.Controllers
         {
             if (!ModelState.IsValid && ModelState.Any())
             {
-                return BadRequest(ModelState.FirstOrDefault().Value?.Errors?.FirstOrDefault());
+                return BadRequest(ModelState.FirstOrDefault().Value?.Errors?.FirstOrDefault()?.ErrorMessage);
             }
 
             var chapter = await _chapterService.AddOrUpdate(new Chapter()
@@ -62,7 +62,7 @@ namespace CodeSchool.Web.Controllers
         {
             if (!ModelState.IsValid && ModelState.Any())
             {
-                return BadRequest(ModelState.FirstOrDefault().Value?.Errors?.FirstOrDefault());
+                return BadRequest(ModelState.FirstOrDefault().Value?.Errors?.FirstOrDefault()?.ErrorMessage);
             }
 
             await _chapterService.Remove(model.Id);
@@ -75,7 +75,7 @@ namespace CodeSchool.Web.Controllers
         {
             if (!ModelState.IsValid && ModelState.Any())
             {
-                return BadRequest(ModelState.FirstOrDefault().Value?.Errors?.FirstOrDefault());
+                return BadRequest(ModelState.FirstOrDefault().Value?.Errors?.FirstOrDefault()?.ErrorMessage);
             }
 
             await _chapterService.ChangeOrder(model.CurrentId, model.ToSwapId);

@@ -89,7 +89,7 @@ export class BackendService {
         });
     }
 
-    updateUserLesson(model: UserLessonProgressModel): Promise<UserLessonModel> {
+    updateUserLesson(model: UserLessonModel): Promise<UserLessonModel> {
         return this.http.post("/api/userlesson/updatelesson", model).toPromise()
             .then((response) => {
                 return new UserLessonModel(response.json());

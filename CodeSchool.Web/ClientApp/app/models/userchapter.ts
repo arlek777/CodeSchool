@@ -14,7 +14,8 @@ export class UserChapterModel {
     id: string;
     userId: string;
     chapterId: number;
-    chapter: ChapterViewModel;
+    chapterTitle: string;
+    chapterOrder: number;
     userLessons: UserLessonModel[];
     isPassed: boolean;
 }

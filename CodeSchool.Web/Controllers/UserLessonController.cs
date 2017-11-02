@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -25,12 +26,16 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> GetUserChapters(Guid userId)
         {
             var chapters = await _userLessonService.GetUserChapters(userId);
+
             var chapterShortcuts = chapters.Select(c =>
             {
                 var shortcut = Mapper.Map<UserChapterShortcutModel>(c);
-                shortcut.UserLessons = shortcut.UserLessons.OrderBy(l => l.LessonOrder);
+                shortcut.UserLessons = new LinkedList<UserLessonShortcutModel>(
+                    shortcut.UserLessons.OrderBy(l => l.LessonOrder));
                 return shortcut;
             }).OrderBy(c => c.ChapterOrder);
+
+            var ll = new LinkedList<UserChapterShortcutModel>(chapterShortcuts);
 
             return Ok(chapterShortcuts);
         }

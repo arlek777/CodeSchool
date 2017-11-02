@@ -14,8 +14,15 @@ export class ChaptersPage implements OnInit {
 
     ngOnInit() {
         this.backendService.getUserChapters(UserHelper.getUserId()).then(userChapters => {
-            this.userChapters = userChapters.sort((a, b) => a.chapter.order - b.chapter.order);
-            this.userChapters.forEach(c => c.userLessons = c.userLessons.sort((a, b) => a.lesson.order - b.lesson.order));
+            this.userChapters = userChapters;
         });
+    }
+
+    goToLatestLesson(userChapterId: number) {
+        
+    }
+
+    goToLesson(userLessonId: number) {
+        
     }
 }

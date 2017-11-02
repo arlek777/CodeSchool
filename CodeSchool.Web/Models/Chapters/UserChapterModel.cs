@@ -12,6 +12,6 @@ namespace CodeSchool.Web.Models.Chapters
         public bool IsPassed { get; set; }
         public string ChapterTitle { get; set; }
         public int ChapterOrder { get; set; }
-        public IEnumerable<UserLessonShortcutModel> UserLessons { get; set; }
+        public LinkedList<UserLessonShortcutModel> UserLessons { get; set; }
     }
 }
