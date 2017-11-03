@@ -1,6 +1,6 @@
 ﻿<div class="col-md-6">
     <div class="panel panel-default" style="height: 600px; overflow-y: auto">
-        <div class="panel-heading"><h4>{{ lesson.title }}</h4></div>
+        <div class="panel-heading"><h4>{{ userLesson.title }}</h4></div>
         <div class="panel-body" [innerHtml]="sanitizedLessonText"></div>
     </div>
 </div>
@@ -10,7 +10,7 @@
         <div class="panel-heading"><h4>Задание</h4></div>
         <div class="panel-body">
             <div ace-editor
-                 [(text)]="lesson.startCode"
+                 [(text)]="userLesson.code"
                  [mode]="'javascript'"
                  [theme]="'eclipse'"
                  [readOnly]="false"

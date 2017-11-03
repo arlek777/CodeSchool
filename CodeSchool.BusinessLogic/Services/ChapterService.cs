@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CodeSchool.DataAccess;
 using CodeSchool.Domain;
@@ -16,7 +17,10 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task<IEnumerable<Chapter>> GetChapters()
         {
-            return await _repository.GetAll<Chapter>();
+            var chapters = (await _repository.GetAll<Chapter>()).OrderBy(c => c.Order).ToList();
+            chapters.ForEach(c => c.Lessons = c.Lessons.OrderBy(l => l.Order).ToList());
+
+            return chapters;
         }
 
         public async Task Remove(int id)

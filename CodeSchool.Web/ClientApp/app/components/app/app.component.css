@@ -6,3 +6,7 @@
     height: 600px;
     overflow-y: auto
 }
+
+.green-color {
+    color: green;
+}

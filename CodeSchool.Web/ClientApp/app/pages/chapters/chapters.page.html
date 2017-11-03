@@ -4,13 +4,16 @@
         <div class="panel-body">
             <div class="row">
                 <div *ngFor="let userChapter of userChapters" class="col-md-12">
-                    <a href="javascript: " (click)="goToLatestLesson(userChapter.id)">
-                        <h4>{{ userChapter.chapterTitle }}</h4>
+                    <a href="javascript: " (click)="openChapter(userChapter)">
+                        <h4>{{ userChapter.chapterTitle }} 
+                            <span class="green-color" [ngClass]="{'fa fa-check': userChapter.isPassed}"></span>
+                        </h4>
                     </a>
 
                     <div class="col-md-12" *ngFor="let userLesson of userChapter.userLessons">
-                        <a [routerLink]="['/lesson', userChapter.id, userLesson.id]">
+                        <a href="javascript: " (click)="openLesson(userChapter, userLesson)">
                             {{ userLesson.lessonTitle }}
+                            <span class="green-color" [ngClass]="{'fa fa-check': userLesson.isPassed}"></span>
                         </a>
                     </div>
                 </div>

@@ -62,7 +62,7 @@ namespace CodeSchool.Web.Controllers
             };
 
             user = await _userService.CreateNew(user);
-            await _userLessonService.CreateForNewUser(user.Id);
+            await _userLessonService.AddLessonsForNewUser(user.Id);
 
             var tokens = GetJWTTokens(user);
             return Ok(tokens);

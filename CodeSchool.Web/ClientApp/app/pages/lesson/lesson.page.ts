@@ -32,7 +32,6 @@ export class LessonPage implements OnInit {
         var lessonId = this.route.snapshot.params["lessonId"];
         this.backendService.getUserLesson(UserHelper.getUserId(), lessonId)
             .then(lesson => {
-                console.log(lesson);
                 this._initLesson(lesson);
             });
 
