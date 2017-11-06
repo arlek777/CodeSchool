@@ -1,13 +1,15 @@
 ﻿<div class="col-md-6">
     <div class="panel panel-default" style="height: 600px; overflow-y: auto">
-        <div class="panel-heading"><h4>{{ userLesson.title }}</h4></div>
+        <div class="panel-heading"><h4>{{ userLesson.lessonTitle }}</h4></div>
         <div class="panel-body" [innerHtml]="sanitizedLessonText"></div>
     </div>
 </div>
 
 <div class="col-md-6">
     <div class="panel panel-default lesson-panel">
-        <div class="panel-heading"><h4>Задание</h4></div>
+        <div class="panel-heading">
+            <h4>Задание - {{ userLesson.isPassed ? 'Выполненно' : 'Не выполненно' }}</h4>
+        </div>
         <div class="panel-body">
             <div ace-editor
                  [(text)]="userLesson.code"
@@ -26,10 +28,12 @@
 <div class="col-md-offset-6 col-md-6">
     <div class="form-group">
         <button (click)="checkLesson()" class="btn btn-success btn-lg">Проверить</button>
-        <button (click)="getNextLesson()" class="btn btn-primary btn-lg">Следующий Урок</button>
+        <button *ngIf="currentIndex > 0" (click)="getPreviousLesson()" class="btn btn-danger btn-lg">Назад</button>
+        <button *ngIf="userLesson.isPassed" (click)="getNextLesson()" class="btn btn-primary btn-lg">Дальше</button>
     </div>
 
-    <div *ngIf="result" class="alert" [ngClass]="{'alert-danger': !result.isPassed, 'alert-success': result.isPassed }">
+    <div *ngIf="result && result.messages.length" class="alert" 
+         [ngClass]="{'alert-danger': !result.isPassed, 'alert-success': result.isPassed }">
         <span *ngFor="let message of result.messages">{{ message }}</span>
     </div>
 </div>

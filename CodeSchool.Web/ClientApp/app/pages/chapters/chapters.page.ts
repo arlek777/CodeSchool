@@ -24,17 +24,20 @@ export class ChaptersPage implements OnInit {
     }
 
     openChapter(userChapter: UserChapterModel) {
-        if (!userChapter.userLessons.length) return;
+        var userLessons = userChapter.userLessons;
+        if (!userLessons.length) return;
+
+        var lessonToOpen = userLessons.find(u => !u.isPassed);
+        if (!lessonToOpen) lessonToOpen = userLessons[userLessons.length - 1];
 
         var currentIndex = this.userChapters.indexOf(userChapter);
-        var firstLessonId = userChapter.userLessons[0].id;
         if (currentIndex == 0 || userChapter.isPassed) {
-            this.router.navigate(['/lesson', userChapter.id, firstLessonId]);
+            this.router.navigate(['/lesson', userChapter.id, lessonToOpen.id]);
             return;
         }
 
-        this.allowToOpenLessonOrShowError(this.userChapters,
-            currentIndex, userChapter.id, firstLessonId);
+        this.allowToNavigateOrShowError(this.userChapters,
+            currentIndex, userChapter.id, lessonToOpen.id);
     }
 
     openLesson(userChapter: UserChapterModel, userLesson: UserLessonModel) {
@@ -56,11 +59,11 @@ export class ChaptersPage implements OnInit {
             }
         }
 
-        this.allowToOpenLessonOrShowError(userChapter.userLessons,
+        this.allowToNavigateOrShowError(userChapter.userLessons,
             lessonIndex, userChapter.id, userLesson.id);
     }
 
-    private allowToOpenLessonOrShowError(array, index, chapterId, lessonId) {
+    private allowToNavigateOrShowError(array, index, chapterId, lessonId) {
         if (this.isAllBeforePassed(array, index)) {
             this.router.navigate(['/lesson', chapterId, lessonId]);
         } else {

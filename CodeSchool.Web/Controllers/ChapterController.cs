@@ -15,12 +15,12 @@ namespace CodeSchool.Web.Controllers
     public class ChapterController : Controller
     {
         private readonly IChapterService _chapterService;
-        private readonly IUserLessonService _userLessonService;
+        private readonly IUserChapterService _userChapterService;
 
-        public ChapterController(IChapterService chapterService, IUserLessonService userLessonService)
+        public ChapterController(IChapterService chapterService,  IUserChapterService userChapterService)
         {
             _chapterService = chapterService;
-            _userLessonService = userLessonService;
+            _userChapterService = userChapterService;
         }
 
         [HttpGet]
@@ -28,14 +28,7 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> Get()
         {
             var chapters = await _chapterService.GetChapters();
-            var chapterShortcuts = chapters.Select(c =>
-            {
-                var shortCut = Mapper.Map<ChapterShortcutModel>(c);
-                shortCut.Lessons = shortCut.Lessons.OrderBy(l => l.Order);
-                return shortCut;
-            }).OrderBy(c => c.Order);
-
-            return Ok(chapterShortcuts);
+            return Ok(chapters.Select(Mapper.Map<ChapterShortcutModel>));
         }
 
         [HttpPost]
@@ -55,7 +48,7 @@ namespace CodeSchool.Web.Controllers
 
             if(model.Id == 0)
             {
-                await _userLessonService.AddUserChapterToAllUsers(chapter.Id);
+                await _userChapterService.AddToAllUsers(chapter.Id);
             }
 
             model.Id = chapter.Id;

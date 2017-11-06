@@ -18,7 +18,7 @@ namespace CodeSchool.BusinessLogic.Services
             _chapterService = chapterService;
         }
 
-        public async Task<ICollection<UserChapter>> GetUserChapters(Guid userId)
+        public async Task<ICollection<UserChapter>> Get(Guid userId)
         {
             var userChapters = (await _repository
                 .Where<UserChapter>(c => c.UserId == userId))
@@ -30,9 +30,9 @@ namespace CodeSchool.BusinessLogic.Services
             return userChapters;
         }
 
-        public async Task<UserChapter> GetUserChapter(Guid userId, int userChapterId)
+        public async Task<UserChapter> GetById(Guid userId, int userChapterId)
         {
-            var userChapters = (await GetUserChapters(userId)).FirstOrDefault(c => c.Id == userChapterId);
+            var userChapters = (await Get(userId)).FirstOrDefault(c => c.Id == userChapterId);
             return userChapters;
         }
 
@@ -44,22 +44,7 @@ namespace CodeSchool.BusinessLogic.Services
             return chapterProgress?.UserLessons.OrderBy(l => l.UpdatedDt).LastOrDefault();
         }
 
-        public async Task<bool> CanOpenChapter(Guid userId, int userChapterId)
-        {
-            var userChapters = (await GetUserChapters(userId)).ToList();
-            var userChapter = userChapters.FirstOrDefault(c => c.Id == userChapterId);
-            if (userChapter == null || userChapter.UserLessons.Count == 0) return false;
-
-            var currentIndex = userChapters.FindIndex(u => u.Id == userChapterId);
-            if (currentIndex == 0 || userChapter.IsPassed) return true;
-
-            var canOpen = userChapters
-                .TakeWhile(c => c.Id != userChapterId)
-                .All(c => c.IsPassed);
-            return canOpen;
-        }
-
-        public async Task AddUserChapterToAllUsers(int chapterId)
+        public async Task AddToAllUsers(int chapterId)
         {
             var users = await _repository.GetAll<User>();
             foreach (var user in users)
@@ -76,7 +61,7 @@ namespace CodeSchool.BusinessLogic.Services
             await _repository.SaveChanges();
         }
 
-        public async Task AddChaptersForNewUser(Guid userId)
+        public async Task Add(Guid userId)
         {
             var chapters = await _chapterService.GetChapters();
 

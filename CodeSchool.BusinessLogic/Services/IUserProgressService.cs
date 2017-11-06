@@ -7,9 +7,9 @@ namespace CodeSchool.BusinessLogic.Services
 {
     public interface IUserLessonService
     {
-        Task<ICollection<UserLesson>> GetUserLessonsByChapter(Guid userId, int userChapterId);
-        Task<UserLesson> GetLessonById(Guid userId, int userLessonId);
-        Task<UserLesson> UpdateLesson(UserLesson model);
-        Task AddUserLessonToAllUsers(int lessonId, int chapterId);
+        Task<ICollection<UserLesson>> GetByChapter(Guid userId, int userChapterId);
+        Task<UserLesson> GetById(Guid userId, int userLessonId);
+        Task<UserLesson> Update(UserLesson model);
+        Task AddToAllUsers(int lessonId, int userChapterId);
     }
 }

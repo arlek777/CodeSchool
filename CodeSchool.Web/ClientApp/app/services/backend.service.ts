@@ -31,6 +31,7 @@ export class BackendService {
         });
     }
 
+   
     getChapters(): Promise<ChapterViewModel[]> {
         return this.http.get("/api/chapter/get").toPromise().then((response) => {
             return response.json().map(c => new ChapterViewModel(c));
@@ -72,8 +73,14 @@ export class BackendService {
     }
 
     getUserChapters(userId: string): Promise<UserChapterModel[]> {
-        return this.http.get(`/api/userlesson/getuserchapters/${userId}`).toPromise().then((response) => {
+        return this.http.get(`/api/userchapter/get/${userId}`).toPromise().then((response) => {
             return response.json().map(c => new UserChapterModel(c));
+        });
+    }
+
+    getUserLessonIds(userId: string, chapterId: number): Promise<number[]> {
+        return this.http.get(`/api/userlesson/getidsbychapter/${userId}/${chapterId}`).toPromise().then((response) => {
+            return response.json();
         });
     }
 
@@ -84,15 +91,14 @@ export class BackendService {
     }
 
     getUserLesson(userId: string, lessonId: number): Promise<UserLessonModel> {
-        return this.http.get(`/api/userlesson/getlesson/${userId}/${lessonId}`).toPromise().then((response) => {
+        return this.http.get(`/api/userlesson/getbyid/${userId}/${lessonId}`).toPromise().then((response) => {
             return new UserLessonModel(response.json());
         });
     }
 
-    updateUserLesson(model: UserLessonModel): Promise<UserLessonModel> {
-        return this.http.post("/api/userlesson/updatelesson", model).toPromise()
+    updateUserLesson(model): Promise<void> {
+        return this.http.post("/api/userlesson/update", model).toPromise()
             .then((response) => {
-                return new UserLessonModel(response.json());
             });
     }
 }

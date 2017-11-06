@@ -53,7 +53,7 @@ namespace CodeSchool.Web.Controllers
 
             if(model.Id == 0)
             {
-                await _userLessonService.AddUserLessonToAllUsers(lesson.Id, model.ChapterId);
+                await _userLessonService.AddToAllUsers(lesson.Id, model.ChapterId);
             }
 
             model.Order = lesson.Order;

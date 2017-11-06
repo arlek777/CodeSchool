@@ -13,5 +13,6 @@ export class LessonViewModel {
     startCode: string;
     unitTestsCode: string;
     reporterCode: string;
+    title: string;
     order: number;
 }
