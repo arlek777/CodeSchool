@@ -27,10 +27,10 @@
                             <a class="alert-danger" href="javascript: " (click)="removeChapter(chapter.id)">
                                 <span class="fa fa-remove"></span>
                             </a>
-                            <a *ngIf="i != 0" class="alert-info" href="javascript: " (click)="changeChapterOrder(chapter.id, 'up')">
+                            <a *ngIf="i != 0" class="alert-info" href="javascript: " (click)="changeChapterOrder(i, i-1)">
                                 <span class="fa fa-arrow-up"></span>
                             </a>
-                            <a *ngIf="i != chapters.length-1" class="alert-info" href="javascript: " (click)="changeChapterOrder(chapter.id, 'down')">
+                            <a *ngIf="i != chapters.length-1" class="alert-info" href="javascript: " (click)="changeChapterOrder(chapter.id, i+1)">
                                 <span class="fa fa-arrow-down"></span>
                             </a>
                         </div>
@@ -42,10 +42,10 @@
                             <a class="alert-danger" href="javascript: " (click)="removeLesson(chapter, lesson.id)">
                                 <span class="fa fa-remove"></span>
                             </a>
-                            <a *ngIf="i != 0" class="alert-info" href="javascript: " (click)="changeLessonOrder(chapter, lesson.id, 'up')">
+                            <a *ngIf="i != 0" class="alert-info" href="javascript: " (click)="changeLessonOrder(chapter, i, i-1)">
                                 <span class="fa fa-arrow-up"></span>
                             </a>
-                            <a *ngIf="i != chapter.lessons.length-1" class="alert-info" href="javascript: " (click)="changeLessonOrder(chapter, lesson.id, 'down')">
+                            <a *ngIf="i != chapter.lessons.length-1" class="alert-info" href="javascript: " (click)="changeLessonOrder(chapter, i, i+1)">
                                 <span class="fa fa-arrow-down"></span>
                             </a>
                         </div>

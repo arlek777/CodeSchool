@@ -35,6 +35,7 @@ namespace CodeSchool.BusinessLogic.Services
             var chapter = await _repository.Find<Chapter>(c => c.Id == model.Id);
             if (chapter == null)
             {
+                model.Order = await GetNextOrder();
                 _repository.Add(model);
                 chapter = model;
             }
@@ -49,6 +50,7 @@ namespace CodeSchool.BusinessLogic.Services
         public async Task<Chapter> GetById(int chapterId)
         {
             var chapter = await _repository.Find<Chapter>(c => c.Id == chapterId);
+            chapter.Lessons = chapter.Lessons.OrderBy(l => l.Order).ToList();
             return chapter;
         }
 
@@ -62,6 +64,13 @@ namespace CodeSchool.BusinessLogic.Services
             toSwapChapter.Order = currentOrder;
 
             await _repository.SaveChanges();
+        }
+
+        private async Task<int> GetNextOrder()
+        {
+            var chapters = await GetChapters();
+            var lastChapter = chapters.LastOrDefault();
+            return lastChapter == null ? 0 : lastChapter.Order + 1;
         }
     }
 }

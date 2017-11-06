@@ -49,31 +49,30 @@ export class AdminChaptersPage implements OnInit {
         });
     }
 
-    changeChapterOrder(currentId, mode) {
-        var toSwapId = this._swapByOrder(currentId, mode, this.chapters);
+    changeChapterOrder(currentIndex, toSwapIndex) {
+        this._swapOrder(currentIndex, toSwapIndex, this.chapters);
         this.chapters = this._sortArrayByOrder(this.chapters);
+
+        var currentId = this.chapters[currentIndex];
+        var toSwapId = this.chapters[toSwapIndex];
 
         this.backendService.changeChapterOrder(currentId, toSwapId);
     }
 
-    changeLessonOrder(chapter, currentId, mode) {
-        var toSwapId = this._swapByOrder(currentId, mode, chapter.lessons);
+    changeLessonOrder(chapter: ChapterViewModel, currentIndex, toSwapIndex) {
+        this._swapOrder(currentIndex, toSwapIndex, chapter.lessons);
         this._sortLessonsByOrder();
+
+        var currentId = chapter.lessons[currentIndex];
+        var toSwapId = chapter.lessons[toSwapIndex];
 
         this.backendService.changeLessonOrder(currentId, toSwapId);
     }
 
-    private _swapByOrder(currentId: any, mode: string, array: Array<any>) {
-        var currentIndex = array.findIndex(c => c.id === currentId);
-        var tempCurrentIndex = currentIndex;
-        var toSwapIndex = mode === 'up' ? --tempCurrentIndex : ++tempCurrentIndex;
-        var toSwapId = array[toSwapIndex].id;
-
+    private _swapOrder(currentIndex, toSwapIndex, array: Array<any>) {
         var toSwapOrder = array[toSwapIndex].order;
         array[toSwapIndex].order = array[currentIndex].order;
         array[currentIndex].order = toSwapOrder;
-
-        return toSwapId;
     }
 
     private _sortArrayByOrder(array: Array<any>): Array<any> {
