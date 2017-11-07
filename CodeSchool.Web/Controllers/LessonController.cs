@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.BusinessLogic.Services;
 using Microsoft.AspNetCore.Mvc;
 using CodeSchool.Domain;
@@ -65,11 +66,12 @@ namespace CodeSchool.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Remove([FromBody] RemoveRequestModel model)
         {
-            if (!ModelState.IsValid && ModelState.Any())
+            if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.FirstOrDefault().Value?.Errors?.FirstOrDefault()?.ErrorMessage);
+                return BadRequest(ModelState);
             }
 
+            await _userLessonService.Remove(model.Id);
             await _lessonService.Remove(model.Id);
             return Ok();
         }

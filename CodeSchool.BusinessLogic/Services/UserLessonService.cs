@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.DataAccess;
 using CodeSchool.Domain;
 
@@ -11,23 +12,29 @@ namespace CodeSchool.BusinessLogic.Services
     {
         private readonly IGenericRepository _repository;
         private readonly ILessonService _lessonService;
+        private readonly IUserChapterService _userChapterService;
 
-        public UserLessonService(IGenericRepository repository, ILessonService lessonService)
+        public UserLessonService(IGenericRepository repository, ILessonService lessonService, IUserChapterService userChapterService)
         {
             _repository = repository;
             _lessonService = lessonService;
+            _userChapterService = userChapterService;
         }
 
         public async Task<ICollection<UserLesson>> GetByChapter(Guid userId, int userChapterId)
         {
-            var userLessons = await _repository.Where<UserLesson>(c => c.UserId == userId && c.UserChapterId == userChapterId);
+            var userLessons = await _repository.Where<UserLesson>(c => c.UserId == userId 
+            && c.UserChapterId == userChapterId 
+            && !c.Lesson.IsRemoved);
             return userLessons;
         }
 
         public async Task<UserLesson> GetById(Guid userId, int userLessonId)
         {
             var userLesson =
-                await _repository.Find<UserLesson>(c => c.Id == userLessonId && c.UserId == userId);
+                await _repository.Find<UserLesson>(c => c.Id == userLessonId 
+                && c.UserId == userId 
+                && !c.Lesson.IsRemoved);
 
             return userLesson;
         }
@@ -37,7 +44,7 @@ namespace CodeSchool.BusinessLogic.Services
             var users = await _repository.GetAll<User>();
             foreach (var user in users)
             {
-                var userChapter = await _repository.Find<UserChapter>(c => c.UserId == user.Id && c.ChapterId == userChapterId);
+                var userChapter = await _userChapterService.GetById(user.Id, userChapterId);
                 var lesson = await _lessonService.GetById(lessonId);
 
                 _repository.Add(new UserLesson()
@@ -61,7 +68,8 @@ namespace CodeSchool.BusinessLogic.Services
 
             userLesson.UserChapter.IsPassed = userLesson
                 .UserChapter
-                .UserLessons.All(l => l.IsPassed);
+                .UserLessons.Where(l => !l.Lesson.IsRemoved)
+                .All(l => l.IsPassed);
 
             await _repository.SaveChanges();
 

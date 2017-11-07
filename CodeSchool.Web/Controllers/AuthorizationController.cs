@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.BusinessLogic.Services;
 using CodeSchool.Domain;
 using CodeSchool.Web.Infrastructure;

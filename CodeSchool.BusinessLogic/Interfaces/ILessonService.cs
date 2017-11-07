@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using CodeSchool.Domain;
 
-namespace CodeSchool.BusinessLogic.Services
+namespace CodeSchool.BusinessLogic.Interfaces
 {
     public interface ILessonService
     {

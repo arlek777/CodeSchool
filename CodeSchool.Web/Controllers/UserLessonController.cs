@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.Domain;
 using Microsoft.AspNetCore.Mvc;
 using CodeSchool.BusinessLogic.Services;

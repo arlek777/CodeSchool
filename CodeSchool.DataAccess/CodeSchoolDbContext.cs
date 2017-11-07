@@ -26,5 +26,6 @@ namespace CodeSchool.DataAccess
         public DbSet<User> Users { get; set; }
         public DbSet<UserChapter> UserChapters{ get; set; }
         public DbSet<UserLesson> UserLessons { get; set; }
+        public DbSet<Log> Logs { get; set; }
     }
 }

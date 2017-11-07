@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.DataAccess;
 using CodeSchool.Domain;
 
@@ -21,7 +22,7 @@ namespace CodeSchool.BusinessLogic.Services
         public async Task<ICollection<UserChapter>> Get(Guid userId)
         {
             var userChapters = (await _repository
-                .Where<UserChapter>(c => c.UserId == userId))
+                .Where<UserChapter>(c => c.UserId == userId && !c.Chapter.IsRemoved))
                 .OrderBy(c => c.Chapter.Order).ToList();
 
             userChapters.ForEach(c => c.UserLessons =
@@ -32,16 +33,8 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task<UserChapter> GetById(Guid userId, int userChapterId)
         {
-            var userChapters = (await Get(userId)).FirstOrDefault(c => c.Id == userChapterId);
+            var userChapters = (await Get(userId)).FirstOrDefault(c => c.Id == userChapterId && !c.Chapter.IsRemoved);
             return userChapters;
-        }
-
-        public async Task<UserLesson> GetLatestLesson(Guid userId, int userChapterId)
-        {
-            var chapterProgress =
-                await _repository.Find<UserChapter>(c => c.Id == userChapterId && c.UserId == userId);
-
-            return chapterProgress?.UserLessons.OrderBy(l => l.UpdatedDt).LastOrDefault();
         }
 
         public async Task AddToAllUsers(int chapterId)

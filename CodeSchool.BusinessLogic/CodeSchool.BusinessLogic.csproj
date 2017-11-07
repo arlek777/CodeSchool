@@ -56,6 +56,7 @@
     <Compile Include="Interfaces\IUserProgressService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Services\LessonService.cs" />
+    <Compile Include="Services\LogService.cs" />
     <Compile Include="Services\UserChapterService.cs" />
     <Compile Include="Services\UserLessonService.cs" />
     <Compile Include="Services\UserService.cs" />

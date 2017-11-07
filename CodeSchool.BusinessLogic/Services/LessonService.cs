@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using System.Linq;
+using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.DataAccess;
 using CodeSchool.Domain;
 
@@ -18,7 +19,7 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task<Lesson> GetById(int id)
         {
-            return await _repository.Find<Lesson>(l => l.Id == id);
+            return await _repository.Find<Lesson>(l => l.Id == id && !l.IsRemoved);
         }
 
         public async Task<Lesson> AddOrUpdate(Lesson model)
@@ -66,8 +67,8 @@ namespace CodeSchool.BusinessLogic.Services
         private async Task<int> GetNextOrder(int chapterId)
         {
             var chapter = await _chapterService.GetById(chapterId);
-            var lastLesson = chapter.Lessons.LastOrDefault();
-            return lastLesson == null ? 0 : lastLesson.Order + 1;
+            var lastLesson = chapter.Lessons.LastOrDefault(l => !l.IsRemoved);
+            return lastLesson?.Order + 1 ?? 0;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.DataAccess;
 using CodeSchool.Domain;
 
@@ -17,22 +18,28 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task<IEnumerable<Chapter>> GetChapters()
         {
-            var chapters = (await _repository.GetAll<Chapter>()).OrderBy(c => c.Order).ToList();
-            chapters.ForEach(c => c.Lessons = c.Lessons.OrderBy(l => l.Order).ToList());
+            var chapters = (await _repository.GetAll<Chapter>())
+                .Where(c => c.IsRemoved)
+                .OrderBy(c => c.Order).ToList();
+
+            chapters.ForEach(c => c.Lessons = c.Lessons
+                .Where(l => !l.IsRemoved)
+                .OrderBy(l => l.Order).ToList());
 
             return chapters;
         }
 
         public async Task Remove(int id)
         {
-            var chapter = await _repository.Find<Chapter>(c => c.Id == id);
-            _repository.Remove(chapter);
+            var chapter = await _repository.Find<Chapter>(c => c.Id == id && !c.IsRemoved);
+            chapter.IsRemoved = true;
+            chapter.Lessons
             await _repository.SaveChanges();
         }
 
         public async Task<Chapter> AddOrUpdate(Chapter model)
         {
-            var chapter = await _repository.Find<Chapter>(c => c.Id == model.Id);
+            var chapter = await GetById(model.Id);
             if (chapter == null)
             {
                 model.Order = await GetNextOrder();
@@ -70,7 +77,7 @@ namespace CodeSchool.BusinessLogic.Services
         {
             var chapters = await GetChapters();
             var lastChapter = chapters.LastOrDefault();
-            return lastChapter == null ? 0 : lastChapter.Order + 1;
+            return lastChapter?.Order + 1 ?? 0;
         }
     }
 }

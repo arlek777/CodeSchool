@@ -30,7 +30,7 @@
                             <a *ngIf="i != 0" class="alert-info" href="javascript: " (click)="changeChapterOrder(i, i-1)">
                                 <span class="fa fa-arrow-up"></span>
                             </a>
-                            <a *ngIf="i != chapters.length-1" class="alert-info" href="javascript: " (click)="changeChapterOrder(chapter.id, i+1)">
+                            <a *ngIf="i != chapters.length-1" class="alert-info" href="javascript: " (click)="changeChapterOrder(i, i+1)">
                                 <span class="fa fa-arrow-down"></span>
                             </a>
                         </div>

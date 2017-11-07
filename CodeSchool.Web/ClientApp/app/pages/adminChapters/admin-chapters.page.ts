@@ -53,8 +53,8 @@ export class AdminChaptersPage implements OnInit {
         this._swapOrder(currentIndex, toSwapIndex, this.chapters);
         this.chapters = this._sortArrayByOrder(this.chapters);
 
-        var currentId = this.chapters[currentIndex];
-        var toSwapId = this.chapters[toSwapIndex];
+        var currentId = this.chapters[currentIndex].id;
+        var toSwapId = this.chapters[toSwapIndex].id;
 
         this.backendService.changeChapterOrder(currentId, toSwapId);
     }
@@ -63,8 +63,8 @@ export class AdminChaptersPage implements OnInit {
         this._swapOrder(currentIndex, toSwapIndex, chapter.lessons);
         this._sortLessonsByOrder();
 
-        var currentId = chapter.lessons[currentIndex];
-        var toSwapId = chapter.lessons[toSwapIndex];
+        var currentId = chapter.lessons[currentIndex].id;
+        var toSwapId = chapter.lessons[toSwapIndex].id;
 
         this.backendService.changeLessonOrder(currentId, toSwapId);
     }
