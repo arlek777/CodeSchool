@@ -22,11 +22,17 @@ namespace CodeSchool.BusinessLogic.Services
         public async Task<ICollection<UserChapter>> Get(Guid userId)
         {
             var userChapters = (await _repository
-                .Where<UserChapter>(c => c.UserId == userId && !c.Chapter.IsRemoved))
-                .OrderBy(c => c.Chapter.Order).ToList();
+                .Where<UserChapter>(c => c.UserId == userId 
+                && !c.Chapter.IsRemoved 
+                && c.UserLessons.All(l => !l.Lesson.IsRemoved)));
 
-            userChapters.ForEach(c => c.UserLessons =
-                c.UserLessons.Where(l => !l.Lesson.IsRemoved).OrderBy(l => l.Lesson.Order).ToList());
+            return userChapters;
+        }
+
+        public async Task<ICollection<UserChapter>> GetOrdered(Guid userId)
+        {
+            var userChapters = (await Get(userId)).OrderBy(c => c.Chapter.Order).ToList();
+            userChapters.ForEach(c => c.UserLessons = c.UserLessons.OrderBy(l => l.Lesson.Order).ToList());
 
             return userChapters;
         }
@@ -56,7 +62,7 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task Add(Guid userId)
         {
-            var chapters = await _chapterService.GetChapters();
+            var chapters = await _chapterService.Get();
 
             foreach (var chapter in chapters)
             {

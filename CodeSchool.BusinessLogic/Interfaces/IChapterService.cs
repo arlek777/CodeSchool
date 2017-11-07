@@ -8,7 +8,9 @@ namespace CodeSchool.BusinessLogic.Interfaces
 {
     public interface IChapterService
     {
-        Task<IEnumerable<Chapter>> GetChapters(Expression<Func<Chapter, bool>> predicate = null);
+        Task<IEnumerable<Chapter>> GetOrdered();
+        Task<IEnumerable<Chapter>> Get();
+        Task<IEnumerable<Chapter>> Get(Func<Chapter, bool> predicate);
         Task<Chapter> GetById(int chapterId);
         Task<Chapter> AddOrUpdate(Chapter chapter);
         Task Remove(int id);

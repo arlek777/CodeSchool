@@ -53,7 +53,7 @@
     <Compile Include="Interfaces\IChapterService.cs" />
     <Compile Include="Interfaces\ILessonService.cs" />
     <Compile Include="Interfaces\IUserChapterService.cs" />
-    <Compile Include="Interfaces\IUserProgressService.cs" />
+    <Compile Include="Interfaces\IUserLessonService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Services\LessonService.cs" />
     <Compile Include="Services\LogService.cs" />

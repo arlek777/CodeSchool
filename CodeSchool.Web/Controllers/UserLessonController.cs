@@ -33,7 +33,7 @@ namespace CodeSchool.Web.Controllers
         [Route("[action]/{userId}/{chapterId}")]
         public async Task<IActionResult> GetIdsByChapter(Guid userId, int chapterId)
         {
-            var userlessons = await _userLessonService.GetByChapter(userId, chapterId);
+            var userlessons = await _userLessonService.GetOrdered(userId, chapterId);
             return Ok(userlessons.Select(l => l.Id));
         }
 
