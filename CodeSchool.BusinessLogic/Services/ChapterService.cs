@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.DataAccess;
@@ -20,49 +18,18 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task<IEnumerable<Chapter>> Get()
         {
-            return (await _repository.Where<Chapter>(c => !c.IsRemoved && c.Lessons.All(l => !l.IsRemoved)));
-        }
-
-        public async Task<IEnumerable<Chapter>> Get(Func<Chapter, bool> predicate)
-        {
-            return (await _repository.Where<Chapter>(c => !c.IsRemoved && c.Lessons.All(l => !l.IsRemoved)))
-                .Where(predicate);
-        }
-
-        public async Task<IEnumerable<Chapter>> GetOrdered()
-        {
-            var chapters = await Get();
-            var ordererdChapters = chapters.OrderBy(c => c.Order).ToList();
-
-            ordererdChapters.ForEach(c =>
+            var chapters = (await _repository.GetAll<Chapter>()).OrderBy(c => c.Order).ToList();
+            chapters.ForEach(c =>
             {
                 c.Lessons = c.Lessons.OrderBy(l => l.Order).ToList();
             });
 
-            return ordererdChapters;
+            return chapters;
         }
-
-        //public async Task<IEnumerable<Chapter>> GetChapters(Expression<Func<Chapter, bool>> predicate = null)
-        //{
-        //    var chapters = predicate != null
-        //        ? (await _repository.Where<Chapter>(predicate)).Where(c => !c.IsRemoved)
-        //        : await _repository.Where<Chapter>(c => !c.IsRemoved);
-
-        //    var ordererdChapters = chapters.OrderBy(c => c.Order).ToList();
-
-        //    ordererdChapters.ForEach(c =>
-        //    {
-        //        c.Lessons = c.Lessons
-        //            .Where(l => !l.IsRemoved)
-        //            .OrderBy(l => l.Order).ToList();
-        //    });
-
-        //    return ordererdChapters;
-        //}
 
         public async Task<Chapter> GetById(int chapterId)
         {
-            var chapter = (await Get(c => c.Id == chapterId)).FirstOrDefault();
+            var chapter = (await Get()).FirstOrDefault(c => c.Id == chapterId);
             return chapter;
         }
 
@@ -85,14 +52,14 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task Remove(int id)
         {
-            var chapter = await GetById(id);
-            chapter.IsRemoved = true;
-            await _repository.SaveChanges();
-
-            foreach (var lesson in chapter.Lessons)
+            var chapter = await _repository.Find<Chapter>(c => c.Id == id);
+            while(chapter.Lessons.Any())
             {
-                lesson.IsRemoved = true;
+                _repository.Remove(chapter.Lessons.ElementAt(0));
+                await _repository.SaveChanges();
             }
+
+            _repository.Remove(chapter);
             await _repository.SaveChanges();
         }
 
@@ -110,7 +77,7 @@ namespace CodeSchool.BusinessLogic.Services
 
         private async Task<int> GetNextOrder()
         {
-            var chapters = await GetOrdered();
+            var chapters = await Get();
             var lastChapter = chapters.LastOrDefault();
             return lastChapter?.Order + 1 ?? 0;
         }

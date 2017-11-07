@@ -21,19 +21,11 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task<ICollection<UserChapter>> Get(Guid userId)
         {
-            var userChapters = (await _repository
-                .Where<UserChapter>(c => c.UserId == userId 
-                && !c.Chapter.IsRemoved 
-                && c.UserLessons.All(l => !l.Lesson.IsRemoved)));
+            var userChapters = (await _repository.Where<UserChapter>(c => c.UserId == userId))
+                .OrderBy(c => c.Chapter.Order)
+                .ToList();
 
-            return userChapters;
-        }
-
-        public async Task<ICollection<UserChapter>> GetOrdered(Guid userId)
-        {
-            var userChapters = (await Get(userId)).OrderBy(c => c.Chapter.Order).ToList();
             userChapters.ForEach(c => c.UserLessons = c.UserLessons.OrderBy(l => l.Lesson.Order).ToList());
-
             return userChapters;
         }
 
@@ -88,6 +80,24 @@ namespace CodeSchool.BusinessLogic.Services
                     _repository.Add(newLesson);
                 }
 
+                await _repository.SaveChanges();
+            }
+        }
+
+        public async Task Remove(int chapterId)
+        {
+            var chapters = (await _repository.Where<UserChapter>(c => c.ChapterId == chapterId)).ToList();
+
+            for (var i = 0; i < chapters.Count; i++)
+            {
+                var userLessons = chapters[i].UserLessons;
+                while (userLessons.Any())
+                {
+                    _repository.Remove(userLessons.ElementAt(0));
+                    await _repository.SaveChanges();
+                }
+
+                _repository.Remove(chapters[i]);
                 await _repository.SaveChanges();
             }
         }

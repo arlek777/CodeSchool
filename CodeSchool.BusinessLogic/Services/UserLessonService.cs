@@ -23,25 +23,14 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task<ICollection<UserLesson>> Get(Guid userId, int userChapterId)
         {
-            return (await _repository.Where<UserLesson>(c => c.UserId == userId
-                                                                        && c.UserChapterId == userChapterId
-                                                                        && !c.Lesson.IsRemoved));
-        }
-
-        public async Task<ICollection<UserLesson>> GetOrdered(Guid userId, int userChapterId)
-        {
-            var userLessons = (await Get(userId, userChapterId)).OrderBy(l => l.Lesson.Order).ToList();
-            return userLessons;
+            return (await _repository.Where<UserLesson>(c => c.UserId == userId && c.UserChapterId == userChapterId))
+                .OrderBy(l => l.Lesson.Order)
+                .ToList();
         }
 
         public async Task<UserLesson> GetById(Guid userId, int userLessonId)
         {
-            var userLesson =
-                await _repository.Find<UserLesson>(c => c.Id == userLessonId
-                                                        && c.UserId == userId
-                                                        && !c.Lesson.IsRemoved);
-
-            return userLesson;
+            return await _repository.Find<UserLesson>(c => c.Id == userLessonId && c.UserId == userId);
         }
 
         public async Task AddToAllUsers(int lessonId, int userChapterId)
@@ -77,6 +66,16 @@ namespace CodeSchool.BusinessLogic.Services
             await _repository.SaveChanges();
 
             return userLesson;
+        }
+
+        public async Task Remove(int lessonId)
+        {
+            var userLessons = (await _repository.Where<UserLesson>(l => l.LessonId == lessonId)).ToList();
+            for (var i = 0; i < userLessons.Count; i++)
+            {
+                _repository.Remove(userLessons[i]);
+                await _repository.SaveChanges();
+            }
         }
     }
 }

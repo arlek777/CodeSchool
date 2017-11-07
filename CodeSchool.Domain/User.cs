@@ -12,6 +12,5 @@ namespace CodeSchool.Domain
         public string Email { get; set; }
         public string Password { get; set; }
         public bool IsAdmin { get; set; }
-        public ICollection<UserChapter> UserChapterProgresses { get; set; }
     }
 }

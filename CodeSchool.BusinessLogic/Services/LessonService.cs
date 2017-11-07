@@ -19,7 +19,7 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task<Lesson> GetById(int id)
         {
-            return await _repository.Find<Lesson>(l => l.Id == id && !l.IsRemoved);
+            return await _repository.Find<Lesson>(l => l.Id == id);
         }
 
         public async Task<Lesson> AddOrUpdate(Lesson model)
@@ -60,7 +60,7 @@ namespace CodeSchool.BusinessLogic.Services
         public async Task Remove(int id)
         {
             var lesson = await GetById(id);
-            lesson.IsRemoved = true;
+            _repository.Remove(lesson);
             await _repository.SaveChanges();
         }
 
