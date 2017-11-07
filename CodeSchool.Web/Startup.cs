@@ -46,11 +46,15 @@ namespace CodeSchool.Web
 
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseExceptionHandler("/api/error");
 
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
                     HotModuleReplacement = true
                 });
+            }
+            else
+            {
+                app.UseExceptionHandler("/api/error");
             }
 
             AutoMapperConfig.Configure();

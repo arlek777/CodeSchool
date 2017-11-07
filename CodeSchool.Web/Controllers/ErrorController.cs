@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace CodeSchool.Web.Controllers
 {
@@ -21,34 +22,45 @@ namespace CodeSchool.Web.Controllers
             _env = env;
         }
 
-        [Route("500")]
-        public async Task Handle500()
+        public async Task Index()
         {
-            var exception = HttpContext.Features.Get<IExceptionHandlerFeature>();
-            var exceptionMessage = exception.Error.Message;
-            var innerExceptionMessage = exception.Error.InnerException?.Message;
-            var stackTrace = exception.Error.StackTrace;
-
-            var log = new Log()
+            HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            HttpContext.Response.ContentType = "text/html";
+            var ex = HttpContext.Features.Get<IExceptionHandlerFeature>();
+            if (ex != null)
             {
-                ExceptionMessage = exceptionMessage,
-                InnerExceptionMessage = innerExceptionMessage,
-                Level = LogLevel.Error,
-                StackTrace = stackTrace
-            };
-
-            object result;
-            if (_env.IsDevelopment())
-            {
-                result = log;
-            }
-            else
-            {
-                await _logService.Log(log);
-                result = new { error = "Упс :( Произошла неизвестная ошибка." };
+                var err = $"<h1>Error: {ex.Error.Message}</h1>{ex.Error.StackTrace }";
+                await HttpContext.Response.WriteAsync(err).ConfigureAwait(false);
             }
 
-            await HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(result));
+            //var exception = HttpContext.Features.Get<IExceptionHandlerFeature>();
+            //var exceptionMessage = exception.Error.Message;
+            //var innerExceptionMessage = exception.Error.InnerException?.Message;
+            //var stackTrace = exception.Error.StackTrace;
+
+            //var log = new Log()
+            //{
+            //    ExceptionMessage = exceptionMessage,
+            //    InnerExceptionMessage = innerExceptionMessage,
+            //    Level = LogLevel.Error,
+            //    StackTrace = stackTrace
+            //};
+
+            //object result;
+            //if (_env.IsDevelopment())
+            //{
+            //    result = log;
+            //}
+            //else
+            //{
+            //    await _logService.Log(log);
+            //    result = new { error = "Упс :( Произошла неизвестная ошибка." };
+            //}
+
+            //HttpContext.Response.StatusCode = 500;
+            //await HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(result));
+
+            //return Ok();
         }
     }
 }

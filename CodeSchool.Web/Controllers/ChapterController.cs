@@ -27,6 +27,7 @@ namespace CodeSchool.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Get()
         {
+            throw new System.Exception();
             var chapters = await _chapterService.Get();
             return Ok(chapters.Select(Mapper.Map<ChapterShortcutModel>));
         }

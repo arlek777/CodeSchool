@@ -65,7 +65,7 @@ export class LessonPage implements OnInit {
 
     onTestResultsReceived(result: LessonTestResult) {
         this.result = result;
-        this.userLesson.isPassed = result.isPassed;
+        this.userLesson.isPassed = result.isSucceeded;
 
         this.backendService.updateUserLesson(this.userLesson);
     }

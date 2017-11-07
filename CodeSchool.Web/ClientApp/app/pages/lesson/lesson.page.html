@@ -33,7 +33,7 @@
     </div>
 
     <div *ngIf="result && result.messages.length" class="alert" 
-         [ngClass]="{'alert-danger': !result.isPassed, 'alert-success': result.isPassed }">
+         [ngClass]="{'alert-danger': !result.isPassed, 'alert-success': result.isSucceeded }">
         <span *ngFor="let message of result.messages">{{ message }}</span>
     </div>
 </div>

@@ -1,5 +1,4 @@
-﻿import { Response } from '@angular/http';
-import { ErrorHandler, Injectable, Injector } from '@angular/core';
+﻿import { ErrorHandler, Injectable, Injector } from '@angular/core';
 import { PopupService } from "./popup.service";
 import { Router } from "@angular/router";
 
@@ -9,21 +8,15 @@ export class GlobalErrorHandler implements ErrorHandler {
 
     handleError(error) {
         var response = <Response>error.rejection;
-        console.log(response);
-        if (response) {
-            var popupService = this.injector.get(PopupService);
-            var router = this.injector.get(Router);
+        var popupService = this.injector.get(PopupService);
+        var router = this.injector.get(Router);
 
-            // bad request
-            if (response.status === 400) {
-                popupService.newValidationError(response.text());
-            } else {
-                console.log(error);
-                router.navigate['/home'];
-            }
+        // bad request
+        if (response.status === 400) {
+            popupService.newValidationError("");
         } else {
-            console.log(error);
-            throw error;
+            console.log(response.body);
+            popupService.newServerError("");   
         }
     }
 }
