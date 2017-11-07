@@ -60,14 +60,14 @@ namespace CodeSchool.BusinessLogic.Services
         public async Task Remove(int id)
         {
             var lesson = await GetById(id);
-            _repository.Remove(lesson);
+            lesson.IsRemoved = true;
             await _repository.SaveChanges();
         }
 
         private async Task<int> GetNextOrder(int chapterId)
         {
             var chapter = await _chapterService.GetById(chapterId);
-            var lastLesson = chapter.Lessons.LastOrDefault(l => !l.IsRemoved);
+            var lastLesson = chapter.Lessons.LastOrDefault();
             return lastLesson?.Order + 1 ?? 0;
         }
     }

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.DataAccess;
@@ -16,25 +18,28 @@ namespace CodeSchool.BusinessLogic.Services
             _repository = repository;
         }
 
-        public async Task<IEnumerable<Chapter>> GetChapters()
+        public async Task<IEnumerable<Chapter>> GetChapters(Expression<Func<Chapter, bool>> predicate = null)
         {
-            var chapters = (await _repository.GetAll<Chapter>())
-                .Where(c => c.IsRemoved)
-                .OrderBy(c => c.Order).ToList();
+            var chapters = predicate != null
+                ? (await _repository.Where<Chapter>(predicate)).Where(c => !c.IsRemoved)
+                : await _repository.Where<Chapter>(c => !c.IsRemoved);
 
-            chapters.ForEach(c => c.Lessons = c.Lessons
-                .Where(l => !l.IsRemoved)
-                .OrderBy(l => l.Order).ToList());
+            var ordererdChapters = chapters.OrderBy(c => c.Order).ToList();
 
-            return chapters;
+            ordererdChapters.ForEach(c =>
+            {
+                c.Lessons = c.Lessons
+                    .Where(l => !l.IsRemoved)
+                    .OrderBy(l => l.Order).ToList();
+            });
+
+            return ordererdChapters;
         }
 
-        public async Task Remove(int id)
+        public async Task<Chapter> GetById(int chapterId)
         {
-            var chapter = await _repository.Find<Chapter>(c => c.Id == id && !c.IsRemoved);
-            chapter.IsRemoved = true;
-            chapter.Lessons
-            await _repository.SaveChanges();
+            var chapter = (await GetChapters(c => c.Id == chapterId)).FirstOrDefault();
+            return chapter;
         }
 
         public async Task<Chapter> AddOrUpdate(Chapter model)
@@ -54,11 +59,17 @@ namespace CodeSchool.BusinessLogic.Services
             return chapter;
         }
 
-        public async Task<Chapter> GetById(int chapterId)
+        public async Task Remove(int id)
         {
-            var chapter = await _repository.Find<Chapter>(c => c.Id == chapterId);
-            chapter.Lessons = chapter.Lessons.OrderBy(l => l.Order).ToList();
-            return chapter;
+            var chapter = await GetById(id);
+            chapter.IsRemoved = true;
+            await _repository.SaveChanges();
+
+            foreach (var lesson in chapter.Lessons)
+            {
+                lesson.IsRemoved = true;
+            }
+            await _repository.SaveChanges();
         }
 
         public async Task ChangeOrder(int currentChapterId, int toSwapChapterId)

@@ -26,15 +26,15 @@ namespace CodeSchool.BusinessLogic.Services
                 .OrderBy(c => c.Chapter.Order).ToList();
 
             userChapters.ForEach(c => c.UserLessons =
-                c.UserLessons.OrderBy(l => l.Lesson.Order).ToList());
+                c.UserLessons.Where(l => !l.Lesson.IsRemoved).OrderBy(l => l.Lesson.Order).ToList());
 
             return userChapters;
         }
 
         public async Task<UserChapter> GetById(Guid userId, int userChapterId)
         {
-            var userChapters = (await Get(userId)).FirstOrDefault(c => c.Id == userChapterId && !c.Chapter.IsRemoved);
-            return userChapters;
+            var userChapter = (await Get(userId)).FirstOrDefault(c => c.Id == userChapterId);
+            return userChapter;
         }
 
         public async Task AddToAllUsers(int chapterId)

@@ -23,18 +23,20 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task<ICollection<UserLesson>> GetByChapter(Guid userId, int userChapterId)
         {
-            var userLessons = await _repository.Where<UserLesson>(c => c.UserId == userId 
-            && c.UserChapterId == userChapterId 
-            && !c.Lesson.IsRemoved);
+            var userLessons = (await _repository.Where<UserLesson>(c => c.UserId == userId
+                                                                        && c.UserChapterId == userChapterId
+                                                                        && !c.Lesson.IsRemoved))
+                .OrderBy(l => l.Lesson.Order).ToList();
+
             return userLessons;
         }
 
         public async Task<UserLesson> GetById(Guid userId, int userLessonId)
         {
             var userLesson =
-                await _repository.Find<UserLesson>(c => c.Id == userLessonId 
-                && c.UserId == userId 
-                && !c.Lesson.IsRemoved);
+                await _repository.Find<UserLesson>(c => c.Id == userLessonId
+                                                        && c.UserId == userId
+                                                        && !c.Lesson.IsRemoved);
 
             return userLesson;
         }
@@ -66,9 +68,7 @@ namespace CodeSchool.BusinessLogic.Services
             userLesson.UpdatedDt = DateTime.UtcNow;
             userLesson.Code = model.Code;
 
-            userLesson.UserChapter.IsPassed = userLesson
-                .UserChapter
-                .UserLessons.Where(l => !l.Lesson.IsRemoved)
+            userLesson.UserChapter.IsPassed = (await GetByChapter(model.UserId, model.UserChapterId))
                 .All(l => l.IsPassed);
 
             await _repository.SaveChanges();

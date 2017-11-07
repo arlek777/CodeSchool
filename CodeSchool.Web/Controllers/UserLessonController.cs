@@ -46,7 +46,8 @@ namespace CodeSchool.Web.Controllers
                 Id = model.Id,
                 Code = model.Code,
                 IsPassed = model.IsPassed,
-                UserId = model.UserId
+                UserId = model.UserId,
+                UserChapterId = model.UserChapterId
             });
             return Ok();
         }

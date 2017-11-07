@@ -71,7 +71,6 @@ namespace CodeSchool.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            await _userLessonService.Remove(model.Id);
             await _lessonService.Remove(model.Id);
             return Ok();
         }
