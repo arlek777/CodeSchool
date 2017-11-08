@@ -6,6 +6,7 @@ using CodeSchool.Web.Infrastructure;
 using CodeSchool.Web.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,7 +34,10 @@ namespace CodeSchool.Web
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(ApiExceptionFilter));
+            });
             services.AddCodeSchool(Configuration);
         }
 
@@ -46,15 +50,11 @@ namespace CodeSchool.Web
 
             if (env.IsDevelopment())
             {
-                app.UseExceptionHandler("/api/error");
+                //app.UseDeveloperExceptionPage();
 
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
                     HotModuleReplacement = true
                 });
-            }
-            else
-            {
-                app.UseExceptionHandler("/api/error");
             }
 
             AutoMapperConfig.Configure();

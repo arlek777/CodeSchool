@@ -55,8 +55,9 @@
     <Compile Include="Interfaces\IUserChapterService.cs" />
     <Compile Include="Interfaces\IUserLessonService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
+    <Compile Include="Interfaces\ILogService.cs" />
     <Compile Include="Services\LessonService.cs" />
-    <Compile Include="Services\LogService.cs" />
+    <Compile Include="Services\EntityFrameworkLogService.cs" />
     <Compile Include="Services\UserChapterService.cs" />
     <Compile Include="Services\UserLessonService.cs" />
     <Compile Include="Services\UserService.cs" />

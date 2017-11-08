@@ -27,5 +27,11 @@ export class AppComponent implements OnInit {
                 this.toastr.error(text);
             });
         });
+
+        this.popupService.serverErrors$.subscribe((text: string) => {
+            setTimeout(() => {
+                this.toastr.error(text);
+            });
+        });
     }
 }

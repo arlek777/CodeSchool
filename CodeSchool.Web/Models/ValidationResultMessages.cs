@@ -9,5 +9,7 @@
 
         public const string PasswordShort = "Минимальный пароль 5 символов.";
         public const string PasswordInvalidFormat = "Пароль имеет не верный формат.";
+
+        public const string UnhandledError = "Упс:( Возникла не известная ошибка.";
     }
 }

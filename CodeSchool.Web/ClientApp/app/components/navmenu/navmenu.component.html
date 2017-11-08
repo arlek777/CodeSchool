@@ -18,6 +18,9 @@
                 <li *ngIf="isAdmin" [routerLinkActive]="['active']">
                     <a [routerLink]="['/adminchapters']">Админка</a>
                 </li>
+                <li *ngIf="isAdmin">
+                    <a target="_blank" href="/Log/Get">Логи</a>
+                </li>
             </ul>
             
             <ul *ngIf="isLoggedIn" class="nav navbar-nav navbar-right active">

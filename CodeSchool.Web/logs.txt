@@ -1,0 +1,1 @@
+{"Id":0,"ExceptionMessage":"Exception of type 'System.Exception' was thrown.","InnerExceptionMessage":null,"StackTrace":null,"TimeStamp":"2017-11-08T16:09:03.8917075Z","Level":2},{"Id":0,"ExceptionMessage":"Exception of type 'System.Exception' was thrown.","InnerExceptionMessage":null,"StackTrace":null,"TimeStamp":"2017-11-08T16:09:30.1966631Z","Level":2},

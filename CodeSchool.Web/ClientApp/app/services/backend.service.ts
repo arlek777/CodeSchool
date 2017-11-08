@@ -101,4 +101,10 @@ export class BackendService {
             .then((response) => {
             });
     }
+
+    getLogs(): Promise<any> {
+        return this.http.get(`/api/log/get`).toPromise().then((response) => {
+            return response.json();
+        });
+    }
 }

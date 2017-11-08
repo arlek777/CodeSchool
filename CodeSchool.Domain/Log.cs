@@ -15,6 +15,7 @@ namespace CodeSchool.Domain
         public string ExceptionMessage { get; set; }
         public string InnerExceptionMessage { get; set; }
         public string StackTrace { get; set; }
+        public DateTime TimeStamp { get; set; }
         public LogLevel Level { get; set; }
     }
 }

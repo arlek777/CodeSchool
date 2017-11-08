@@ -20,6 +20,7 @@ namespace CodeSchool.Web.Infrastructure
             ConfigureDb(services, configuration);
             ConfigureSecurity(services, configuration);
             ConfigureBusinessLogic(services);
+            services.AddScoped<ApiExceptionFilter>();
         }
 
         private static void ConfigureDb(IServiceCollection services, IConfigurationRoot configuration)
@@ -36,7 +37,7 @@ namespace CodeSchool.Web.Infrastructure
             services.AddTransient<IUserLessonService, UserLessonService>();
             services.AddTransient<IUserChapterService, UserChapterService>();
             services.AddTransient<IPasswordHasher, PasswordHasher>();
-            services.AddTransient<ILogService, LogService>();
+            services.AddTransient<ILogService, FileLogService>();
         }
 
         private static void ConfigureSecurity(IServiceCollection services, IConfigurationRoot configuration)
