@@ -32,6 +32,8 @@ namespace CodeSchool.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody]LoginModel loginModel)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             var user = await _userService.GetByEmail(loginModel.Email);
             if (user == null)
             {
@@ -52,6 +54,8 @@ namespace CodeSchool.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromBody]RegistrationModel model)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             var existingUser = await _userService.GetByEmail(model.Email);
             if (existingUser != null) return BadRequest(ValidationResultMessages.DuplicateEmail);
 

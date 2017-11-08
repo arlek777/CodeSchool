@@ -19,7 +19,7 @@ namespace CodeSchool.Web.Infrastructure
 
         public async Task Log(Log log)
         {
-            File.AppendAllText(_logFilePath, new JsonNetSerializer().Serialize(log) + ",");
+            File.AppendAllText(_logFilePath, new JsonNetSerializer().Serialize(log) + ";");
         }
     }
 }

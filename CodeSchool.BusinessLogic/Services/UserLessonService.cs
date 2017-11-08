@@ -68,6 +68,16 @@ namespace CodeSchool.BusinessLogic.Services
             return userLesson;
         }
 
+        public async Task UpdateCode(int lessonId, string code)
+        {
+            var userLessons = (await _repository.Where<UserLesson>(l => l.LessonId == lessonId)).ToList();
+            foreach (var userLesson in userLessons)
+            {
+                userLesson.Code = code;
+                await _repository.SaveChanges();
+            }
+        }
+
         public async Task Remove(int lessonId)
         {
             var userLessons = (await _repository.Where<UserLesson>(l => l.LessonId == lessonId)).ToList();

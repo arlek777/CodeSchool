@@ -36,10 +36,7 @@ namespace CodeSchool.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> AddOrUpdate([FromBody] LessonModel model)
         {
-            if (!ModelState.IsValid && ModelState.Any())
-            {
-                return BadRequest(ModelState.FirstOrDefault().Value?.Errors?.FirstOrDefault()?.ErrorMessage);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var lesson = await _lessonService.AddOrUpdate(new Lesson()
             {
@@ -52,9 +49,13 @@ namespace CodeSchool.Web.Controllers
                 UnitTestsCode = model.UnitTestsCode
             });
 
-            if(model.Id == 0)
+            if (model.Id == 0)
             {
                 await _userLessonService.AddToAllUsers(lesson.Id, model.ChapterId);
+            }
+            else
+            {
+                await _userLessonService.UpdateCode(lesson.Id, model.StartCode);
             }
 
             model.Order = lesson.Order;
@@ -80,10 +81,7 @@ namespace CodeSchool.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> ChangeOrder([FromBody] ChangeOrderModel model)
         {
-            if (!ModelState.IsValid && ModelState.Any())
-            {
-                return BadRequest(ModelState.FirstOrDefault().Value?.Errors?.FirstOrDefault()?.ErrorMessage);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             await _lessonService.ChangeOrder(model.CurrentId, model.ToSwapId);
             return Ok();

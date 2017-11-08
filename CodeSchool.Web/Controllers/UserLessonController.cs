@@ -39,6 +39,8 @@ namespace CodeSchool.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Update([FromBody] UserLessonUpdateModel model)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             await _userLessonService.Update(new UserLesson()
             {
                 Id = model.Id,

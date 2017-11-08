@@ -6,6 +6,7 @@ namespace CodeSchool.Web.Models
     {
         [Required]
         [StringLength(50)]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required]

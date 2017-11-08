@@ -16,8 +16,6 @@ namespace CodeSchool.Web.Models.Lessons
 
     public class UserLessonModel: UserLessonShortcutModel
     {
-        [Required]
-        [StringLength(5000)]
         public string Code { get; set; }
         public LessonModel Lesson { get; set; }
     }

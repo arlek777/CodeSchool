@@ -6,6 +6,7 @@ import { UserLessonModel } from "../../models/userlesson";
 import { Router } from "@angular/router";
 import { PopupService } from "../../services/popup.service";
 import { UserMessages } from "../../user-messages";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
     templateUrl: './chapters.page.html'
@@ -14,7 +15,8 @@ export class ChaptersPage implements OnInit {
     userChapters: UserChapterModel[] = [];
 
     constructor(private backendService: BackendService,
-        private router: Router, private popupService: PopupService) {
+        private router: Router, private popupService: PopupService,
+        private authService: AuthService) {
     }
 
     ngOnInit() {
@@ -31,7 +33,7 @@ export class ChaptersPage implements OnInit {
         if (!lessonToOpen) lessonToOpen = userLessons[userLessons.length - 1];
 
         var currentIndex = this.userChapters.indexOf(userChapter);
-        if (currentIndex == 0 || userChapter.isPassed) {
+        if (currentIndex == 0 || userChapter.isPassed || this.authService.isAdmin) {
             this.router.navigate(['/lesson', userChapter.id, lessonToOpen.id]);
             return;
         }
@@ -45,7 +47,7 @@ export class ChaptersPage implements OnInit {
         var lessonIndex = userChapter.userLessons.indexOf(userLesson);
 
         var isFirstInList = chapterIndex == 0 && lessonIndex == 0;
-        if (userLesson.isPassed || isFirstInList) {
+        if (userLesson.isPassed || isFirstInList || this.authService.isAdmin) {
             this.router.navigate(['/lesson', userChapter.id, userLesson.id]);
             return;
         }
