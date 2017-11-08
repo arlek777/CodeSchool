@@ -7,6 +7,7 @@ using CodeSchool.Web.Models;
 using CodeSchool.Web.Models.Chapters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using CodeSchool.Web.Infrastructure;
 
 namespace CodeSchool.Web.Controllers
 {
@@ -28,14 +29,14 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> Get()
         {
             var chapters = await _chapterService.Get();
-            return Ok(chapters.Select(Mapper.Map<ChapterShortcutModel>));
+            return Ok(chapters.Select(Mapper.Map<ChapterShortcutRequestModel>));
         }
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> AddOrUpdate([FromBody] ChapterShortcutModel model)
+        public async Task<IActionResult> AddOrUpdate([FromBody] ChapterShortcutRequestModel model)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
             var chapter = await _chapterService.AddOrUpdate(new Chapter()
             {
@@ -57,10 +58,7 @@ namespace CodeSchool.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Remove([FromBody] RemoveRequestModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
             await _userChapterService.Remove(model.Id);
             await _chapterService.Remove(model.Id);
@@ -69,9 +67,9 @@ namespace CodeSchool.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> ChangeOrder([FromBody] ChangeOrderModel model)
+        public async Task<IActionResult> ChangeOrder([FromBody] ChangeOrderRequestModel model)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
             await _chapterService.ChangeOrder(model.CurrentId, model.ToSwapId);
             return Ok();

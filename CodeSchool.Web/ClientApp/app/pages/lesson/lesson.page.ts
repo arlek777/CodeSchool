@@ -69,8 +69,11 @@ export class LessonPage implements OnInit {
 
         this.backendService.updateUserLesson(this.userLesson);
     }
+        
 
     checkLesson() {
+        if (!this.userLesson.code) this.popupService.newValidationError("Вы ничего не написали.");
+
         var lessonCheckModel = new LessonViewModel(this.userLesson.lesson);
         lessonCheckModel.startCode = this.userLesson.code;
         this.lessonTester.checkLesson(lessonCheckModel);

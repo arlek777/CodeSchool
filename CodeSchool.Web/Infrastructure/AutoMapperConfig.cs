@@ -11,19 +11,19 @@ namespace CodeSchool.Web.Infrastructure
         {
             Mapper.Initialize(c =>
             {
-                c.CreateMap<Chapter, ChapterShortcutModel>();
-                c.CreateMap<Lesson, LessonShortcutModel>();
-                c.CreateMap<Lesson, LessonModel>();
+                c.CreateMap<Chapter, ChapterShortcutRequestModel>();
+                c.CreateMap<Lesson, LessonShortcutRequestModel>();
+                c.CreateMap<Lesson, LessonRequestModel>();
 
-                c.CreateMap<UserChapter, UserChapterShortcutModel>()
+                c.CreateMap<UserChapter, UserChapterShortcutResponseModel>()
                 .ForMember(ch => ch.ChapterTitle, opts => opts.MapFrom(ch => ch.Chapter.Title))
                 .ForMember(ch => ch.ChapterOrder, opts => opts.MapFrom(ch => ch.Chapter.Order));
 
-                c.CreateMap<UserLesson, UserLessonShortcutModel>()
+                c.CreateMap<UserLesson, UserLessonShortcutResponseModel>()
                     .ForMember(ch => ch.LessonTitle, opts => opts.MapFrom(ch => ch.Lesson.Title))
                     .ForMember(ch => ch.LessonOrder, opts => opts.MapFrom(ch => ch.Lesson.Order));
 
-                c.CreateMap<UserLesson, UserLessonModel>();
+                c.CreateMap<UserLesson, UserLessonResponseModel>();
             });
         }
     }

@@ -96,9 +96,10 @@ export class BackendService {
         });
     }
 
-    updateUserLesson(model): Promise<void> {
+    updateUserLesson(model): Promise<any> {
         return this.http.post("/api/userlesson/update", model).toPromise()
             .then((response) => {
+                return response.json();
             });
     }
 

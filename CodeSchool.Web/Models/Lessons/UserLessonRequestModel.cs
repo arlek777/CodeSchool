@@ -1,22 +1,18 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using CodeSchool.Web.Infrastructure;
 
 namespace CodeSchool.Web.Models.Lessons
 {
-    public class UserLessonShortcutModel
+    public class UserLessonRequestModel
     {
         public int Id { get; set; }
-        public int LessonId { get; set; }
         public int UserChapterId { get; set; }
         public Guid UserId { get; set; }
         public bool IsPassed { get; set; }
-        public string LessonTitle { get; set; }
-        public int LessonOrder { get; set; }
-    }
 
-    public class UserLessonModel: UserLessonShortcutModel
-    {
+        [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
+        [StringLength(5000, ErrorMessage = ValidationResultMessages.MaxLength)]
         public string Code { get; set; }
-        public LessonModel Lesson { get; set; }
     }
 }

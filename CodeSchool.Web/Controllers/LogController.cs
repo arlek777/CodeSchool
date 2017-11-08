@@ -14,7 +14,7 @@ namespace CodeSchool.Web.Controllers
 
         public IActionResult Get()
         {
-            return File(System.IO.File.ReadAllBytes(_env.ContentRootPath + "/logs.txt"), "application/javascript");
+            return File(System.IO.File.ReadAllBytes(_env.ContentRootPath + "/logs.txt"), "application/json");
         }
     }
 }

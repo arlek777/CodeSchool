@@ -6,6 +6,7 @@ using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.Domain;
 using Microsoft.AspNetCore.Mvc;
 using CodeSchool.Web.Models.Lessons;
+using CodeSchool.Web.Infrastructure;
 
 namespace CodeSchool.Web.Controllers
 {
@@ -24,7 +25,7 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> GetById(Guid userId, int lessonId)
         {
             var userlesson = await _userLessonService.GetById(userId, lessonId);
-            return Ok(Mapper.Map<UserLessonModel>(userlesson));
+            return Ok(Mapper.Map<UserLessonResponseModel>(userlesson));
         }
 
         [HttpGet]
@@ -37,9 +38,9 @@ namespace CodeSchool.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Update([FromBody] UserLessonUpdateModel model)
+        public async Task<IActionResult> Update([FromBody] UserLessonRequestModel model)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
             await _userLessonService.Update(new UserLesson()
             {

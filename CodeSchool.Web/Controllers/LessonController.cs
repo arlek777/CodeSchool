@@ -8,6 +8,7 @@ using CodeSchool.Domain;
 using CodeSchool.Web.Models;
 using CodeSchool.Web.Models.Lessons;
 using Microsoft.AspNetCore.Authorization;
+using CodeSchool.Web.Infrastructure;
 
 namespace CodeSchool.Web.Controllers
 {
@@ -29,14 +30,14 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var lesson = await _lessonService.GetById(id);
-            return Ok(Mapper.Map<LessonModel>(lesson));
+            return Ok(Mapper.Map<LessonRequestModel>(lesson));
         }
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> AddOrUpdate([FromBody] LessonModel model)
+        public async Task<IActionResult> AddOrUpdate([FromBody] LessonRequestModel model)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
             var lesson = await _lessonService.AddOrUpdate(new Lesson()
             {
@@ -67,10 +68,7 @@ namespace CodeSchool.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Remove([FromBody] RemoveRequestModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
             await _userLessonService.Remove(model.Id);
             await _lessonService.Remove(model.Id);
@@ -79,9 +77,9 @@ namespace CodeSchool.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> ChangeOrder([FromBody] ChangeOrderModel model)
+        public async Task<IActionResult> ChangeOrder([FromBody] ChangeOrderRequestModel model)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
             await _lessonService.ChangeOrder(model.CurrentId, model.ToSwapId);
             return Ok();

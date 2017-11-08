@@ -23,7 +23,7 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> Get(Guid userId)
         {
             var chapters = await _chapterService.Get(userId);
-            return Ok(chapters.Select(Mapper.Map<UserChapterShortcutModel>));
+            return Ok(chapters.Select(Mapper.Map<UserChapterShortcutResponseModel>));
         }
     }
 }

@@ -30,9 +30,9 @@ namespace CodeSchool.Web.Controllers
 
         [Route("[action]")]
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody]LoginModel loginModel)
+        public async Task<IActionResult> Login([FromBody]LoginRequestModel loginModel)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
             var user = await _userService.GetByEmail(loginModel.Email);
             if (user == null)
@@ -52,9 +52,9 @@ namespace CodeSchool.Web.Controllers
 
         [Route("[action]")]
         [HttpPost]
-        public async Task<IActionResult> Register([FromBody]RegistrationModel model)
+        public async Task<IActionResult> Register([FromBody]RegistrationRequestModel model)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
             var existingUser = await _userService.GetByEmail(model.Email);
             if (existingUser != null) return BadRequest(ValidationResultMessages.DuplicateEmail);
