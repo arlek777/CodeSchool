@@ -22,6 +22,14 @@ export class AdminLessonPage implements OnInit {
         private popupService: PopupService) {
     }
 
+    onKey(event) {
+        // Ctrl + S handled
+        if (event.keyCode == 83 && event.ctrlKey) {
+            event.preventDefault();
+            this.addOrUpdate(false);
+        }
+    }
+
     ngOnInit(): void {
         var lessonId = this.route.snapshot.params["lessonId"];
         if (!lessonId) {

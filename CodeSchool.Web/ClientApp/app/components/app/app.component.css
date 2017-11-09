@@ -3,8 +3,13 @@
 }
 
 .lesson-panel {
-    height: 600px;
+    height: 750px;
     overflow-y: auto
+}
+
+.lesson-task-panel {
+    height: 500px;
+    overflow-y: auto;
 }
 
 .green-color {

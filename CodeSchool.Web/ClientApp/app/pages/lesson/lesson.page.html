@@ -1,12 +1,12 @@
 ﻿<div class="col-md-6">
-    <div class="panel panel-default" style="height: 600px; overflow-y: auto">
+    <div class="panel panel-default lesson-panel">
         <div class="panel-heading"><h4>{{ userLesson.lessonTitle }}</h4></div>
         <div class="panel-body" [innerHtml]="sanitizedLessonText"></div>
     </div>
 </div>
 
 <div class="col-md-6">
-    <div class="panel panel-default lesson-panel">
+    <div class="panel panel-default lesson-task-panel">
         <div class="panel-heading">
             <h4>Задание - {{ userLesson.isPassed ? 'Выполненно' : 'Не выполненно' }}</h4>
         </div>
@@ -18,23 +18,25 @@
                  [readOnly]="false"
                  [autoUpdateContent]="true"
                  [durationBeforeCallback]="1000"
-                 style="min-height: 500px; width:100%; overflow: auto;"></div>
+                 style="min-height: 325px; width:100%; overflow: auto;"></div>
         </div>
               
         <iframe lesson-tester (onTestResultsReceived)="onTestResultsReceived($event)" src="/Home/Test"></iframe>
     </div>
+    
+    <div class="col-md-6">
+        <div class="form-group">
+            <button (click)="checkLesson()" class="btn btn-success btn-lg">Проверить</button>
+            <button *ngIf="currentIndex > 0" (click)="getPreviousLesson()" class="btn btn-danger btn-lg">Назад</button>
+            <button *ngIf="userLesson.isPassed" (click)="getNextLesson()" class="btn btn-primary btn-lg">Дальше</button>
+        </div>
+
+        <div *ngIf="result && result.messages.length" class="alert" 
+             [ngClass]="{'alert-danger': !result.isSucceeded, 'alert-success': result.isSucceeded }">
+            <span *ngFor="let message of result.messages">{{ message }}</span>
+        </div>
+    </div>
 </div>
 
-<div class="col-md-offset-6 col-md-6">
-    <div class="form-group">
-        <button (click)="checkLesson()" class="btn btn-success btn-lg">Проверить</button>
-        <button *ngIf="currentIndex > 0" (click)="getPreviousLesson()" class="btn btn-danger btn-lg">Назад</button>
-        <button *ngIf="userLesson.isPassed" (click)="getNextLesson()" class="btn btn-primary btn-lg">Дальше</button>
-    </div>
 
-    <div *ngIf="result && result.messages.length" class="alert" 
-         [ngClass]="{'alert-danger': !result.isPassed, 'alert-success': result.isSucceeded }">
-        <span *ngFor="let message of result.messages">{{ message }}</span>
-    </div>
-</div>
 
