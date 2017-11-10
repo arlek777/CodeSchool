@@ -9,7 +9,7 @@ namespace CodeSchool.BusinessLogic.Interfaces
     {
         Task<ICollection<UserLesson>> Get(Guid userId, int userChapterId);
         Task<UserLesson> GetById(Guid userId, int userLessonId);
-        Task AddToAllUsers(int lessonId, int userChapterId);
+        Task AddToAllUsers(int lessonId, int chapterId);
         Task<UserLesson> Update(UserLesson model);
         Task UpdateCode(int lessonId, string code);
         Task Remove(int lessonId);

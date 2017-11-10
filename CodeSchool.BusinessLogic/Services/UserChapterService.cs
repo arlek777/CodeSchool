@@ -29,9 +29,10 @@ namespace CodeSchool.BusinessLogic.Services
             return userChapters;
         }
 
-        public async Task<UserChapter> GetById(Guid userId, int userChapterId)
+        public async Task<UserChapter> GetByChapterId(Guid userId, int chapterId)
         {
-            var userChapter = (await Get(userId)).FirstOrDefault(c => c.Id == userChapterId);
+            var userChapters = await Get(userId);
+            var userChapter = userChapters.FirstOrDefault(c => c.ChapterId == chapterId);
             return userChapter;
         }
 

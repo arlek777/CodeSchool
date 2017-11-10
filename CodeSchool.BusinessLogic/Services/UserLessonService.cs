@@ -33,12 +33,12 @@ namespace CodeSchool.BusinessLogic.Services
             return await _repository.Find<UserLesson>(c => c.Id == userLessonId && c.UserId == userId);
         }
 
-        public async Task AddToAllUsers(int lessonId, int userChapterId)
+        public async Task AddToAllUsers(int lessonId, int chapterId)
         {
             var users = await _repository.GetAll<User>();
             foreach (var user in users)
             {
-                var userChapter = await _userChapterService.GetById(user.Id, userChapterId);
+                var userChapter = await _userChapterService.GetByChapterId(user.Id, chapterId);
                 var lesson = await _lessonService.GetById(lessonId);
 
                 _repository.Add(new UserLesson()
