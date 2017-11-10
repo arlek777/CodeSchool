@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.Domain;
 using JWT.Serializers;
 using Microsoft.AspNetCore.Hosting;
+using Newtonsoft.Json;
 
 namespace CodeSchool.Web.Infrastructure
 {
@@ -19,7 +22,18 @@ namespace CodeSchool.Web.Infrastructure
 
         public async Task Log(Log log)
         {
-            File.AppendAllText(_logFilePath, new JsonNetSerializer().Serialize(log) + ";");
+            var logs = new List<Log>();
+            if (File.Exists(_logFilePath))
+            {
+                var logsText = File.ReadAllText(_logFilePath);
+                logs = JsonConvert.DeserializeObject<List<Log>>(logsText);
+            }
+
+            logs.Add(log);
+            logs = logs.OrderByDescending(l => l.TimeStamp).ToList();
+
+            var result = JsonConvert.SerializeObject(logs);
+            File.WriteAllText(_logFilePath, result);
         }
     }
 }

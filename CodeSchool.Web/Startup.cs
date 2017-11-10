@@ -26,9 +26,11 @@ namespace CodeSchool.Web
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+            Env = env;
         }
 
         public IConfigurationRoot Configuration { get; }
+        public IHostingEnvironment Env { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -38,7 +40,7 @@ namespace CodeSchool.Web
             {
                 options.Filters.Add(typeof(ApiExceptionFilter));
             });
-            services.AddCodeSchool(Configuration);
+            services.AddCodeSchool(Configuration, Env);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

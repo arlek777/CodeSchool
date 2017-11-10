@@ -8,6 +8,7 @@ using CodeSchool.Web.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,18 +16,24 @@ namespace CodeSchool.Web.Infrastructure
 {
     public static class ServiceCollectionExtension
     {
-        public static void AddCodeSchool(this IServiceCollection services, IConfigurationRoot configuration)
+        public static void AddCodeSchool(this IServiceCollection services, IConfigurationRoot configuration, IHostingEnvironment env)
         {
-            ConfigureDb(services, configuration);
+            ConfigureDb(services, configuration, env);
             ConfigureSecurity(services, configuration);
             ConfigureBusinessLogic(services);
             services.AddScoped<ApiExceptionFilter>();
         }
 
-        private static void ConfigureDb(IServiceCollection services, IConfigurationRoot configuration)
+        private static void ConfigureDb(IServiceCollection services, IConfigurationRoot configuration, IHostingEnvironment env)
         {
+            var connString = configuration.GetConnectionString("ReleaseConnection");
+            if (env.IsDevelopment())
+            {
+                connString = configuration.GetConnectionString("DebugConnection");
+            }
+
             services.AddTransient<IGenericRepository, EntityFrameworkRepository>();
-            services.AddScoped<DbContext>((provider) => new CodeSchoolDbContext(configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<DbContext>((provider) => new CodeSchoolDbContext(connString));
         }
 
         private static void ConfigureBusinessLogic(IServiceCollection services)
