@@ -42,6 +42,7 @@ namespace CodeSchool.Web.Infrastructure
                 ExceptionMessage = exception.Message,
                 InnerExceptionMessage = exception.InnerException?.Message,
                 Level = LogLevel.Error,
+                StackTrace = exception.StackTrace,
                 TimeStamp = DateTime.UtcNow
             });
 
