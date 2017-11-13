@@ -3,17 +3,19 @@
 }
 
 .lesson-panel {
-    height: 750px;
+    min-height: 250px;
     overflow-y: auto
 }
 
 .lesson-task-panel {
     min-height: 100px;
+    max-height: 750px;
     overflow-y: auto
 }
 
 .lesson-code-panel {
-    height: 500px;
+    min-height: 100px;
+    max-height: 750px;
     overflow-y: auto;
 }
 

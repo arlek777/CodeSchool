@@ -7,7 +7,7 @@ import { Constants } from "../constants";
     selector: '[lesson-tester]'
 })
 export class LessonTesterDirective {
-    @Output() onTestResultsReceived = new EventEmitter<any>();
+    @Output() onTestResultsReceived = new EventEmitter<LessonTestResult>();
 
     private iframe: any;
 
@@ -51,6 +51,15 @@ function runLesson() {
         var element = this.iframe.contentDocument.createElement("script");
         element.innerHTML = content;
 
-        this.iframe.contentDocument.body.appendChild(element);
+        try {
+            this.iframe.contentDocument.body.appendChild(element);
+        }
+        catch (e) {
+            this.onTestResultsReceived.emit({
+                isSucceeded: false,
+                messages: ['¬ведите корректный JavaScript код.'],
+                isException: true
+            });
+        }
     }
 }

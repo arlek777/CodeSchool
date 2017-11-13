@@ -69,11 +69,14 @@ export class LessonPage implements OnInit {
         this.result = result;
         this.userLesson.isPassed = result.isSucceeded;
 
-        this.backendService.updateUserLesson(this.userLesson);
+        //TODO handle it more properly
+        if (!result.isException) {
+            this.backendService.updateUserLesson(this.userLesson);
+        }
     }
 
     checkLesson() {
-        if (!this.userLesson.code) this.popupService.newValidationError("Вы ничего не написали.");
+        if (!this.userLesson.code) return;
 
         var lessonCheckModel = new LessonViewModel(this.userLesson.lesson);
         lessonCheckModel.startCode = this.userLesson.code;
