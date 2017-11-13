@@ -12,8 +12,8 @@ namespace CodeSchool.Web.Infrastructure
             Mapper.Initialize(c =>
             {
                 c.CreateMap<Chapter, ChapterShortcutRequestModel>();
-                c.CreateMap<Lesson, LessonShortcutRequestModel>();
-                c.CreateMap<Lesson, LessonRequestModel>();
+                c.CreateMap<Lesson, LessonShortcutRequestResponseModel>();
+                c.CreateMap<Lesson, LessonRequestResponseModel>().ReverseMap();
 
                 c.CreateMap<UserChapter, UserChapterShortcutResponseModel>()
                 .ForMember(ch => ch.ChapterTitle, opts => opts.MapFrom(ch => ch.Chapter.Title))

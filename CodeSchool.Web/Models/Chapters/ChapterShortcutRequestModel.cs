@@ -9,7 +9,7 @@ namespace CodeSchool.Web.Models.Chapters
     {
         public ChapterShortcutRequestModel()
         {
-            Lessons = new List<LessonShortcutRequestModel>();
+            Lessons = new List<LessonShortcutRequestResponseModel>();
         }
 
         public int Id { get; set; }
@@ -20,6 +20,6 @@ namespace CodeSchool.Web.Models.Chapters
 
         public int Order { get; set; }
 
-        public IEnumerable<LessonShortcutRequestModel> Lessons { get; set; }
+        public IEnumerable<LessonShortcutRequestResponseModel> Lessons { get; set; }
     }
 }

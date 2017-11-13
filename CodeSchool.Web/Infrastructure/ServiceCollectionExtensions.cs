@@ -26,11 +26,8 @@ namespace CodeSchool.Web.Infrastructure
 
         private static void ConfigureDb(IServiceCollection services, IConfigurationRoot configuration, IHostingEnvironment env)
         {
-            var connString = configuration.GetConnectionString("ReleaseConnection");
-            if (env.IsDevelopment())
-            {
-                connString = configuration.GetConnectionString("DebugConnection");
-            }
+            var connStringName = env.IsDevelopment() ? "DebugConnection" : "ReleaseConnection";
+            var connString = configuration.GetConnectionString(connStringName);
 
             services.AddTransient<IGenericRepository, EntityFrameworkRepository>();
             services.AddScoped<DbContext>((provider) => new CodeSchoolDbContext(connString));

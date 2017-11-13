@@ -38,7 +38,7 @@ namespace CodeSchool.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Update([FromBody] UserLessonRequestModel model)
+        public async Task<IActionResult> Update([FromBody] UserLessonRequestResponseModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 

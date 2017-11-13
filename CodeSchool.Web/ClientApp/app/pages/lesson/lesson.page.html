@@ -6,29 +6,35 @@
 </div>
 
 <div class="col-md-6">
-    <div class="panel panel-default lesson-task-panel">
-        <div class="panel-heading">
-            <h4>Задание - {{ userLesson.isPassed ? 'Выполненно' : 'Не выполненно' }}</h4>
+    <div *ngIf="userLesson.lesson && userLesson.lesson.taskText">
+        <div class="panel panel-default lesson-task-panel">
+            <div class="panel-heading"><h4>Задание - {{ userLesson.isPassed ? 'Выполненно' : 'Не выполненно' }}</h4></div>
+            <div class="panel-body" [innerHtml]="sanitizedLessonTaskText"></div>
         </div>
-        <div class="panel-body">
-            <div ace-editor
-                 [(text)]="userLesson.code"
-                 [mode]="'javascript'"
-                 [theme]="'eclipse'"
-                 [readOnly]="false"
-                 [autoUpdateContent]="true"
-                 [durationBeforeCallback]="1000"
-                 style="min-height: 325px; width:100%; overflow: auto;"></div>
+        <div class="panel panel-default lesson-code-panel">
+            <div class="panel-heading">
+                <h4>Код</h4>
+            </div>
+            <div class="panel-body">
+                <div ace-editor
+                     [(text)]="userLesson.code"
+                     [mode]="'javascript'"
+                     [theme]="'eclipse'"
+                     [readOnly]="false"
+                     [autoUpdateContent]="true"
+                     [durationBeforeCallback]="1000"
+                     style="min-height: 325px; width:100%; overflow: auto;"></div>
+            </div>
+
+            <iframe lesson-tester (onTestResultsReceived)="onTestResultsReceived($event)" src="/Home/Test"></iframe>
         </div>
-              
-        <iframe lesson-tester (onTestResultsReceived)="onTestResultsReceived($event)" src="/Home/Test"></iframe>
     </div>
     
     <div class="col-md-6">
         <div class="form-group">
-            <button (click)="checkLesson()" class="btn btn-success btn-lg">Проверить</button>
+            <button (click)="checkLesson()" class="btn btn-default btn-lg">Проверить</button>
             <button *ngIf="currentIndex > 0" (click)="getPreviousLesson()" class="btn btn-danger btn-lg">Назад</button>
-            <button *ngIf="userLesson.isPassed" (click)="getNextLesson()" class="btn btn-primary btn-lg">Дальше</button>
+            <button *ngIf="showNextButton" (click)="getNextLesson()" class="btn btn-primary btn-lg">Дальше</button>
         </div>
 
         <div *ngIf="result && result.messages.length" class="alert" 

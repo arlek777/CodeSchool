@@ -8,6 +8,11 @@
 }
 
 .lesson-task-panel {
+    min-height: 100px;
+    overflow-y: auto
+}
+
+.lesson-code-panel {
     height: 500px;
     overflow-y: auto;
 }
