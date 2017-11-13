@@ -19,6 +19,7 @@ import { AdminLessonPage } from './pages/adminLesson/admin-lesson.page';
 import { AdminChaptersPage } from './pages/adminChapters/admin-chapters.page';
 import { LoginPage } from "./pages/login/login.page";
 import { RegisterPage } from "./pages/register/register.page";
+import { LiteraturePage } from "./pages/literature/literature.page";
 
 import { BackendService } from "./services/backend.service";
 import { PopupService } from "./services/popup.service";
@@ -51,7 +52,8 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
         AdminLessonPage,
         AdminChaptersPage,
         LoginPage,
-        RegisterPage
+        RegisterPage,
+        LiteraturePage
     ],
     imports: [
         BrowserModule,
@@ -62,6 +64,7 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
             { path: 'home', redirectTo: 'chapters' },
             { path: 'login', component: LoginPage },
             { path: 'register', component: RegisterPage },
+            { path: 'literature', component: LiteraturePage },
             { path: 'chapters', component: ChaptersPage, canActivate: [AuthGuard] },
             { path: 'lesson/:chapterId/:lessonId', component: LessonPage, canActivate: [AuthGuard] },
             { path: 'adminchapters', component: AdminChaptersPage, canActivate: [AdminAuthGuard] },
