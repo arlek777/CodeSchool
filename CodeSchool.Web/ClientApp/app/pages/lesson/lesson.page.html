@@ -1,5 +1,5 @@
 ﻿<div class="col-md-6">
-    <div class="panel panel-default lesson-panel">
+    <div class="panel panel-default lesson-full">
         <div class="panel-heading">
             <h4>
                 <button *ngIf="currentIndex > 0" (click)="getPreviousLesson()" class="btn btn-default btn-sm">Назад </button>
@@ -11,14 +11,14 @@
 </div>
 
 <div class="col-md-6">
-    <div *ngIf="userLesson.lesson && userLesson.lesson.taskText">
-        <div class="panel panel-default lesson-task-panel">
-            <div class="panel-heading"><h4>Задание - {{ userLesson.isPassed ? 'Выполненно' : 'Не выполненно' }}</h4></div>
+    <div>
+        <div class="panel panel-default lesson-small">
+            <div class="panel-heading">Задание - {{ userLesson.isPassed ? 'Выполненно' : 'Не выполненно' }}</div>
             <div class="panel-body" [innerHtml]="sanitizedLessonTaskText"></div>
         </div>
-        <div class="panel panel-default lesson-code-panel">
+        <div class="panel panel-default lesson-half">
             <div class="panel-heading">
-                <h4>Код</h4>
+                Код
             </div>
             <div class="panel-body">
                 <div ace-editor
@@ -30,7 +30,7 @@
                      [durationBeforeCallback]="1000"
                      style="min-height: 340px; width:100%; overflow: auto;"></div>
 
-                <div *ngIf="result && result.messages.length" class="alert alert-dismissable"
+                <div *ngIf="result && result.messages.length" class="alert alert-dismissable small"
                      [ngClass]="{'alert-danger': !result.isSucceeded, 'alert-success': result.isSucceeded }">
                     <a href="javascript: " class="close" data-dismiss="alert" aria-label="close">&times;</a>
                     <span *ngFor="let message of result.messages">{{ message }}</span>

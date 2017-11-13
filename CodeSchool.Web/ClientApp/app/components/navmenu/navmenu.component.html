@@ -15,14 +15,14 @@
                 <li [routerLinkActive]="['active']">
                     <a [routerLink]="['/chapters']">Уроки</a>
                 </li>
-                <li [routerLinkActive]="['active']">
-                    <a [routerLink]="['/literature']">Литература</a>
-                </li>
                 <li *ngIf="isAdmin" [routerLinkActive]="['active']">
                     <a [routerLink]="['/adminchapters']">Админка</a>
                 </li>
                 <li *ngIf="isAdmin">
                     <a target="_blank" href="/Log/Get">Логи</a>
+                </li>
+                <li [routerLinkActive]="['active']">
+                    <a [routerLink]="['/literature']">Литература</a>
                 </li>
             </ul>
             

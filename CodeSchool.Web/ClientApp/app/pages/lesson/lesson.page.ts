@@ -21,7 +21,6 @@ export class LessonPage implements OnInit {
     sanitizedLessonTaskText: SafeHtml = null;
     result: LessonTestResult;
     currentIndex = -1;
-    showNextButton = false;
 
     @ViewChild(LessonTesterDirective)
     private lessonTester: LessonTesterDirective;
@@ -69,10 +68,7 @@ export class LessonPage implements OnInit {
         this.result = result;
         this.userLesson.isPassed = result.isSucceeded;
 
-        //TODO handle it more properly
-        if (!result.isException) {
-            this.backendService.updateUserLesson(this.userLesson);
-        }
+        this.backendService.updateUserLesson(this.userLesson);
     }
 
     checkLesson() {
@@ -89,9 +85,6 @@ export class LessonPage implements OnInit {
                 this.userLesson = userLesson;
                 this.sanitizedLessonText = this.sanitizer.bypassSecurityTrustHtml(this.userLesson.lesson.text);
                 this.sanitizedLessonTaskText = this.sanitizer.bypassSecurityTrustHtml(this.userLesson.lesson.taskText);
-
-                this.showNextButton = this.userLesson.isPassed
-                    || (this.userLesson.lesson && this.userLesson.lesson.taskText.length == 0);
             });
     }
 }

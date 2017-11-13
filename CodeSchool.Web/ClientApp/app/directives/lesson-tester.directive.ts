@@ -50,16 +50,6 @@ function runLesson() {
     private createAndAppendScriptElement(content) {
         var element = this.iframe.contentDocument.createElement("script");
         element.innerHTML = content;
-
-        try {
-            this.iframe.contentDocument.body.appendChild(element);
-        }
-        catch (e) {
-            this.onTestResultsReceived.emit({
-                isSucceeded: false,
-                messages: ['¬ведите корректный JavaScript код.'],
-                isException: true
-            });
-        }
+        this.iframe.contentDocument.body.appendChild(element);
     }
 }
