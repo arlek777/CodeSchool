@@ -7,6 +7,8 @@ import { AuthService } from "../../services/auth.service";
     styleUrls: ['./navmenu.component.css']
 })
 export class NavMenuComponent {
+    menuCollapsed = true;
+
     constructor(private authService: AuthService) {
         
     }

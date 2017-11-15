@@ -2,13 +2,29 @@
     padding-top: 90px;
 }
 
-.lesson-panel {
-    height: 750px;
-    overflow-y: auto
+.admin-lesson-full {
+    height: 665px;
+    overflow-y: auto;
 }
 
-.lesson-task-panel {
-    height: 500px;
+.admin-lesson-half {
+    height: 325px;
+    overflow-y: auto;
+}
+
+.lesson-full {
+    height: 800px;
+    overflow-y: auto;
+}
+
+.lesson-small {
+    min-height: 100px;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.lesson-half {
+    height: 528px;
     overflow-y: auto;
 }
 

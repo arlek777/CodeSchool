@@ -4,7 +4,7 @@ using CodeSchool.Web.Infrastructure;
 
 namespace CodeSchool.Web.Models.Lessons
 {
-    public class UserLessonRequestModel
+    public class UserLessonRequestResponseModel
     {
         public int Id { get; set; }
         public int UserChapterId { get; set; }

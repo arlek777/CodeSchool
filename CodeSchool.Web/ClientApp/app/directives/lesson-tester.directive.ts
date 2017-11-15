@@ -7,7 +7,7 @@ import { Constants } from "../constants";
     selector: '[lesson-tester]'
 })
 export class LessonTesterDirective {
-    @Output() onTestResultsReceived = new EventEmitter<any>();
+    @Output() onTestResultsReceived = new EventEmitter<LessonTestResult>();
 
     private iframe: any;
 
@@ -50,7 +50,6 @@ function runLesson() {
     private createAndAppendScriptElement(content) {
         var element = this.iframe.contentDocument.createElement("script");
         element.innerHTML = content;
-
         this.iframe.contentDocument.body.appendChild(element);
     }
 }

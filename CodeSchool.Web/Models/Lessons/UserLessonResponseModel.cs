@@ -6,6 +6,6 @@ namespace CodeSchool.Web.Models.Lessons
     public class UserLessonResponseModel: UserLessonShortcutResponseModel
     {
         public string Code { get; set; }
-        public LessonRequestModel Lesson { get; set; }
+        public LessonRequestResponseModel Lesson { get; set; }
     }
 }

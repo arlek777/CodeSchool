@@ -18,6 +18,7 @@ export class LessonPage implements OnInit {
     userLessonIds: number[] = [];
 
     sanitizedLessonText: SafeHtml = null;
+    sanitizedLessonTaskText: SafeHtml = null;
     result: LessonTestResult;
     currentIndex = -1;
 
@@ -69,10 +70,9 @@ export class LessonPage implements OnInit {
 
         this.backendService.updateUserLesson(this.userLesson);
     }
-        
 
     checkLesson() {
-        if (!this.userLesson.code) this.popupService.newValidationError("Вы ничего не написали.");
+        if (!this.userLesson.code) return;
 
         var lessonCheckModel = new LessonViewModel(this.userLesson.lesson);
         lessonCheckModel.startCode = this.userLesson.code;
@@ -81,9 +81,10 @@ export class LessonPage implements OnInit {
 
     private _initLesson(lessonId) {
         this.backendService.getUserLesson(UserHelper.getUserId(), lessonId)
-            .then(lesson => {
-                this.userLesson = lesson;
+            .then(userLesson => {
+                this.userLesson = userLesson;
                 this.sanitizedLessonText = this.sanitizer.bypassSecurityTrustHtml(this.userLesson.lesson.text);
+                this.sanitizedLessonTaskText = this.sanitizer.bypassSecurityTrustHtml(this.userLesson.lesson.taskText);
             });
     }
 }

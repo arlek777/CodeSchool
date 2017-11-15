@@ -3,7 +3,7 @@ using CodeSchool.Web.Infrastructure;
 
 namespace CodeSchool.Web.Models.Lessons
 {
-    public class LessonShortcutRequestModel
+    public class LessonShortcutRequestResponseModel
     {
         public int Id { get; set; }
 

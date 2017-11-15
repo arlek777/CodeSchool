@@ -9,6 +9,11 @@ export class GlobalErrorHandler implements ErrorHandler {
 
     handleError(error) {
         var response = <Response>error.rejection;
+        if (!response) {
+            console.log(error);
+            return;
+        }
+
         var popupService = this.injector.get(PopupService);
         var router = this.injector.get(Router);
 

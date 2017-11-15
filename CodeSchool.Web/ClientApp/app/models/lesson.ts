@@ -10,6 +10,7 @@ export class LessonViewModel {
     id: number;
     chapterId: number;
     text: string;
+    taskText: string;
     startCode: string;
     unitTestsCode: string;
     reporterCode: string;

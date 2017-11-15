@@ -1,8 +1,6 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using CodeSchool.BusinessLogic.Interfaces;
-using CodeSchool.BusinessLogic.Services;
 using Microsoft.AspNetCore.Mvc;
 using CodeSchool.Domain;
 using CodeSchool.Web.Models;
@@ -30,25 +28,16 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var lesson = await _lessonService.GetById(id);
-            return Ok(Mapper.Map<LessonRequestModel>(lesson));
+            return Ok(Mapper.Map<LessonRequestResponseModel>(lesson));
         }
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> AddOrUpdate([FromBody] LessonRequestModel model)
+        public async Task<IActionResult> AddOrUpdate([FromBody] LessonRequestResponseModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
-            var lesson = await _lessonService.AddOrUpdate(new Lesson()
-            {
-                Id = model.Id,
-                ChapterId = model.ChapterId,
-                Title = model.Title,
-                Text = model.Text,
-                StartCode = model.StartCode,
-                ReporterCode = model.ReporterCode,
-                UnitTestsCode = model.UnitTestsCode
-            });
+            var lesson = await _lessonService.AddOrUpdate(Mapper.Map<Lesson>(model));
 
             if (model.Id == 0)
             {

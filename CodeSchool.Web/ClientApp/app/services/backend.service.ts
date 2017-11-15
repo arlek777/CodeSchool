@@ -96,16 +96,9 @@ export class BackendService {
         });
     }
 
-    updateUserLesson(model): Promise<any> {
+    updateUserLesson(model): Promise<void> {
         return this.http.post("/api/userlesson/update", model).toPromise()
             .then((response) => {
-                return response.json();
             });
-    }
-
-    getLogs(): Promise<any> {
-        return this.http.get(`/api/log/get`).toPromise().then((response) => {
-            return response.json();
-        });
     }
 }
