@@ -26,7 +26,7 @@ namespace CodeSchool.Web.Infrastructure
 
         private static void ConfigureDb(IServiceCollection services, IConfigurationRoot configuration, IHostingEnvironment env)
         {
-            var connStringName = env.IsDevelopment() ? "DebugConnection" : "ReleaseConnection";
+            var connStringName = env.IsDevelopment() ? "ReleaseConnection" : "ReleaseConnection";
             var connString = configuration.GetConnectionString(connStringName);
 
             services.AddTransient<IGenericRepository, EntityFrameworkRepository>();

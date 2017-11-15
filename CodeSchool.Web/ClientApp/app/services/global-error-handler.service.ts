@@ -21,8 +21,13 @@ export class GlobalErrorHandler implements ErrorHandler {
             popupService.newValidationError(response.text());
         } else {
             var errorInfo = response.json();
-            console.log("Server Error", errorInfo);
-            popupService.newServerError(errorInfo.message);
+            if (errorInfo) {
+                console.log("Server Error", errorInfo);
+                popupService.newServerError(errorInfo.message);
+            }
+            else {
+                console.log("Client Error", response);
+            }
         }
     }
 }

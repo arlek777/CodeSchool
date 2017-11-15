@@ -30,9 +30,8 @@
                      [durationBeforeCallback]="1000"
                      style="min-height: 340px; width:100%; overflow: auto;"></div>
 
-                <div *ngIf="result && result.messages.length" class="alert alert-dismissable small"
+                <div *ngIf="result && result.messages.length" class="alert small"
                      [ngClass]="{'alert-danger': !result.isSucceeded, 'alert-success': result.isSucceeded }">
-                    <a href="javascript: " class="close" data-dismiss="alert" aria-label="close">&times;</a>
                     <span *ngFor="let message of result.messages">{{ message }}</span>
                 </div>
 
