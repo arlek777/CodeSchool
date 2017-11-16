@@ -41,9 +41,15 @@ export class LessonTesterDirective {
 
     private decorateCodeWithFunction(code: string): string {
         return `
-${code}
+try{
+    ${code}
+}
+catch(e) {}
 function runLesson() { 
+try{
     ${code} 
+}
+catch(e) {}
 }`;
     }
 

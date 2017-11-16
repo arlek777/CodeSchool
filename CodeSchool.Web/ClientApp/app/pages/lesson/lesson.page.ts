@@ -21,6 +21,7 @@ export class LessonPage implements OnInit {
     sanitizedLessonTaskText: SafeHtml = null;
     result: LessonTestResult;
     currentIndex = -1;
+    chapterId: number;
 
     @ViewChild(LessonTesterDirective)
     private lessonTester: LessonTesterDirective;
@@ -33,12 +34,12 @@ export class LessonPage implements OnInit {
     }
 
     ngOnInit(): void {
-        var chapterId = parseInt(this.route.snapshot.params["chapterId"]);
+        this.chapterId = parseInt(this.route.snapshot.params["chapterId"]);
         var lessonId = parseInt(this.route.snapshot.params["lessonId"]);
 
-        this._initLesson(lessonId);
+        this._init(lessonId);
 
-        this.backendService.getUserLessonIds(UserHelper.getUserId(), chapterId).then((ids) => {
+        this.backendService.getUserLessonIds(UserHelper.getUserId(), this.chapterId).then((ids) => {
             this.userLessonIds = ids;
             this.currentIndex = this.userLessonIds.indexOf(lessonId);
         });
@@ -54,14 +55,15 @@ export class LessonPage implements OnInit {
             return;
         }
 
-        this._initLesson(this.userLessonIds[nextIndex]);
+        this._init(this.userLessonIds[nextIndex]);
+        this.router.navigate(['/lesson', this.chapterId, this.userLessonIds[nextIndex]]);
     }
 
     getPreviousLesson() {
         if (this.currentIndex == 0) return;
         var prevIndex = --this.currentIndex;
 
-        this._initLesson(this.userLessonIds[prevIndex]);
+        this._init(this.userLessonIds[prevIndex]);
     }
 
     onTestResultsReceived(result: LessonTestResult) {
@@ -79,10 +81,11 @@ export class LessonPage implements OnInit {
         this.lessonTester.checkLesson(lessonCheckModel);
     }
 
-    private _initLesson(lessonId) {
+    private _init(lessonId) {
         this.backendService.getUserLesson(UserHelper.getUserId(), lessonId)
             .then(userLesson => {
                 this.userLesson = userLesson;
+                this.result = new LessonTestResult();
                 this.sanitizedLessonText = this.sanitizer.bypassSecurityTrustHtml(this.userLesson.lesson.text);
                 this.sanitizedLessonTaskText = this.sanitizer.bypassSecurityTrustHtml(this.userLesson.lesson.taskText);
             });
