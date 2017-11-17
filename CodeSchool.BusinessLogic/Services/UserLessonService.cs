@@ -39,14 +39,13 @@ namespace CodeSchool.BusinessLogic.Services
             foreach (var user in users)
             {
                 var userChapter = await _userChapterService.GetByChapterId(user.Id, chapterId);
-                var lesson = await _lessonService.GetById(lessonId);
+                //var lesson = await _lessonService.GetById(lessonId);
 
                 _repository.Add(new UserLesson()
                 {
                     UserId = user.Id,
                     UserChapterId = userChapter.Id,
                     LessonId = lessonId,
-                    Code = lesson.StartCode,
                     UpdatedDt = DateTime.UtcNow
                 });
             }
