@@ -102,5 +102,59 @@ namespace CodeSchool.BusinessLogic.Services
                 await _repository.SaveChanges();
             }
         }
+
+        public async Task<bool> CanOpen(Guid userId, int userChapterId)
+        {
+            var userChapters = (await Get(userId)).ToList();
+            if (!userChapters.Any()) return false;
+
+            var result = CheckFirst(new { canOpen = false, userChapters, userChapterId });
+            result = CheckOnPassed(result);
+            result = CheckAllPreviousPassed(result);
+
+            return result.canOpen;
+        }
+
+        private dynamic CheckFirst(dynamic result)
+        {
+            if (result.canOpen) return result;
+
+            var firstChapter = result.userChapters.FirstOrDefault();
+            var isFirst = firstChapter != null && firstChapter.Id == result.userChapterId;
+            return new
+            {
+                canOpen = isFirst,
+                result.userChapters,
+                result.userChapterId
+            };
+        }
+
+        private dynamic CheckOnPassed(dynamic result)
+        {
+            if (result.canOpen) return result;
+
+            var userChapters = (ICollection<UserChapter>)result.userChapters;
+            var userChapter = userChapters.FirstOrDefault(c => c.Id == result.userChapterId);
+            return new
+            {
+                canOpen = userChapter != null && userChapter.IsPassed,
+                result.userChapters,
+                result.userChapterId
+            };
+        }
+
+        private dynamic CheckAllPreviousPassed(dynamic result)
+        {
+            if (result.canOpen) return result;
+
+            var userChapters = (ICollection<UserChapter>)result.userChapters;
+            var allPreviousPassed = userChapters.TakeWhile(c => c.Id != result.userChapterId).All(c => c.IsPassed);
+            return new
+            {
+                canOpen = allPreviousPassed,
+                result.userChapters,
+                result.userChapterId
+            };
+        }
     }
 }
