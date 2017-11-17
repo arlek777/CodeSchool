@@ -1,5 +1,7 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using CodeSchool.Domain;
+using CodeSchool.Web.Models;
 using CodeSchool.Web.Models.Chapters;
 using CodeSchool.Web.Models.Lessons;
 
@@ -24,6 +26,10 @@ namespace CodeSchool.Web.Infrastructure
                     .ForMember(ch => ch.LessonOrder, opts => opts.MapFrom(ch => ch.Lesson.Order));
 
                 c.CreateMap<UserLesson, UserLessonResponseModel>();
+
+                c.CreateMap<User, UserStatisticResponseModel>()
+                    .ForMember(u => u.PassedLessons, opts => 
+                        opts.MapFrom(u => u.UserLessons.Where(l => l.IsPassed).Select(l => l.Lesson.Title)));
             });
         }
     }

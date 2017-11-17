@@ -20,6 +20,7 @@ import { AdminChaptersPage } from './pages/adminChapters/admin-chapters.page';
 import { LoginPage } from "./pages/login/login.page";
 import { RegisterPage } from "./pages/register/register.page";
 import { LiteraturePage } from "./pages/literature/literature.page";
+import { UserStatisticPage } from "./pages/userStatistic/user-statistic.page";
 
 import { BackendService } from "./services/backend.service";
 import { PopupService } from "./services/popup.service";
@@ -53,7 +54,8 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
         AdminChaptersPage,
         LoginPage,
         RegisterPage,
-        LiteraturePage
+        LiteraturePage,
+        UserStatisticPage
     ],
     imports: [
         BrowserModule,
@@ -70,6 +72,7 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
             { path: 'adminchapters', component: AdminChaptersPage, canActivate: [AdminAuthGuard] },
             { path: 'adminlesson/:chapterId/:lessonId', component: AdminLessonPage, canActivate: [AdminAuthGuard] },
             { path: 'adminlesson/:chapterId', component: AdminLessonPage, canActivate: [AdminAuthGuard] },
+            { path: 'userstatistic', component: UserStatisticPage, canActivate: [AdminAuthGuard] },
             { path: '**', redirectTo: 'chapters' }
         ]),
         AceEditorModule,

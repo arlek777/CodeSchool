@@ -3,6 +3,7 @@ import { Http } from "@angular/http";
 import { LessonViewModel } from "../models/lesson";
 import { ChapterViewModel } from "../models/chapter";
 import { LoginViewModel } from "../models/auth/login";
+import { UserStatisticModel } from "../models/userstatistic";
 import { RegistrationViewModel } from "../models/auth/registration";
 import { User } from "../models/user";
 import { JWTTokens } from "../models/auth/jwttokens";
@@ -100,5 +101,11 @@ export class BackendService {
         return this.http.post("/api/userlesson/update", model).toPromise()
             .then((response) => {
             });
+    }
+
+    getUserStatistics(): Promise<UserStatisticModel[]> {
+        return this.http.get("/api/userstatistic/get/").toPromise().then((response) => {
+            return response.json();
+        });
     }
 }

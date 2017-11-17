@@ -38,16 +38,11 @@ namespace CodeSchool.Web.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
             var lesson = await _lessonService.AddOrUpdate(Mapper.Map<Lesson>(model));
-
             if (model.Id == 0)
             {
                 await _userLessonService.AddToAllUsers(lesson.Id, model.ChapterId);
             }
-            else
-            {
-                await _userLessonService.UpdateCode(lesson.Id, model.StartCode);
-            }
-
+            
             model.Order = lesson.Order;
             model.Id = lesson.Id;
             return Ok(model);
