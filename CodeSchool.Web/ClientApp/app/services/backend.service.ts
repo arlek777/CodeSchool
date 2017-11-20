@@ -79,8 +79,8 @@ export class BackendService {
         });
     }
 
-    getUserLessonIds(userId: string, chapterId: number): Promise<number[]> {
-        return this.http.get(`/api/userlesson/getidsbychapter/${userId}/${chapterId}`).toPromise().then((response) => {
+    getUserLessons(userId: string, chapterId: number): Promise<number[]> {
+        return this.http.get(`/api/userlesson/getbychapter/${userId}/${chapterId}`).toPromise().then((response) => {
             return response.json();
         });
     }

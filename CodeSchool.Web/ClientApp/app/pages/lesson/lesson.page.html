@@ -1,4 +1,16 @@
-﻿<div class="col-md-6">
+﻿<div class="row margin-bottom-20">
+    <div class="col-md-offset-4 col-md-4 text-center">
+        <h3>Прогресс</h3>
+        <div class="progress">
+            <div [ngStyle]="{ 'width': getProgressInPercents() }" style="min-width: 10px"
+                 class="progress-bar-success progress-bar-striped" role="progressbar">
+                {{ getPassedUserLessonsCount() }} из {{ userLessons.length }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-6">
     <div class="panel panel-default lesson-full">
         <div class="panel-heading">
             <h4>
@@ -36,7 +48,7 @@
                 </div>
 
                 <button (click)="checkLesson()" class="btn btn-default btn-lg">Проверить</button>
-                <button [ngClass]="{'disabled': !userLesson.isPassed}" (click)="getNextLesson()" class="btn btn-success btn-lg">
+                <button *ngIf="userLesson.isPassed" (click)="getNextLesson()" class="btn btn-success btn-lg">
                     Дальше
                 </button>
             </div>

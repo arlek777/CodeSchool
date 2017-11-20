@@ -30,10 +30,10 @@ namespace CodeSchool.Web.Controllers
 
         [HttpGet]
         [Route("[action]/{userId}/{chapterId}")]
-        public async Task<IActionResult> GetIdsByChapter(Guid userId, int chapterId)
+        public async Task<IActionResult> GetByChapter(Guid userId, int chapterId)
         {
             var userlessons = await _userLessonService.Get(userId, chapterId);
-            return Ok(userlessons.Select(l => l.Id));
+            return Ok(userlessons.Select(l => new { id = l.Id, isPassed = l.IsPassed }));
         }
 
         [HttpPost]
