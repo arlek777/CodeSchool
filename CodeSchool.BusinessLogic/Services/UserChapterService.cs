@@ -8,6 +8,45 @@ using CodeSchool.Domain;
 
 namespace CodeSchool.BusinessLogic.Services
 {
+    public class CanOpenChapter
+    {
+        public bool CanOpen { get; set; }
+        public int UserChapterId { get; set; }
+        public ICollection<UserChapter> UserChapters { get; set; }
+    }
+
+    public static class CanOpenChapterExtensions
+    {
+        public static CanOpenChapter CheckFirst(this CanOpenChapter model)
+        {
+            if (model.CanOpen) return model;
+
+            var firstChapter = model.UserChapters.FirstOrDefault();
+            var isFirst = firstChapter != null && firstChapter.Id == model.UserChapterId;
+            model.CanOpen = isFirst;
+            return model;
+        }
+
+        public static CanOpenChapter CheckOnPassed(this CanOpenChapter model)
+        {
+            if (model.CanOpen) return model;
+
+            var userChapter = model.UserChapters.FirstOrDefault(c => c.Id == model.UserChapterId);
+            model.CanOpen = userChapter != null && userChapter.IsPassed;
+
+            return model;
+        }
+
+        public static CanOpenChapter CheckAllPreviousPassed(this CanOpenChapter model)
+        {
+            if (model.CanOpen) return model;
+
+            var allPreviousPassed = model.UserChapters.TakeWhile(c => c.Id != model.UserChapterId).All(c => c.IsPassed);
+            model.CanOpen = allPreviousPassed;
+            return model;
+        }
+    }
+
     public class UserChapterService : IUserChapterService
     {
         private readonly IGenericRepository _repository;
@@ -108,39 +147,15 @@ namespace CodeSchool.BusinessLogic.Services
             var userChapters = (await Get(userId)).ToList();
             if (!userChapters.Any()) return false;
 
-            var result = CheckFirst(new { canOpen = false, userChapters, userChapterId });
-            result = CheckOnPassed(result);
-            result = CheckAllPreviousPassed(result);
-
-            return result.canOpen;
-        }
-
-        private dynamic CheckFirst(dynamic result)
-        {
-            if (result.canOpen) return result;
-
-            var firstChapter = result.userChapters.FirstOrDefault();
-            var isFirst = firstChapter != null && firstChapter.Id == result.userChapterId;
-            return new
+            var canOpenChapter = new CanOpenChapter
             {
-                canOpen = isFirst,
-                result.userChapters,
-                result.userChapterId
+                CanOpen = false,
+                UserChapterId = userChapterId,
+                UserChapters = userChapters
             };
-        }
 
-        private dynamic CheckOnPassed(dynamic result)
-        {
-            if (result.canOpen) return result;
-
-            var userChapters = (ICollection<UserChapter>)result.userChapters;
-            var userChapter = userChapters.FirstOrDefault(c => c.Id == result.userChapterId);
-            return new
-            {
-                canOpen = userChapter != null && userChapter.IsPassed,
-                result.userChapters,
-                result.userChapterId
-            };
+            canOpenChapter = canOpenChapter.CheckFirst().CheckOnPassed().CheckAllPreviousPassed();
+            return canOpenChapter.CanOpen;
         }
 
         private dynamic CheckAllPreviousPassed(dynamic result)
