@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CodeSchool.BusinessLogic.Extensions;
 using CodeSchool.BusinessLogic.Interfaces;
+using CodeSchool.BusinessLogic.Models;
 using CodeSchool.DataAccess;
 using CodeSchool.Domain;
 
@@ -85,6 +87,31 @@ namespace CodeSchool.BusinessLogic.Services
                 _repository.Remove(userLessons[i]);
                 await _repository.SaveChanges();
             }
+        }
+
+        public async Task<bool> CanOpen(Guid userId, int userChapterId, int userLessonId)
+        {
+            var userLessons = await Get(userId, userChapterId);
+            var user = await _repository.Find<User>(u => u.Id == userId);
+            var userChapters = await _userChapterService.GetAll(userId);
+         
+            var canOpenLesson = new CanOpenLesson
+            {
+                CanOpen = false,
+                UserChapterId = userChapterId,
+                UserLessonId = userLessonId,
+                UserChapters = userChapters,
+                UserLessons = userLessons,
+                User = user
+            };
+
+            canOpenLesson = canOpenLesson
+                .CheckUserAdmin()
+                .CheckFirst()
+                .CheckOnPassed()
+                .CheckAllPreviousPassed();
+
+            return canOpenLesson.CanOpen;
         }
     }
 }

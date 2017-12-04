@@ -2,51 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CodeSchool.BusinessLogic.Extensions;
 using CodeSchool.BusinessLogic.Interfaces;
+using CodeSchool.BusinessLogic.Models;
 using CodeSchool.DataAccess;
 using CodeSchool.Domain;
 
 namespace CodeSchool.BusinessLogic.Services
 {
-    public class CanOpenChapter
-    {
-        public bool CanOpen { get; set; }
-        public int UserChapterId { get; set; }
-        public ICollection<UserChapter> UserChapters { get; set; }
-    }
-
-    public static class CanOpenChapterExtensions
-    {
-        public static CanOpenChapter CheckFirst(this CanOpenChapter model)
-        {
-            if (model.CanOpen) return model;
-
-            var firstChapter = model.UserChapters.FirstOrDefault();
-            var isFirst = firstChapter != null && firstChapter.Id == model.UserChapterId;
-            model.CanOpen = isFirst;
-            return model;
-        }
-
-        public static CanOpenChapter CheckOnPassed(this CanOpenChapter model)
-        {
-            if (model.CanOpen) return model;
-
-            var userChapter = model.UserChapters.FirstOrDefault(c => c.Id == model.UserChapterId);
-            model.CanOpen = userChapter != null && userChapter.IsPassed;
-
-            return model;
-        }
-
-        public static CanOpenChapter CheckAllPreviousPassed(this CanOpenChapter model)
-        {
-            if (model.CanOpen) return model;
-
-            var allPreviousPassed = model.UserChapters.TakeWhile(c => c.Id != model.UserChapterId).All(c => c.IsPassed);
-            model.CanOpen = allPreviousPassed;
-            return model;
-        }
-    }
-
     public class UserChapterService : IUserChapterService
     {
         private readonly IGenericRepository _repository;
@@ -58,7 +21,7 @@ namespace CodeSchool.BusinessLogic.Services
             _chapterService = chapterService;
         }
 
-        public async Task<ICollection<UserChapter>> Get(Guid userId)
+        public async Task<ICollection<UserChapter>> GetAll(Guid userId)
         {
             var userChapters = (await _repository.Where<UserChapter>(c => c.UserId == userId))
                 .OrderBy(c => c.Chapter.Order)
@@ -70,7 +33,7 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task<UserChapter> GetByChapterId(Guid userId, int chapterId)
         {
-            var userChapters = await Get(userId);
+            var userChapters = await GetAll(userId);
             var userChapter = userChapters.FirstOrDefault(c => c.ChapterId == chapterId);
             return userChapter;
         }
@@ -144,32 +107,24 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task<bool> CanOpen(Guid userId, int userChapterId)
         {
-            var userChapters = (await Get(userId)).ToList();
-            if (!userChapters.Any()) return false;
+            var userChapters = (await GetAll(userId)).ToList();
+            var user = await _repository.Find<User>(u => u.Id == userId);
 
             var canOpenChapter = new CanOpenChapter
             {
                 CanOpen = false,
                 UserChapterId = userChapterId,
-                UserChapters = userChapters
+                UserChapters = userChapters,
+                User = user
             };
 
-            canOpenChapter = canOpenChapter.CheckFirst().CheckOnPassed().CheckAllPreviousPassed();
+            canOpenChapter = canOpenChapter
+                .CheckUserAdmin()
+                .CheckFirst()
+                .CheckOnPassed()
+                .CheckAllPreviousPassed();
+
             return canOpenChapter.CanOpen;
-        }
-
-        private dynamic CheckAllPreviousPassed(dynamic result)
-        {
-            if (result.canOpen) return result;
-
-            var userChapters = (ICollection<UserChapter>)result.userChapters;
-            var allPreviousPassed = userChapters.TakeWhile(c => c.Id != result.userChapterId).All(c => c.IsPassed);
-            return new
-            {
-                canOpen = allPreviousPassed,
-                result.userChapters,
-                result.userChapterId
-            };
         }
     }
 }

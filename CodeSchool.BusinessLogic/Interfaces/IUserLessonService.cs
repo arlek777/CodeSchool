@@ -13,5 +13,6 @@ namespace CodeSchool.BusinessLogic.Interfaces
         Task<UserLesson> Update(UserLesson model);
         Task UpdateCode(int lessonId, string code);
         Task Remove(int lessonId);
+        Task<bool> CanOpen(Guid userId, int userChapterId, int userLessonId);
     }
 }

@@ -21,18 +21,18 @@ namespace CodeSchool.Web.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{userId}/{lessonId}")]
-        public async Task<IActionResult> GetById(Guid userId, int lessonId)
+        [Route("[action]/{userId}/{userLessonId}")]
+        public async Task<IActionResult> GetById(Guid userId, int userLessonId)
         {
-            var userlesson = await _userLessonService.GetById(userId, lessonId);
+            var userlesson = await _userLessonService.GetById(userId, userLessonId);
             return Ok(Mapper.Map<UserLessonResponseModel>(userlesson));
         }
 
         [HttpGet]
-        [Route("[action]/{userId}/{chapterId}")]
-        public async Task<IActionResult> GetByChapter(Guid userId, int chapterId)
+        [Route("[action]/{userId}/{userChapterId}")]
+        public async Task<IActionResult> GetByChapter(Guid userId, int userChapterId)
         {
-            var userlessons = await _userLessonService.Get(userId, chapterId);
+            var userlessons = await _userLessonService.Get(userId, userChapterId);
             return Ok(userlessons.Select(l => new { id = l.Id, isPassed = l.IsPassed }));
         }
 
@@ -51,6 +51,13 @@ namespace CodeSchool.Web.Controllers
                 UserChapterId = model.UserChapterId
             });
             return Ok();
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> CanOpen([FromBody] CanOpenLessonRequestModel model)
+        {
+            return Ok(await _userLessonService.CanOpen(model.UserId, model.UserChapterId, model.UserLessonId));
         }
     }
 }

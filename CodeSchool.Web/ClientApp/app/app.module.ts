@@ -68,7 +68,7 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
             { path: 'register', component: RegisterPage },
             { path: 'literature', component: LiteraturePage },
             { path: 'chapters', component: ChaptersPage, canActivate: [AuthGuard] },
-            { path: 'lesson/:chapterId/:lessonId', component: LessonPage, canActivate: [AuthGuard] },
+            { path: 'lesson/:userChapterId/:userLessonId', component: LessonPage, canActivate: [AuthGuard] },
             { path: 'adminchapters', component: AdminChaptersPage, canActivate: [AdminAuthGuard] },
             { path: 'adminlesson/:chapterId/:lessonId', component: AdminLessonPage, canActivate: [AdminAuthGuard] },
             { path: 'adminlesson/:chapterId', component: AdminLessonPage, canActivate: [AdminAuthGuard] },

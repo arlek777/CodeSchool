@@ -79,20 +79,14 @@ export class BackendService {
         });
     }
 
-    getUserLessons(userId: string, chapterId: number): Promise<number[]> {
-        return this.http.get(`/api/userlesson/getbychapter/${userId}/${chapterId}`).toPromise().then((response) => {
+    getUserLessons(userId: string, userChapterId: number): Promise<number[]> {
+        return this.http.get(`/api/userlesson/getbychapter/${userId}/${userChapterId}`).toPromise().then((response) => {
             return response.json();
         });
     }
 
-    getLatestUserLesson(userId: string, chapterId: number): Promise<UserLessonModel> {
-        return this.http.get(`/api/userlesson/getlatestlesson/${userId}/${chapterId}`).toPromise().then((response) => {
-            return new UserLessonModel(response.json());
-        });
-    }
-
-    getUserLesson(userId: string, lessonId: number): Promise<UserLessonModel> {
-        return this.http.get(`/api/userlesson/getbyid/${userId}/${lessonId}`).toPromise().then((response) => {
+    getUserLesson(userId: string, userLessonId: number): Promise<UserLessonModel> {
+        return this.http.get(`/api/userlesson/getbyid/${userId}/${userLessonId}`).toPromise().then((response) => {
             return new UserLessonModel(response.json());
         });
     }
@@ -107,5 +101,19 @@ export class BackendService {
         return this.http.get("/api/userstatistic/get/").toPromise().then((response) => {
             return response.json();
         });
+    }
+
+    canOpenChapter(userId, userChapterId): Promise<boolean> {
+        return this.http.post("/api/userchapter/canopen/", { userId: userId, userChapterId: userChapterId })
+            .toPromise().then((response) => {
+                return response.json();
+            });
+    }
+
+    canOpenLesson(userId, userChapterId, userLessonId): Promise<boolean> {
+        return this.http.post("/api/userlesson/canopen/", { userId: userId, userChapterId: userChapterId, userLessonId: userLessonId })
+            .toPromise().then((response) => {
+                return response.json();
+            });
     }
 }

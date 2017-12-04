@@ -9,6 +9,8 @@ import { UserHelper } from "../../utils/helpers";
 import { UserChapterModel } from "../../models/userchapter";
 import { LessonViewModel } from "../../models/lesson";
 import { PopupService } from "../../services/popup.service";
+import Usermessages = require("../../user-messages");
+import UserMessages = Usermessages.UserMessages;
 
 @Component({
     templateUrl: './lesson.page.html'
@@ -21,7 +23,7 @@ export class LessonPage implements OnInit {
     sanitizedLessonTaskText: SafeHtml = null;
     result: LessonTestResult;
     currentIndex = -1;
-    chapterId: number;
+    userChapterId: number;
 
     @ViewChild(LessonTesterDirective)
     private lessonTester: LessonTesterDirective;
@@ -34,14 +36,16 @@ export class LessonPage implements OnInit {
     }
 
     ngOnInit(): void {
-        this.chapterId = parseInt(this.route.snapshot.params["chapterId"]);
-        var lessonId = parseInt(this.route.snapshot.params["lessonId"]);
+        this.userChapterId = parseInt(this.route.snapshot.params["userChapterId"]);
+        var userLessonId = parseInt(this.route.snapshot.params["userLessonId"]);
 
-        this._init(lessonId);
-
-        this.backendService.getUserLessons(UserHelper.getUserId(), this.chapterId).then((userLessons) => {
-            this.userLessons = userLessons;
-            this.currentIndex = this.userLessons.map(l => l.id).indexOf(lessonId);
+        this.backendService.canOpenLesson(UserHelper.getUserId(), this.userChapterId, userLessonId).then(canOpen => {
+            if (canOpen) {
+                this._init(userLessonId);
+            } else {
+                this.router.navigate(['/chapters']);
+                this.popupService.newValidationError(UserMessages.notAllowedOpenLesson);
+            }
         });
     }
 
@@ -51,12 +55,12 @@ export class LessonPage implements OnInit {
         var nextIndex = ++this.currentIndex;
         if (nextIndex == this.userLessons.length) {
             this.router.navigate(['/chapters']);
-            this.popupService.newSuccessMessage("Поздравляем с окончанием раздела!");
+            this.popupService.newSuccessMessage(UserMessages.chapterDone);
             return;
         }
 
         this._init(this.userLessons[nextIndex].id);
-        this.router.navigate(['/lesson', this.chapterId, this.userLessons[nextIndex].id]);
+        this.router.navigate(['/lesson', this.userChapterId, this.userLessons[nextIndex].id]);
     }
 
     getPreviousLesson() {
@@ -101,5 +105,10 @@ export class LessonPage implements OnInit {
                 this.sanitizedLessonText = this.sanitizer.bypassSecurityTrustHtml(this.userLesson.lesson.text);
                 this.sanitizedLessonTaskText = this.sanitizer.bypassSecurityTrustHtml(this.userLesson.lesson.taskText);
             });
+
+        this.backendService.getUserLessons(UserHelper.getUserId(), this.userChapterId).then((userLessons) => {
+            this.userLessons = userLessons;
+            this.currentIndex = this.userLessons.map(l => l.id).indexOf(lessonId);
+        });
     }
 }
