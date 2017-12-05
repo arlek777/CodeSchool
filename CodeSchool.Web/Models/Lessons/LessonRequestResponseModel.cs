@@ -14,7 +14,7 @@ namespace CodeSchool.Web.Models.Lessons
         public string TaskText { get; set; }
 
         [StringLength(1000, ErrorMessage = ValidationResultMessages.MaxLength)]
-        public string StartCode { get; set; }
+        public string AnswerCode { get; set; }
 
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         [StringLength(15000, ErrorMessage = ValidationResultMessages.MaxLength)]

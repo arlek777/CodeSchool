@@ -39,6 +39,9 @@
                             <a [routerLink]="['/adminlesson', chapter.id, lesson.id]">
                                 <h5 style="display: inline-block">{{ lesson.title }}</h5>
                             </a>
+                            <a *ngIf="!lesson.published"  href="javascript: " (click)="publishLesson(chapter.id, lesson)">
+                                <span class="fa fa-pencil"></span>
+                            </a>
                             <a class="alert-danger" href="javascript: " (click)="removeLesson(chapter, lesson.id)">
                                 <span class="fa fa-remove"></span>
                             </a>

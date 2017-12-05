@@ -11,9 +11,10 @@ export class LessonViewModel {
     chapterId: number;
     text: string;
     taskText: string;
-    startCode: string;
+    answerCode: string;
     unitTestsCode: string;
     reporterCode: string;
     title: string;
     order: number;
+    published: boolean;
 }

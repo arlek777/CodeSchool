@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CodeSchool.Web.Models
 {
-    public class RemoveRequestModel
+    public class IdRequestModel
     {
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         public int Id { get; set; }

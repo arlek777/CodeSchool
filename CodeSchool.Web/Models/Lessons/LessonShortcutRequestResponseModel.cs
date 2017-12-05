@@ -15,5 +15,7 @@ namespace CodeSchool.Web.Models.Lessons
         public string Title { get; set; }
 
         public int Order { get; set; }
+
+        public bool Published { get; set; }
     }
 }

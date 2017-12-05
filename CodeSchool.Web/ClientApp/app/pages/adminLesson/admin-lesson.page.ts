@@ -12,6 +12,7 @@ import { Constants } from "../../constants";
 })
 export class AdminLessonPage implements OnInit {
     lesson: LessonViewModel = new LessonViewModel();
+    publishLesson = false;
 
     @ViewChild(LessonTesterDirective)
     private lessonTester: LessonTesterDirective;
@@ -36,15 +37,17 @@ export class AdminLessonPage implements OnInit {
             this.lesson.chapterId = this.route.snapshot.params["chapterId"];
             this.lesson.unitTestsCode = Constants.startUnitTest;
             this.lesson.reporterCode = Constants.startLessonReporter;
-            return;
+            this.publishLesson = false;
+        } else {
+            this.backendService.getLesson(lessonId).then(lesson => {
+                this.lesson = lesson;
+                this.publishLesson = lesson.published;
+            });
         }
-
-        this.backendService.getLesson(lessonId).then(lesson => {
-            this.lesson = lesson;
-        });
     }
 
     addOrUpdate(finished: boolean) {
+        this.lesson.published = this.publishLesson;
         this.backendService.addOrUpdateLesson(this.lesson).then((lesson) => {
             if (finished) {
                 this.router.navigate(['/adminchapters']);
@@ -65,6 +68,6 @@ export class AdminLessonPage implements OnInit {
     }
 
     testLesson() {
-        this.lessonTester.testLesson(this.lesson);
+        this.lessonTester.testLesson(this.lesson.answerCode, this.lesson);
     }
 }

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ChapterViewModel } from "../../models/chapter";
+import { LessonViewModel } from "../../models/lesson";
 import { BackendService } from "../../services/backend.service";
+import { PopupService } from "../../services/popup.service";
+import { UserMessages } from "../../user-messages";
 
 @Component({
     templateUrl: './admin-chapters.page.html'
@@ -9,7 +12,7 @@ export class AdminChaptersPage implements OnInit {
     chapters: ChapterViewModel[] = [];
     chapter: ChapterViewModel = new ChapterViewModel();
 
-    constructor(private backendService: BackendService) {
+    constructor(private backendService: BackendService, private popupService: PopupService) {
     }
 
     ngOnInit() {
@@ -31,13 +34,20 @@ export class AdminChaptersPage implements OnInit {
         this.chapter = chapter;
     }
 
+    publishLesson(chapterId, lesson: LessonViewModel) {
+        this.backendService.publishLesson(chapterId, lesson.id).then(() => {
+            this.popupService.newSuccessMessage(UserMessages.published);
+            lesson.published = true;
+        });
+    }
+
     removeLesson(chapter: ChapterViewModel, id) {
         var result = confirm("Are you sure?");
         if (!result) return;
 
         this.backendService.removeLesson(id).then(() => {
             chapter.lessons = chapter.lessons.filter(l => l.id !== id);
-        })
+        });
     }
 
     removeChapter(id) {

@@ -116,4 +116,10 @@ export class BackendService {
                 return response.json();
             });
     }
+
+    publishLesson(chapterId, lessonId): Promise<void> {
+        return this.http.post("/api/lesson/publish/", { chapterId: chapterId, lessonId: lessonId })
+            .toPromise().then(() => {
+            });
+    }
 }

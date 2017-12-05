@@ -1,14 +1,22 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace CodeSchool.Domain
 {
     public class UserLesson
     {
+        [Required]
         public int Id { get; set; }
+
+        [Required]
         public int LessonId { get; set; }
+
+        [Required]
         public int UserChapterId { get; set; }
 
+        [Required]
         public Guid UserId { get; set; }
+
         public bool IsPassed { get; set; }
         public string Code { get; set; }
         public DateTime UpdatedDt { get; set; }

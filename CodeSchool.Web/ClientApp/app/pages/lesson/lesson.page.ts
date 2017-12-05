@@ -81,9 +81,13 @@ export class LessonPage implements OnInit {
     checkLesson() {
         if (!this.userLesson.code) return;
 
-        var lessonCheckModel = new LessonViewModel(this.userLesson.lesson);
-        lessonCheckModel.startCode = this.userLesson.code;
-        this.lessonTester.checkLesson(lessonCheckModel);
+        this.lessonTester.checkLesson(this.userLesson.code, this.userLesson.lesson);
+    }
+
+    showAnswer() {
+        if (confirm(UserMessages.showAnswerConfirm)) {
+            this.userLesson.code = this.userLesson.lesson.answerCode;
+        }
     }
 
     getProgressInPercents(): string {

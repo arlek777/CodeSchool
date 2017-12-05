@@ -38,7 +38,7 @@ namespace CodeSchool.Web.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
             var lesson = await _lessonService.AddOrUpdate(Mapper.Map<Lesson>(model));
-            if (model.Id == 0)
+            if (model.Published && !lesson.Published)
             {
                 await _userLessonService.AddToAllUsers(lesson.Id, model.ChapterId);
             }
@@ -50,7 +50,21 @@ namespace CodeSchool.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Remove([FromBody] RemoveRequestModel model)
+        public async Task<IActionResult> Publish([FromBody] PublishLessonRequestModel model)
+        {
+            var lesson = await _lessonService.GetById(model.LessonId);
+            if (!lesson.Published)
+            {
+                await _userLessonService.AddToAllUsers(model.LessonId, model.ChapterId);
+                lesson.Published = true;
+                await _lessonService.AddOrUpdate(lesson);
+            }
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> Remove([FromBody] IdRequestModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 

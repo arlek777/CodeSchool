@@ -36,7 +36,7 @@ namespace CodeSchool.BusinessLogic.Services
             {
                 lesson.ReporterCode = model.ReporterCode;
                 lesson.UnitTestsCode = model.UnitTestsCode;
-                lesson.StartCode = model.StartCode;
+                lesson.AnswerCode = model.AnswerCode;
                 lesson.TaskText = model.TaskText;
                 lesson.Text = model.Text;
                 lesson.Title = model.Title;

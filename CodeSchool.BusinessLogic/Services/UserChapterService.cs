@@ -75,7 +75,6 @@ namespace CodeSchool.BusinessLogic.Services
                     {
                         UserChapterId = newChapter.Id,
                         UserId = userId,
-                        Code = lesson.StartCode,
                         LessonId = lesson.Id,
                         UpdatedDt = DateTime.UtcNow
                     };

@@ -8,9 +8,16 @@
         </div>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-10">
         <div class="form-group">
             <input class="form-control" placeholder="Название" [(ngModel)]="lesson.title" />
+        </div>
+    </div>
+    
+    <div *ngIf="!lesson.published" class="col-md-2">
+        <div class="form-group">
+            <label for="publishLesson">Опубликовать</label>
+            <input id="publishLesson"  type="checkbox" [(ngModel)]="publishLesson" />
         </div>
     </div>
 
@@ -31,10 +38,10 @@
             </div>
         </div>
         <div class="panel panel-default admin-lesson-half">
-            <div class="panel-heading">Код</div>
+            <div class="panel-heading">Код Ответ</div>
             <div class="panel-body">
                 <div ace-editor
-                     [(text)]="lesson.startCode"
+                     [(text)]="lesson.answerCode"
                      [mode]="'javascript'"
                      [theme]="'eclipse'"
                      [readOnly]="false"

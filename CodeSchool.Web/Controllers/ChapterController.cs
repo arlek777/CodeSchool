@@ -57,7 +57,7 @@ namespace CodeSchool.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Remove([FromBody] RemoveRequestModel model)
+        public async Task<IActionResult> Remove([FromBody] IdRequestModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 

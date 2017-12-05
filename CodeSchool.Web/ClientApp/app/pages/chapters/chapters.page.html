@@ -4,7 +4,7 @@
         <div class="panel-body">
             <div class="row">
                 <div *ngFor="let userChapter of userChapters" class="col-md-12">
-                    <div class="col-md-3">
+                    <div *ngIf="userChapter.userLessons.length > 0" class="col-md-3">
                         <a href="javascript: " (click)="openChapter(userChapter)">
                             <h4>{{ userChapter.chapterTitle }}
                                 <span class="green-color" [ngClass]="{'fa fa-check': userChapter.isPassed}"></span>

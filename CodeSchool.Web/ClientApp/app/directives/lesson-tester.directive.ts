@@ -23,18 +23,18 @@ export class LessonTesterDirective {
         }
     }
 
-    checkLesson(lesson: LessonViewModel) {
+    checkLesson(code: string, lesson: LessonViewModel) {
         var unitTestsCode = lesson.unitTestsCode + " window.runJasmine();";
 
-        this.createAndAppendScriptElement(this.decorateCodeWithFunction(lesson.startCode));
+        this.createAndAppendScriptElement(this.decorateCodeWithFunction(code));
         this.createAndAppendScriptElement(lesson.reporterCode);
         this.createAndAppendScriptElement(unitTestsCode);
     }
 
-    testLesson(lesson: LessonViewModel) {
+    testLesson(code: string, lesson: LessonViewModel) {
         var unitTestsCode = lesson.unitTestsCode + " window.runJasmine();";
 
-        this.createAndAppendScriptElement(this.decorateCodeWithFunction(lesson.startCode));
+        this.createAndAppendScriptElement(this.decorateCodeWithFunction(code));
         this.createAndAppendScriptElement(Constants.defaultLessonReporter);
         this.createAndAppendScriptElement(unitTestsCode);
     }

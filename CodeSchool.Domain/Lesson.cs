@@ -16,9 +16,10 @@ namespace CodeSchool.Domain
         [Required]
         public string Text { get; set; }
 
+        [Required]
         public string TaskText { get; set; }
 
-        public string StartCode { get; set; }
+        public string AnswerCode { get; set; }
 
         [Required]
         public string UnitTestsCode { get; set; }
@@ -28,6 +29,8 @@ namespace CodeSchool.Domain
 
         [Required]
         public int Order { get; set; }
+
+        public bool Published { get; set; }
 
         public virtual Chapter Chapter { get; set; }
     }
