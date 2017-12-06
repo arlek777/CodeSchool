@@ -38,9 +38,13 @@ namespace CodeSchool.Web.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
             var lesson = await _lessonService.AddOrUpdate(Mapper.Map<Lesson>(model));
-            if (model.Published && !lesson.Published)
+            if (model.PublishNow)
             {
-                await _userLessonService.AddToAllUsers(lesson.Id, model.ChapterId);
+                await PublishLesson(new PublishLessonRequestModel
+                {
+                    ChapterId = lesson.ChapterId,
+                    LessonId = lesson.Id
+                });
             }
             
             model.Order = lesson.Order;
@@ -52,13 +56,9 @@ namespace CodeSchool.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Publish([FromBody] PublishLessonRequestModel model)
         {
-            var lesson = await _lessonService.GetById(model.LessonId);
-            if (!lesson.Published)
-            {
-                await _userLessonService.AddToAllUsers(model.LessonId, model.ChapterId);
-                lesson.Published = true;
-                await _lessonService.AddOrUpdate(lesson);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
+
+            await PublishLesson(model);
             return Ok();
         }
 
@@ -81,6 +81,17 @@ namespace CodeSchool.Web.Controllers
 
             await _lessonService.ChangeOrder(model.CurrentId, model.ToSwapId);
             return Ok();
+        }
+
+        private async Task PublishLesson(PublishLessonRequestModel model)
+        {
+            var lesson = await _lessonService.GetById(model.LessonId);
+            if (!lesson.Published)
+            {
+                await _userLessonService.AddToAllUsers(model.LessonId, model.ChapterId);
+                lesson.Published = true;
+                await _lessonService.AddOrUpdate(lesson);
+            }
         }
     }
 }

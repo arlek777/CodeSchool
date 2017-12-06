@@ -17,7 +17,7 @@
     <div *ngIf="!lesson.published" class="col-md-2">
         <div class="form-group">
             <label for="publishLesson">Опубликовать</label>
-            <input id="publishLesson"  type="checkbox" [(ngModel)]="publishLesson" />
+            <input id="publishLesson"  type="checkbox" [(ngModel)]="lesson.publishNow" />
         </div>
     </div>
 

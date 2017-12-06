@@ -17,4 +17,5 @@ export class LessonViewModel {
     title: string;
     order: number;
     published: boolean;
+    publishNow: boolean;
 }

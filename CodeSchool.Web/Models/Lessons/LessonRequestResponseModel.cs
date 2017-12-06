@@ -24,5 +24,7 @@ namespace CodeSchool.Web.Models.Lessons
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         [StringLength(15000, ErrorMessage = ValidationResultMessages.MaxLength)]
         public string ReporterCode { get; set; }
+
+        public bool PublishNow { get; set; }
     }
 }

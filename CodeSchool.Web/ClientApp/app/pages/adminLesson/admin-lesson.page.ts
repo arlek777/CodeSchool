@@ -12,7 +12,6 @@ import { Constants } from "../../constants";
 })
 export class AdminLessonPage implements OnInit {
     lesson: LessonViewModel = new LessonViewModel();
-    publishLesson = false;
 
     @ViewChild(LessonTesterDirective)
     private lessonTester: LessonTesterDirective;
@@ -25,7 +24,7 @@ export class AdminLessonPage implements OnInit {
 
     onKey(event) {
         // Ctrl + S handled
-        if (event.keyCode == 83 && event.ctrlKey) {
+        if (event.keyCode === 83 && event.ctrlKey) {
             event.preventDefault();
             this.addOrUpdate(false);
         }
@@ -37,17 +36,14 @@ export class AdminLessonPage implements OnInit {
             this.lesson.chapterId = this.route.snapshot.params["chapterId"];
             this.lesson.unitTestsCode = Constants.startUnitTest;
             this.lesson.reporterCode = Constants.startLessonReporter;
-            this.publishLesson = false;
         } else {
             this.backendService.getLesson(lessonId).then(lesson => {
                 this.lesson = lesson;
-                this.publishLesson = lesson.published;
             });
         }
     }
 
     addOrUpdate(finished: boolean) {
-        this.lesson.published = this.publishLesson;
         this.backendService.addOrUpdateLesson(this.lesson).then((lesson) => {
             if (finished) {
                 this.router.navigate(['/adminchapters']);

@@ -35,6 +35,8 @@ export class AdminChaptersPage implements OnInit {
     }
 
     publishLesson(chapterId, lesson: LessonViewModel) {
+        if (!confirm(UserMessages.publishLesson)) return;
+
         this.backendService.publishLesson(chapterId, lesson.id).then(() => {
             this.popupService.newSuccessMessage(UserMessages.published);
             lesson.published = true;
