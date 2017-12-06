@@ -10,6 +10,7 @@ namespace CodeSchool.Web.Models.Lessons
         [StringLength(15000, ErrorMessage = ValidationResultMessages.MaxLength)]
         public string Text { get; set; }
 
+        [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         [StringLength(5000, ErrorMessage = ValidationResultMessages.MaxLength)]
         public string TaskText { get; set; }
 
