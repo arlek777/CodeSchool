@@ -11,7 +11,6 @@ import { TinymceModule } from 'angular2-tinymce';
 
 import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
-import { HomeComponent } from './components/home/home.component';
 
 import { LessonPage } from './pages/lesson/lesson.page';
 import { ChaptersPage } from './pages/chapters/chapters.page';
@@ -46,7 +45,6 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
     declarations: [
         AppComponent,
         NavMenuComponent,
-        HomeComponent,
         LessonTesterDirective,
         LessonPage,
         ChaptersPage,
@@ -78,7 +76,9 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
         AceEditorModule,
         BrowserAnimationsModule,
         ToastModule.forRoot(),
-        TinymceModule.withConfig({})
+        TinymceModule.withConfig({
+            browser_spellcheck: true
+        })
     ],
     providers: [
         { provide: 'ORIGIN_URL', useValue: location.origin },

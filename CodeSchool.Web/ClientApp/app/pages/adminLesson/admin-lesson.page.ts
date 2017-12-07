@@ -6,12 +6,16 @@ import { LessonTestResult } from "../../models/lessontestresult";
 import { LessonTesterDirective } from "../../directives/lesson-tester.directive";
 import { PopupService } from "../../services/popup.service";
 import { Constants } from "../../constants";
+import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     templateUrl: './admin-lesson.page.html'
 })
 export class AdminLessonPage implements OnInit {
     lesson: LessonViewModel = new LessonViewModel();
+    sanitizedLessonText: SafeHtml = null;
+    sanitizedLessonTaskText: SafeHtml = null;
+    isTextPreviewMode = false;
 
     @ViewChild(LessonTesterDirective)
     private lessonTester: LessonTesterDirective;
@@ -19,7 +23,8 @@ export class AdminLessonPage implements OnInit {
     constructor(private backendService: BackendService,
         private route: ActivatedRoute,
         private router: Router,
-        private popupService: PopupService) {
+        private popupService: PopupService,
+        private sanitizer: DomSanitizer) {
     }
 
     onKey(event) {
@@ -65,5 +70,15 @@ export class AdminLessonPage implements OnInit {
 
     testLesson() {
         this.lessonTester.testLesson(this.lesson.answerCode, this.lesson);
+    }
+
+    showTextPreview() {
+        if (!this.isTextPreviewMode) {
+            this.sanitizedLessonText = this.sanitizer.bypassSecurityTrustHtml(this.lesson.text);
+            this.sanitizedLessonTaskText = this.sanitizer.bypassSecurityTrustHtml(this.lesson.taskText);
+            this.isTextPreviewMode = true;
+        } else {
+            this.isTextPreviewMode = false;
+        }
     }
 }

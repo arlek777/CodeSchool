@@ -23,19 +23,24 @@
 
     <div class="col-md-6">
         <div class="panel panel-default admin-lesson-full">
-            <div class="panel-heading">Текст</div>
-            <div class="panel-body">
+            <div class="panel-heading">
+                Текст
+                <a href="javascript: " (click)="showTextPreview()">Превью</a>
+            </div>
+            <div [ngClass]="{ 'hidden': isTextPreviewMode }" class="panel-body">
                 <app-tinymce [(ngModel)]='lesson.text'></app-tinymce>
             </div>
+            <div [ngClass]="{ 'hidden': !isTextPreviewMode }" class="panel-body" [innerHtml]="sanitizedLessonText"></div>
         </div>
     </div>
 
     <div class="col-md-6">
         <div class="panel panel-default admin-lesson-half">
             <div class="panel-heading">Задание</div>
-            <div class="panel-body">
+            <div [ngClass]="{ 'hidden': isTextPreviewMode }" class="panel-body">
                 <app-tinymce [(ngModel)]='lesson.taskText'></app-tinymce>
             </div>
+            <div [ngClass]="{ 'hidden': !isTextPreviewMode }" class="panel-body" [innerHtml]="sanitizedLessonTaskText"></div>
         </div>
         <div class="panel panel-default admin-lesson-half">
             <div class="panel-heading">Код Ответ</div>
