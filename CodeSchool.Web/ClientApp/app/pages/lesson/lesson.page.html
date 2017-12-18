@@ -1,6 +1,6 @@
 ﻿<div class="row margin-bottom-20">
     <div class="col-md-offset-4 col-md-4 text-center">
-        <h3>Прогресс ({{ getPassedUserLessonsCount() }} из {{ userLessons.length }})</h3>
+        <h3>Прогресс ({{ getPassedUserLessonsCount() }} из {{ userLessonIds.length }})</h3>
         <div class="progress">
             <div [ngStyle]="{ 'width': getProgressInPercents() }" style="min-width: 10px"
                  class="progress-bar-success progress-bar-striped" role="progressbar">
@@ -48,7 +48,7 @@
                 </div>
 
                 <button (click)="checkLesson()" class="btn btn-default btn-lg">Проверить</button>
-                <button *ngIf="!userLesson.isPassed" (click)="showAnswer()" class="btn btn-warning btn-lg">
+                <button *ngIf="!userLesson.isPassed && failedAttempts >= 3" (click)="showAnswer()" class="btn btn-warning btn-lg">
                     Показать Ответ
                 </button>
                 <button *ngIf="userLesson.isPassed" (click)="getNextLesson()" class="btn btn-success btn-lg">

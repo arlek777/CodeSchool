@@ -14,10 +14,12 @@ namespace CodeSchool.Web.Controllers
     public class UserLessonController : Controller
     {
         private readonly IUserLessonService _userLessonService;
+        private readonly IUserChapterService _userChapterService;
 
-        public UserLessonController(IUserLessonService userLessonService)
+        public UserLessonController(IUserLessonService userLessonService, IUserChapterService userChapterService)
         {
             _userLessonService = userLessonService;
+            _userChapterService = userChapterService;
         }
 
         [HttpGet]
@@ -30,7 +32,7 @@ namespace CodeSchool.Web.Controllers
 
         [HttpGet]
         [Route("[action]/{userId}/{userChapterId}")]
-        public async Task<IActionResult> GetByChapter(Guid userId, int userChapterId)
+        public async Task<IActionResult> GetUserLessonIds(Guid userId, int userChapterId)
         {
             var userlessons = await _userLessonService.Get(userId, userChapterId);
             return Ok(userlessons.Select(l => new { id = l.Id, isPassed = l.IsPassed }));
@@ -57,7 +59,13 @@ namespace CodeSchool.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> CanOpen([FromBody] CanOpenLessonRequestModel model)
         {
-            return Ok(await _userLessonService.CanOpen(model.UserId, model.UserChapterId, model.UserLessonId));
+            var canOpenChapter = await _userChapterService.CanOpen(model.UserId, model.UserChapterId);
+            if (canOpenChapter)
+            {
+                return Ok(await _userLessonService.CanOpen(model.UserId, model.UserChapterId, model.UserLessonId));
+            }
+
+            return Ok(false);
         }
     }
 }

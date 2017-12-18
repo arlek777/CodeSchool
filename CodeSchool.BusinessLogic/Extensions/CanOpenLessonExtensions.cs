@@ -18,12 +18,8 @@ namespace CodeSchool.BusinessLogic.Extensions
             if (model.CanOpen) return model;
 
             var firstLesson = model.UserLessons.FirstOrDefault();
-            var firstChapter = model.UserChapters.FirstOrDefault();
+            model.CanOpen = firstLesson != null && firstLesson.Id == model.UserLessonId;
 
-            var isFirstLesson = firstLesson != null && firstLesson.Id == model.UserLessonId;
-            var isFirstChapter = firstChapter != null && firstChapter.Id == model.UserChapterId;
-
-            model.CanOpen = isFirstLesson && isFirstChapter;
             return model;
         }
 

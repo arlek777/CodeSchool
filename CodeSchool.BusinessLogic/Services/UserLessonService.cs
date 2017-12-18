@@ -93,20 +93,16 @@ namespace CodeSchool.BusinessLogic.Services
         {
             var userLessons = await Get(userId, userChapterId);
             var user = await _repository.Find<User>(u => u.Id == userId);
-            var userChapters = await _userChapterService.GetAll(userId);
          
             var canOpenLesson = new CanOpenLesson
             {
                 CanOpen = false,
-                UserChapterId = userChapterId,
                 UserLessonId = userLessonId,
-                UserChapters = userChapters,
                 UserLessons = userLessons,
                 User = user
             };
 
             canOpenLesson = canOpenLesson
-                .CheckUserAdmin()
                 .CheckFirst()
                 .CheckOnPassed()
                 .CheckAllPreviousPassed();

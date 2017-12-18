@@ -10,6 +10,5 @@ namespace CodeSchool.BusinessLogic.Models
         public int UserChapterId { get; set; }
         public User User { get; set; }
         public ICollection<UserLesson> UserLessons { get; set; }
-        public ICollection<UserChapter> UserChapters { get; set; }
     }
 }

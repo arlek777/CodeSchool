@@ -17,13 +17,14 @@ import UserMessages = Usermessages.UserMessages;
 })
 export class LessonPage implements OnInit {
     userLesson: UserLessonModel = new UserLessonModel();
-    userLessons = [];
+    userLessonIds = [];
 
     sanitizedLessonText: SafeHtml = null;
     sanitizedLessonTaskText: SafeHtml = null;
     result: LessonTestResult;
     currentIndex = -1;
     userChapterId: number;
+    failedAttempts = 0;
 
     @ViewChild(LessonTesterDirective)
     private lessonTester: LessonTesterDirective;
@@ -41,7 +42,8 @@ export class LessonPage implements OnInit {
 
         this.backendService.canOpenLesson(UserHelper.getUserId(), this.userChapterId, userLessonId).then(canOpen => {
             if (canOpen) {
-                this._init(userLessonId);
+                this._loadUserLessonsId(userLessonId);
+                this._loadUserLesson(userLessonId);
             } else {
                 this.router.navigate(['/chapters']);
                 this.popupService.newValidationError(UserMessages.notAllowedOpenLesson);
@@ -53,27 +55,29 @@ export class LessonPage implements OnInit {
         if (!this.userLesson.isPassed) return;
 
         var nextIndex = ++this.currentIndex;
-        if (nextIndex == this.userLessons.length) {
+        if (nextIndex === this.userLessonIds.length) {
             this.router.navigate(['/chapters']);
             this.popupService.newSuccessMessage(UserMessages.chapterDone);
             return;
         }
 
-        this._init(this.userLessons[nextIndex].id);
-        this.router.navigate(['/lesson', this.userChapterId, this.userLessons[nextIndex].id]);
+        var nextId = this.userLessonIds[nextIndex].id;
+        this._loadUserLesson(nextId);
+        this.router.navigate(['/lesson', this.userChapterId, nextId]);
     }
 
     getPreviousLesson() {
-        if (this.currentIndex == 0) return;
+        if (this.currentIndex === 0) return;
         var prevIndex = --this.currentIndex;
 
-        this._init(this.userLessons[prevIndex].id);
+        this._loadUserLesson(this.userLessonIds[prevIndex].id);
     }
 
     onTestResultsReceived(result: LessonTestResult) {
         this.result = result;
         this.userLesson.isPassed = result.isSucceeded;
-        this.userLessons[this.currentIndex].isPassed = result.isSucceeded;
+        this.userLessonIds[this.currentIndex].isPassed = result.isSucceeded;
+        this.failedAttempts = result.isSucceeded ? 0 : ++this.failedAttempts;
 
         this.backendService.updateUserLesson(this.userLesson);
     }
@@ -92,27 +96,29 @@ export class LessonPage implements OnInit {
 
     getProgressInPercents(): string {
         var passedCount = this.getPassedUserLessonsCount();
-        var result = (passedCount * 100) / this.userLessons.length;
+        var result = (passedCount * 100) / this.userLessonIds.length;
 
         return Math.round(result).toString() + "%";
     }
 
     getPassedUserLessonsCount(): number {
-        return this.userLessons.filter(l => l.isPassed).length;
+        return this.userLessonIds.filter(l => l.isPassed).length;
     }
 
-    private _init(lessonId) {
-        this.backendService.getUserLesson(UserHelper.getUserId(), lessonId)
+    private _loadUserLessonsId(userLessonId) {
+        this.backendService.getUserLessonIds(UserHelper.getUserId(), this.userChapterId).then((userLessons) => {
+            this.userLessonIds = userLessons;
+            this.currentIndex = this.userLessonIds.map(l => l.id).indexOf(userLessonId);
+        });
+    }
+
+    private _loadUserLesson(userLessonId) {
+        this.backendService.getUserLesson(UserHelper.getUserId(), userLessonId)
             .then(userLesson => {
                 this.userLesson = userLesson;
                 this.result = new LessonTestResult();
                 this.sanitizedLessonText = this.sanitizer.bypassSecurityTrustHtml(this.userLesson.lesson.text);
                 this.sanitizedLessonTaskText = this.sanitizer.bypassSecurityTrustHtml(this.userLesson.lesson.taskText);
             });
-
-        this.backendService.getUserLessons(UserHelper.getUserId(), this.userChapterId).then((userLessons) => {
-            this.userLessons = userLessons;
-            this.currentIndex = this.userLessons.map(l => l.id).indexOf(lessonId);
-        });
     }
 }
