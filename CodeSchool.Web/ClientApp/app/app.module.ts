@@ -14,16 +14,18 @@ import { NavMenuComponent } from './components/navmenu/navmenu.component';
 
 import { LessonPage } from './pages/lesson/lesson.page';
 import { ChaptersPage } from './pages/chapters/chapters.page';
-import { AdminLessonPage } from './pages/adminLesson/admin-lesson.page';
-import { AdminChaptersPage } from './pages/adminChapters/admin-chapters.page';
+import { AdminLessonPage } from './pages/admin-lesson/admin-lesson.page';
+import { AdminChaptersPage } from './pages/admin-chapters/admin-chapters.page';
 import { LoginPage } from "./pages/login/login.page";
 import { RegisterPage } from "./pages/register/register.page";
 import { LiteraturePage } from "./pages/literature/literature.page";
-import { UserStatisticPage } from "./pages/userStatistic/user-statistic.page";
+import { UserStatisticPage } from "./pages/user-statistic/user-statistic.page";
 
+import { ToggleMobileNavbarDirective } from "./directives/toggle-mobile-navbar.directive";
+import { LessonTesterDirective } from "./directives/lesson-tester.directive";
 import { BackendService } from "./services/backend.service";
 import { PopupService } from "./services/popup.service";
-import { LessonTesterDirective } from "./directives/lesson-tester.directive";
+
 import { AuthService } from "./services/auth.service";
 import { AdminAuthGuard, AuthGuard } from "./services/auth-guard.service";
 import { GlobalErrorHandler } from "./services/global-error-handler.service";
@@ -46,6 +48,7 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
         AppComponent,
         NavMenuComponent,
         LessonTesterDirective,
+        ToggleMobileNavbarDirective,
         LessonPage,
         ChaptersPage,
         AdminLessonPage,
