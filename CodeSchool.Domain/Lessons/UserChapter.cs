@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CodeSchool.Domain
+namespace CodeSchool.Domain.Lessons
 {
     public class UserChapter
     {

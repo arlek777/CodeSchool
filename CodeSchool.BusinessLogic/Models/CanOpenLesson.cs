@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using CodeSchool.Domain;
+using CodeSchool.Domain.Lessons;
 
 namespace CodeSchool.BusinessLogic.Models
 {

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using AutoMapper;
 using CodeSchool.Domain;
+using CodeSchool.Domain.Lessons;
 using CodeSchool.Web.Models;
 using CodeSchool.Web.Models.Chapters;
 using CodeSchool.Web.Models.Lessons;

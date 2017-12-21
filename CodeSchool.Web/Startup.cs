@@ -1,6 +1,5 @@
 using System.Data.Entity;
 using System.Text;
-using CodeSchool.BusinessLogic.Services;
 using CodeSchool.DataAccess;
 using CodeSchool.Web.Infrastructure;
 using CodeSchool.Web.Models;

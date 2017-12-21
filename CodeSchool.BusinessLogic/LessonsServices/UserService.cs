@@ -4,7 +4,7 @@ using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.DataAccess;
 using CodeSchool.Domain;
 
-namespace CodeSchool.BusinessLogic.Services
+namespace CodeSchool.BusinessLogic.LessonsServices
 {
     public class UserService : IUserService
     {

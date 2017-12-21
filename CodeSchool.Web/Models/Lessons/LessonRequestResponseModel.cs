@@ -4,6 +4,20 @@ using CodeSchool.Web.Infrastructure;
 
 namespace CodeSchool.Web.Models.Lessons
 {
+    public class TestItemRequestModel
+    {
+        public int Id { get; set; }
+
+        public int TestCategoryId { get; set; }
+
+        [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
+        [StringLength(15000, ErrorMessage = ValidationResultMessages.MaxLength)]
+        public string Title { get; set; }
+
+        [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
+        public string Type { get; set; }
+    }
+
     public class LessonRequestResponseModel: LessonShortcutRequestResponseModel
     {
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]

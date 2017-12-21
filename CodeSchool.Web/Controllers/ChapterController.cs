@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.Domain;
+using CodeSchool.Domain.Lessons;
 using CodeSchool.Web.Models;
 using CodeSchool.Web.Models.Chapters;
 using Microsoft.AspNetCore.Authorization;

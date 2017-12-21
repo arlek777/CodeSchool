@@ -2,7 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using CodeSchool.BusinessLogic.Interfaces;
-using CodeSchool.BusinessLogic.Services;
+using CodeSchool.BusinessLogic.LessonsServices;
 using CodeSchool.DataAccess;
 using CodeSchool.Web.Models;
 using Microsoft.AspNet.Identity;

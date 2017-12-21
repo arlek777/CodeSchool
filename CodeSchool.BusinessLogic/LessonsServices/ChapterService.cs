@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.DataAccess;
-using CodeSchool.Domain;
+using CodeSchool.Domain.Lessons;
 
-namespace CodeSchool.BusinessLogic.Services
+namespace CodeSchool.BusinessLogic.LessonsServices
 {
     public class ChapterService : IChapterService
     {

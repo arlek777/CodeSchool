@@ -1,8 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Reflection;
+using System.Threading.Tasks;
 using AutoMapper;
+using CodeSchool.BusinessLogic;
 using CodeSchool.BusinessLogic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using CodeSchool.Domain;
+using CodeSchool.Domain.Lessons;
+using CodeSchool.Domain.Tests;
 using CodeSchool.Web.Models;
 using CodeSchool.Web.Models.Lessons;
 using Microsoft.AspNetCore.Authorization;
@@ -10,6 +14,87 @@ using CodeSchool.Web.Infrastructure;
 
 namespace CodeSchool.Web.Controllers
 {
+    [Route("api/[controller]")]
+    public class TestController : Controller
+    {
+        private readonly ISimpleCRUDService _crudService;
+        private const string CategoryType = "category";
+        private const string ThemeType = "theme";
+
+        public TestController(ISimpleCRUDService crudService)
+        {
+            _crudService = crudService;
+        }
+
+        [HttpGet]
+        [Route("[action]/{id}")]
+        public async Task<IActionResult> Get(int id, string type)
+        {
+            if (type == CategoryType)
+            {
+                var testTheme = await _crudService.GetById<TestTheme>(id);
+                return Ok(testTheme);
+            }
+            else if (type == ThemeType)
+            {
+                var testCategory = await _crudService.GetById<TestCategory>(id);
+                return Ok(testCategory);
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> AddOrUpdate([FromBody] TestItemRequestModel model)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
+
+            if (model.Type == CategoryType)
+            {
+                void UpdateFunc(TestCategory dbCategory, TestCategory modelCategory)
+                {
+                    dbCategory.Title = modelCategory.Title;
+                }
+
+                var dbModel = await _crudService.CreateOrUpdate(Mapper.Map<TestCategory>(model), UpdateFunc);
+                model.Id = dbModel.Id;
+                return Ok(model);
+            }
+            else if (model.Type == ThemeType)
+            {
+                void UpdateFunc(TestTheme dbTheme, TestTheme modelTheme)
+                {
+                    dbTheme.Title = modelTheme.Title;
+                }
+
+                var dbModel = await _crudService.CreateOrUpdate(Mapper.Map<TestTheme>(model), UpdateFunc);
+                model.Id = dbModel.Id;
+                return Ok(model);
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> Remove([FromBody] RemoveTestItemRequestModel model)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
+
+            if (model.Type == CategoryType)
+            {
+                await _crudService.Remove<TestCategory>(model.Id);
+            }
+            else if (model.Type == ThemeType)
+            {
+                await _crudService.Remove<TestTheme>(model.Id);
+            }
+            
+            return Ok();
+        }
+    }
+
     [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     public class LessonController : Controller
