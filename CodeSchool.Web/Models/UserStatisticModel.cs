@@ -2,7 +2,7 @@
 
 namespace CodeSchool.Web.Models
 {
-    public class UserStatisticResponseModel
+    public class UserStatisticModel
     {
         public string UserName { get; set; }
         public string Email { get; set; }

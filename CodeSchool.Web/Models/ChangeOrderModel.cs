@@ -3,12 +3,11 @@ using CodeSchool.Web.Infrastructure;
 
 namespace CodeSchool.Web.Models
 {
-    public class RemoveTestItemRequestModel
+    public class ChangeOrderModel
     {
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
-        public int Id { get; set; }
-
+        public int CurrentId { get; set; }
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
-        public string Type { get; set; }
+        public int ToSwapId { get; set; }
     }
 }

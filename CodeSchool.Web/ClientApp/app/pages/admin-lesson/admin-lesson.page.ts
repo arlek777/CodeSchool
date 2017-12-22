@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit, ViewChild } from '@angular/core';
-import { LessonViewModel } from "../../models/lesson";
+import { LessonViewModel, LessonType } from "../../models/lesson";
 import { BackendService } from "../../services/backend.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { LessonTestResult } from "../../models/lessontestresult";
@@ -42,6 +42,8 @@ export class AdminLessonPage implements OnInit {
             this.lesson.chapterId = this.route.snapshot.params["chapterId"];
             this.lesson.unitTestsCode = Constants.startUnitTest;
             this.lesson.reporterCode = Constants.startLessonReporter;
+            this.lesson.type = 0;
+            this.lesson.level = 0;
         } else {
             this.backendService.getLesson(lessonId).then(lesson => {
                 this.lesson = lesson;
@@ -70,7 +72,7 @@ export class AdminLessonPage implements OnInit {
     }
 
     testLesson() {
-        this.lessonTester.testLesson(this.lesson.answerCode, this.lesson);
+        this.lessonTester.testLesson(this.lesson.answer, this.lesson);
     }
 
     showTextPreview() {

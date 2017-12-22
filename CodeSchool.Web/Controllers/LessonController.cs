@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
-using CodeSchool.BusinessLogic;
 using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.Domain;
 using Microsoft.AspNetCore.Mvc;
-using CodeSchool.Domain.Tests;
 using CodeSchool.Web.Models;
 using CodeSchool.Web.Models.Lessons;
 using Microsoft.AspNetCore.Authorization;
@@ -14,87 +11,6 @@ using CodeSchool.Web.Infrastructure;
 
 namespace CodeSchool.Web.Controllers
 {
-    //[Route("api/[controller]")]
-    //public class TestController : Controller
-    //{
-    //    private readonly ISimpleCRUDService _crudService;
-    //    private const string CategoryType = "category";
-    //    private const string ThemeType = "theme";
-
-    //    public TestController(ISimpleCRUDService crudService)
-    //    {
-    //        _crudService = crudService;
-    //    }
-
-    //    [HttpGet]
-    //    [Route("[action]/{id}")]
-    //    public async Task<IActionResult> Get(int id, string type)
-    //    {
-    //        if (type == CategoryType)
-    //        {
-    //            var testTheme = await _crudService.GetById<TestTheme>(id);
-    //            return Ok(testTheme);
-    //        }
-    //        else if (type == ThemeType)
-    //        {
-    //            var testCategory = await _crudService.GetById<TestCategory>(id);
-    //            return Ok(testCategory);
-    //        }
-
-    //        return NotFound();
-    //    }
-
-    //    [HttpPost]
-    //    [Route("[action]")]
-    //    public async Task<IActionResult> AddOrUpdate([FromBody] TestItemRequestModel model)
-    //    {
-    //        if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
-
-    //        if (model.Type == CategoryType)
-    //        {
-    //            void UpdateFunc(TestCategory dbCategory, TestCategory modelCategory)
-    //            {
-    //                dbCategory.Title = modelCategory.Title;
-    //            }
-
-    //            var dbModel = await _crudService.CreateOrUpdate(Mapper.Map<TestCategory>(model), UpdateFunc);
-    //            model.Id = dbModel.Id;
-    //            return Ok(model);
-    //        }
-    //        else if (model.Type == ThemeType)
-    //        {
-    //            void UpdateFunc(TestTheme dbTheme, TestTheme modelTheme)
-    //            {
-    //                dbTheme.Title = modelTheme.Title;
-    //            }
-
-    //            var dbModel = await _crudService.CreateOrUpdate(Mapper.Map<TestTheme>(model), UpdateFunc);
-    //            model.Id = dbModel.Id;
-    //            return Ok(model);
-    //        }
-
-    //        return NotFound();
-    //    }
-
-    //    [HttpPost]
-    //    [Route("[action]")]
-    //    public async Task<IActionResult> Remove([FromBody] RemoveTestItemRequestModel model)
-    //    {
-    //        if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
-
-    //        if (model.Type == CategoryType)
-    //        {
-    //            await _crudService.Remove<TestCategory>(model.Id);
-    //        }
-    //        else if (model.Type == ThemeType)
-    //        {
-    //            await _crudService.Remove<TestTheme>(model.Id);
-    //        }
-            
-    //        return Ok();
-    //    }
-    //}
-
     [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     public class LessonController : Controller
@@ -113,19 +29,19 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var lesson = await _lessonService.GetById(id);
-            return Ok(Mapper.Map<LessonRequestResponseModel>(lesson));
+            return Ok(Mapper.Map<LessonModel>(lesson));
         }
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> AddOrUpdate([FromBody] LessonRequestResponseModel model)
+        public async Task<IActionResult> AddOrUpdate([FromBody] LessonModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
             var lesson = await _lessonService.AddOrUpdate(Mapper.Map<Lesson>(model));
             if (model.PublishNow)
             {
-                await PublishLesson(new PublishLessonRequestModel
+                await PublishLesson(new PublishLessonModel
                 {
                     ChapterId = lesson.ChapterId,
                     LessonId = lesson.Id
@@ -139,7 +55,7 @@ namespace CodeSchool.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Publish([FromBody] PublishLessonRequestModel model)
+        public async Task<IActionResult> Publish([FromBody] PublishLessonModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
@@ -149,7 +65,7 @@ namespace CodeSchool.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Remove([FromBody] IdRequestModel model)
+        public async Task<IActionResult> Remove([FromBody] IdModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
@@ -160,7 +76,7 @@ namespace CodeSchool.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> ChangeOrder([FromBody] ChangeOrderRequestModel model)
+        public async Task<IActionResult> ChangeOrder([FromBody] ChangeOrderModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
@@ -168,7 +84,7 @@ namespace CodeSchool.Web.Controllers
             return Ok();
         }
 
-        private async Task PublishLesson(PublishLessonRequestModel model)
+        private async Task PublishLesson(PublishLessonModel model)
         {
             var lesson = await _lessonService.GetById(model.LessonId);
             if (!lesson.Published)

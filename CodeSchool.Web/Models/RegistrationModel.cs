@@ -3,7 +3,7 @@ using CodeSchool.Web.Infrastructure;
 
 namespace CodeSchool.Web.Models
 {
-    public class RegistrationRequestModel
+    public class RegistrationModel
     {
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         [StringLength(50, ErrorMessage = ValidationResultMessages.MaxLength)]

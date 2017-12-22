@@ -3,7 +3,7 @@ using CodeSchool.Web.Infrastructure;
 
 namespace CodeSchool.Web.Models.Lessons
 {
-    public class PublishLessonRequestModel
+    public class PublishLessonModel
     {
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         public int LessonId { get; set; }

@@ -27,7 +27,7 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> GetById(Guid userId, int userLessonId)
         {
             var userlesson = await _userLessonService.GetById(userId, userLessonId);
-            return Ok(Mapper.Map<UserLessonResponseModel>(userlesson));
+            return Ok(Mapper.Map<UserLessonModel>(userlesson));
         }
 
         [HttpGet]
@@ -40,7 +40,7 @@ namespace CodeSchool.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Update([FromBody] UserLessonRequestResponseModel model)
+        public async Task<IActionResult> Update([FromBody] UpdateUserLessonModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
@@ -57,7 +57,7 @@ namespace CodeSchool.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> CanOpen([FromBody] CanOpenLessonRequestModel model)
+        public async Task<IActionResult> CanOpen([FromBody] CanOpenLessonModel model)
         {
             var canOpenChapter = await _userChapterService.CanOpen(model.UserId, model.UserChapterId);
             if (canOpenChapter)

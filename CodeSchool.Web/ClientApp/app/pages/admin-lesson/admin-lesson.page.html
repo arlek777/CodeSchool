@@ -1,5 +1,38 @@
 ﻿<div (window:keydown)="onKey($event)">
-    <div class="col-md-offset-9">
+    <div class="col-md-3">
+        <div class="form-group">
+            <input class="form-control" placeholder="Название" [(ngModel)]="lesson.title"/>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="form-group">
+            <select class="form-control" [(ngModel)]="lesson.type">
+                <option value="0">Код</option>
+                <option value="1">Тест</option>
+                <option value="2">Вопрос</option>
+            </select>
+        </div>
+    </div>
+        
+    <div class="col-md-2">
+        <div class="form-group">
+            <select class="form-control" [(ngModel)]="lesson.level">
+                <option value="0">Junior</option>
+                <option value="1">Middle</option>
+                <option value="2">Senior</option>
+            </select>
+        </div>
+    </div>
+
+    <div *ngIf="!lesson.published" class="col-md-1">
+        <div class="form-group">
+            <label for="publishLesson">Опубликовать</label>
+            <input id="publishLesson" type="checkbox" [(ngModel)]="lesson.publishNow"/>
+        </div>
+    </div>
+        
+    <div class="col-md-4">
         <div class="form-group pull-right">
             <button (click)="testLesson()" class="btn btn-primary btn-lg">Тест</button>
             <button (click)="addOrUpdate(false)" class="btn btn-warning btn-lg">Сохранить</button>
@@ -7,91 +40,81 @@
             <button (click)="back()" class="btn btn-danger btn-lg">Назад</button>
         </div>
     </div>
-
-    <div class="col-md-10">
-        <div class="form-group">
-            <input class="form-control" placeholder="Название" [(ngModel)]="lesson.title" />
-        </div>
-    </div>
     
-    <div *ngIf="!lesson.published" class="col-md-2">
-        <div class="form-group">
-            <label for="publishLesson">Опубликовать</label>
-            <input id="publishLesson"  type="checkbox" [(ngModel)]="lesson.publishNow" />
+    <div *ngIf="lesson.type == 0">
+        <div class="col-md-6">
+            <div class="panel panel-default admin-lesson-full">
+                <div class="panel-heading">
+                    Текст
+                    <a href="javascript: " (click)="showTextPreview()">Превью</a>
+                </div>
+                <div [ngClass]="{ 'hidden': isTextPreviewMode }" class="panel-body">
+                    <app-tinymce [(ngModel)]='lesson.text'></app-tinymce>
+                </div>
+                <div [ngClass]="{ 'hidden': !isTextPreviewMode }" class="panel-body" [innerHtml]="sanitizedLessonText"></div>
+            </div>
         </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-default admin-lesson-half">
+                <div class="panel-heading">Задание</div>
+                <div [ngClass]="{ 'hidden': isTextPreviewMode }" class="panel-body">
+                    <app-tinymce [(ngModel)]='lesson.taskText'></app-tinymce>
+                </div>
+                <div [ngClass]="{ 'hidden': !isTextPreviewMode }" class="panel-body" [innerHtml]="sanitizedLessonTaskText"></div>
+            </div>
+            <div class="panel panel-default admin-lesson-half">
+                <div class="panel-heading">Код Ответ</div>
+                <div class="panel-body">
+                    <div ace-editor
+                         [(text)]="lesson.answer"
+                         [mode]="'javascript'"
+                         [theme]="'eclipse'"
+                         [readOnly]="false"
+                         [autoUpdateContent]="true"
+                         [durationBeforeCallback]="1000"
+                         style="height: 350px; width: 100%; overflow: auto;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-default admin-lesson-full">
+                <div class="panel-heading">Тесты</div>
+                <div class="panel-body">
+                    <div ace-editor
+                         [(text)]="lesson.unitTestsCode"
+                         [mode]="'javascript'"
+                         [theme]="'eclipse'"
+                         [readOnly]="false"
+                         [autoUpdateContent]="true"
+                         [durationBeforeCallback]="1000"
+                         style="min-height: 500px; width: 100%; overflow: auto;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-default admin-lesson-full">
+                <div class="panel-heading">Отчет</div>
+                <div class="panel-body">
+                    <div ace-editor
+                         [(text)]="lesson.reporterCode"
+                         [mode]="'javascript'"
+                         [theme]="'eclipse'"
+                         [readOnly]="false"
+                         [autoUpdateContent]="true"
+                         [durationBeforeCallback]="1000"
+                         style="min-height: 500px; width: 100%; overflow: auto;"></div>
+                </div>
+            </div>
+        </div>
+
+        <iframe lesson-tester (onTestResultsReceived)="onTestResultsReceived($event)" src="/Home/Test"></iframe>
+        
     </div>
 
-    <div class="col-md-6">
-        <div class="panel panel-default admin-lesson-full">
-            <div class="panel-heading">
-                Текст
-                <a href="javascript: " (click)="showTextPreview()">Превью</a>
-            </div>
-            <div [ngClass]="{ 'hidden': isTextPreviewMode }" class="panel-body">
-                <app-tinymce [(ngModel)]='lesson.text'></app-tinymce>
-            </div>
-            <div [ngClass]="{ 'hidden': !isTextPreviewMode }" class="panel-body" [innerHtml]="sanitizedLessonText"></div>
-        </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="panel panel-default admin-lesson-half">
-            <div class="panel-heading">Задание</div>
-            <div [ngClass]="{ 'hidden': isTextPreviewMode }" class="panel-body">
-                <app-tinymce [(ngModel)]='lesson.taskText'></app-tinymce>
-            </div>
-            <div [ngClass]="{ 'hidden': !isTextPreviewMode }" class="panel-body" [innerHtml]="sanitizedLessonTaskText"></div>
-        </div>
-        <div class="panel panel-default admin-lesson-half">
-            <div class="panel-heading">Код Ответ</div>
-            <div class="panel-body">
-                <div ace-editor
-                     [(text)]="lesson.answerCode"
-                     [mode]="'javascript'"
-                     [theme]="'eclipse'"
-                     [readOnly]="false"
-                     [autoUpdateContent]="true"
-                     [durationBeforeCallback]="1000"
-                     style="height: 350px; width:100%; overflow: auto;"></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="panel panel-default admin-lesson-full">
-            <div class="panel-heading">Тесты</div>
-            <div class="panel-body">
-                <div ace-editor
-                     [(text)]="lesson.unitTestsCode"
-                     [mode]="'javascript'"
-                     [theme]="'eclipse'"
-                     [readOnly]="false"
-                     [autoUpdateContent]="true"
-                     [durationBeforeCallback]="1000"
-                     style="min-height: 500px; width:100%; overflow: auto;"></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="panel panel-default admin-lesson-full">
-            <div class="panel-heading">Отчет</div>
-            <div class="panel-body">
-                <div ace-editor
-                     [(text)]="lesson.reporterCode"
-                     [mode]="'javascript'"
-                     [theme]="'eclipse'"
-                     [readOnly]="false"
-                     [autoUpdateContent]="true"
-                     [durationBeforeCallback]="1000"
-                     style="min-height: 500px; width:100%; overflow: auto;"></div>
-            </div>
-        </div>
-    </div>
-
-    <iframe lesson-tester (onTestResultsReceived)="onTestResultsReceived($event)" src="/Home/Test"></iframe>
-
-    <div class="col-md-offset-9">
+        <div class="col-md-offset-9">
         <div class="form-group pull-right">
             <button (click)="testLesson()" class="btn btn-primary btn-lg">Тест</button>
             <button (click)="addOrUpdate(false)" class="btn btn-warning btn-lg">Сохранить</button>

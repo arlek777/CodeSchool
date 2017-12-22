@@ -11,6 +11,7 @@ export class UserLessonModel {
     id: number;
     lessonId: number;
     userChapterId: number;
+    selectedAnswerOptionId: number;
     userId: string;
     isPassed: boolean;
     code: string;

@@ -29,7 +29,7 @@ namespace CodeSchool.Web.Controllers
 
         [Route("[action]")]
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody]LoginRequestModel loginModel)
+        public async Task<IActionResult> Login([FromBody]LoginModel loginModel)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
@@ -51,7 +51,7 @@ namespace CodeSchool.Web.Controllers
 
         [Route("[action]")]
         [HttpPost]
-        public async Task<IActionResult> Register([FromBody]RegistrationRequestModel model)
+        public async Task<IActionResult> Register([FromBody]RegistrationModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 

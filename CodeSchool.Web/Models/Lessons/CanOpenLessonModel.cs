@@ -2,7 +2,7 @@
 
 namespace CodeSchool.Web.Models.Lessons
 {
-    public class CanOpenLessonRequestModel
+    public class CanOpenLessonModel
     {
         public Guid UserId { get; set; }
         public int UserChapterId { get; set; }

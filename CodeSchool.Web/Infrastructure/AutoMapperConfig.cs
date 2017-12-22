@@ -13,21 +13,21 @@ namespace CodeSchool.Web.Infrastructure
         {
             Mapper.Initialize(c =>
             {
-                c.CreateMap<Chapter, ChapterShortcutRequestModel>().ReverseMap();
-                c.CreateMap<Lesson, LessonShortcutRequestResponseModel>().ReverseMap();
-                c.CreateMap<Lesson, LessonRequestResponseModel>().ReverseMap();
+                c.CreateMap<Chapter, ChapterShortcutModel>().ReverseMap();
+                c.CreateMap<Lesson, LessonShortcutModel>().ReverseMap();
+                c.CreateMap<Lesson, LessonModel>().ReverseMap();
 
-                c.CreateMap<UserChapter, UserChapterShortcutResponseModel>()
+                c.CreateMap<UserChapter, UserChapterShortcutModel>()
                 .ForMember(ch => ch.ChapterTitle, opts => opts.MapFrom(ch => ch.Chapter.Title))
                 .ForMember(ch => ch.ChapterOrder, opts => opts.MapFrom(ch => ch.Chapter.Order));
 
-                c.CreateMap<UserLesson, UserLessonShortcutResponseModel>()
+                c.CreateMap<UserLesson, UserLessonShortcutModel>()
                     .ForMember(ch => ch.LessonTitle, opts => opts.MapFrom(ch => ch.Lesson.Title))
                     .ForMember(ch => ch.LessonOrder, opts => opts.MapFrom(ch => ch.Lesson.Order));
 
-                c.CreateMap<UserLesson, UserLessonResponseModel>();
+                c.CreateMap<UserLesson, UserLessonModel>();
 
-                c.CreateMap<User, UserStatisticResponseModel>()
+                c.CreateMap<User, UserStatisticModel>()
                     .ForMember(u => u.PassedLessons, opts => 
                         opts.MapFrom(u => u.UserLessons.Where(l => l.IsPassed).Select(l => l.Lesson.Title)));
             });

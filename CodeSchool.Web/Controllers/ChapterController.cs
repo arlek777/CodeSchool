@@ -30,12 +30,12 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> Get()
         {
             var chapters = await _chapterService.Get();
-            return Ok(chapters.Select(Mapper.Map<ChapterShortcutRequestModel>));
+            return Ok(chapters.Select(Mapper.Map<ChapterShortcutModel>));
         }
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> AddOrUpdate([FromBody] ChapterShortcutRequestModel model)
+        public async Task<IActionResult> AddOrUpdate([FromBody] ChapterShortcutModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
@@ -53,7 +53,7 @@ namespace CodeSchool.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Remove([FromBody] IdRequestModel model)
+        public async Task<IActionResult> Remove([FromBody] IdModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
@@ -64,7 +64,7 @@ namespace CodeSchool.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> ChangeOrder([FromBody] ChangeOrderRequestModel model)
+        public async Task<IActionResult> ChangeOrder([FromBody] ChangeOrderModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 

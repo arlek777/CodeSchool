@@ -23,12 +23,12 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> Get(Guid userId)
         {
             var chapters = await _chapterService.GetAll(userId);
-            return Ok(chapters.Select(Mapper.Map<UserChapterShortcutResponseModel>));
+            return Ok(chapters.Select(Mapper.Map<UserChapterShortcutModel>));
         }
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> CanOpen([FromBody] CanOpenChapterRequestModel model)
+        public async Task<IActionResult> CanOpen([FromBody] CanOpenChapterModel model)
         {
             return Ok(await _chapterService.CanOpen(model.UserId, model.UserChapterId));
         }

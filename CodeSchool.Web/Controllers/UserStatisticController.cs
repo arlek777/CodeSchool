@@ -24,7 +24,7 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> Get()
         {
             var users = await _repository.GetAll<User>();
-            return Ok(users.Select(Mapper.Map<UserStatisticResponseModel>));
+            return Ok(users.Select(Mapper.Map<UserStatisticModel>));
         }
     }
 }

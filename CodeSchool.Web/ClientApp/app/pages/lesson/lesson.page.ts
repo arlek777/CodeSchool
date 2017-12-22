@@ -90,7 +90,7 @@ export class LessonPage implements OnInit {
 
     showAnswer() {
         if (confirm(UserMessages.showAnswerConfirm)) {
-            this.userLesson.code = this.userLesson.lesson.answerCode;
+            this.userLesson.code = this.userLesson.lesson.answer;
         }
     }
 

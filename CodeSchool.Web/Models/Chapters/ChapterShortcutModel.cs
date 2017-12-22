@@ -5,11 +5,11 @@ using CodeSchool.Web.Infrastructure;
 
 namespace CodeSchool.Web.Models.Chapters
 {
-    public class ChapterShortcutRequestModel
+    public class ChapterShortcutModel
     {
-        public ChapterShortcutRequestModel()
+        public ChapterShortcutModel()
         {
-            Lessons = new List<LessonShortcutRequestResponseModel>();
+            Lessons = new List<LessonShortcutModel>();
         }
 
         public int Id { get; set; }
@@ -23,6 +23,6 @@ namespace CodeSchool.Web.Models.Chapters
 
         public int Order { get; set; }
 
-        public IEnumerable<LessonShortcutRequestResponseModel> Lessons { get; set; }
+        public IEnumerable<LessonShortcutModel> Lessons { get; set; }
     }
 }
