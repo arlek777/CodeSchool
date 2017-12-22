@@ -13,6 +13,8 @@ namespace CodeSchool.Domain.Tests
         public string AnswerText { get; set; }
         public bool IsPublished { get; set; }
 
+        public int Order { get; set; }
+
         public virtual ICollection<TestQuestionOption> TestQuestionOptions { get; set; }
     }
 }

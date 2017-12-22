@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
 using CodeSchool.Domain;
-using CodeSchool.Domain.Lessons;
 using CodeSchool.Web.Models;
 using CodeSchool.Web.Models.Chapters;
 using CodeSchool.Web.Models.Lessons;
@@ -14,8 +13,8 @@ namespace CodeSchool.Web.Infrastructure
         {
             Mapper.Initialize(c =>
             {
-                c.CreateMap<Chapter, ChapterShortcutRequestModel>();
-                c.CreateMap<Lesson, LessonShortcutRequestResponseModel>();
+                c.CreateMap<Chapter, ChapterShortcutRequestModel>().ReverseMap();
+                c.CreateMap<Lesson, LessonShortcutRequestResponseModel>().ReverseMap();
                 c.CreateMap<Lesson, LessonRequestResponseModel>().ReverseMap();
 
                 c.CreateMap<UserChapter, UserChapterShortcutResponseModel>()

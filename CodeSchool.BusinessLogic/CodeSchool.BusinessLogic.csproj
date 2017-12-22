@@ -54,18 +54,18 @@
     <Compile Include="Extensions\CanOpenChapterExtensions.cs" />
     <Compile Include="Models\CanOpenLesson.cs" />
     <Compile Include="Extensions\CanOpenLessonExtensions.cs" />
-    <Compile Include="LessonsServices\ChapterService.cs" />
+    <Compile Include="Services\ChapterService.cs" />
     <Compile Include="Interfaces\IChapterService.cs" />
     <Compile Include="Interfaces\ILessonService.cs" />
     <Compile Include="Interfaces\IUserChapterService.cs" />
     <Compile Include="Interfaces\IUserLessonService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Interfaces\ILogService.cs" />
-    <Compile Include="LessonsServices\LessonService.cs" />
-    <Compile Include="LessonsServices\EntityFrameworkLogService.cs" />
-    <Compile Include="LessonsServices\UserChapterService.cs" />
-    <Compile Include="LessonsServices\UserLessonService.cs" />
-    <Compile Include="LessonsServices\UserService.cs" />
+    <Compile Include="Services\LessonService.cs" />
+    <Compile Include="Services\EntityFrameworkLogService.cs" />
+    <Compile Include="Services\UserChapterService.cs" />
+    <Compile Include="Services\UserLessonService.cs" />
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="SimpleCRUDService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -82,8 +82,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="TestsServices\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

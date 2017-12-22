@@ -13,5 +13,6 @@ export class ChapterViewModel {
     id: number;
     text: string;
     lessons: LessonViewModel[];
+    categoryId: number;
     order: number;
 }

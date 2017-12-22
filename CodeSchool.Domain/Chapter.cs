@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CodeSchool.Domain.Lessons
+namespace CodeSchool.Domain
 {
     public class Chapter
     {
@@ -12,10 +12,15 @@ namespace CodeSchool.Domain.Lessons
 
         [Required]
         public int Id { get; set; }
+
+        [Required]
+        public int CategoryId { get; set; }
         [Required]
         public string Title { get; set; }
 
         public int Order { get; set; }
+
+        public virtual Category Category { get; set; }
         public virtual ICollection<Lesson> Lessons { get; set; }
     }
 }

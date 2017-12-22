@@ -4,6 +4,7 @@ import { LessonViewModel } from "../../models/lesson";
 import { BackendService } from "../../services/backend.service";
 import { PopupService } from "../../services/popup.service";
 import { UserMessages } from "../../user-messages";
+import { CategoryViewModel } from '../../models/category';
 
 @Component({
     templateUrl: './admin-chapters.page.html'
@@ -11,6 +12,7 @@ import { UserMessages } from "../../user-messages";
 export class AdminChaptersPage implements OnInit {
     chapters: ChapterViewModel[] = [];
     chapter: ChapterViewModel = new ChapterViewModel();
+    categories: CategoryViewModel[] = [];
 
     constructor(private backendService: BackendService, private popupService: PopupService) {
     }
@@ -18,6 +20,11 @@ export class AdminChaptersPage implements OnInit {
     ngOnInit() {
         this.backendService.getChapters().then(chapters => {
             this.chapters = chapters;
+        });
+
+        this.backendService.getCategories().then(categories => {
+            this.categories = categories;
+            this.chapter.categoryId = this.categories[0].id;
         });
     }
 
@@ -27,6 +34,8 @@ export class AdminChaptersPage implements OnInit {
                 this.chapters.push(newChapter);
             } 
             this.chapter = new ChapterViewModel();
+            this.chapter.categoryId = this.categories[0].id;
+            this.popupService.newSuccessMessage(UserMessages.addedItem);
         });
     }
 

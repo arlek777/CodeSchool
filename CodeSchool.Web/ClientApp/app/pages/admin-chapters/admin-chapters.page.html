@@ -1,11 +1,22 @@
 ﻿<div class="container">
     <div class="row">
-        <div class="col-md-6">
-            <div class="input-group">
+        <div class="col-md-4">
+            <div class="form-group">
+                <select class="form-control" [(ngModel)]="chapter.categoryId">
+                    <option *ngFor="let cat of categories" [ngValue]="cat.id">
+                        {{ cat.title }}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
                 <input class="form-control" placeholder="Название раздела" [(ngModel)]="chapter.title" />
-                <span class="input-group-btn">
-                    <button (click)="addOrUpdateChapter()" class="btn btn-primary">Создать/Обновить</button>
-                </span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <button (click)="addOrUpdateChapter()" class="btn btn-primary">Создать/Обновить</button>
             </div>
         </div>
     </div>

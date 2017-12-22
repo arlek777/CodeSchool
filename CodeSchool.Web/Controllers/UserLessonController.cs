@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.Domain;
-using CodeSchool.Domain.Lessons;
 using Microsoft.AspNetCore.Mvc;
 using CodeSchool.Web.Models.Lessons;
 using CodeSchool.Web.Infrastructure;

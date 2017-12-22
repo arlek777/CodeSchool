@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.Domain;
-using CodeSchool.Domain.Lessons;
 using CodeSchool.Web.Models;
 using CodeSchool.Web.Models.Chapters;
 using Microsoft.AspNetCore.Authorization;
@@ -40,11 +39,7 @@ namespace CodeSchool.Web.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
-            var chapter = await _chapterService.AddOrUpdate(new Chapter()
-            {
-                Id = model.Id,
-                Title = model.Title
-            });
+            var chapter = await _chapterService.AddOrUpdate(Mapper.Map<Chapter>(model));
 
             if(model.Id == 0)
             {

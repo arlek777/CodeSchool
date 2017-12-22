@@ -7,6 +7,7 @@ import { LessonTesterDirective } from "../../directives/lesson-tester.directive"
 import { PopupService } from "../../services/popup.service";
 import { Constants } from "../../constants";
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
+import { UserMessages } from '../../user-messages';
 
 @Component({
     templateUrl: './admin-lesson.page.html'
@@ -53,7 +54,7 @@ export class AdminLessonPage implements OnInit {
             if (finished) {
                 this.router.navigate(['/adminchapters']);
             }
-            this.popupService.newSuccessMessage("Урок добавлен/обновлен.");
+            this.popupService.newSuccessMessage(UserMessages.addedItem);
         });
     }
 

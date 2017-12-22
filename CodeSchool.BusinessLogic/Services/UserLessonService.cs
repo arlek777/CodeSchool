@@ -7,9 +7,8 @@ using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.BusinessLogic.Models;
 using CodeSchool.DataAccess;
 using CodeSchool.Domain;
-using CodeSchool.Domain.Lessons;
 
-namespace CodeSchool.BusinessLogic.LessonsServices
+namespace CodeSchool.BusinessLogic.Services
 {
     public class UserLessonService : IUserLessonService
     {

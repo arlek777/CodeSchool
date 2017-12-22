@@ -1,11 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CodeSchool.Domain.Lessons
+namespace CodeSchool.Domain
 {
+    public enum LessonType
+    {
+        Code,
+        Test
+    }
+
     public class Lesson
     {
         [Required]
         public int Id { get; set; }
+
+        //public int? CodeLessonId { get; set; }
 
         [Required]
         public int ChapterId { get; set; }
@@ -13,27 +21,26 @@ namespace CodeSchool.Domain.Lessons
         [Required]
         public string Title { get; set; }
 
-        [Required]
         public string Text { get; set; }
 
-        [Required]
         public string TaskText { get; set; }
 
         public string AnswerCode { get; set; }
 
-        [Required]
         public string UnitTestsCode { get; set; }
 
-        [Required]
         public string ReporterCode { get; set; }
 
-        [Required]
+        //public LessonType Type { get; set; }
+
         public int Order { get; set; }
 
         public bool Published { get; set; }
 
         public virtual Chapter Chapter { get; set; }
+
+        //public CodeLesson CodeLesson { get; set; }
+
+        //public TestLesson TestLesson { get; set; }
     }
-
-
 }

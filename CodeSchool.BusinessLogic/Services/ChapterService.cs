@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.DataAccess;
-using CodeSchool.Domain.Lessons;
+using CodeSchool.Domain;
 
-namespace CodeSchool.BusinessLogic.LessonsServices
+namespace CodeSchool.BusinessLogic.Services
 {
     public class ChapterService : IChapterService
     {
@@ -45,6 +45,7 @@ namespace CodeSchool.BusinessLogic.LessonsServices
             else
             {
                 chapter.Title = model.Title;
+                chapter.CategoryId = model.CategoryId;
             }
             await _repository.SaveChanges();
             return chapter;

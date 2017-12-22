@@ -18,6 +18,9 @@ namespace CodeSchool.Web.Models.Chapters
         [StringLength(256, ErrorMessage = ValidationResultMessages.MaxLength)]
         public string Title { get; set; }
 
+        [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
+        public int CategoryId { get; set; }
+
         public int Order { get; set; }
 
         public IEnumerable<LessonShortcutRequestResponseModel> Lessons { get; set; }

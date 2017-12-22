@@ -1,8 +1,9 @@
 ﻿using System.Data.Entity;
 using System.Net;
 using System.Threading.Tasks;
+using CodeSchool.BusinessLogic;
 using CodeSchool.BusinessLogic.Interfaces;
-using CodeSchool.BusinessLogic.LessonsServices;
+using CodeSchool.BusinessLogic.Services;
 using CodeSchool.DataAccess;
 using CodeSchool.Web.Models;
 using Microsoft.AspNet.Identity;
@@ -42,6 +43,7 @@ namespace CodeSchool.Web.Infrastructure
             services.AddTransient<IUserChapterService, UserChapterService>();
             services.AddTransient<IPasswordHasher, PasswordHasher>();
             services.AddTransient<ILogService, FileLogService>();
+            services.AddTransient<ISimpleCRUDService, SimpleCRUDService>();
         }
 
         private static void ConfigureSecurity(IServiceCollection services, IConfigurationRoot configuration)

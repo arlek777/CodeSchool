@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CodeSchool.DataAccess;
 using CodeSchool.Domain;
@@ -12,6 +14,18 @@ namespace CodeSchool.BusinessLogic
         public SimpleCRUDService(IGenericRepository repository)
         {
             _repository = repository;
+        }
+
+        public async Task<ICollection<TEntity>> GetAll<TEntity>()
+            where TEntity : class, ISimpleEntity
+        {
+            return await _repository.GetAll<TEntity>();
+        }
+
+        public async Task<ICollection<TEntity>> Where<TEntity>(Expression<Func<TEntity, bool>> predicate)
+            where TEntity : class, ISimpleEntity
+        {
+            return await _repository.Where<TEntity>(predicate);
         }
 
         public async Task<TEntity> GetById<TEntity>(int id) 

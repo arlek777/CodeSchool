@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
 using CodeSchool.Domain;
-using CodeSchool.Domain.Lessons;
 
 namespace CodeSchool.BusinessLogic.Interfaces
 {

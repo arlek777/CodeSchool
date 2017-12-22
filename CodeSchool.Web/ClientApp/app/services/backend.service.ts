@@ -10,6 +10,7 @@ import { JWTTokens } from "../models/auth/jwttokens";
 import 'rxjs/add/operator/toPromise';
 import { UserLessonModel } from "../models/userlesson";
 import { UserChapterModel } from "../models/userchapter";
+import { CategoryViewModel } from "../models/category";
 
 @Injectable()
 export class BackendService {
@@ -31,7 +32,6 @@ export class BackendService {
             return new LessonViewModel(response.json());
         });
     }
-
    
     getChapters(): Promise<ChapterViewModel[]> {
         return this.http.get("/api/chapter/get").toPromise().then((response) => {
@@ -121,5 +121,11 @@ export class BackendService {
         return this.http.post("/api/lesson/publish/", { chapterId: chapterId, lessonId: lessonId })
             .toPromise().then(() => {
             });
+    }
+
+    getCategories(): Promise<CategoryViewModel[]> {
+        return this.http.get("/api/category/get/").toPromise().then((response) => {
+            return response.json();
+        });
     }
 }

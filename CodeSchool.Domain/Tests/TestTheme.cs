@@ -12,6 +12,8 @@ namespace CodeSchool.Domain.Tests
         [Required]
         public string Title { get; set; }
 
+        public int Order { get; set; }
+
         public virtual ICollection<TestQuestion> TestQuestions { get; set; }
     }
 }

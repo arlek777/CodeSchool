@@ -2,9 +2,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.DataAccess;
-using CodeSchool.Domain.Lessons;
+using CodeSchool.Domain;
 
-namespace CodeSchool.BusinessLogic.LessonsServices
+namespace CodeSchool.BusinessLogic.Services
 {
     public class LessonService : ILessonService
     {

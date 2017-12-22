@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace CodeSchool.Domain.Lessons
+namespace CodeSchool.Domain
 {
     public class UserLesson
     {
