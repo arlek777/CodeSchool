@@ -4,14 +4,6 @@ using CodeSchool.Web.Infrastructure;
 
 namespace CodeSchool.Web.Models.Lessons
 {
-    public class AnswerLessonOptionModel
-    {
-        public int Id { get; set; }
-        public int LessonId { get; set; }
-        public string Text { get; set; }
-        public bool IsCorrect { get; set; }
-    }
-
     public class LessonShortcutModel
     {
         public int Id { get; set; }
@@ -25,8 +17,10 @@ namespace CodeSchool.Web.Models.Lessons
 
         public int Order { get; set; }
 
+        [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         public LessonType Type { get; set; }
 
+        [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         public LessonLevel Level { get; set; }
 
         public bool Published { get; set; }

@@ -16,6 +16,7 @@ namespace CodeSchool.Web.Infrastructure
                 c.CreateMap<Chapter, ChapterShortcutModel>().ReverseMap();
                 c.CreateMap<Lesson, LessonShortcutModel>().ReverseMap();
                 c.CreateMap<Lesson, LessonModel>().ReverseMap();
+                c.CreateMap<AnswerLessonOption, AnswerLessonOptionModel>().ReverseMap();
 
                 c.CreateMap<UserChapter, UserChapterShortcutModel>()
                 .ForMember(ch => ch.ChapterTitle, opts => opts.MapFrom(ch => ch.Chapter.Title))

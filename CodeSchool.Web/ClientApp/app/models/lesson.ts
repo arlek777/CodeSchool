@@ -18,7 +18,7 @@ export class LessonViewModel {
         if (model) {
             Mapper.map(model, this);
 
-            if (this.type === LessonType.Test) {
+            if (this.type === LessonType.Test && model.answerLessonOptions) {
                 this.answerLessonOptions = model.answerLessonOptions.map(a => new AnswerLessonOptionViewModel(a));
             }
         }
@@ -37,5 +37,5 @@ export class LessonViewModel {
     publishNow: boolean;
     type: LessonType;
     level: LessonLevel;
-    answerLessonOptions: AnswerLessonOptionViewModel[];
+    answerLessonOptions: AnswerLessonOptionViewModel[] = [];
 }

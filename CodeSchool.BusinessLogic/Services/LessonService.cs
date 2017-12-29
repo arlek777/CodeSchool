@@ -29,15 +29,11 @@ namespace CodeSchool.BusinessLogic.Services
             if (lesson == null)
             {
                 model.Order = await GetNextOrder(model.ChapterId);
-
                 _repository.Add(model);
                 lesson = model;
             }
             else
             {
-                
-                lesson.ReporterCode = model.ReporterCode;
-                lesson.UnitTestsCode = model.UnitTestsCode;
                 lesson.Answer = model.Answer;
                 lesson.TaskText = model.TaskText;
                 lesson.Text = model.Text;
@@ -45,7 +41,12 @@ namespace CodeSchool.BusinessLogic.Services
 
                 if (model.Type == LessonType.Test)
                 {
-                    UpdateAnswerLessonModelOption(model.AnswerLessonOptions, lesson.AnswerLessonOptions);
+                    await UpdateAnswerLessonModelOption(lesson, model.AnswerLessonOptions);
+                }
+                else if (model.Type == LessonType.Code)
+                {
+                    lesson.ReporterCode = model.ReporterCode;
+                    lesson.UnitTestsCode = model.UnitTestsCode;
                 }
             }
            
@@ -68,20 +69,42 @@ namespace CodeSchool.BusinessLogic.Services
         public async Task Remove(int id)
         {
             var lesson = await GetById(id);
+            var answerOptions = lesson.AnswerLessonOptions.ToList();
+            for (int i = 0; i < answerOptions.Count; i++)
+            {
+                _repository.Remove(answerOptions[i]);
+                await _repository.SaveChanges();
+            }
             _repository.Remove(lesson);
             await _repository.SaveChanges();
         }
 
-        private void UpdateAnswerLessonModelOption(IEnumerable<AnswerLessonOption> modelAnswerLessonOptions, IEnumerable<AnswerLessonOption> dbAnswerLessonOptions)
+        // Create, remove and updates answer lesson options.
+        private async Task UpdateAnswerLessonModelOption(Lesson lesson, ICollection<AnswerLessonOption> modelAnswerLessonOptions)
         {
+            var newOptions = modelAnswerLessonOptions.Where(opt => opt.Id == 0);
+            foreach (var newOption in newOptions)
+            {
+                lesson.AnswerLessonOptions.Add(newOption);
+                await _repository.SaveChanges();
+            }
+
             foreach (var modelAnswerOption in modelAnswerLessonOptions)
             {
-                var answerLesson = dbAnswerLessonOptions.FirstOrDefault(a => a.Id == modelAnswerOption.Id);
+                var answerLesson = lesson.AnswerLessonOptions.FirstOrDefault(a => a.Id == modelAnswerOption.Id);
                 if (answerLesson != null)
                 {
                     answerLesson.Text = modelAnswerOption.Text;
                     answerLesson.IsCorrect = modelAnswerOption.IsCorrect;
                 }
+            }
+
+            var optionIds = modelAnswerLessonOptions.Where(opt => opt.Id != 0).Select(opt => opt.Id);
+            var toRemoveOptions = lesson.AnswerLessonOptions.Where(opt => !optionIds.Contains(opt.Id)).ToList();
+            for (int i = 0; i < toRemoveOptions.Count; i++)
+            {
+                _repository.Remove(toRemoveOptions[i]);
+                await _repository.SaveChanges();
             }
         }
 

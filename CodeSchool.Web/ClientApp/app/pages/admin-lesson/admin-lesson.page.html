@@ -109,17 +109,79 @@
                 </div>
             </div>
         </div>
-
         <iframe lesson-tester (onTestResultsReceived)="onTestResultsReceived($event)" src="/Home/Test"></iframe>
         
+        <div class="col-md-offset-9">
+            <div class="form-group pull-right">
+                <button (click)="testLesson()" class="btn btn-primary btn-lg">Тест</button>
+                <button (click)="addOrUpdate(false)" class="btn btn-warning btn-lg">Сохранить</button>
+                <button (click)="addOrUpdate(true)" class="btn btn-success btn-lg">Готово</button>
+                <button (click)="back()" class="btn btn-danger btn-lg">Назад</button>
+            </div>
+        </div>
+    </div>
+    
+    <div *ngIf="lesson.type == 1">
+        <div class="col-md-6">
+            <div class="panel panel-default admin-lesson-half">
+                <div class="panel-heading">Задание</div>
+                <div [ngClass]="{ 'hidden': isTextPreviewMode }" class="panel-body">
+                    <app-tinymce [(ngModel)]='lesson.taskText'></app-tinymce>
+                </div>
+                <div [ngClass]="{ 'hidden': !isTextPreviewMode }" class="panel-body" [innerHtml]="sanitizedLessonTaskText"></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default admin-lesson-half">
+                <div class="panel-heading">
+                    Вариант ответа
+                    <input type="checkbox" [(ngModel)]="answerOption.isCorrect"/>
+                    Верный
+                    <button class="btn btn-lg" (click)="saveAnswerOption()"><span class="fa fa-save"></span></button>
+                </div>
+                <div class="panel-body">
+                    <app-tinymce [(ngModel)]='answerOption.text'></app-tinymce>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Вариант</th>
+                    <th>Верный</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let option of lesson.answerLessonOptions">
+                    <td>{{ option.text }}</td>
+                    <td>{{ option.isCorrect ? 'Да' : 'Нет' }}</td>
+                    <td>
+                        <button class="btn btn-success" (click)="editAnswerOption(option)"><span class="fa fa-edit"></span></button>
+                        <button class="btn btn-danger" (click)="removeAnswerOption(option.id)"><span class="fa fa-remove"></span></button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
-        <div class="col-md-offset-9">
-        <div class="form-group pull-right">
-            <button (click)="testLesson()" class="btn btn-primary btn-lg">Тест</button>
-            <button (click)="addOrUpdate(false)" class="btn btn-warning btn-lg">Сохранить</button>
-            <button (click)="addOrUpdate(true)" class="btn btn-success btn-lg">Готово</button>
-            <button (click)="back()" class="btn btn-danger btn-lg">Назад</button>
+    <div *ngIf="lesson.type == 2">
+        <div class="col-md-6">
+            <div class="panel panel-default admin-lesson-half">
+                <div class="panel-heading">Задание</div>
+                <div [ngClass]="{ 'hidden': isTextPreviewMode }" class="panel-body">
+                    <app-tinymce [(ngModel)]='lesson.taskText'></app-tinymce>
+                </div>
+                <div [ngClass]="{ 'hidden': !isTextPreviewMode }" class="panel-body" [innerHtml]="sanitizedLessonTaskText"></div>
+            </div>
+            <div class="panel panel-default admin-lesson-half">
+                <div class="panel-heading">Код Ответ</div>
+                <div class="panel-body">
+                    <app-tinymce [(ngModel)]='lesson.answer'></app-tinymce>
+                </div>
+            </div>
         </div>
     </div>
 </div>

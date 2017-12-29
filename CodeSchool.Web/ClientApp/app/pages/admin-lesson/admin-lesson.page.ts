@@ -8,12 +8,15 @@ import { PopupService } from "../../services/popup.service";
 import { Constants } from "../../constants";
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { UserMessages } from '../../user-messages';
+import { AnswerLessonOptionViewModel } from '../../models/answerlessonoption';
 
 @Component({
     templateUrl: './admin-lesson.page.html'
 })
 export class AdminLessonPage implements OnInit {
     lesson: LessonViewModel = new LessonViewModel();
+    answerOption: AnswerLessonOptionViewModel = new AnswerLessonOptionViewModel();
+
     sanitizedLessonText: SafeHtml = null;
     sanitizedLessonTaskText: SafeHtml = null;
     isTextPreviewMode = false;
@@ -42,7 +45,7 @@ export class AdminLessonPage implements OnInit {
             this.lesson.chapterId = this.route.snapshot.params["chapterId"];
             this.lesson.unitTestsCode = Constants.startUnitTest;
             this.lesson.reporterCode = Constants.startLessonReporter;
-            this.lesson.type = 0;
+            this.lesson.type = 1;
             this.lesson.level = 0;
         } else {
             this.backendService.getLesson(lessonId).then(lesson => {
@@ -52,7 +55,7 @@ export class AdminLessonPage implements OnInit {
     }
 
     addOrUpdate(finished: boolean) {
-        this.backendService.addOrUpdateLesson(this.lesson).then((lesson) => {
+        this.backendService.addOrUpdateLesson(this.lesson).then(() => {
             if (finished) {
                 this.router.navigate(['/adminchapters']);
             }
@@ -83,5 +86,26 @@ export class AdminLessonPage implements OnInit {
         } else {
             this.isTextPreviewMode = false;
         }
+    }
+
+    saveAnswerOption() {
+        if (!this.answerOption.text) return;
+
+        var optionIndex = this.lesson.answerLessonOptions.indexOf(this.answerOption);
+        if (optionIndex === -1) {
+            this.lesson.answerLessonOptions.push(this.answerOption);
+        } else {
+            this.lesson.answerLessonOptions[optionIndex] = this.answerOption;
+        }
+
+        this.answerOption = new AnswerLessonOptionViewModel();
+    }
+
+    editAnswerOption(answerOption: AnswerLessonOptionViewModel) {
+        this.answerOption = answerOption;
+    }
+
+    removeAnswerOption(optionId: number) {
+        this.lesson.answerLessonOptions = this.lesson.answerLessonOptions.filter(opt => opt.id !== optionId);
     }
 }
