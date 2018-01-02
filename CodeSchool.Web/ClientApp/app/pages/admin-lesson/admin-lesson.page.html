@@ -51,7 +51,7 @@
                 <div [ngClass]="{ 'hidden': isTextPreviewMode }" class="panel-body">
                     <app-tinymce [(ngModel)]='lesson.text'></app-tinymce>
                 </div>
-                <div [ngClass]="{ 'hidden': !isTextPreviewMode }" class="panel-body" [innerHtml]="sanitizedLessonText"></div>
+                <div [ngClass]="{ 'hidden': !isTextPreviewMode }" class="panel-body" [trust-html]="lesson.text"></div>
             </div>
         </div>
 
@@ -61,7 +61,7 @@
                 <div [ngClass]="{ 'hidden': isTextPreviewMode }" class="panel-body">
                     <app-tinymce [(ngModel)]='lesson.taskText'></app-tinymce>
                 </div>
-                <div [ngClass]="{ 'hidden': !isTextPreviewMode }" class="panel-body" [innerHtml]="sanitizedLessonTaskText"></div>
+                <div [ngClass]="{ 'hidden': !isTextPreviewMode }" class="panel-body" [trust-html]="lesson.taskText"></div>
             </div>
             <div class="panel panel-default admin-lesson-half">
                 <div class="panel-heading">Код Ответ</div>
@@ -155,11 +155,11 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let option of lesson.answerLessonOptions">
-                    <td>{{ option.text }}</td>
+                    <td [trust-html]="option.text"></td>
                     <td>{{ option.isCorrect ? 'Да' : 'Нет' }}</td>
                     <td>
                         <button class="btn btn-success" (click)="editAnswerOption(option)"><span class="fa fa-edit"></span></button>
-                        <button class="btn btn-danger" (click)="removeAnswerOption(option.id)"><span class="fa fa-remove"></span></button>
+                        <button class="btn btn-danger" (click)="removeAnswerOption(option)"><span class="fa fa-remove"></span></button>
                     </td>
                 </tr>
                 </tbody>

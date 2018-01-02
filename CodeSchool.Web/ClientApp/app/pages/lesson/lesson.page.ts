@@ -3,7 +3,6 @@ import { BackendService } from "../../services/backend.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { LessonTestResult } from "../../models/lessontestresult";
 import { LessonTesterDirective } from "../../directives/lesson-tester.directive";
-import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { UserLessonModel } from "../../models/userlesson";
 import { UserHelper } from "../../utils/helpers";
 import { UserChapterModel } from "../../models/userchapter";
@@ -19,8 +18,6 @@ export class LessonPage implements OnInit {
     userLesson: UserLessonModel = new UserLessonModel();
     userLessonIds = [];
 
-    sanitizedLessonText: SafeHtml = null;
-    sanitizedLessonTaskText: SafeHtml = null;
     result: LessonTestResult;
     currentIndex = -1;
     userChapterId: number;
@@ -32,8 +29,9 @@ export class LessonPage implements OnInit {
     constructor(private backendService: BackendService,
         private route: ActivatedRoute,
         private router: Router,
-        private popupService: PopupService,
-        private sanitizer: DomSanitizer) {
+        private popupService: PopupService) {
+
+        this.userLesson.lesson = new LessonViewModel();
     }
 
     ngOnInit(): void {
@@ -117,8 +115,6 @@ export class LessonPage implements OnInit {
             .then(userLesson => {
                 this.userLesson = userLesson;
                 this.result = new LessonTestResult();
-                this.sanitizedLessonText = this.sanitizer.bypassSecurityTrustHtml(this.userLesson.lesson.text);
-                this.sanitizedLessonTaskText = this.sanitizer.bypassSecurityTrustHtml(this.userLesson.lesson.taskText);
             });
     }
 }

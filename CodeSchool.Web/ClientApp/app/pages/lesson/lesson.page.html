@@ -18,7 +18,7 @@
                 {{ userLesson.lessonTitle }}
             </h4>
         </div>
-        <div class="panel-body" [innerHtml]="sanitizedLessonText"></div>
+        <div class="panel-body" [trust-html]="userLesson.lesson.text"></div>
     </div>
 </div>
 
@@ -26,7 +26,7 @@
     <div>
         <div class="panel panel-default lesson-small">
             <div class="panel-heading">Задание - {{ userLesson.isPassed ? 'Выполненно' : 'Не выполненно' }}</div>
-            <div class="panel-body" [innerHtml]="sanitizedLessonTaskText"></div>
+            <div class="panel-body" [trust-html]="userLesson.lesson.taskText"></div>
         </div>
         <div class="panel panel-default lesson-half">
             <div class="panel-heading">

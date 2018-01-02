@@ -6,7 +6,6 @@ import { LessonTestResult } from "../../models/lessontestresult";
 import { LessonTesterDirective } from "../../directives/lesson-tester.directive";
 import { PopupService } from "../../services/popup.service";
 import { Constants } from "../../constants";
-import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { UserMessages } from '../../user-messages';
 import { AnswerLessonOptionViewModel } from '../../models/answerlessonoption';
 
@@ -16,9 +15,6 @@ import { AnswerLessonOptionViewModel } from '../../models/answerlessonoption';
 export class AdminLessonPage implements OnInit {
     lesson: LessonViewModel = new LessonViewModel();
     answerOption: AnswerLessonOptionViewModel = new AnswerLessonOptionViewModel();
-
-    sanitizedLessonText: SafeHtml = null;
-    sanitizedLessonTaskText: SafeHtml = null;
     isTextPreviewMode = false;
 
     @ViewChild(LessonTesterDirective)
@@ -27,8 +23,7 @@ export class AdminLessonPage implements OnInit {
     constructor(private backendService: BackendService,
         private route: ActivatedRoute,
         private router: Router,
-        private popupService: PopupService,
-        private sanitizer: DomSanitizer) {
+        private popupService: PopupService) {
     }
 
     onKey(event) {
@@ -79,13 +74,7 @@ export class AdminLessonPage implements OnInit {
     }
 
     showTextPreview() {
-        if (!this.isTextPreviewMode) {
-            this.sanitizedLessonText = this.sanitizer.bypassSecurityTrustHtml(this.lesson.text);
-            this.sanitizedLessonTaskText = this.sanitizer.bypassSecurityTrustHtml(this.lesson.taskText);
-            this.isTextPreviewMode = true;
-        } else {
-            this.isTextPreviewMode = false;
-        }
+        this.isTextPreviewMode = !this.isTextPreviewMode;
     }
 
     saveAnswerOption() {
@@ -105,7 +94,12 @@ export class AdminLessonPage implements OnInit {
         this.answerOption = answerOption;
     }
 
-    removeAnswerOption(optionId: number) {
-        this.lesson.answerLessonOptions = this.lesson.answerLessonOptions.filter(opt => opt.id !== optionId);
+    removeAnswerOption(option: AnswerLessonOptionViewModel) {
+        if (!confirm(UserMessages.confrimQuestion)) return;
+
+        var index = this.lesson.answerLessonOptions.indexOf(option);
+        if (index !== -1) {
+            this.lesson.answerLessonOptions.splice(index, 1);
+        }
     }
 }
