@@ -11,6 +11,8 @@ import { TinymceModule } from 'angular2-tinymce';
 
 import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
+import { EditorComponent } from "./components/editor/editor.component";
+import { HeaderTemplateDirective } from "./components/editor/editor.component";
 
 import { LessonPage } from './pages/lesson/lesson.page';
 import { ChaptersPage } from './pages/chapters/chapters.page';
@@ -47,8 +49,10 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
 @NgModule({
     bootstrap: [AppComponent],
     declarations: [
+        HeaderTemplateDirective,
         AppComponent,
         NavMenuComponent,
+        EditorComponent,
         LessonTesterDirective,
         ToggleMobileNavbarDirective,
         TrustHtmlDirective,
