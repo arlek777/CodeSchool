@@ -1,6 +1,12 @@
 ﻿import { Mapper } from "../utils/helpers";
 import { LessonViewModel } from "./lesson";
 
+export enum UserLessonAnswerScore {
+    DontKnow = 0,
+    HardToRemember,
+    KnowIt
+}
+
 export class UserLessonModel {
     constructor(model?: UserLessonModel) {
         if (model) {
@@ -11,7 +17,8 @@ export class UserLessonModel {
     id: number;
     lessonId: number;
     userChapterId: number;
-    selectedAnswerOptionId: number;
+    selectedAnswerOptionId?: number;
+    score?: UserLessonAnswerScore;
     userId: string;
     isPassed: boolean;
     code: string;

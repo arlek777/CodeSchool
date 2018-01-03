@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using CodeSchool.Domain;
 
 namespace CodeSchool.DataAccess
 {
@@ -18,8 +19,7 @@ namespace CodeSchool.DataAccess
 
         public async Task<T> Find<T>(Expression<Func<T, bool>> predicate) where T : class
         {
-            var item = await _context.Set<T>().FirstOrDefaultAsync(predicate);
-            return item;
+            return await _context.Set<T>().FirstOrDefaultAsync(predicate);
         }
 
         public async Task<ICollection<T>> Where<T>(Expression<Func<T, bool>> predicate) where T : class

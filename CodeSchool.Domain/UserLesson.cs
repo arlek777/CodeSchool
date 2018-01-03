@@ -3,6 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CodeSchool.Domain
 {
+    public enum UserLessonAnswerScore
+    {
+        DontKnow = 0,
+        HardToRemember,
+        KnowIt
+    }
+
     public class UserLesson
     {
         [Required]
@@ -18,6 +25,7 @@ namespace CodeSchool.Domain
         public Guid UserId { get; set; }
 
         public int? SelectedAnswerOptionId { get; set; }
+        public UserLessonAnswerScore? Score { get; set; }
         public bool IsPassed { get; set; }
         public string Code { get; set; }
         public DateTime UpdatedDt { get; set; }

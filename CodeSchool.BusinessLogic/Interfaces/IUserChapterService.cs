@@ -13,5 +13,6 @@ namespace CodeSchool.BusinessLogic.Interfaces
         Task Add(Guid userId);
         Task Remove(int chapterId);
         Task<bool> CanOpen(Guid userId, int userChapterId);
+        Task<ICollection<UserChapter>> GetByCategoryId(Guid userId, int categoryId);
     }
 }

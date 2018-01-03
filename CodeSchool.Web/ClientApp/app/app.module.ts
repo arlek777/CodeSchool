@@ -16,6 +16,8 @@ import { HeaderTemplateDirective } from "./components/editor/editor.component";
 
 import { LessonPage } from './pages/lesson/lesson.page';
 import { ChaptersPage } from './pages/chapters/chapters.page';
+import { TestChaptersPage } from './pages/test-chapters/test-chapters.page';
+import { TestLessonPage } from './pages/test-lesson/test-lesson.page';
 import { AdminLessonPage } from './pages/admin-lesson/admin-lesson.page';
 import { AdminChaptersPage } from './pages/admin-chapters/admin-chapters.page';
 import { LoginPage } from "./pages/login/login.page";
@@ -58,6 +60,8 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
         TrustHtmlDirective,
         LessonPage,
         ChaptersPage,
+        TestChaptersPage,
+        TestLessonPage,
         AdminLessonPage,
         AdminChaptersPage,
         LoginPage,
@@ -76,6 +80,8 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
             { path: 'register', component: RegisterPage },
             { path: 'literature', component: LiteraturePage },
             { path: 'chapters', component: ChaptersPage, canActivate: [AuthGuard] },
+            { path: 'testchapters', component: TestChaptersPage, canActivate: [AuthGuard] },
+            { path: 'testlesson/:userChapterId/:userLessonId', component: TestLessonPage, canActivate: [AuthGuard] },
             { path: 'lesson/:userChapterId/:userLessonId', component: LessonPage, canActivate: [AuthGuard] },
             { path: 'adminchapters', component: AdminChaptersPage, canActivate: [AdminAuthGuard] },
             { path: 'adminlesson/:chapterId/:lessonId', component: AdminLessonPage, canActivate: [AdminAuthGuard] },

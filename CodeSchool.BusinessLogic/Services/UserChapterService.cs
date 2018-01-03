@@ -31,11 +31,16 @@ namespace CodeSchool.BusinessLogic.Services
             return userChapters;
         }
 
+        public async Task<ICollection<UserChapter>> GetByCategoryId(Guid userId, int categoryId)
+        {
+            var userChapters = await GetAll(userId);
+            return userChapters.Where(c => c.Chapter.CategoryId == categoryId).ToList();
+        }
+
         public async Task<UserChapter> GetByChapterId(Guid userId, int chapterId)
         {
             var userChapters = await GetAll(userId);
-            var userChapter = userChapters.FirstOrDefault(c => c.ChapterId == chapterId);
-            return userChapter;
+            return userChapters.FirstOrDefault(c => c.ChapterId == chapterId);
         }
 
         public async Task AddToAllUsers(int chapterId)

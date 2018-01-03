@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using CodeSchool.Domain;
 using CodeSchool.Web.Infrastructure;
 
 namespace CodeSchool.Web.Models.Lessons
@@ -11,8 +12,9 @@ namespace CodeSchool.Web.Models.Lessons
         public Guid UserId { get; set; }
         public bool IsPassed { get; set; }
 
-        [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         [StringLength(5000, ErrorMessage = ValidationResultMessages.MaxLength)]
         public string Code { get; set; }
+        public int? SelectedAnswerOptionId { get; set; }
+        public UserLessonAnswerScore? Score { get; set; }
     }
 }

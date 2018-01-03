@@ -26,6 +26,14 @@ namespace CodeSchool.Web.Controllers
             return Ok(chapters.Select(Mapper.Map<UserChapterShortcutModel>));
         }
 
+        [HttpGet]
+        [Route("[action]/{userId}/{categoryId}")]
+        public async Task<IActionResult> GetByCategory(Guid userId, int categoryId)
+        {
+            var chapters = await _chapterService.GetByCategoryId(userId, categoryId);
+            return Ok(chapters.Select(Mapper.Map<UserChapterShortcutModel>));
+        }
+
         [HttpPost]
         [Route("[action]")]
         public async Task<IActionResult> CanOpen([FromBody] CanOpenChapterModel model)

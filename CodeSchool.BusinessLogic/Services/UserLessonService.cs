@@ -41,7 +41,6 @@ namespace CodeSchool.BusinessLogic.Services
             foreach (var user in users)
             {
                 var userChapter = await _userChapterService.GetByChapterId(user.Id, chapterId);
-                //var lesson = await _lessonService.GetById(lessonId);
 
                 _repository.Add(new UserLesson()
                 {
@@ -59,7 +58,20 @@ namespace CodeSchool.BusinessLogic.Services
             var userLesson = await GetById(model.UserId, model.Id);
             userLesson.IsPassed = model.IsPassed;
             userLesson.UpdatedDt = DateTime.UtcNow;
-            userLesson.Code = model.Code;
+
+            switch (model.Lesson.Type)
+            {
+                case LessonType.Code:
+                    userLesson.Code = model.Code;
+                    break;
+                case LessonType.LongAnswer:
+                    userLesson.Score = model.Score;
+                    break;
+                case LessonType.Test:
+                    userLesson.SelectedAnswerOptionId = model.SelectedAnswerOptionId;
+                    break;
+            }
+
 
             userLesson.UserChapter.IsPassed = (await Get(model.UserId, model.UserChapterId))
                 .All(l => l.IsPassed);

@@ -15,6 +15,9 @@
                 <li [routerLinkActive]="['active']">
                     <a class="router-link" [routerLink]="['/chapters']">Уроки</a>
                 </li>
+                <li [routerLinkActive]="['active']">
+                    <a class="router-link" [routerLink]="['/testchapters']">Тесты</a>
+                </li>
                 <li *ngIf="isAdmin" [routerLinkActive]="['active']">
                     <a class="router-link" [routerLink]="['/adminchapters']">Админка</a>
                 </li>

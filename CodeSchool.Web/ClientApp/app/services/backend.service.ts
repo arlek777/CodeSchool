@@ -79,6 +79,12 @@ export class BackendService {
         });
     }
 
+    getUserChaptersByCategory(userId: string, categoryId: number): Promise<UserChapterModel[]> {
+        return this.http.get(`/api/userchapter/getbycategory/${userId}/${categoryId}`).toPromise().then((response) => {
+            return response.json().map(c => new UserChapterModel(c));
+        });
+    }
+
     getUserLessonIds(userId: string, userChapterId: number): Promise<number[]> {
         return this.http.get(`/api/userlesson/getuserlessonids/${userId}/${userChapterId}`).toPromise().then((response) => {
             return response.json();

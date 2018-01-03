@@ -1,0 +1,55 @@
+﻿<div class="container">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>
+                    <button *ngIf="currentIndex > 0" (click)="getPreviousLesson()" class="btn btn-default btn-sm">Назад </button>
+                    {{ userLesson.lessonTitle }}
+                </h4>
+            </div>
+            <div class="panel-body" [trust-html]="userLesson.lesson.taskText"></div>
+            <button *ngIf="userLesson.lesson.type == LessonType.LongAnswer" (click)="showAnswer()" class="btn btn-warning btn-lg">
+                Показать Ответ
+            </button>
+        </div>
+    </div>
+    
+    <div class="col-md-12">
+        <div *ngIf="userLesson.lesson.type == LessonType.LongAnswer">
+            <div class="panel panel-default">
+                <div class="panel-heading">Ответ</div>
+                <div class="panel-body">
+                    <span [trust-html]="userLesson.lesson.answer"></span>
+
+                    <ng-container *ngIf="!userLesson.score">
+                        <button (click)="rateLesson(UserLessonAnswerScore.DontKnow)" class="btn btn-danger">Не знал</button>
+                        <button (click)="rateLesson(UserLessonAnswerScore.HardToRemember)" class="btn btn-warning">Почти вспомнил</button>
+                        <button (click)="rateLesson(UserLessonAnswerScore.KnowIt)" class="btn btn-success">Знал</button>
+                    </ng-container>
+                    <button *ngIf="userLesson.score" (click)="getNextLesson()" class="btn btn-success btn-lg">Дальше</button>
+                </div>
+            </div>
+        </div>
+        
+        <div *ngIf="userLesson.lesson.type == LessonType.Test">
+            <div class="panel panel-default lesson-half">
+                <div class="panel-heading"><h4>Варианты</h4></div>
+                <div class="panel-body">
+                    <ol>
+                        <li *ngFor="let option of userLesson.lesson.answerLessonOptions" [style.color]="userLesson.selectedAnswerOptionId ? isCorrectAnswer ? 'green' : 'red' : ''">
+                            <span [trust-html]="option.text"></span>
+                            <input type="radio" [(ngModel)]="selectedAnswerOptionId" [value]="option.id"/>
+                        </li>
+                    </ol>
+                    
+                    <button *ngIf="!userLesson.selectedAnswerOptionId" (click)="submitAnswerOption()" class="btn btn-info">Подтвердить</button>
+                    <button *ngIf="userLesson.selectedAnswerOptionId" (click)="getNextLesson()" class="btn btn-success">Дальше</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+      
+
+

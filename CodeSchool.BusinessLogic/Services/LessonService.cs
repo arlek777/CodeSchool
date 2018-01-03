@@ -102,7 +102,8 @@ namespace CodeSchool.BusinessLogic.Services
                 await _repository.SaveChanges();
             }
 
-            foreach (var modelAnswerOption in modelAnswerLessonOptions)
+            var notNewOptions = modelAnswerLessonOptions.Where(opt => opt.Id != 0).ToList();
+            foreach (var modelAnswerOption in notNewOptions)
             {
                 var answerLesson = dbLesson.AnswerLessonOptions.FirstOrDefault(a => a.Id == modelAnswerOption.Id);
                 if (answerLesson != null)
@@ -112,12 +113,15 @@ namespace CodeSchool.BusinessLogic.Services
                 }
             }
 
-            var optionIds = modelAnswerLessonOptions.Where(opt => opt.Id != 0).Select(opt => opt.Id);
-            var toRemoveOptions = dbLesson.AnswerLessonOptions.Where(opt => !optionIds.Contains(opt.Id)).ToList();
-            for (int i = 0; i < toRemoveOptions.Count; i++)
+            var optionIds = notNewOptions.Select(opt => opt.Id).ToList();
+            if (optionIds.Any())
             {
-                _repository.Remove(toRemoveOptions[i]);
-                await _repository.SaveChanges();
+                var toRemoveOptions = dbLesson.AnswerLessonOptions.Where(opt => !optionIds.Contains(opt.Id)).ToList();
+                for (int i = 0; i < toRemoveOptions.Count; i++)
+                {
+                    _repository.Remove(toRemoveOptions[i]);
+                    await _repository.SaveChanges();
+                }
             }
         }
 
