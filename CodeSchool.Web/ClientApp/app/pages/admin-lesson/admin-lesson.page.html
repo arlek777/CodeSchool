@@ -1,9 +1,9 @@
-﻿<template #controlButtons>
+﻿<ng-template #controlButtons>
     <button (click)="testLesson()" class="btn btn-primary btn-lg">Тест</button>
     <button (click)="addOrUpdate(false)" class="btn btn-warning btn-lg">Сохранить</button>
     <button (click)="addOrUpdate(true)" class="btn btn-success btn-lg">Готово</button>
     <button (click)="back()" class="btn btn-danger btn-lg">Назад</button>
-</template>
+</ng-template>
 
 <div (window:keydown)="onKey($event)">
     <div class="col-md-3">
@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <div class="col-md-2">
+    <div *ngIf="!lesson.id" class="col-md-2">
         <div class="form-group">
             <select class="form-control" [(ngModel)]="lesson.type">
                 <option value="0">Код</option>
@@ -39,13 +39,14 @@
         </div>
     </div>
         
-    <div class="col-md-4">
+    <div class="col-md-4" [ngClass]="{'col-md-offset-3': lesson.id}">
         <div class="form-group pull-right">
             <ng-container *ngTemplateOutlet="controlButtons"></ng-container>
         </div>
     </div>
     
-    <div *ngIf="lesson.type == 0">
+    <!-- Code Type -->
+    <div *ngIf="lesson.type == lessonType.Code">
         <div class="col-md-6">
             <editor mode="text" [(text)]="lesson.text" css="admin-lesson-full" header-text="Текст"></editor>
         </div>
@@ -57,7 +58,7 @@
             <editor mode="code" [(text)]="lesson.unitTestsCode" css="admin-lesson-half" header-text="Тесты"></editor>
         </div>
         <div class="col-md-6">
-            <editor mode="code" [(text)]="lesson.reporterCode" css="admin-lesson-full" header-text="Отчет"></editor>
+            <editor mode="code" [(text)]="lesson.reporterCode" css="admin-lesson-half" header-text="Отчет"></editor>
         </div>
         <iframe lesson-tester (onTestResultsReceived)="onTestResultsReceived($event)" src="/Home/Test"></iframe>
         
@@ -68,19 +69,19 @@
         </div>
     </div>
     
-    <div *ngIf="lesson.type == 1">
+    <!-- Test Type -->
+    <div *ngIf="lesson.type == lessonType.Test">
         <div class="col-md-6">
-            <editor mode="text" [(text)]="lesson.taskText" css="admin-lesson-full" header-text="Задание"></editor>
+            <editor mode="text" [(text)]="lesson.taskText" css="admin-lesson-half" header-text="Задание"></editor>
         </div>
         <div class="col-md-6">
-            <editor mode="text" [(text)]="answerOption.text" css="admin-lesson-half">
-                <div headerTemplate>
-                    
-                    <!--Вариант ответа
+            <editor mode="text" [(text)]="answerOption.text" css="admin-lesson-half" [header-template]="headerTemplate">
+                <ng-template #headerTemplate>
+                    Вариант ответа
                     <input type="checkbox" [(ngModel)]="answerOption.isCorrect"/>
                     Верный
-                    <button class="btn btn-lg" (click)="saveAnswerOption()"><span class="fa fa-save"></span></button>-->
-                </div>
+                    <button class="btn btn-lg" (click)="saveAnswerOption()"><span class="fa fa-save"></span></button>
+                </ng-template>
             </editor>
         </div>
         <div class="col-md-12">
@@ -105,12 +106,13 @@
             </table>
         </div>
     </div>
-
-    <div *ngIf="lesson.type == 2">
-        <div class="col-md-12">
+    
+    <!-- Long Answer Type -->
+    <div *ngIf="lesson.type == lessonType.LongAnswer">
+        <div class="col-md-6">
             <editor mode="text" [(text)]="lesson.taskText" css="admin-lesson-full" header-text="Задание"></editor>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
             <editor mode="text" [(text)]="lesson.answer" css="admin-lesson-full" header-text="Ответ"></editor>
         </div>
     </div>

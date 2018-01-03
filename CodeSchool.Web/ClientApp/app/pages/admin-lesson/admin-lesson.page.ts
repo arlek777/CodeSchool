@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit, ViewChild } from '@angular/core';
-import { LessonViewModel, LessonType } from "../../models/lesson";
+import { LessonViewModel, LessonType, LessonLevel } from "../../models/lesson";
 import { BackendService } from "../../services/backend.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { LessonTestResult } from "../../models/lessontestresult";
@@ -16,6 +16,9 @@ export class AdminLessonPage implements OnInit {
     lesson: LessonViewModel = new LessonViewModel();
     answerOption: AnswerLessonOptionViewModel = new AnswerLessonOptionViewModel();
     isTextPreviewMode = false;
+
+    lessonType = LessonType;
+    lessonLevel = LessonLevel;
 
     @ViewChild(LessonTesterDirective)
     private lessonTester: LessonTesterDirective;
@@ -40,8 +43,8 @@ export class AdminLessonPage implements OnInit {
             this.lesson.chapterId = this.route.snapshot.params["chapterId"];
             this.lesson.unitTestsCode = Constants.startUnitTest;
             this.lesson.reporterCode = Constants.startLessonReporter;
-            this.lesson.type = 1;
-            this.lesson.level = 0;
+            this.lesson.type = LessonType.Code;
+            this.lesson.level = LessonLevel.Middle;
         } else {
             this.backendService.getLesson(lessonId).then(lesson => {
                 this.lesson = lesson;
@@ -50,18 +53,19 @@ export class AdminLessonPage implements OnInit {
     }
 
     addOrUpdate(finished: boolean) {
-        this.backendService.addOrUpdateLesson(this.lesson).then(() => {
+        this.backendService.addOrUpdateLesson(this.lesson).then((lesson) => {
             if (finished) {
                 this.router.navigate(['/adminchapters']);
+            } else {
+                this.lesson = lesson;
+                this.router.navigate(["/adminlesson", this.lesson.chapterId, this.lesson.id]);
             }
             this.popupService.newSuccessMessage(UserMessages.addedItem);
         });
     }
 
     back() {
-        var result = confirm("Are you sure?");
-        if (!result) return;
-
+        if (!confirm(UserMessages.confrimQuestion)) return;
         this.router.navigate(['/adminchapters']);
     }
 
@@ -71,10 +75,6 @@ export class AdminLessonPage implements OnInit {
 
     testLesson() {
         this.lessonTester.testLesson(this.lesson.answer, this.lesson);
-    }
-
-    showTextPreview() {
-        this.isTextPreviewMode = !this.isTextPreviewMode;
     }
 
     saveAnswerOption() {

@@ -25,33 +25,27 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task<Lesson> AddOrUpdate(Lesson model)
         {
-            var lesson = await GetById(model.Id);
-            if (lesson == null)
+            var dbLesson = await GetById(model.Id);
+            if (dbLesson == null)
             {
-                model.Order = await GetNextOrder(model.ChapterId);
-                _repository.Add(model);
-                lesson = model;
+                dbLesson = new Lesson()
+                {
+                    Type = model.Type,
+                    ChapterId = model.ChapterId,
+                    Published = model.Published
+                };
+
+                await FillDbLessonForType(model, dbLesson);
+                dbLesson.Order = await GetNextOrder(model.ChapterId);
+                _repository.Add(dbLesson);
             }
             else
             {
-                lesson.Answer = model.Answer;
-                lesson.TaskText = model.TaskText;
-                lesson.Text = model.Text;
-                lesson.Title = model.Title;
-
-                if (model.Type == LessonType.Test)
-                {
-                    await UpdateAnswerLessonModelOption(lesson, model.AnswerLessonOptions);
-                }
-                else if (model.Type == LessonType.Code)
-                {
-                    lesson.ReporterCode = model.ReporterCode;
-                    lesson.UnitTestsCode = model.UnitTestsCode;
-                }
+                await FillDbLessonForType(model, dbLesson);
             }
            
             await _repository.SaveChanges();
-            return lesson;
+            return dbLesson;
         }
 
         public async Task ChangeOrder(int currentLessonId, int toSwapLessonId)
@@ -79,19 +73,38 @@ namespace CodeSchool.BusinessLogic.Services
             await _repository.SaveChanges();
         }
 
+        private async Task FillDbLessonForType(Lesson model, Lesson dbLesson)
+        {
+            dbLesson.Answer = model.Answer;
+            dbLesson.TaskText = model.TaskText;
+            dbLesson.Text = model.Text;
+            dbLesson.Title = model.Title;
+            dbLesson.Level = model.Level;
+
+            if (model.Type == LessonType.Test)
+            {
+                await UpdateAnswerLessonModelOption(dbLesson, model.AnswerLessonOptions);
+            }
+            else if (model.Type == LessonType.Code)
+            {
+                dbLesson.ReporterCode = model.ReporterCode;
+                dbLesson.UnitTestsCode = model.UnitTestsCode;
+            }
+        }
+
         // Create, remove and updates answer lesson options.
-        private async Task UpdateAnswerLessonModelOption(Lesson lesson, ICollection<AnswerLessonOption> modelAnswerLessonOptions)
+        private async Task UpdateAnswerLessonModelOption(Lesson dbLesson, ICollection<AnswerLessonOption> modelAnswerLessonOptions)
         {
             var newOptions = modelAnswerLessonOptions.Where(opt => opt.Id == 0);
             foreach (var newOption in newOptions)
             {
-                lesson.AnswerLessonOptions.Add(newOption);
+                dbLesson.AnswerLessonOptions.Add(newOption);
                 await _repository.SaveChanges();
             }
 
             foreach (var modelAnswerOption in modelAnswerLessonOptions)
             {
-                var answerLesson = lesson.AnswerLessonOptions.FirstOrDefault(a => a.Id == modelAnswerOption.Id);
+                var answerLesson = dbLesson.AnswerLessonOptions.FirstOrDefault(a => a.Id == modelAnswerOption.Id);
                 if (answerLesson != null)
                 {
                     answerLesson.Text = modelAnswerOption.Text;
@@ -100,7 +113,7 @@ namespace CodeSchool.BusinessLogic.Services
             }
 
             var optionIds = modelAnswerLessonOptions.Where(opt => opt.Id != 0).Select(opt => opt.Id);
-            var toRemoveOptions = lesson.AnswerLessonOptions.Where(opt => !optionIds.Contains(opt.Id)).ToList();
+            var toRemoveOptions = dbLesson.AnswerLessonOptions.Where(opt => !optionIds.Contains(opt.Id)).ToList();
             for (int i = 0; i < toRemoveOptions.Count; i++)
             {
                 _repository.Remove(toRemoveOptions[i]);

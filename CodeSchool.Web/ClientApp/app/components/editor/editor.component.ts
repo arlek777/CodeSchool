@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild, Directive, ContentChild, TemplateRef, AfterContentChecked } from '@angular/core';
+import { Component, Input, Output, EventEmitter, Directive } from '@angular/core';
 
 @Directive({
     selector: '[headerTemplate]'
@@ -25,7 +25,8 @@ export class EditorComponent {
     @Output()
     textChange = new EventEmitter<string>();
 
-    @ContentChild(HeaderTemplateDirective, { read: TemplateRef }) headerTemplate;
+    @Input("header-template")
+    headerTemplate;
 
     isTextPreviewMode = false;
 
