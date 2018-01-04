@@ -31,25 +31,28 @@ export class ChaptersPage implements OnInit {
 
         var lessonToOpen = userLessons.find(u => !u.isPassed);
         if (!lessonToOpen) lessonToOpen = userLessons[userLessons.length - 1];
+        this.router.navigate(['/lesson', userChapter.id, lessonToOpen.id]);
 
-        this.backendService.canOpenChapter(userChapter.userId, userChapter.id)
-            .then(canOpen => {
-                if (canOpen) {
-                    this.router.navigate(['/lesson', userChapter.id, lessonToOpen.id]);
-                } else {
-                    this.popupService.newValidationError(UserMessages.notAllowedOpenLesson);
-                }
-            });
+        //this.backendService.canOpenChapter(userChapter.userId, userChapter.id)
+        //    .then(canOpen => {
+        //        if (canOpen) {
+        //            this.router.navigate(['/lesson', userChapter.id, lessonToOpen.id]);
+        //        } else {
+        //            this.popupService.newValidationError(UserMessages.notAllowedOpenLesson);
+        //        }
+        //    });
     }
 
     openLesson(userChapter: UserChapterModel, userLesson: UserLessonModel) {
-        this.backendService.canOpenLesson(userChapter.userId, userChapter.id, userLesson.id)
-            .then(canOpen => {
-                if (canOpen) {
-                    this.router.navigate(['/lesson', userChapter.id, userLesson.id]);
-                } else {
-                    this.popupService.newValidationError(UserMessages.notAllowedOpenLesson);
-                }
-            });
+        this.router.navigate(['/lesson', userChapter.id, userLesson.id]);
+
+        //this.backendService.canOpenLesson(userChapter.userId, userChapter.id, userLesson.id)
+        //    .then(canOpen => {
+        //        if (canOpen) {
+        //            this.router.navigate(['/lesson', userChapter.id, userLesson.id]);
+        //        } else {
+        //            this.popupService.newValidationError(UserMessages.notAllowedOpenLesson);
+        //        }
+        //    });
     }
 }

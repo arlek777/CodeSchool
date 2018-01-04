@@ -1,11 +1,8 @@
-﻿import { Component, OnInit, ViewChild } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { BackendService } from "../../services/backend.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { LessonTestResult } from "../../models/lessontestresult";
-import { LessonTesterDirective } from "../../directives/lesson-tester.directive";
 import { UserLessonModel, UserLessonAnswerScore } from "../../models/userlesson";
 import { UserHelper } from "../../utils/helpers";
-import { UserChapterModel } from "../../models/userchapter";
 import { LessonViewModel, LessonType } from "../../models/lesson";
 import { PopupService } from "../../services/popup.service";
 import { UserMessages } from "../../user-messages";
@@ -18,7 +15,7 @@ export class TestLessonPage implements OnInit {
     userLessonIds = [];
 
     confirmedShowAnswer = false;
-    currentIndex = -1;
+    currentLessonIndex = -1;
     userChapterId: number;
     selectedAnswerOptionId: number;
 
@@ -41,11 +38,11 @@ export class TestLessonPage implements OnInit {
     }
 
     getNextLesson() {
-        if (!this.userLesson.isPassed) return;
+        if (!this.userLesson.isPassed || !this.userLessonIds.length) return;
 
         this.backendService.updateUserLesson(this.userLesson);
 
-        var nextIndex = ++this.currentIndex;
+        var nextIndex = ++this.currentLessonIndex;
         if (nextIndex === this.userLessonIds.length) {
             this.router.navigate(['/testchapters']);
             this.popupService.newSuccessMessage(UserMessages.chapterDone);
@@ -58,8 +55,8 @@ export class TestLessonPage implements OnInit {
     }
 
     getPreviousLesson() {
-        if (this.currentIndex === 0) return;
-        var prevIndex = --this.currentIndex;
+        if (this.currentLessonIndex === 0) return;
+        var prevIndex = --this.currentLessonIndex;
 
         this._loadUserLesson(this.userLessonIds[prevIndex].id);
     }
@@ -67,7 +64,7 @@ export class TestLessonPage implements OnInit {
     submitAnswerOption() {
         if (!this.selectedAnswerOptionId) return;
         this.userLesson.selectedAnswerOptionId = this.selectedAnswerOptionId;
-        this.userLesson.isPassed = this.isCorrectAnswer;
+        this.userLesson.isPassed = true;
     }
 
     rateLesson(score: UserLessonAnswerScore) {
@@ -79,15 +76,10 @@ export class TestLessonPage implements OnInit {
         this.confirmedShowAnswer = confirm(UserMessages.showAnswerConfirm);
     }
 
-    get isCorrectAnswer() {
-        var correctAnswerId = this.userLesson.lesson.answerLessonOptions.find(a => a.isCorrect).id;
-        return this.userLesson.selectedAnswerOptionId  === correctAnswerId;
-    }
-
     private _loadUserLessonsId(userLessonId) {
         this.backendService.getUserLessonIds(UserHelper.getUserId(), this.userChapterId).then((userLessons) => {
             this.userLessonIds = userLessons;
-            this.currentIndex = 0;
+            this.currentLessonIndex = this.userLessonIds.map(l => l.id).indexOf(userLessonId);
         });
     }
 
@@ -95,7 +87,8 @@ export class TestLessonPage implements OnInit {
         this.backendService.getUserLesson(UserHelper.getUserId(), userLessonId)
             .then(userLesson => {
                 this.userLesson = userLesson;
-                this.confirmedShowAnswer = false;
+                this.confirmedShowAnswer = this.userLesson.score != null;
+                this.selectedAnswerOptionId = this.userLesson.selectedAnswerOptionId;
             });
     }
 }

@@ -2,7 +2,6 @@
 import { LessonViewModel, LessonType, LessonLevel } from "../../models/lesson";
 import { BackendService } from "../../services/backend.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { LessonTestResult } from "../../models/lessontestresult";
 import { LessonTesterDirective } from "../../directives/lesson-tester.directive";
 import { PopupService } from "../../services/popup.service";
 import { Constants } from "../../constants";
@@ -17,8 +16,8 @@ export class AdminLessonPage implements OnInit {
     answerOption: AnswerLessonOptionViewModel = new AnswerLessonOptionViewModel();
     isTextPreviewMode = false;
 
-    lessonType = LessonType;
-    lessonLevel = LessonLevel;
+    LessonType = LessonType;
+    LessonLevel = LessonLevel;
 
     @ViewChild(LessonTesterDirective)
     private lessonTester: LessonTesterDirective;

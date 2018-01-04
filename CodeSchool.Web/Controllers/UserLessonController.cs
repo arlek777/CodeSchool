@@ -26,7 +26,7 @@ namespace CodeSchool.Web.Controllers
         [Route("[action]/{userId}/{userLessonId}")]
         public async Task<IActionResult> GetById(Guid userId, int userLessonId)
         {
-            var userlesson = await _userLessonService.GetById(userId, userLessonId);
+            var userlesson = await _userLessonService.GetUserLessonById(userId, userLessonId);
             return Ok(Mapper.Map<UserLessonModel>(userlesson));
         }
 
@@ -34,7 +34,7 @@ namespace CodeSchool.Web.Controllers
         [Route("[action]/{userId}/{userChapterId}")]
         public async Task<IActionResult> GetUserLessonIds(Guid userId, int userChapterId)
         {
-            var userlessons = await _userLessonService.Get(userId, userChapterId);
+            var userlessons = await _userLessonService.GetUserLessonsById(userId, userChapterId);
             return Ok(userlessons.Select(l => new { id = l.Id, isPassed = l.IsPassed }));
         }
 
@@ -48,6 +48,8 @@ namespace CodeSchool.Web.Controllers
             {
                 Id = model.Id,
                 Code = model.Code,
+                SelectedAnswerOptionId = model.SelectedAnswerOptionId,
+                Score = model.Score,
                 IsPassed = model.IsPassed,
                 UserId = model.UserId,
                 UserChapterId = model.UserChapterId

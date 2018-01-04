@@ -23,14 +23,14 @@ namespace CodeSchool.BusinessLogic.Services
             _userChapterService = userChapterService;
         }
 
-        public async Task<ICollection<UserLesson>> Get(Guid userId, int userChapterId)
+        public async Task<ICollection<UserLesson>> GetUserLessonsById(Guid userId, int userChapterId)
         {
             return (await _repository.Where<UserLesson>(c => c.UserId == userId && c.UserChapterId == userChapterId))
                 .OrderBy(l => l.Lesson.Order)
                 .ToList();
         }
 
-        public async Task<UserLesson> GetById(Guid userId, int userLessonId)
+        public async Task<UserLesson> GetUserLessonById(Guid userId, int userLessonId)
         {
             return await _repository.Find<UserLesson>(c => c.Id == userLessonId && c.UserId == userId);
         }
@@ -55,11 +55,11 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task<UserLesson> Update(UserLesson model)
         {
-            var userLesson = await GetById(model.UserId, model.Id);
+            var userLesson = await GetUserLessonById(model.UserId, model.Id);
             userLesson.IsPassed = model.IsPassed;
             userLesson.UpdatedDt = DateTime.UtcNow;
 
-            switch (model.Lesson.Type)
+            switch (userLesson.Lesson.Type)
             {
                 case LessonType.Code:
                     userLesson.Code = model.Code;
@@ -73,22 +73,12 @@ namespace CodeSchool.BusinessLogic.Services
             }
 
 
-            userLesson.UserChapter.IsPassed = (await Get(model.UserId, model.UserChapterId))
+            userLesson.UserChapter.IsPassed = (await GetUserLessonsById(model.UserId, model.UserChapterId))
                 .All(l => l.IsPassed);
 
             await _repository.SaveChanges();
 
             return userLesson;
-        }
-
-        public async Task UpdateCode(int lessonId, string code)
-        {
-            var userLessons = (await _repository.Where<UserLesson>(l => l.LessonId == lessonId)).ToList();
-            foreach (var userLesson in userLessons)
-            {
-                userLesson.Code = code;
-                await _repository.SaveChanges();
-            }
         }
 
         public async Task Remove(int lessonId)
@@ -103,7 +93,7 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task<bool> CanOpen(Guid userId, int userChapterId, int userLessonId)
         {
-            var userLessons = await Get(userId, userChapterId);
+            var userLessons = await GetUserLessonsById(userId, userChapterId);
             var user = await _repository.Find<User>(u => u.Id == userId);
          
             var canOpenLesson = new CanOpenLesson

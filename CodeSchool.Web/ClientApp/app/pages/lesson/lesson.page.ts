@@ -5,11 +5,10 @@ import { LessonTestResult } from "../../models/lessontestresult";
 import { LessonTesterDirective } from "../../directives/lesson-tester.directive";
 import { UserLessonModel } from "../../models/userlesson";
 import { UserHelper } from "../../utils/helpers";
-import { UserChapterModel } from "../../models/userchapter";
 import { LessonViewModel } from "../../models/lesson";
 import { PopupService } from "../../services/popup.service";
-import Usermessages = require("../../user-messages");
-import UserMessages = Usermessages.UserMessages;
+import { UserMessages } from '../../user-messages';
+
 
 @Component({
     templateUrl: './lesson.page.html'

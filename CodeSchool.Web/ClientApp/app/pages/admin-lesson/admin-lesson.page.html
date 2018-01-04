@@ -46,7 +46,7 @@
     </div>
     
     <!-- Code Type -->
-    <div *ngIf="lesson.type == lessonType.Code">
+    <div *ngIf="lesson.type == LessonType.Code">
         <div class="col-md-6">
             <editor mode="text" [(text)]="lesson.text" css="admin-lesson-full" header-text="Текст"></editor>
         </div>
@@ -70,9 +70,12 @@
     </div>
     
     <!-- Test Type -->
-    <div *ngIf="lesson.type == lessonType.Test">
+    <div *ngIf="lesson.type == LessonType.Test">
         <div class="col-md-6">
             <editor mode="text" [(text)]="lesson.taskText" css="admin-lesson-half" header-text="Задание"></editor>
+        </div>
+        <div class="col-md-6">
+            <editor mode="text" [(text)]="lesson.answer" css="admin-lesson-half" header-text="Ответ"></editor>
         </div>
         <div class="col-md-6">
             <editor mode="text" [(text)]="answerOption.text" css="admin-lesson-half" [header-template]="headerTemplate">
@@ -108,7 +111,7 @@
     </div>
     
     <!-- Long Answer Type -->
-    <div *ngIf="lesson.type == lessonType.LongAnswer">
+    <div *ngIf="lesson.type == LessonType.LongAnswer">
         <div class="col-md-6">
             <editor mode="text" [(text)]="lesson.taskText" css="admin-lesson-full" header-text="Задание"></editor>
         </div>
