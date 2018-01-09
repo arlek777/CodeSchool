@@ -13,11 +13,12 @@ import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { EditorComponent } from "./components/editor/editor.component";
 import { HeaderTemplateDirective } from "./components/editor/editor.component";
+import { UserLessonCodeComponent } from './components/user-lesson-code/user-lesson-code.component';
+import { UserLessonTestComponent } from './components/user-lesson-test/user-lesson-test.component';
 
-import { LessonPage } from './pages/lesson/lesson.page';
-import { ChaptersPage } from './pages/chapters/chapters.page';
+import { UserLessonPage } from './pages/user-lesson/user-lesson.page';
+import { UserChaptersPage } from './pages/user-chapters/user-chapters.page';
 import { TestChaptersPage } from './pages/test-chapters/test-chapters.page';
-import { TestLessonPage } from './pages/test-lesson/test-lesson.page';
 import { AdminLessonPage } from './pages/admin-lesson/admin-lesson.page';
 import { AdminChaptersPage } from './pages/admin-chapters/admin-chapters.page';
 import { LoginPage } from "./pages/login/login.page";
@@ -55,13 +56,14 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
         AppComponent,
         NavMenuComponent,
         EditorComponent,
+        UserLessonCodeComponent,
+        UserLessonTestComponent,
         LessonTesterDirective,
         ToggleMobileNavbarDirective,
         TrustHtmlDirective,
-        LessonPage,
-        ChaptersPage,
+        UserLessonPage,
+        UserChaptersPage,
         TestChaptersPage,
-        TestLessonPage,
         AdminLessonPage,
         AdminChaptersPage,
         LoginPage,
@@ -74,20 +76,19 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
         FormsModule,
         HttpModule,
         RouterModule.forRoot([
-            { path: '', redirectTo: 'chapters', pathMatch: 'full' },
-            { path: 'home', redirectTo: 'chapters' },
+            { path: '', redirectTo: 'user-chapters', pathMatch: 'full' },
+            { path: 'home', redirectTo: 'user-chapters' },
             { path: 'login', component: LoginPage },
             { path: 'register', component: RegisterPage },
             { path: 'literature', component: LiteraturePage },
-            { path: 'chapters', component: ChaptersPage, canActivate: [AuthGuard] },
-            { path: 'testchapters', component: TestChaptersPage, canActivate: [AuthGuard] },
-            { path: 'testlesson/:userChapterId/:userLessonId', component: TestLessonPage, canActivate: [AuthGuard] },
-            { path: 'lesson/:userChapterId/:userLessonId', component: LessonPage, canActivate: [AuthGuard] },
-            { path: 'adminchapters', component: AdminChaptersPage, canActivate: [AdminAuthGuard] },
-            { path: 'adminlesson/:chapterId/:lessonId', component: AdminLessonPage, canActivate: [AdminAuthGuard] },
-            { path: 'adminlesson/:chapterId', component: AdminLessonPage, canActivate: [AdminAuthGuard] },
-            { path: 'userstatistic', component: UserStatisticPage, canActivate: [AdminAuthGuard] },
-            { path: '**', redirectTo: 'chapters' }
+            { path: 'user-chapters', component: UserChaptersPage, canActivate: [AuthGuard] },
+            { path: 'test-chapters', component: TestChaptersPage, canActivate: [AuthGuard] },
+            { path: 'user-lesson/:userChapterId/:userLessonId', component: UserLessonPage, canActivate: [AuthGuard] },
+            { path: 'admin-chapters', component: AdminChaptersPage, canActivate: [AdminAuthGuard] },
+            { path: 'admin-lesson/:chapterId/:lessonId', component: AdminLessonPage, canActivate: [AdminAuthGuard] },
+            { path: 'admin-lesson/:chapterId', component: AdminLessonPage, canActivate: [AdminAuthGuard] },
+            { path: 'users-tatistic', component: UserStatisticPage, canActivate: [AdminAuthGuard] },
+            { path: '**', redirectTo: 'user-chapters' }
         ]),
         AceEditorModule,
         BrowserAnimationsModule,

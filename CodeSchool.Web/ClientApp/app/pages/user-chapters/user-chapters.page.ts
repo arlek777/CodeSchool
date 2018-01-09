@@ -9,9 +9,9 @@ import { UserMessages } from "../../user-messages";
 import { AuthService } from "../../services/auth.service";
 
 @Component({
-    templateUrl: './chapters.page.html'
+    templateUrl: './user-chapters.page.html'
 })
-export class ChaptersPage implements OnInit {
+export class UserChaptersPage implements OnInit {
     userChapters: UserChapterModel[] = [];
 
     constructor(private backendService: BackendService,
@@ -31,28 +31,28 @@ export class ChaptersPage implements OnInit {
 
         var lessonToOpen = userLessons.find(u => !u.isPassed);
         if (!lessonToOpen) lessonToOpen = userLessons[userLessons.length - 1];
-        this.router.navigate(['/lesson', userChapter.id, lessonToOpen.id]);
+        this.router.navigate(['/user-lesson', userChapter.id, lessonToOpen.id]);
 
-        //this.backendService.canOpenChapter(userChapter.userId, userChapter.id)
-        //    .then(canOpen => {
-        //        if (canOpen) {
-        //            this.router.navigate(['/lesson', userChapter.id, lessonToOpen.id]);
-        //        } else {
-        //            this.popupService.newValidationError(UserMessages.notAllowedOpenLesson);
-        //        }
-        //    });
+        this.backendService.canOpenChapter(userChapter.userId, userChapter.id)
+            .then(canOpen => {
+                if (canOpen) {
+                    this.router.navigate(['/user-lesson', userChapter.id, lessonToOpen.id]);
+                } else {
+                    this.popupService.newValidationError(UserMessages.notAllowedOpenLesson);
+                }
+            });
     }
 
     openLesson(userChapter: UserChapterModel, userLesson: UserLessonModel) {
-        this.router.navigate(['/lesson', userChapter.id, userLesson.id]);
+        this.router.navigate(['/user-lesson', userChapter.id, userLesson.id]);
 
-        //this.backendService.canOpenLesson(userChapter.userId, userChapter.id, userLesson.id)
-        //    .then(canOpen => {
-        //        if (canOpen) {
-        //            this.router.navigate(['/lesson', userChapter.id, userLesson.id]);
-        //        } else {
-        //            this.popupService.newValidationError(UserMessages.notAllowedOpenLesson);
-        //        }
-        //    });
+        this.backendService.canOpenLesson(userChapter.userId, userChapter.id, userLesson.id)
+            .then(canOpen => {
+                if (canOpen) {
+                    this.router.navigate(['/user-lesson', userChapter.id, userLesson.id]);
+                } else {
+                    this.popupService.newValidationError(UserMessages.notAllowedOpenLesson);
+                }
+            });
     }
 }
