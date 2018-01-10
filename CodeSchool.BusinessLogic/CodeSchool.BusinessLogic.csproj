@@ -61,8 +61,11 @@
     <Compile Include="Interfaces\IUserLessonService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Interfaces\ILogService.cs" />
+    <Compile Include="Extensions\ExpressionExtensions.cs" />
+    <Compile Include="Models\FilterUserChapterModel.cs" />
     <Compile Include="Services\LessonService.cs" />
     <Compile Include="Services\EntityFrameworkLogService.cs" />
+    <Compile Include="Extensions\ParameterRebinder.cs" />
     <Compile Include="Services\UserChapterService.cs" />
     <Compile Include="Services\UserLessonService.cs" />
     <Compile Include="Services\UserService.cs" />

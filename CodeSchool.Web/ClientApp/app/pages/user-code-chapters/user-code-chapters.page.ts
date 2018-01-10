@@ -7,11 +7,12 @@ import { Router } from "@angular/router";
 import { PopupService } from "../../services/popup.service";
 import { UserMessages } from "../../user-messages";
 import { AuthService } from "../../services/auth.service";
+import { ChapterType } from '../../models/chapter';
 
 @Component({
-    templateUrl: './user-chapters.page.html'
+    templateUrl: './user-code-chapters.page.html'
 })
-export class UserChaptersPage implements OnInit {
+export class UserCodeChaptersPage implements OnInit {
     userChapters: UserChapterModel[] = [];
 
     constructor(private backendService: BackendService,
@@ -20,7 +21,7 @@ export class UserChaptersPage implements OnInit {
     }
 
     ngOnInit() {
-        this.backendService.getUserChapters(UserHelper.getUserId()).then(userChapters => {
+        this.backendService.getUserChapters(UserHelper.getUserId(), { type: ChapterType.Code}).then(userChapters => {
             this.userChapters = userChapters;
         });
     }
@@ -31,8 +32,6 @@ export class UserChaptersPage implements OnInit {
 
         var lessonToOpen = userLessons.find(u => !u.isPassed);
         if (!lessonToOpen) lessonToOpen = userLessons[userLessons.length - 1];
-        this.router.navigate(['/user-lesson', userChapter.id, lessonToOpen.id]);
-
         this.backendService.canOpenChapter(userChapter.userId, userChapter.id)
             .then(canOpen => {
                 if (canOpen) {
@@ -44,8 +43,6 @@ export class UserChaptersPage implements OnInit {
     }
 
     openLesson(userChapter: UserChapterModel, userLesson: UserLessonModel) {
-        this.router.navigate(['/user-lesson', userChapter.id, userLesson.id]);
-
         this.backendService.canOpenLesson(userChapter.userId, userChapter.id, userLesson.id)
             .then(canOpen => {
                 if (canOpen) {

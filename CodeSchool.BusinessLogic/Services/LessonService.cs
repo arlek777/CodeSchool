@@ -28,6 +28,12 @@ namespace CodeSchool.BusinessLogic.Services
             var dbLesson = await GetById(model.Id);
             if (dbLesson == null)
             {
+                var chapter = await _repository.Find<Chapter>(c => c.Id == model.ChapterId);
+                if (!chapter.Lessons.Any())
+                {
+                    chapter.Type = model.Type == LessonType.Code ? ChapterType.Code : ChapterType.Test;
+                }
+
                 dbLesson = new Lesson()
                 {
                     Type = model.Type,

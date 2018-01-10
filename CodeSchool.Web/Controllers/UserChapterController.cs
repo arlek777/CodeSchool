@@ -1,8 +1,8 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CodeSchool.BusinessLogic.Interfaces;
+using CodeSchool.BusinessLogic.Models;
 using CodeSchool.Web.Models.Chapters;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,18 +19,10 @@ namespace CodeSchool.Web.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{userId}")]
-        public async Task<IActionResult> Get(Guid userId)
+        [Route("[action]")]
+        public async Task<IActionResult> Get(FilterUserChapterModel filterModel)
         {
-            var chapters = await _chapterService.GetAll(userId);
-            return Ok(chapters.Select(Mapper.Map<UserChapterShortcutModel>));
-        }
-
-        [HttpGet]
-        [Route("[action]/{userId}/{categoryId}")]
-        public async Task<IActionResult> GetByCategory(Guid userId, int categoryId)
-        {
-            var chapters = await _chapterService.GetByCategoryId(userId, categoryId);
+            var chapters = await _chapterService.GetUserChapters(filterModel);
             return Ok(chapters.Select(Mapper.Map<UserChapterShortcutModel>));
         }
 

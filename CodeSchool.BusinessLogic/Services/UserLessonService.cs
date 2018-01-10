@@ -40,7 +40,7 @@ namespace CodeSchool.BusinessLogic.Services
             var users = await _repository.GetAll<User>();
             foreach (var user in users)
             {
-                var userChapter = await _userChapterService.GetByChapterId(user.Id, chapterId);
+                var userChapter = await _userChapterService.GetUserChapterByChapterId(user.Id, chapterId);
 
                 _repository.Add(new UserLesson()
                 {

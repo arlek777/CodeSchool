@@ -3,6 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CodeSchool.Domain
 {
+    public enum ChapterType
+    {
+        Code = 0,
+        Test
+    }
+
     public class Chapter
     {
         public Chapter()
@@ -20,7 +26,10 @@ namespace CodeSchool.Domain
 
         public int Order { get; set; }
 
+        public ChapterType Type { get; set; }
+
         public virtual Category Category { get; set; }
+
         public virtual ICollection<Lesson> Lessons { get; set; }
     }
 }

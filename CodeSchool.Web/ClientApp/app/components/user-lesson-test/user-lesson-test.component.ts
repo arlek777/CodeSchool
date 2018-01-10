@@ -32,11 +32,13 @@ export class UserLessonTestComponent extends UserLessonBaseComponent implements 
     }
 
     ngOnInit(): void {
-        this.loadUserLessonsId(this.userLessonId);
-        this.loadUserLesson(this.userLessonId).then(() => {
+        this.newLessonLoaded$.subscribe(() => {
             this.confirmedShowAnswer = this.userLesson.score != null;
             this.selectedAnswerOptionId = this.userLesson.selectedAnswerOptionId;
         });
+
+        this.loadUserLessonsId(this.userLessonId);
+        this.loadUserLesson(this.userLessonId);
     }
 
     submitAnswerOption() {

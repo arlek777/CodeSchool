@@ -1,7 +1,7 @@
 ﻿import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
 import { LessonViewModel } from "../models/lesson";
-import { ChapterViewModel } from "../models/chapter";
+import { ChapterViewModel, ChapterType } from "../models/chapter";
 import { LoginViewModel } from "../models/auth/login";
 import { UserStatisticModel } from "../models/userstatistic";
 import { RegistrationViewModel } from "../models/auth/registration";
@@ -73,14 +73,19 @@ export class BackendService {
         });
     }
 
-    getUserChapters(userId: string): Promise<UserChapterModel[]> {
-        return this.http.get(`/api/userchapter/get/${userId}`).toPromise().then((response) => {
-            return response.json().map(c => new UserChapterModel(c));
-        });
-    }
-
-    getUserChaptersByCategory(userId: string, categoryId: number): Promise<UserChapterModel[]> {
-        return this.http.get(`/api/userchapter/getbycategory/${userId}/${categoryId}`).toPromise().then((response) => {
+    getUserChapters(userId: string, filterModel?: { categoryId?: number, type?: ChapterType}): Promise<UserChapterModel[]> {
+        let params = new URLSearchParams();
+        params.set("userId", userId);
+        if (filterModel) {
+            for (let key in filterModel) {
+                if (filterModel[key] !== null || filterModel[key] !== undefined) {
+                    params.set(key, filterModel[key]);
+                }
+            }
+        }
+        var url = `/api/userchapter/get?${params.toString()}`;
+        console.log(url);
+        return this.http.get(url).toPromise().then((response) => {
             return response.json().map(c => new UserChapterModel(c));
         });
     }

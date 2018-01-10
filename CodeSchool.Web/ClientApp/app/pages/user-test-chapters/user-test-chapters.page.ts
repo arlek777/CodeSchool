@@ -8,11 +8,12 @@ import { PopupService } from "../../services/popup.service";
 import { UserMessages } from "../../user-messages";
 import { AuthService } from "../../services/auth.service";
 import { CategoryViewModel } from '../../models/category';
+import { ChapterType } from '../../models/chapter';
 
 @Component({
-    templateUrl: './test-chapters.page.html'
+    templateUrl: './user-test-chapters.page.html'
 })
-export class TestChaptersPage implements OnInit {
+export class UserTestChaptersPage implements OnInit {
     cachedUserChapters: { [categoryId: number]: UserChapterModel[] } = {};
     userChapters: UserChapterModel[] = [];
     categories: CategoryViewModel[] = [];
@@ -35,7 +36,7 @@ export class TestChaptersPage implements OnInit {
         if (this.cachedUserChapters[categoryId]) {
             this.userChapters = this.cachedUserChapters[categoryId];
         } else {
-            this.backendService.getUserChaptersByCategory(UserHelper.getUserId(), categoryId).then(userChapters => {
+            this.backendService.getUserChapters(UserHelper.getUserId(), { categoryId: categoryId, type: ChapterType.Test }).then(userChapters => {
                 this.userChapters = userChapters;
                 this.cachedUserChapters[categoryId] = userChapters;
             });

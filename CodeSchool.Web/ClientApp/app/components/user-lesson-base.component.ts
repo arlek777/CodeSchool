@@ -5,8 +5,13 @@ import { BackendService } from "../services/backend.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PopupService } from "../services/popup.service";
 import { UserHelper } from "../utils/helpers";
+import { Subject } from "rxjs/Subject";
 
 export abstract class UserLessonBaseComponent {
+    private newLessonLoadedSource = new Subject<void>();
+
+    protected newLessonLoaded$ = this.newLessonLoadedSource.asObservable();
+
     userLesson: UserLessonModel = new UserLessonModel();
     userLessonIds = [];
     currentIndex = -1;
@@ -43,17 +48,18 @@ export abstract class UserLessonBaseComponent {
         this.loadUserLesson(this.userLessonIds[prevIndex].id);
     }
 
-    protected loadUserLessonsId(userLessonId): Promise<void> {
-        return this.backendService.getUserLessonIds(UserHelper.getUserId(), this.userChapterId).then((userLessons) => {
+    protected loadUserLessonsId(userLessonId){
+        this.backendService.getUserLessonIds(UserHelper.getUserId(), this.userChapterId).then((userLessons) => {
             this.userLessonIds = userLessons;
             this.currentIndex = this.userLessonIds.map(l => l.id).indexOf(userLessonId);
         });
     }
 
-    protected loadUserLesson(userLessonId): Promise<void> {
-        return this.backendService.getUserLesson(UserHelper.getUserId(), userLessonId)
+    protected loadUserLesson(userLessonId) {
+        this.backendService.getUserLesson(UserHelper.getUserId(), userLessonId)
             .then(userLesson => {
                 this.userLesson = userLesson;
+                this.newLessonLoadedSource.next();
             });
     }
 }

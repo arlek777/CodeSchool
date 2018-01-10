@@ -34,12 +34,16 @@ export class UserLessonCodeComponent extends UserLessonBaseComponent implements 
     }
 
     ngOnInit(): void {
+        this.newLessonLoaded$.subscribe(() => {
+            this.result = new LessonTestResult();
+        });
+
         this.backendService.canOpenLesson(UserHelper.getUserId(), this.userChapterId, this.userLessonId).then(canOpen => {
             if (canOpen) {
                 this.loadUserLessonsId(this.userLessonId);
-                this.loadUserLesson(this.userLessonId).then(() => this.result = new LessonTestResult());
+                this.loadUserLesson(this.userLessonId);
             } else {
-                this.router.navigate(['/user-chapters']);
+                this.router.navigate(['/code-chapters']);
                 this.popupService.newValidationError(UserMessages.notAllowedOpenLesson);
             }
         });

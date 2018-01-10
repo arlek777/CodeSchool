@@ -17,8 +17,8 @@ import { UserLessonCodeComponent } from './components/user-lesson-code/user-less
 import { UserLessonTestComponent } from './components/user-lesson-test/user-lesson-test.component';
 
 import { UserLessonPage } from './pages/user-lesson/user-lesson.page';
-import { UserChaptersPage } from './pages/user-chapters/user-chapters.page';
-import { TestChaptersPage } from './pages/test-chapters/test-chapters.page';
+import { UserCodeChaptersPage } from './pages/user-code-chapters/user-code-chapters.page';
+import { UserTestChaptersPage } from './pages/user-test-chapters/user-test-chapters.page';
 import { AdminLessonPage } from './pages/admin-lesson/admin-lesson.page';
 import { AdminChaptersPage } from './pages/admin-chapters/admin-chapters.page';
 import { LoginPage } from "./pages/login/login.page";
@@ -62,8 +62,8 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
         ToggleMobileNavbarDirective,
         TrustHtmlDirective,
         UserLessonPage,
-        UserChaptersPage,
-        TestChaptersPage,
+        UserCodeChaptersPage,
+        UserTestChaptersPage,
         AdminLessonPage,
         AdminChaptersPage,
         LoginPage,
@@ -76,19 +76,19 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
         FormsModule,
         HttpModule,
         RouterModule.forRoot([
-            { path: '', redirectTo: 'user-chapters', pathMatch: 'full' },
-            { path: 'home', redirectTo: 'user-chapters' },
+            { path: '', redirectTo: 'code-chapters', pathMatch: 'full' },
+            { path: 'home', redirectTo: 'code-chapters' },
             { path: 'login', component: LoginPage },
             { path: 'register', component: RegisterPage },
             { path: 'literature', component: LiteraturePage },
-            { path: 'user-chapters', component: UserChaptersPage, canActivate: [AuthGuard] },
-            { path: 'test-chapters', component: TestChaptersPage, canActivate: [AuthGuard] },
+            { path: 'code-chapters', component: UserCodeChaptersPage, canActivate: [AuthGuard] },
+            { path: 'test-chapters', component: UserTestChaptersPage, canActivate: [AuthGuard] },
             { path: 'user-lesson/:userChapterId/:userLessonId', component: UserLessonPage, canActivate: [AuthGuard] },
             { path: 'admin-chapters', component: AdminChaptersPage, canActivate: [AdminAuthGuard] },
             { path: 'admin-lesson/:chapterId/:lessonId', component: AdminLessonPage, canActivate: [AdminAuthGuard] },
             { path: 'admin-lesson/:chapterId', component: AdminLessonPage, canActivate: [AdminAuthGuard] },
             { path: 'users-tatistic', component: UserStatisticPage, canActivate: [AdminAuthGuard] },
-            { path: '**', redirectTo: 'user-chapters' }
+            { path: '**', redirectTo: 'code-chapters' }
         ]),
         AceEditorModule,
         BrowserAnimationsModule,

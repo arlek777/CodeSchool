@@ -13,7 +13,7 @@
             </div>
             <div *ngFor="let userChapter of userChapters" class="col-md-12">
                 <div *ngIf="userChapter.userLessons.length > 0" class="col-md-3">
-                    <a href="javascript: " [routerLink]="['/testlesson', userChapter.id, userChapter.userLessons[0].id]">
+                    <a href="javascript: " [routerLink]="['/user-lesson', userChapter.id, userChapter.userLessons[0].id]">
                         <h4>{{ userChapter.chapterTitle }}
                             <span class="green-color" [ngClass]="{'fa fa-check': userChapter.isPassed}"></span>
                         </h4>

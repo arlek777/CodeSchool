@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CodeSchool.BusinessLogic.Extensions;
 using CodeSchool.BusinessLogic.Interfaces;
@@ -21,9 +22,21 @@ namespace CodeSchool.BusinessLogic.Services
             _chapterService = chapterService;
         }
 
-        public async Task<ICollection<UserChapter>> GetAll(Guid userId)
+        public async Task<ICollection<UserChapter>> GetUserChaptersByUserId(Guid userId)
         {
-            var userChapters = (await _repository.Where<UserChapter>(c => c.UserId == userId))
+            return await GetUserChapters(new FilterUserChapterModel() { UserId = userId });
+        }
+
+        public async Task<ICollection<UserChapter>> GetUserChapters(FilterUserChapterModel filterModel)
+        {
+            var filters = filterModel.GetFilters();
+            Expression<Func<UserChapter, bool>> resultFilter = filters.FirstOrDefault();
+            foreach (var filter in filters.Skip(1))
+            {
+                resultFilter = resultFilter.And(filter);
+            }
+
+            var userChapters = (await _repository.Where(resultFilter))
                 .OrderBy(c => c.Chapter.Order)
                 .ToList();
 
@@ -31,15 +44,9 @@ namespace CodeSchool.BusinessLogic.Services
             return userChapters;
         }
 
-        public async Task<ICollection<UserChapter>> GetByCategoryId(Guid userId, int categoryId)
+        public async Task<UserChapter> GetUserChapterByChapterId(Guid userId, int chapterId)
         {
-            var userChapters = await GetAll(userId);
-            return userChapters.Where(c => c.Chapter.CategoryId == categoryId).ToList();
-        }
-
-        public async Task<UserChapter> GetByChapterId(Guid userId, int chapterId)
-        {
-            var userChapters = await GetAll(userId);
+            var userChapters = await GetUserChaptersByUserId(userId);
             return userChapters.FirstOrDefault(c => c.ChapterId == chapterId);
         }
 
@@ -111,7 +118,7 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task<bool> CanOpen(Guid userId, int userChapterId)
         {
-            var userChapters = (await GetAll(userId)).ToList();
+            var userChapters = (await GetUserChaptersByUserId(userId)).ToList();
             var user = await _repository.Find<User>(u => u.Id == userId);
 
             var canOpenChapter = new CanOpenChapter

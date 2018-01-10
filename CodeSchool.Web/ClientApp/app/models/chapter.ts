@@ -1,6 +1,11 @@
 ﻿import { Mapper } from "../utils/helpers";
 import { LessonViewModel } from "./lesson";
 
+export enum ChapterType {
+    Code = 0,
+    Test
+}
+
 export class ChapterViewModel {
     constructor(model?: ChapterViewModel) {
         if (model) {
@@ -15,4 +20,5 @@ export class ChapterViewModel {
     lessons: LessonViewModel[];
     categoryId: number;
     order: number;
+    type: ChapterType;
 }

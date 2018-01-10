@@ -38,7 +38,7 @@
             <div class="panel panel-default lesson-half">
                 <div class="panel-heading"><h4>Варианты</h4></div>
                 <div class="panel-body">
-                    <div *ngIf="userLesson.selectedAnswerOptionId" [trust-html]="lesson.answer"></div>
+                    <div *ngIf="userLesson.selectedAnswerOptionId" [trust-html]="userLesson.lesson.answer"></div>
                     <ol>
                         <li *ngFor="let option of userLesson.lesson.answerLessonOptions"
                             [style.color]="option.isCorrect && userLesson.selectedAnswerOptionId ? 'green' : 'inherit'">
