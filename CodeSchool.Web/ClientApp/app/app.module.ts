@@ -17,8 +17,7 @@ import { UserLessonCodeComponent } from './components/user-lesson-code/user-less
 import { UserLessonTestComponent } from './components/user-lesson-test/user-lesson-test.component';
 
 import { UserLessonPage } from './pages/user-lesson/user-lesson.page';
-import { UserCodeChaptersPage } from './pages/user-code-chapters/user-code-chapters.page';
-import { UserTestChaptersPage } from './pages/user-test-chapters/user-test-chapters.page';
+import { UserChaptersPage } from './pages/user-chapters/user-chapters.page';
 import { AdminLessonPage } from './pages/admin-lesson/admin-lesson.page';
 import { AdminChaptersPage } from './pages/admin-chapters/admin-chapters.page';
 import { LoginPage } from "./pages/login/login.page";
@@ -49,6 +48,8 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
     return new InterceptedHttp(xhrBackend, requestOptions);
 }
 
+const DEFAULT_ROUTE: string = "user-chapters/code";
+
 @NgModule({
     bootstrap: [AppComponent],
     declarations: [
@@ -62,8 +63,7 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
         ToggleMobileNavbarDirective,
         TrustHtmlDirective,
         UserLessonPage,
-        UserCodeChaptersPage,
-        UserTestChaptersPage,
+        UserChaptersPage,
         AdminLessonPage,
         AdminChaptersPage,
         LoginPage,
@@ -76,19 +76,18 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
         FormsModule,
         HttpModule,
         RouterModule.forRoot([
-            { path: '', redirectTo: 'code-chapters', pathMatch: 'full' },
-            { path: 'home', redirectTo: 'code-chapters' },
+            { path: '', redirectTo: DEFAULT_ROUTE, pathMatch: 'full' },
+            { path: 'home', redirectTo: DEFAULT_ROUTE },
             { path: 'login', component: LoginPage },
             { path: 'register', component: RegisterPage },
             { path: 'literature', component: LiteraturePage },
-            { path: 'code-chapters', component: UserCodeChaptersPage, canActivate: [AuthGuard] },
-            { path: 'test-chapters', component: UserTestChaptersPage, canActivate: [AuthGuard] },
+            { path: 'user-chapters/:chapterType', component: UserChaptersPage, canActivate: [AuthGuard] },
             { path: 'user-lesson/:userChapterId/:userLessonId', component: UserLessonPage, canActivate: [AuthGuard] },
             { path: 'admin-chapters', component: AdminChaptersPage, canActivate: [AdminAuthGuard] },
             { path: 'admin-lesson/:chapterId/:lessonId', component: AdminLessonPage, canActivate: [AdminAuthGuard] },
             { path: 'admin-lesson/:chapterId', component: AdminLessonPage, canActivate: [AdminAuthGuard] },
             { path: 'users-tatistic', component: UserStatisticPage, canActivate: [AdminAuthGuard] },
-            { path: '**', redirectTo: 'code-chapters' }
+            { path: '**', redirectTo: DEFAULT_ROUTE }
         ]),
         AceEditorModule,
         BrowserAnimationsModule,

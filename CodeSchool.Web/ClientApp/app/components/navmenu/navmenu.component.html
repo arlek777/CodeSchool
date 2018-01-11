@@ -13,10 +13,10 @@
         <div class='navbar-collapse'>
             <ul class='nav navbar-nav'>
                 <li [routerLinkActive]="['active']">
-                    <a class="router-link" [routerLink]="['/code-chapters']">Уроки</a>
+                    <a class="router-link" [routerLink]="['/user-chapters/code']">Уроки</a>
                 </li>
                 <li [routerLinkActive]="['active']">
-                    <a class="router-link" [routerLink]="['/test-chapters']">Тесты</a>
+                    <a class="router-link" [routerLink]="['/user-chapters/test']">Тесты</a>
                 </li>
                 <li *ngIf="isAdmin" [routerLinkActive]="['active']">
                     <a class="router-link" [routerLink]="['/admin-chapters']">Админка</a>

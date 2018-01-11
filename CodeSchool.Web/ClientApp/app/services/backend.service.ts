@@ -84,7 +84,6 @@ export class BackendService {
             }
         }
         var url = `/api/userchapter/get?${params.toString()}`;
-        console.log(url);
         return this.http.get(url).toPromise().then((response) => {
             return response.json().map(c => new UserChapterModel(c));
         });

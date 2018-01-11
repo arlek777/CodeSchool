@@ -1,6 +1,21 @@
 ﻿<div class="container">
     <div class="panel panel-default">
-        <div class="panel-heading"><h4>Уроки</h4></div>
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-1">
+                    <h4>Категория</h4>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <select class="form-control" [ngModel]="selectedCategoryId" (ngModelChange)="onCategorySelected($event)">
+                            <option *ngFor="let cat of categories" [ngValue]="cat.id">
+                                {{ cat.title }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="panel-body">
             <div class="row">
                 <div *ngFor="let userChapter of userChapters" class="col-md-12">
