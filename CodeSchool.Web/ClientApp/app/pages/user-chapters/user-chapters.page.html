@@ -6,13 +6,8 @@
                     <h4>Категория</h4>
                 </div>
                 <div class="col-md-4">
-                    <div class="form-group">
-                        <select class="form-control" [ngModel]="selectedCategoryId" (ngModelChange)="onCategorySelected($event)">
-                            <option *ngFor="let cat of categories" [ngValue]="cat.id">
-                                {{ cat.title }}
-                            </option>
-                        </select>
-                    </div>
+                    <category-selector [local-storage-key]="currentTypeParams.localStorageKey" 
+                                       (onCategoryChanged)="onCategoryChanged($event)"></category-selector>
                 </div>
             </div>
         </div>
@@ -20,21 +15,29 @@
             <div class="row">
                 <div *ngFor="let userChapter of userChapters" class="col-md-12">
                     <div *ngIf="userChapter.userLessons.length > 0" class="col-md-3">
+                        <a href="javascript: " (click)="userChapter.isExpanded=!userChapter.isExpanded;">
+                            <span class="fa"
+                                       [ngClass]="{ 'fa-toggle-right': !userChapter.isExpanded, 'fa-toggle-down': userChapter.isExpanded }">
+                            </span>
+                        </a>
                         <a href="javascript: " (click)="openChapter(userChapter)">
-                            <h4>{{ userChapter.chapterTitle }}
+                            <h4>
+                                {{ userChapter.chapterTitle }}
                                 <span class="green-color" [ngClass]="{'fa fa-check': userChapter.isPassed}"></span>
                             </h4>
                         </a>
                     </div>
 
-                    <div class="col-md-12" *ngFor="let userLesson of userChapter.userLessons">
-                        <div class="col-md-4">
-                            <a href="javascript: " (click)="openLesson(userChapter, userLesson)">
-                                {{ userLesson.lessonTitle }}
-                                <span class="green-color" [ngClass]="{'fa fa-check': userLesson.isPassed}"></span>
-                            </a>
+                    <ng-container *ngIf="userChapter.isExpanded">
+                        <div class="col-md-12" *ngFor="let userLesson of userChapter.userLessons">
+                            <div class="col-md-4">
+                                <a href="javascript: " (click)="openLesson(userChapter, userLesson)">
+                                    {{ userLesson.lessonTitle }}
+                                    <span class="green-color" [ngClass]="{'fa fa-check': userLesson.isPassed}"></span>
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    </ng-container>
                 </div>
             </div>
         </div>

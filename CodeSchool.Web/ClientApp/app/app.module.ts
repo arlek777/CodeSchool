@@ -15,6 +15,7 @@ import { EditorComponent } from "./components/editor/editor.component";
 import { HeaderTemplateDirective } from "./components/editor/editor.component";
 import { UserLessonCodeComponent } from './components/user-lesson-code/user-lesson-code.component';
 import { UserLessonTestComponent } from './components/user-lesson-test/user-lesson-test.component';
+import { CategorySelectorComponent } from './components/category-selector/category-selector.component';
 
 import { UserLessonPage } from './pages/user-lesson/user-lesson.page';
 import { UserChaptersPage } from './pages/user-chapters/user-chapters.page';
@@ -59,6 +60,7 @@ const DEFAULT_ROUTE: string = "user-chapters/code";
         EditorComponent,
         UserLessonCodeComponent,
         UserLessonTestComponent,
+        CategorySelectorComponent,
         LessonTesterDirective,
         ToggleMobileNavbarDirective,
         TrustHtmlDirective,

@@ -29,7 +29,15 @@ namespace CodeSchool.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Get()
         {
-            var chapters = await _chapterService.Get();
+            var chapters = await _chapterService.GetChapters();
+            return Ok(chapters.Select(Mapper.Map<ChapterShortcutModel>));
+        }
+
+        [HttpGet]
+        [Route("[action]/{categoryId}")]
+        public async Task<IActionResult> GetByCategoryId(int categoryId)
+        {
+            var chapters = await _chapterService.GetChapters(categoryId);
             return Ok(chapters.Select(Mapper.Map<ChapterShortcutModel>));
         }
 

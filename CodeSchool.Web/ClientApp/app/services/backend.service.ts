@@ -39,6 +39,12 @@ export class BackendService {
         });
     }
 
+    getChaptersByCategoryId(categoryId: number): Promise<ChapterViewModel[]> {
+        return this.http.get(`/api/chapter/getbycategoryid/${categoryId}`).toPromise().then((response) => {
+            return response.json().map(c => new ChapterViewModel(c));
+        });
+    }
+
     addOrUpdateChapter(chapter:ChapterViewModel): Promise<ChapterViewModel> {
         return this.http.post("/api/chapter/addorupdate", chapter).toPromise().then((response) => {
             return new ChapterViewModel(response.json());

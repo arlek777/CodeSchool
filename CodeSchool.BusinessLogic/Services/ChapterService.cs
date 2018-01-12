@@ -16,9 +16,22 @@ namespace CodeSchool.BusinessLogic.Services
             _repository = repository;
         }
 
-        public async Task<IEnumerable<Chapter>> Get()
+        public async Task<IEnumerable<Chapter>> GetChapters(int? categoryId = null)
         {
-            var chapters = (await _repository.GetAll<Chapter>()).OrderBy(c => c.Order).ToList();
+            List<Chapter> chapters;
+            if (categoryId.HasValue)
+            {
+                chapters = (await _repository.Where<Chapter>(c => c.CategoryId == categoryId))
+                    .OrderBy(c => c.Order)
+                    .ToList();
+            }
+            else
+            {
+                chapters = (await _repository.GetAll<Chapter>())
+                    .OrderBy(c => c.Order)
+                    .ToList();
+            }
+
             chapters.ForEach(c =>
             {
                 c.Lessons = c.Lessons.OrderBy(l => l.Order).ToList();
@@ -29,7 +42,7 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task<Chapter> GetById(int chapterId)
         {
-            var chapter = (await Get()).FirstOrDefault(c => c.Id == chapterId);
+            var chapter = (await GetChapters()).FirstOrDefault(c => c.Id == chapterId);
             return chapter;
         }
 
@@ -78,7 +91,7 @@ namespace CodeSchool.BusinessLogic.Services
 
         private async Task<int> GetNextOrder()
         {
-            var chapters = await Get();
+            var chapters = await GetChapters();
             var lastChapter = chapters.LastOrDefault();
             return lastChapter?.Order + 1 ?? 0;
         }

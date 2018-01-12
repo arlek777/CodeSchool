@@ -69,7 +69,7 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task Add(Guid userId)
         {
-            var chapters = await _chapterService.Get();
+            var chapters = await _chapterService.GetChapters();
 
             foreach (var chapter in chapters)
             {

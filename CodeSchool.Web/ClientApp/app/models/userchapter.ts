@@ -18,4 +18,5 @@ export class UserChapterModel {
     chapterOrder: number;
     userLessons: UserLessonModel[];
     isPassed: boolean;
+    isExpanded: boolean;
 }
