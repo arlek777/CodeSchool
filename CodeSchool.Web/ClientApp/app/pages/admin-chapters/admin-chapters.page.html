@@ -26,7 +26,7 @@
                         
                         <div class="col-md-3">
                             <a href="javascript: " (click)="editChapter(chapter)"><h4 style="display: inline-block">{{ chapter.title }}</h4></a>
-                            <a class="alert-success" [routerLink]="['/adminlesson', chapter.id]">
+                            <a class="alert-success" [routerLink]="['/admin-lesson', chapter.id]">
                                 <span class="fa fa-plus"></span>
                             </a>
                             <a class="alert-danger" href="javascript: " (click)="removeChapter(chapter.id)">
@@ -41,7 +41,7 @@
                         </div>
 
                         <div class="col-md-12" *ngFor="let lesson of chapter.lessons; let i = index;">
-                            <a [routerLink]="['/adminlesson', chapter.id, lesson.id]">
+                            <a [routerLink]="['/admin-lesson', chapter.id, lesson.id]">
                                 <h5 style="display: inline-block">{{ lesson.title }}</h5>
                             </a>
                             <a *ngIf="!lesson.published"  href="javascript: " (click)="publishLesson(chapter.id, lesson)">

@@ -43,7 +43,7 @@ export class AdminLessonPage implements OnInit {
             this.lesson.unitTestsCode = Constants.startUnitTest;
             this.lesson.reporterCode = Constants.startLessonReporter;
             this.lesson.type = LessonType.Code;
-            this.lesson.level = LessonLevel.Middle;
+            this.lesson.level = LessonLevel.Junior;
         } else {
             this.backendService.getLesson(lessonId).then(lesson => {
                 this.lesson = lesson;
@@ -54,10 +54,10 @@ export class AdminLessonPage implements OnInit {
     addOrUpdate(finished: boolean) {
         this.backendService.addOrUpdateLesson(this.lesson).then((lesson) => {
             if (finished) {
-                this.router.navigate(['/adminchapters']);
+                this.router.navigate(['/admin-chapters']);
             } else {
                 this.lesson = lesson;
-                this.router.navigate(["/adminlesson", this.lesson.chapterId, this.lesson.id]);
+                this.router.navigate(["/admin-lesson", this.lesson.chapterId, this.lesson.id]);
             }
             this.popupService.newSuccessMessage(UserMessages.addedItem);
         });
@@ -65,7 +65,7 @@ export class AdminLessonPage implements OnInit {
 
     back() {
         if (!confirm(UserMessages.confrimQuestion)) return;
-        this.router.navigate(['/adminchapters']);
+        this.router.navigate(['/admin-chapters']);
     }
 
     onTestResultsReceived(result) {

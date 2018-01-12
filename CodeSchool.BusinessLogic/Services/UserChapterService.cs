@@ -98,7 +98,7 @@ namespace CodeSchool.BusinessLogic.Services
             }
         }
 
-        public async Task Remove(int chapterId)
+        public async Task RemoveAllInChapter(int chapterId)
         {
             var chapters = (await _repository.Where<UserChapter>(c => c.ChapterId == chapterId)).ToList();
 

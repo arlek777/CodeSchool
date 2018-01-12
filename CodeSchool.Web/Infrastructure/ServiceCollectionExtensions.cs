@@ -44,6 +44,7 @@ namespace CodeSchool.Web.Infrastructure
             services.AddTransient<IPasswordHasher, PasswordHasher>();
             services.AddTransient<ILogService, FileLogService>();
             services.AddTransient<ISimpleCRUDService, SimpleCRUDService>();
+            services.AddTransient<IAnswerLessonOptionService, AnswerLessonOptionService>();
         }
 
         private static void ConfigureSecurity(IServiceCollection services, IConfigurationRoot configuration)

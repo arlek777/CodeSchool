@@ -9,5 +9,6 @@ namespace CodeSchool.BusinessLogic.Interfaces
         Task<Lesson> AddOrUpdate(Lesson model);
         Task Remove(int id);
         Task ChangeOrder(int upLessonId, int downLessonId);
+        Task RemoveAllInChapter(int chapterId);
     }
 }

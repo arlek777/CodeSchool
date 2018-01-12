@@ -54,6 +54,7 @@
     <Compile Include="Extensions\CanOpenChapterExtensions.cs" />
     <Compile Include="Models\CanOpenLesson.cs" />
     <Compile Include="Extensions\CanOpenLessonExtensions.cs" />
+    <Compile Include="Services\AnswerLessonOptionService.cs" />
     <Compile Include="Services\ChapterService.cs" />
     <Compile Include="Interfaces\IChapterService.cs" />
     <Compile Include="Interfaces\ILessonService.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Interfaces\ILogService.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Models\FilterUserChapterModel.cs" />
+    <Compile Include="Interfaces\IAnswerLessonOptionService.cs" />
     <Compile Include="Services\LessonService.cs" />
     <Compile Include="Services\EntityFrameworkLogService.cs" />
     <Compile Include="Extensions\ParameterRebinder.cs" />

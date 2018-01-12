@@ -67,12 +67,6 @@ namespace CodeSchool.BusinessLogic.Services
         public async Task Remove(int id)
         {
             var chapter = await _repository.Find<Chapter>(c => c.Id == id);
-            while(chapter.Lessons.Any())
-            {
-                _repository.Remove(chapter.Lessons.ElementAt(0));
-                await _repository.SaveChanges();
-            }
-
             _repository.Remove(chapter);
             await _repository.SaveChanges();
         }
