@@ -105,6 +105,7 @@ namespace CodeSchool.BusinessLogic.Services
             };
 
             canOpenLesson = canOpenLesson
+                .CheckType()
                 .CheckFirst()
                 .CheckOnPassed()
                 .CheckAllPreviousPassed();

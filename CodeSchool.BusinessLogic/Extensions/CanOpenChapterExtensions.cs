@@ -1,10 +1,21 @@
 using System.Linq;
 using CodeSchool.BusinessLogic.Models;
+using CodeSchool.Domain;
 
 namespace CodeSchool.BusinessLogic.Extensions
 {
     internal static class CanOpenChapterExtensions
     {
+        public static CanOpenChapter CheckType(this CanOpenChapter model)
+        {
+            if (model.CanOpen) return model;
+
+            var userChapter = model.UserChapters.FirstOrDefault(c => c.Id == model.UserChapterId);
+            model.CanOpen = userChapter != null && userChapter.Chapter.Type != ChapterType.Code;
+
+            return model;
+        }
+
         public static CanOpenChapter CheckUserAdmin(this CanOpenChapter model)
         {
             if (model.CanOpen) return model;
@@ -37,7 +48,10 @@ namespace CodeSchool.BusinessLogic.Extensions
         {
             if (model.CanOpen) return model;
 
-            var allPreviousPassed = model.UserChapters.TakeWhile(c => c.Id != model.UserChapterId).All(c => c.IsPassed);
+            var allPreviousPassed = model.UserChapters
+                .Where(u => u.Chapter.Type == ChapterType.Code)
+                .TakeWhile(c => c.Id != model.UserChapterId)
+                .All(c => c.IsPassed);
             model.CanOpen = allPreviousPassed;
             return model;
         }

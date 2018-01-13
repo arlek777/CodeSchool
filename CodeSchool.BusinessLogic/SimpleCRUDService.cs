@@ -51,7 +51,7 @@ namespace CodeSchool.BusinessLogic
             return dbEntity;
         }
 
-        public async Task Remove<TEntity>(int id)
+        public async Task RemoveById<TEntity>(int id)
             where TEntity : class, ISimpleEntity
         {
             var entity = await GetById<TEntity>(id);

@@ -130,6 +130,7 @@ namespace CodeSchool.BusinessLogic.Services
             };
 
             canOpenChapter = canOpenChapter
+                .CheckType()
                 .CheckFirst()
                 .CheckOnPassed()
                 .CheckAllPreviousPassed();

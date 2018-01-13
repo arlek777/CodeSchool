@@ -4,6 +4,15 @@ using CodeSchool.Domain;
 
 namespace CodeSchool.DataAccess
 {
+    public class Car: ISimpleEntity
+    {
+        public int Id { get; set; }
+        public string Mark { get; set; }
+        public string Model { get; set; }
+        public int Year { get; set; }
+        public string Price { get; set; }
+    }
+
     public class CodeSchoolDbContext: DbContext
     {
         static CodeSchoolDbContext()
@@ -29,5 +38,6 @@ namespace CodeSchool.DataAccess
         public DbSet<Log> Logs { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<AnswerLessonOption> AnswerLessonOptions { get; set; }
+        public DbSet<Car> Cars { get; set; }
     }
 }

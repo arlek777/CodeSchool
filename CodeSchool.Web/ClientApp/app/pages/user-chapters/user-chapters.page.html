@@ -14,12 +14,16 @@
         <div class="panel-body">
             <div class="row">
                 <div *ngFor="let userChapter of userChapters" class="col-md-12">
-                    <div *ngIf="userChapter.userLessons.length > 0" class="col-md-3">
+                    <div class="col-md-1" style="width: 2%">
                         <a href="javascript: " (click)="userChapter.isExpanded=!userChapter.isExpanded;">
-                            <span class="fa"
-                                       [ngClass]="{ 'fa-toggle-right': !userChapter.isExpanded, 'fa-toggle-down': userChapter.isExpanded }">
-                            </span>
+                            <h4>
+                                <span class="fa"
+                                      [ngClass]="{ 'fa-toggle-right': !userChapter.isExpanded, 'fa-toggle-down': userChapter.isExpanded }">
+                                </span>
+                            </h4>
                         </a>
+                    </div>
+                    <div *ngIf="userChapter.userLessons.length > 0" class="col-md-3">
                         <a href="javascript: " (click)="openChapter(userChapter)">
                             <h4>
                                 {{ userChapter.chapterTitle }}

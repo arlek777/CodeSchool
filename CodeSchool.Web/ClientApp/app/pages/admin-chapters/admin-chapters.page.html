@@ -24,8 +24,10 @@
                 <div class="panel-body">
                     <div *ngFor="let chapter of chapters; let i = index;" class="col-md-12">
                         
-                        <div class="col-md-3">
-                            <a href="javascript: " (click)="editChapter(chapter)"><h4 style="display: inline-block">{{ chapter.title }}</h4></a>
+                        <div class="col-md-6">
+                            <a href="javascript: " (click)="editChapter(chapter)"><h4 style="display: inline-block">
+                                {{ chapter.title }} - {{ ChapterType[chapter.type] }}
+                            </h4></a>
                             <a class="alert-success" [routerLink]="['/admin-lesson', chapter.id]">
                                 <span class="fa fa-plus"></span>
                             </a>

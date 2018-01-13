@@ -20,7 +20,7 @@ namespace CodeSchool.BusinessLogic
         Task<TEntity> CreateOrUpdate<TEntity>(TEntity entity, Action<TEntity, TEntity> updateFunc)
             where TEntity : class, ISimpleEntity;
 
-        Task Remove<TEntity>(int id)
+        Task RemoveById<TEntity>(int id)
             where TEntity : class, ISimpleEntity;
     }
 }

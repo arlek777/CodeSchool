@@ -1,10 +1,19 @@
 using System.Linq;
 using CodeSchool.BusinessLogic.Models;
+using CodeSchool.Domain;
 
 namespace CodeSchool.BusinessLogic.Extensions
 {
     internal static class CanOpenLessonExtensions
     {
+        public static CanOpenLesson CheckType(this CanOpenLesson model)
+        {
+            var userLesson = model.UserLessons.FirstOrDefault(c => c.Id == model.UserLessonId);
+            model.CanOpen = userLesson != null && userLesson.Lesson.Type != LessonType.Code;
+
+            return model;
+        }
+
         public static CanOpenLesson CheckUserAdmin(this CanOpenLesson model)
         {
             if (model.CanOpen) return model;
@@ -37,7 +46,9 @@ namespace CodeSchool.BusinessLogic.Extensions
         {
             if (model.CanOpen) return model;
 
-            var previousLessons = model.UserLessons.TakeWhile(l => l.Id != model.UserLessonId).ToList();
+            var previousLessons = model.UserLessons
+                .Where(u => u.Lesson.Type == LessonType.Code)
+                .TakeWhile(l => l.Id != model.UserLessonId).ToList();
             var allPreviousPassed = previousLessons.Any() && previousLessons.All(l => l.IsPassed);
             model.CanOpen = allPreviousPassed;
 

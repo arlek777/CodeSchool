@@ -4,6 +4,7 @@ import { LessonViewModel } from "../../models/lesson";
 import { BackendService } from "../../services/backend.service";
 import { PopupService } from "../../services/popup.service";
 import { UserMessages } from "../../user-messages";
+import { ChapterType } from "../../models/chapter";
 
 @Component({
     templateUrl: './admin-chapters.page.html'
@@ -13,6 +14,7 @@ export class AdminChaptersPage implements OnInit {
 
     chapters: ChapterViewModel[] = [];
     chapter: ChapterViewModel = new ChapterViewModel();
+    ChapterType = ChapterType;
 
     constructor(private backendService: BackendService, private popupService: PopupService) {
     }
