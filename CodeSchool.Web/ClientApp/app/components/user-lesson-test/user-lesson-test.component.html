@@ -3,7 +3,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4>
-                    <button *ngIf="currentLessonIndex > 0" (click)="getPreviousLesson()" class="btn btn-default btn-sm">Назад </button>
+                    <button *ngIf="currentIndex > 0" (click)="getPreviousLesson()" class="btn btn-default btn-sm">Назад </button>
                     {{ userLesson.lessonTitle }}
                 </h4>
             </div>

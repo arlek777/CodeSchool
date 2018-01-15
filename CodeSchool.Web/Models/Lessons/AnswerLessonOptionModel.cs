@@ -8,7 +8,6 @@ namespace CodeSchool.Web.Models.Lessons
         public int Id { get; set; }
         public int LessonId { get; set; }
 
-        [StringLength(1500, ErrorMessage = ValidationResultMessages.MaxLength)]
         public string Text { get; set; }
         public bool IsCorrect { get; set; }
     }

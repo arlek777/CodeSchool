@@ -45,14 +45,18 @@ export class UserLessonTestComponent extends UserLessonBaseComponent implements 
         if (!this.selectedAnswerOptionId) return;
         this.userLesson.selectedAnswerOptionId = this.selectedAnswerOptionId;
         this.userLesson.isPassed = true;
+
+        this.backendService.updateUserLesson(this.userLesson);
     }
 
     rateLesson(score: UserLessonAnswerScore) {
         this.userLesson.score = score;
         this.userLesson.isPassed = true;
+
+        this.backendService.updateUserLesson(this.userLesson);
     }
 
     showAnswer() {
-        this.confirmedShowAnswer = confirm(UserMessages.showAnswerConfirm);
+        this.confirmedShowAnswer = true;
     }
 }
