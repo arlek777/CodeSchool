@@ -3,6 +3,12 @@ using CodeSchool.Web.Infrastructure;
 
 namespace CodeSchool.Web.Models
 {
+    public enum Test
+    {
+        One = 0,
+        Two
+    }
+
     public class ChangeOrderModel
     {
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
