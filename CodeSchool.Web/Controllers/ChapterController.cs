@@ -18,14 +18,12 @@ namespace CodeSchool.Web.Controllers
     {
         private readonly IChapterService _chapterService;
         private readonly IUserChapterService _userChapterService;
-        private readonly ILessonService _lessonService;
 
         public ChapterController(IChapterService chapterService,  
-            IUserChapterService userChapterService, ILessonService lessonService)
+            IUserChapterService userChapterService)
         {
             _chapterService = chapterService;
             _userChapterService = userChapterService;
-            _lessonService = lessonService;
         }
 
         [HttpGet]
@@ -67,9 +65,6 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> Remove([FromBody] IdModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
-
-            await _userChapterService.RemoveAllInChapter(model.Id);
-            await _lessonService.RemoveAllInChapter(model.Id);
             await _chapterService.Remove(model.Id);
             return Ok();
         }

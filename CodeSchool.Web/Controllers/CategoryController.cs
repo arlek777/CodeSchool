@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CodeSchool.Web.Controllers
 {
+    [ResponseCache(CacheProfileName = "StaticContent")]
     [Route("api/[controller]")]
     public class CategoryController: Controller
     {

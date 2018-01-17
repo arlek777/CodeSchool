@@ -15,13 +15,10 @@ namespace CodeSchool.Domain
         [Required]
         public int Id { get; set; }
 
-        [Required]
         public int LessonId { get; set; }
 
-        [Required]
         public int UserChapterId { get; set; }
 
-        [Required]
         public Guid UserId { get; set; }
 
         public int? SelectedAnswerOptionId { get; set; }

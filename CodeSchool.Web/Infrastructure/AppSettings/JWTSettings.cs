@@ -1,4 +1,4 @@
-namespace CodeSchool.Web.Infrastructure
+namespace CodeSchool.Web.Infrastructure.AppSettings
 {
     public class JWTSettings
     {

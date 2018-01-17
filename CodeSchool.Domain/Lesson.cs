@@ -22,6 +22,7 @@ namespace CodeSchool.Domain
         public Lesson()
         {
             AnswerLessonOptions = new List<AnswerLessonOption>();
+            UserLessons = new List<UserLesson>();
         }
 
         [Required]
@@ -52,6 +53,8 @@ namespace CodeSchool.Domain
         public bool Published { get; set; }
 
         public virtual Chapter Chapter { get; set; }
+
+        public virtual ICollection<UserLesson> UserLessons { get; set; }
 
         public virtual ICollection<AnswerLessonOption> AnswerLessonOptions { get; set; }
     }

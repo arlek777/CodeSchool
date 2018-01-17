@@ -14,6 +14,7 @@ namespace CodeSchool.Domain
         public Chapter()
         {
             Lessons = new List<Lesson>();
+            UserChapters = new List<UserChapter>();
         }
 
         [Required]
@@ -29,7 +30,7 @@ namespace CodeSchool.Domain
         public ChapterType Type { get; set; }
 
         public virtual Category Category { get; set; }
-
+        public virtual ICollection<UserChapter> UserChapters { get; set; }
         public virtual ICollection<Lesson> Lessons { get; set; }
     }
 }

@@ -10,6 +10,7 @@ using CodeSchool.Web.Infrastructure;
 
 namespace CodeSchool.Web.Controllers
 {
+    [ResponseCache(CacheProfileName = "DynamicContent")]
     [Route("api/[controller]")]
     public class UserLessonController : Controller
     {

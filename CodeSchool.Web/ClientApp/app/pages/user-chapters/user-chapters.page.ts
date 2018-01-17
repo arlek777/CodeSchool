@@ -19,7 +19,7 @@ export class UserChaptersPage implements OnInit {
     };
 
     currentTypeParams: { type: ChapterType, localStorageKey: string };
-    userChapters: UserChapterModel[] = [];
+    userChapters: UserChapterModel[];
 
     constructor(private backendService: BackendService,
         private router: Router, private popupService: PopupService,

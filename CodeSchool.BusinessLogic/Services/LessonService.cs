@@ -71,11 +71,6 @@ namespace CodeSchool.BusinessLogic.Services
         public async Task Remove(int id)
         {
             var lesson = await GetById(id);
-            var answerOptions = lesson.AnswerLessonOptions.ToList();
-            foreach (AnswerLessonOption option in answerOptions)
-            {
-                await _answerLessonOptionService.RemoveOption(option.Id);
-            }
             _repository.Remove(lesson);
             await _repository.SaveChanges();
         }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CodeSchool.Web.Controllers
 {
+    [ResponseCache(CacheProfileName = "DynamicContent")]
     [Route("api/[controller]")]
     public class UserChapterController : Controller
     {

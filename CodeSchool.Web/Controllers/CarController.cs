@@ -2,10 +2,12 @@
 using System.Threading.Tasks;
 using CodeSchool.BusinessLogic;
 using CodeSchool.DataAccess;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeSchool.Web.Controllers
 {
+    [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     public class CarController: Controller
     {

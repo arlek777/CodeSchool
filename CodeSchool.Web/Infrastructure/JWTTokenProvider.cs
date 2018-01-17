@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CodeSchool.BusinessLogic.Extensions;
 using CodeSchool.Domain;
+using CodeSchool.Web.Infrastructure.AppSettings;
 using CodeSchool.Web.Models;
 using JWT;
 using JWT.Algorithms;

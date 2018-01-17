@@ -13,13 +13,11 @@ namespace CodeSchool.BusinessLogic.Services
     public class UserLessonService : IUserLessonService
     {
         private readonly IGenericRepository _repository;
-        private readonly ILessonService _lessonService;
         private readonly IUserChapterService _userChapterService;
 
-        public UserLessonService(IGenericRepository repository, ILessonService lessonService, IUserChapterService userChapterService)
+        public UserLessonService(IGenericRepository repository, IUserChapterService userChapterService)
         {
             _repository = repository;
-            _lessonService = lessonService;
             _userChapterService = userChapterService;
         }
 
@@ -79,16 +77,6 @@ namespace CodeSchool.BusinessLogic.Services
             await _repository.SaveChanges();
 
             return userLesson;
-        }
-
-        public async Task Remove(int lessonId)
-        {
-            var userLessons = (await _repository.Where<UserLesson>(l => l.LessonId == lessonId)).ToList();
-            for (var i = 0; i < userLessons.Count; i++)
-            {
-                _repository.Remove(userLessons[i]);
-                await _repository.SaveChanges();
-            }
         }
 
         public async Task<bool> CanOpen(Guid userId, int userChapterId, int userLessonId)

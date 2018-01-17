@@ -98,24 +98,6 @@ namespace CodeSchool.BusinessLogic.Services
             }
         }
 
-        public async Task RemoveAllInChapter(int chapterId)
-        {
-            var chapters = (await _repository.Where<UserChapter>(c => c.ChapterId == chapterId)).ToList();
-
-            for (var i = 0; i < chapters.Count; i++)
-            {
-                var userLessons = chapters[i].UserLessons;
-                while (userLessons.Any())
-                {
-                    _repository.Remove(userLessons.ElementAt(0));
-                    await _repository.SaveChanges();
-                }
-
-                _repository.Remove(chapters[i]);
-                await _repository.SaveChanges();
-            }
-        }
-
         public async Task<bool> CanOpen(Guid userId, int userChapterId)
         {
             var userChapters = (await GetUserChaptersByUserId(userId)).ToList();

@@ -1,7 +1,9 @@
 using System.Data.Entity;
 using System.Text;
 using CodeSchool.DataAccess;
+using CodeSchool.Web.AttributeFilters;
 using CodeSchool.Web.Infrastructure;
+using CodeSchool.Web.Infrastructure.AppSettings;
 using CodeSchool.Web.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,11 +36,24 @@ namespace CodeSchool.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var cacheSettings = Configuration.GetSection("CacheSettings").Get<CacheSettings>();
+            var cacheValues = Env.IsDevelopment() ? cacheSettings.Local : cacheSettings.Remote;
+
             // Add framework services.
             services.AddMvc(options =>
             {
                 options.Filters.Add(typeof(ApiExceptionFilter));
+                options.CacheProfiles.Add("DynamicContent", new CacheProfile()
+                {
+                    Duration = cacheValues.DynamicContent
+                });
+                options.CacheProfiles.Add("StaticContent", new CacheProfile()
+                {
+                    Duration = cacheValues.StaticContent
+                });
             });
+
+            services.AddScoped<ApiExceptionFilter>();
             services.AddCodeSchool(Configuration, Env);
         }
 

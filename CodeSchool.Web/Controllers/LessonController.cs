@@ -68,8 +68,6 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> Remove([FromBody] IdModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
-
-            await _userLessonService.Remove(model.Id);
             await _lessonService.Remove(model.Id);
             return Ok();
         }

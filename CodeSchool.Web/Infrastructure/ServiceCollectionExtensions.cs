@@ -5,6 +5,8 @@ using CodeSchool.BusinessLogic;
 using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.BusinessLogic.Services;
 using CodeSchool.DataAccess;
+using CodeSchool.Web.AttributeFilters;
+using CodeSchool.Web.Infrastructure.AppSettings;
 using CodeSchool.Web.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -22,7 +24,14 @@ namespace CodeSchool.Web.Infrastructure
             ConfigureDb(services, configuration, env);
             ConfigureSecurity(services, configuration);
             ConfigureBusinessLogic(services);
-            services.AddScoped<ApiExceptionFilter>();
+
+            // Temp For Roma
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
         }
 
         private static void ConfigureDb(IServiceCollection services, IConfigurationRoot configuration, IHostingEnvironment env)
