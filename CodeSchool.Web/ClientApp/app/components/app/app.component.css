@@ -47,3 +47,9 @@
 .slider.closed {
     max-height: 0;
 }
+
+.spinner {
+    font-size: 24px;
+    text-align: center;
+    padding-top: 150px;
+}

@@ -29,6 +29,7 @@ import { UserStatisticPage } from "./pages/user-statistic/user-statistic.page";
 import { ToggleMobileNavbarDirective } from "./directives/toggle-mobile-navbar.directive";
 import { LessonTesterDirective } from "./directives/lesson-tester.directive";
 import { TrustHtmlDirective } from "./directives/trust-html.directive";
+import { SpinnerDirective } from "./directives/spinner.directive";
 
 import { BackendService } from "./services/backend.service";
 import { PopupService } from "./services/popup.service";
@@ -64,6 +65,7 @@ const DEFAULT_ROUTE: string = "user-chapters/code";
         LessonTesterDirective,
         ToggleMobileNavbarDirective,
         TrustHtmlDirective,
+        SpinnerDirective,
         UserLessonPage,
         UserChaptersPage,
         AdminLessonPage,
