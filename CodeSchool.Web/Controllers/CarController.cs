@@ -44,14 +44,14 @@ namespace CodeSchool.Web.Controllers
                 return BadRequest("The car is already created.");
             }
 
-            await _crudService.CreateOrUpdate(car, (dbCar, carModel) =>
+            var updatedCar = await _crudService.CreateOrUpdate(car, (dbCar, carModel) =>
             {
                 dbCar.Mark = carModel.Mark;
                 dbCar.Model = carModel.Model;
                 dbCar.Year = carModel.Year;
                 dbCar.Price = carModel.Price;
             });
-            return Ok(car);
+            return Ok(updatedCar);
         }
 
         [HttpPost]

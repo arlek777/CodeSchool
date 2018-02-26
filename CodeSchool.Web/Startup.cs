@@ -53,6 +53,7 @@ namespace CodeSchool.Web
                 });
             });
 
+            services.AddMemoryCache();
             services.AddScoped<ApiExceptionFilter>();
             services.AddCodeSchool(Configuration, Env);
         }

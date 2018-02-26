@@ -1,8 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CodeSchool.BusinessLogic;
 using CodeSchool.Domain;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace CodeSchool.Web.Controllers
 {
@@ -11,17 +14,25 @@ namespace CodeSchool.Web.Controllers
     public class CategoryController: Controller
     {
         private readonly ISimpleCRUDService _crudService;
+        private readonly IMemoryCache _memoryCache;
+        private const string CacheCategoriesKey = "Categories";
 
-        public CategoryController(ISimpleCRUDService crudService)
+        public CategoryController(ISimpleCRUDService crudService, IMemoryCache memoryCache)
         {
             _crudService = crudService;
+            _memoryCache = memoryCache;
         }
 
         [Route("[action]")]
         public async Task<IActionResult> Get()
         {
-            var categories = await _crudService.GetAll<Category>();
-            return Ok(categories.Select(c => new { c.Id, c.Title }));
+            if (!_memoryCache.TryGetValue(CacheCategoriesKey, out IEnumerable<object> categories))
+            {
+                categories = (await _crudService.GetAll<Category>()).Select(c => new {c.Id, c.Title});
+                _memoryCache.Set(CacheCategoriesKey, categories, TimeSpan.FromDays(30));
+            }
+
+            return Ok(categories);
         }
     }
 }

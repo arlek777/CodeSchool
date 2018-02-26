@@ -75,15 +75,6 @@ namespace CodeSchool.BusinessLogic.Services
             await _repository.SaveChanges();
         }
 
-        public async Task RemoveAllInChapter(int chapterId)
-        {
-            var lessonIds = (await _repository.Where<Lesson>(l => l.ChapterId == chapterId)).Select(l => l.Id);
-            foreach (var lessonId in lessonIds)
-            {
-                await Remove(lessonId);
-            }
-        }
-
         private async Task FillDbLessonForType(Lesson model, Lesson dbLesson)
         {
             dbLesson.Answer = model.Answer;
