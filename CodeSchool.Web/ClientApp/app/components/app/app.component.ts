@@ -1,6 +1,7 @@
 import { Component, ViewContainerRef, OnInit } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr';
 import { PopupService } from "../../services/popup.service";
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     selector: 'app',
@@ -10,9 +11,16 @@ import { PopupService } from "../../services/popup.service";
 export class AppComponent implements OnInit {
     constructor(private popupService: PopupService,
         private toastr: ToastsManager,
-        private viewRef: ViewContainerRef) {
+        private viewRef: ViewContainerRef,
+        private sanitizer: DomSanitizer) {
 
         this.toastr.setRootViewContainerRef(viewRef);
+    }
+
+    fileName = "test.pdf";
+
+    getSafeUrl(fileName) {
+        return this.sanitizer.bypassSecurityTrustResourceUrl("./uploads/" + fileName);
     }
 
     ngOnInit() {
