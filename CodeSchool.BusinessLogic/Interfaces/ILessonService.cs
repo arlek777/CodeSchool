@@ -5,9 +5,9 @@ namespace CodeSchool.BusinessLogic.Interfaces
 {
     public interface ILessonService
     {
-        Task<Lesson> GetById(int id);
+        Task<Lesson> GetById(string companyId, int id);
         Task<Lesson> AddOrUpdate(Lesson model);
-        Task Remove(int id);
-        Task ChangeOrder(int upLessonId, int downLessonId);
+        Task Remove(string companyId, int id);
+        Task ChangeOrder(string companyId, int upLessonId, int downLessonId);
     }
 }

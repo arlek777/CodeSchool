@@ -7,6 +7,7 @@ export class User {
 
     id: string;
     userName: string;
+    companyId: string;
     email: string;
     isAdmin: boolean;
 }

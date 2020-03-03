@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.Domain;
@@ -26,9 +25,9 @@ namespace CodeSchool.Web.Controllers
 
         [HttpGet]
         [Route("[action]/{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(string companyId, int id)
         {
-            var lesson = await _lessonService.GetById(id);
+            var lesson = await _lessonService.GetById(companyId, id);
             return Ok(Mapper.Map<LessonModel>(lesson));
         }
 
@@ -43,6 +42,7 @@ namespace CodeSchool.Web.Controllers
             {
                 await PublishLesson(new PublishLessonModel
                 {
+                    CompanyId = lesson.CompanyId,
                     ChapterId = lesson.ChapterId,
                     LessonId = lesson.Id
                 });
@@ -65,10 +65,10 @@ namespace CodeSchool.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Remove([FromBody] IdModel model)
+        public async Task<IActionResult> Remove([FromBody] LessonShortcutModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
-            await _lessonService.Remove(model.Id);
+            await _lessonService.Remove(model.CompanyId, model.Id);
             return Ok();
         }
 
@@ -78,13 +78,13 @@ namespace CodeSchool.Web.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
-            await _lessonService.ChangeOrder(model.CurrentId, model.ToSwapId);
+            await _lessonService.ChangeOrder(model.CompanyId, model.CurrentId, model.ToSwapId);
             return Ok();
         }
 
         private async Task PublishLesson(PublishLessonModel model)
         {
-            var lesson = await _lessonService.GetById(model.LessonId);
+            var lesson = await _lessonService.GetById(model.CompanyId, model.LessonId);
             if (!lesson.Published)
             {
                 await _userLessonService.AddToAllUsers(model.LessonId, model.ChapterId);

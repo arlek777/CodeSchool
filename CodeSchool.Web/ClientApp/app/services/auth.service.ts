@@ -68,6 +68,7 @@ export class AuthService {
         this._user = new User({
             id: userClaims.id,
             userName: userClaims.username,
+            companyId: userClaims.companyId,
             email: userClaims.email,
             isAdmin: userClaims.isAdmin
         });
@@ -75,5 +76,6 @@ export class AuthService {
         localStorage.setItem(Constants.accessTokenKey, tokens.accessToken);
         localStorage.setItem(Constants.currentUserKey, JSON.stringify(this._user));
         localStorage.setItem(Constants.userIdKey, this._user.id);
+        localStorage.setItem(Constants.userIdKey, this._user.companyId);
     }
 }

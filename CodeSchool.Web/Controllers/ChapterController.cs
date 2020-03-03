@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -27,18 +26,18 @@ namespace CodeSchool.Web.Controllers
         }
 
         [HttpGet]
-        [Route("[action]")]
-        public async Task<IActionResult> Get()
+        [Route("[action]/{companyId}")]
+        public async Task<IActionResult> Get(string companyId)
         {
-            var chapters = await _chapterService.GetChapters();
+            var chapters = await _chapterService.GetChapters(companyId);
             return Ok(chapters.Select(Mapper.Map<ChapterShortcutModel>));
         }
 
         [HttpGet]
-        [Route("[action]/{categoryId}")]
-        public async Task<IActionResult> GetByCategoryId(int categoryId)
+        [Route("[action]/{categoryId}/{companyId}")]
+        public async Task<IActionResult> GetByCategoryId(int categoryId, string companyId)
         {
-            var chapters = await _chapterService.GetChapters(categoryId);
+            var chapters = await _chapterService.GetChapters(companyId, categoryId);
             return Ok(chapters.Select(Mapper.Map<ChapterShortcutModel>));
         }
 
@@ -62,10 +61,10 @@ namespace CodeSchool.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Remove([FromBody] IdModel model)
+        public async Task<IActionResult> Remove([FromBody] ChapterShortcutModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
-            await _chapterService.Remove(model.Id);
+            await _chapterService.Remove(model.CompanyId, model.Id);
             return Ok();
         }
 
@@ -75,7 +74,7 @@ namespace CodeSchool.Web.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
-            await _chapterService.ChangeOrder(model.CurrentId, model.ToSwapId);
+            await _chapterService.ChangeOrder(model.CompanyId, model.CurrentId, model.ToSwapId);
             return Ok();
         }
     }

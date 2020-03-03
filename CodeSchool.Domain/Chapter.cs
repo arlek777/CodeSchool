@@ -25,6 +25,9 @@ namespace CodeSchool.Domain
         [Required]
         public string Title { get; set; }
 
+        [Required]
+        public string CompanyId { get; set; }
+
         public int Order { get; set; }
 
         public ChapterType Type { get; set; }

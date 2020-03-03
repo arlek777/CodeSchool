@@ -15,4 +15,8 @@ export class UserHelper {
     static getUserId(): string {
         return localStorage.getItem(Constants.userIdKey);
     }
+
+    static getCompanyId(): string {
+        return localStorage.getItem(Constants.companyIdKey);
+    }
 }

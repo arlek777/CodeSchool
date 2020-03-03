@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using CodeSchool.BusinessLogic.Extensions;
 using CodeSchool.Domain;
 using CodeSchool.Web.Infrastructure.AppSettings;
-using CodeSchool.Web.Models;
 using JWT;
 using JWT.Algorithms;
 using JWT.Serializers;
@@ -22,13 +21,13 @@ namespace CodeSchool.Web.Infrastructure
 
         public string GetIdToken(User user)
         {
-            
-        var payload = new Dictionary<string, object>
+
+            var payload = new Dictionary<string, object>
             {
-                { "id", user.Id },
-                { "username", user.UserName },
-                { "email", user.Email },
-                { "isAdmin", user.IsAdmin }
+                {"id", user.Id},
+                {"username", user.UserName},
+                {"email", user.Email},
+                {"isAdmin", user.IsAdmin}
             };
             return GetToken(payload);
         }

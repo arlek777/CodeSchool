@@ -27,20 +27,20 @@ export class BackendService {
             .then((result) => { return new JWTTokens(result.json()); });
     }
 
-    getLesson(id: number): Promise<LessonViewModel> {
-        return this.http.get(`/api/lesson/get/${id}`).toPromise().then((response) => {
+    getLesson(companyId: string, id: number): Promise<LessonViewModel> {
+        return this.http.get(`/api/lesson/get/${companyId}/${id}`).toPromise().then((response) => {
             return new LessonViewModel(response.json());
         });
     }
    
-    getChapters(): Promise<ChapterViewModel[]> {
-        return this.http.get("/api/chapter/get").toPromise().then((response) => {
+    getChapters(companyId: string): Promise<ChapterViewModel[]> {
+        return this.http.get(`/api/chapter/get/${companyId}`).toPromise().then((response) => {
             return response.json().map(c => new ChapterViewModel(c));
         });
     }
 
-    getChaptersByCategoryId(categoryId: number): Promise<ChapterViewModel[]> {
-        return this.http.get(`/api/chapter/getbycategoryid/${categoryId}`).toPromise().then((response) => {
+    getChaptersByCategoryId(companyId: string, categoryId: number): Promise<ChapterViewModel[]> {
+        return this.http.get(`/api/chapter/getbycategoryid/${categoryId}/${companyId}`).toPromise().then((response) => {
             return response.json().map(c => new ChapterViewModel(c));
         });
     }
@@ -51,8 +51,8 @@ export class BackendService {
         });
     }
 
-    removeChapter(id): Promise<void> {
-        return this.http.post("/api/chapter/remove", { id: id }).toPromise().then((response) => {
+    removeChapter(companyId: string, id): Promise<void> {
+        return this.http.post("/api/chapter/remove", { companyId: companyId, id: id }).toPromise().then((response) => {
         });
     }
 
@@ -62,19 +62,19 @@ export class BackendService {
         });
     }
 
-    removeLesson(id): Promise<void> {
-        return this.http.post("/api/lesson/remove", { id: id }).toPromise().then((response) => {
+    removeLesson(companyId: string, id): Promise<void> {
+        return this.http.post("/api/lesson/remove", { companyId: companyId, id: id }).toPromise().then((response) => {
         });
     }
 
-    changeLessonOrder(currentId, toSwapId): Promise<void> {
-        return this.http.post("/api/lesson/changeorder", { currentId: currentId, toSwapId: toSwapId }).toPromise()
+    changeLessonOrder(companyId: string, currentId, toSwapId): Promise<void> {
+        return this.http.post("/api/lesson/changeorder", { companyId: companyId, currentId: currentId, toSwapId: toSwapId }).toPromise()
             .then((response) => {
         });
     }
 
-    changeChapterOrder(currentId, toSwapId): Promise<void> {
-        return this.http.post("/api/chapter/changeorder", { currentId: currentId, toSwapId: toSwapId }).toPromise()
+    changeChapterOrder(companyId: string, currentId, toSwapId): Promise<void> {
+        return this.http.post("/api/chapter/changeorder", { companyId: companyId, currentId: currentId, toSwapId: toSwapId }).toPromise()
             .then((response) => {
         });
     }
@@ -133,8 +133,8 @@ export class BackendService {
             });
     }
 
-    publishLesson(chapterId, lessonId): Promise<void> {
-        return this.http.post("/api/lesson/publish/", { chapterId: chapterId, lessonId: lessonId })
+    publishLesson(companyId: string, chapterId, lessonId): Promise<void> {
+        return this.http.post("/api/lesson/publish/", { companyId: companyId, chapterId: chapterId, lessonId: lessonId })
             .toPromise().then(() => {
             });
     }

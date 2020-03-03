@@ -23,6 +23,8 @@ namespace CodeSchool.Web.Models.Lessons
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         public LessonLevel Level { get; set; }
 
+        public string CompanyId { get; set; }
+
         public bool Published { get; set; }
     }
 }

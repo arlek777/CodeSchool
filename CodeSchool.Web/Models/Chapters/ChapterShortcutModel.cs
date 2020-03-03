@@ -22,6 +22,8 @@ namespace CodeSchool.Web.Models.Chapters
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         public int CategoryId { get; set; }
 
+        public string CompanyId { get; set; }
+
         public int Order { get; set; }
 
         public ChapterType Type { get; set; }

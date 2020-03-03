@@ -8,10 +8,10 @@ namespace CodeSchool.BusinessLogic.Interfaces
 {
     public interface IChapterService
     {
-        Task<IEnumerable<Chapter>> GetChapters(int? categoryId = null);
-        Task<Chapter> GetById(int chapterId);
+        Task<IEnumerable<Chapter>> GetChapters(string companyId, int? categoryId = null);
+        Task<Chapter> GetById(string companyId, int chapterId);
         Task<Chapter> AddOrUpdate(Chapter chapter);
-        Task Remove(int id);
-        Task ChangeOrder(int upChapterId, int downChapterId);
+        Task Remove(string companyId, int id);
+        Task ChangeOrder(string companyId, int upChapterId, int downChapterId);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.Domain;
@@ -40,7 +41,7 @@ namespace CodeSchool.Web.Controllers
             }
 
             var result = _passwordHasher.VerifyHashedPassword(user.Password, loginModel.Password);
-            if (result == PasswordVerificationResult.Failed)
+            if (result == PasswordVerificationResult.Failed || !user.IsAdmin)
             {
                 return BadRequest(ValidationResultMessages.LoginWrongCredentials);
             }
@@ -62,13 +63,14 @@ namespace CodeSchool.Web.Controllers
             {
                 Email = model.Email,
                 UserName = model.UserName,
-                Password = _passwordHasher.HashPassword(model.Password)
+                Password = _passwordHasher.HashPassword(model.Password),
+                IsAdmin = true,
+                CompanyId = Guid.NewGuid().ToString()
             };
 
             user = await _userService.CreateNew(user);
-            await _userChapterService.Add(user.Id);
-
             var tokens = GetJWTTokens(user);
+
             return Ok(tokens);
         }
 

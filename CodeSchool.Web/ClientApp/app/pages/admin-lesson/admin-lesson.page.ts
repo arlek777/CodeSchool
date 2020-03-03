@@ -7,6 +7,7 @@ import { PopupService } from "../../services/popup.service";
 import { Constants } from "../../constants";
 import { UserMessages } from '../../user-messages';
 import { AnswerLessonOptionViewModel } from '../../models/answerlessonoption';
+import { UserHelper } from "../../utils/helpers";
 
 @Component({
     templateUrl: './admin-lesson.page.html'
@@ -45,7 +46,7 @@ export class AdminLessonPage implements OnInit {
             this.lesson.type = LessonType.Code;
             this.lesson.level = LessonLevel.Junior;
         } else {
-            this.backendService.getLesson(lessonId).then(lesson => {
+            this.backendService.getLesson(UserHelper.getCompanyId(), lessonId).then(lesson => {
                 this.lesson = lesson;
             });
         }

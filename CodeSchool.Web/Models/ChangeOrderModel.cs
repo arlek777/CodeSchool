@@ -12,6 +12,9 @@ namespace CodeSchool.Web.Models
     public class ChangeOrderModel
     {
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
+        public string CompanyId { get; set; }
+
+        [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         public int CurrentId { get; set; }
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         public int ToSwapId { get; set; }

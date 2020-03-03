@@ -5,6 +5,7 @@ import { BackendService } from "../../services/backend.service";
 import { PopupService } from "../../services/popup.service";
 import { UserMessages } from "../../user-messages";
 import { ChapterType } from "../../models/chapter";
+import { UserHelper } from "../../utils/helpers";
 
 @Component({
     templateUrl: './admin-chapters.page.html'
@@ -26,7 +27,7 @@ export class AdminChaptersPage implements OnInit {
     onCategoryChanged(categoryId: number) {
         this.currentCategoryId = categoryId;
         this.chapter.categoryId = categoryId;
-        this.backendService.getChaptersByCategoryId(categoryId).then(chapters => {
+        this.backendService.getChaptersByCategoryId(UserHelper.getCompanyId(), categoryId).then(chapters => {
             this.chapters = chapters;
         });
     }
@@ -49,7 +50,7 @@ export class AdminChaptersPage implements OnInit {
     publishLesson(chapterId, lesson: LessonViewModel) {
         if (!confirm(UserMessages.publishLesson)) return;
 
-        this.backendService.publishLesson(chapterId, lesson.id).then(() => {
+        this.backendService.publishLesson(UserHelper.getCompanyId(), chapterId, lesson.id).then(() => {
             this.popupService.newSuccessMessage(UserMessages.published);
             lesson.published = true;
         });
@@ -59,7 +60,7 @@ export class AdminChaptersPage implements OnInit {
         var result = confirm("Are you sure?");
         if (!result) return;
 
-        this.backendService.removeLesson(id).then(() => {
+        this.backendService.removeLesson(UserHelper.getCompanyId(), id).then(() => {
             chapter.lessons = chapter.lessons.filter(l => l.id !== id);
         });
     }
@@ -68,7 +69,7 @@ export class AdminChaptersPage implements OnInit {
         var result = confirm("Are you sure?");
         if (!result) return;
 
-        this.backendService.removeChapter(id).then(() => {
+        this.backendService.removeChapter(UserHelper.getCompanyId(), id).then(() => {
             this.chapters = this.chapters.filter(ch => ch.id !== id);
         });
     }
@@ -80,7 +81,7 @@ export class AdminChaptersPage implements OnInit {
         var currentId = this.chapters[currentIndex].id;
         var toSwapId = this.chapters[toSwapIndex].id;
 
-        this.backendService.changeChapterOrder(currentId, toSwapId);
+        this.backendService.changeChapterOrder(UserHelper.getCompanyId(), currentId, toSwapId);
     }
 
     changeLessonOrder(chapter: ChapterViewModel, currentIndex, toSwapIndex) {
@@ -90,7 +91,7 @@ export class AdminChaptersPage implements OnInit {
         var currentId = chapter.lessons[currentIndex].id;
         var toSwapId = chapter.lessons[toSwapIndex].id;
 
-        this.backendService.changeLessonOrder(currentId, toSwapId);
+        this.backendService.changeLessonOrder(UserHelper.getCompanyId(), currentId, toSwapId);
     }
 
     private swapOrder(currentIndex, toSwapIndex, array: Array<any>) {

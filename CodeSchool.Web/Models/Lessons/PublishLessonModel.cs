@@ -6,6 +6,8 @@ namespace CodeSchool.Web.Models.Lessons
     public class PublishLessonModel
     {
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
+        public string CompanyId { get; set; }
+        [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         public int LessonId { get; set; }
 
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]

@@ -20,17 +20,17 @@ namespace CodeSchool.BusinessLogic.Services
             _chapterService = chapterService;
         }
 
-        public async Task<Lesson> GetById(int id)
+        public async Task<Lesson> GetById(string companyId, int id)
         {
-            return await _repository.Find<Lesson>(l => l.Id == id);
+            return await _repository.Find<Lesson>(l => l.Id == id && l.CompanyId == companyId);
         }
 
         public async Task<Lesson> AddOrUpdate(Lesson model)
         {
-            var dbLesson = await GetById(model.Id);
+            var dbLesson = await GetById(model.CompanyId, model.Id);
             if (dbLesson == null)
             {
-                var chapter = await _repository.Find<Chapter>(c => c.Id == model.ChapterId);
+                var chapter = await _repository.Find<Chapter>(c => c.Id == model.ChapterId && c.CompanyId == model.CompanyId);
                 if (!chapter.Lessons.Any())
                 {
                     chapter.Type = model.Type == LessonType.Code ? ChapterType.Code : ChapterType.Test;
@@ -38,13 +38,14 @@ namespace CodeSchool.BusinessLogic.Services
 
                 dbLesson = new Lesson()
                 {
+                    CompanyId = model.CompanyId,
                     Type = model.Type,
                     ChapterId = model.ChapterId,
                     Published = model.Published
                 };
 
                 await FillDbLessonForType(model, dbLesson);
-                dbLesson.Order = await GetNextOrder(model.ChapterId);
+                dbLesson.Order = await GetNextOrder(model.CompanyId, model.ChapterId);
                 _repository.Add(dbLesson);
             }
             else
@@ -56,10 +57,10 @@ namespace CodeSchool.BusinessLogic.Services
             return dbLesson;
         }
 
-        public async Task ChangeOrder(int currentLessonId, int toSwapLessonId)
+        public async Task ChangeOrder(string companyId, int currentLessonId, int toSwapLessonId)
         {
-            var currentLesson = await GetById(currentLessonId);
-            var toSwapLesson = await GetById(toSwapLessonId);
+            var currentLesson = await GetById(companyId, currentLessonId);
+            var toSwapLesson = await GetById(companyId, toSwapLessonId);
 
             var toSwapOrder = toSwapLesson.Order;
             toSwapLesson.Order = currentLesson.Order;
@@ -68,9 +69,9 @@ namespace CodeSchool.BusinessLogic.Services
             await _repository.SaveChanges();
         }
 
-        public async Task Remove(int id)
+        public async Task Remove(string companyId, int id)
         {
-            var lesson = await GetById(id);
+            var lesson = await GetById(companyId, id);
             _repository.Remove(lesson);
             await _repository.SaveChanges();
         }
@@ -82,6 +83,7 @@ namespace CodeSchool.BusinessLogic.Services
             dbLesson.Text = model.Text;
             dbLesson.Title = model.Title;
             dbLesson.Level = model.Level;
+            dbLesson.CompanyId = model.CompanyId;
 
             if (model.Type == LessonType.Test)
             {
@@ -94,9 +96,9 @@ namespace CodeSchool.BusinessLogic.Services
             }
         }
 
-        private async Task<int> GetNextOrder(int chapterId)
+        private async Task<int> GetNextOrder(string companyId, int chapterId)
         {
-            var chapter = await _chapterService.GetById(chapterId);
+            var chapter = await _chapterService.GetById(companyId, chapterId);
             var lastLesson = chapter.Lessons.LastOrDefault();
             return lastLesson?.Order + 1 ?? 0;
         }

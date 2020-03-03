@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CodeSchool.BusinessLogic.Interfaces;
@@ -16,7 +17,7 @@ namespace CodeSchool.BusinessLogic.Services
             _repository = repository;
         }
 
-        public async Task<IEnumerable<Chapter>> GetChapters(int? categoryId = null)
+        public async Task<IEnumerable<Chapter>> GetChapters(string companyId, int? categoryId = null)
         {
             List<Chapter> chapters;
             if (categoryId.HasValue)
@@ -40,18 +41,18 @@ namespace CodeSchool.BusinessLogic.Services
             return chapters;
         }
 
-        public async Task<Chapter> GetById(int chapterId)
+        public async Task<Chapter> GetById(string companyId, int chapterId)
         {
-            var chapter = (await GetChapters()).FirstOrDefault(c => c.Id == chapterId);
+            var chapter = (await GetChapters(companyId)).FirstOrDefault(c => c.Id == chapterId);
             return chapter;
         }
 
         public async Task<Chapter> AddOrUpdate(Chapter model)
         {
-            var chapter = await GetById(model.Id);
+            var chapter = await GetById(model.CompanyId, model.Id);
             if (chapter == null)
             {
-                model.Order = await GetNextOrder();
+                model.Order = await GetNextOrder(model.CompanyId);
                 _repository.Add(model);
                 chapter = model;
             }
@@ -64,17 +65,17 @@ namespace CodeSchool.BusinessLogic.Services
             return chapter;
         }
 
-        public async Task Remove(int id)
+        public async Task Remove(string companyId, int id)
         {
-            var chapter = await _repository.Find<Chapter>(c => c.Id == id);
+            var chapter = await _repository.Find<Chapter>(c => c.Id == id && c.CompanyId == companyId);
             _repository.Remove(chapter);
             await _repository.SaveChanges();
         }
 
-        public async Task ChangeOrder(int currentChapterId, int toSwapChapterId)
+        public async Task ChangeOrder(string companyId, int currentChapterId, int toSwapChapterId)
         {
-            var currentChapter = await GetById(currentChapterId);
-            var toSwapChapter = await GetById(toSwapChapterId);
+            var currentChapter = await GetById(companyId, currentChapterId);
+            var toSwapChapter = await GetById(companyId, toSwapChapterId);
 
             var currentOrder = currentChapter.Order;
             currentChapter.Order = toSwapChapter.Order;
@@ -83,9 +84,9 @@ namespace CodeSchool.BusinessLogic.Services
             await _repository.SaveChanges();
         }
 
-        private async Task<int> GetNextOrder()
+        private async Task<int> GetNextOrder(string companyId)
         {
-            var chapters = await GetChapters();
+            var chapters = await GetChapters(companyId);
             var lastChapter = chapters.LastOrDefault();
             return lastChapter?.Order + 1 ?? 0;
         }
