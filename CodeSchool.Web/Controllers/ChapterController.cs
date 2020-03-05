@@ -49,11 +49,6 @@ namespace CodeSchool.Web.Controllers
 
             var chapter = await _chapterService.AddOrUpdate(Mapper.Map<Chapter>(model));
 
-            if(model.Id == 0)
-            {
-                await _userChapterService.AddToAllUsers(chapter.Id);
-            }
-
             model.Id = chapter.Id;
             model.Order = chapter.Order;
             return Ok(model);

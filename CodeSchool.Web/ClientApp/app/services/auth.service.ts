@@ -56,6 +56,7 @@ export class AuthService {
         localStorage.removeItem(Constants.accessTokenKey);
         localStorage.removeItem(Constants.currentUserKey);
         localStorage.removeItem(Constants.userIdKey);
+        localStorage.removeItem(Constants.companyIdKey);
         this._user = null;
 
         this.router.navigate(['/login']);
@@ -76,6 +77,6 @@ export class AuthService {
         localStorage.setItem(Constants.accessTokenKey, tokens.accessToken);
         localStorage.setItem(Constants.currentUserKey, JSON.stringify(this._user));
         localStorage.setItem(Constants.userIdKey, this._user.id);
-        localStorage.setItem(Constants.userIdKey, this._user.companyId);
+        localStorage.setItem(Constants.companyIdKey, this._user.companyId);
     }
 }

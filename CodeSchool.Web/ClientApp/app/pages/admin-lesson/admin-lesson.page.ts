@@ -45,6 +45,7 @@ export class AdminLessonPage implements OnInit {
             this.lesson.reporterCode = Constants.startLessonReporter;
             this.lesson.type = LessonType.Code;
             this.lesson.level = LessonLevel.Junior;
+            this.lesson.companyId = UserHelper.getCompanyId();
         } else {
             this.backendService.getLesson(UserHelper.getCompanyId(), lessonId).then(lesson => {
                 this.lesson = lesson;

@@ -50,26 +50,27 @@ namespace CodeSchool.BusinessLogic.Services
             return userChapters.FirstOrDefault(c => c.ChapterId == chapterId);
         }
 
-        public async Task AddToAllUsers(int chapterId)
-        {
-            var users = await _repository.GetAll<User>();
-            foreach (var user in users)
-            {
-                var userChapter = new UserChapter()
-                {
-                    UserId = user.Id,
-                    ChapterId = chapterId
-                };
+        //public async Task AddToAllUsers(int chapterId)
+        //{
+        //    var users = await _repository.GetAll<User>();
+        //    foreach (var user in users)
+        //    {
+        //        var userChapter = new UserChapter()
+        //        {
+        //            UserId = user.Id,
+        //            ChapterId = chapterId
+        //        };
 
-                _repository.Add(userChapter);
-            }
+        //        _repository.Add(userChapter);
+        //    }
 
-            await _repository.SaveChanges();
-        }
+        //    await _repository.SaveChanges();
+        //}
 
         public async Task Add(Guid userId)
         {
-            var chapters = await _chapterService.GetChapters();
+            //TODO fix it
+            var chapters = await _chapterService.GetChapters("123");
 
             foreach (var chapter in chapters)
             {

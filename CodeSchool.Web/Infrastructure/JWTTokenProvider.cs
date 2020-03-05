@@ -21,11 +21,11 @@ namespace CodeSchool.Web.Infrastructure
 
         public string GetIdToken(User user)
         {
-
             var payload = new Dictionary<string, object>
             {
                 {"id", user.Id},
                 {"username", user.UserName},
+                //{"companyId", user.CompanyId},
                 {"email", user.Email},
                 {"isAdmin", user.IsAdmin}
             };
@@ -38,6 +38,7 @@ namespace CodeSchool.Web.Infrastructure
             {
                 { "sub", user.Id },
                 { "email", user.Email },
+               // {"companyId", user.CompanyId},
                 { "roles", user.IsAdmin ? new [] { "Admin" } : new string [] {}}
             };
             return GetToken(payload);

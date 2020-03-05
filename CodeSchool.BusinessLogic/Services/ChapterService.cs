@@ -19,6 +19,7 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task<IEnumerable<Chapter>> GetChapters(string companyId, int? categoryId = null)
         {
+            //TODO There is a bug
             List<Chapter> chapters;
             if (categoryId.HasValue)
             {
