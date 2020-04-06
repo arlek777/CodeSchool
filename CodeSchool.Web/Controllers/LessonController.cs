@@ -24,7 +24,7 @@ namespace CodeSchool.Web.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{id}")]
+        [Route("[action]/{companyId}/{id}")]
         public async Task<IActionResult> Get(string companyId, int id)
         {
             var lesson = await _lessonService.GetById(companyId, id);

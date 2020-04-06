@@ -25,7 +25,7 @@ namespace CodeSchool.Web.Infrastructure
             {
                 {"id", user.Id},
                 {"username", user.UserName},
-                //{"companyId", user.CompanyId},
+                {"companyId", user.CompanyId},
                 {"email", user.Email},
                 {"isAdmin", user.IsAdmin}
             };
@@ -38,7 +38,7 @@ namespace CodeSchool.Web.Infrastructure
             {
                 { "sub", user.Id },
                 { "email", user.Email },
-               // {"companyId", user.CompanyId},
+                {"companyId", user.CompanyId},
                 { "roles", user.IsAdmin ? new [] { "Admin" } : new string [] {}}
             };
             return GetToken(payload);

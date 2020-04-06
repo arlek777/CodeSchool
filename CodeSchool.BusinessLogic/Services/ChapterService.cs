@@ -19,17 +19,16 @@ namespace CodeSchool.BusinessLogic.Services
 
         public async Task<IEnumerable<Chapter>> GetChapters(string companyId, int? categoryId = null)
         {
-            //TODO There is a bug
             List<Chapter> chapters;
             if (categoryId.HasValue)
             {
-                chapters = (await _repository.Where<Chapter>(c => c.CategoryId == categoryId))
+                chapters = (await _repository.Where<Chapter>(c => c.CategoryId == categoryId && c.CompanyId == companyId))
                     .OrderBy(c => c.Order)
                     .ToList();
             }
             else
             {
-                chapters = (await _repository.GetAll<Chapter>())
+                chapters = (await _repository.GetAll<Chapter>()).Where(c => c.CompanyId == companyId)
                     .OrderBy(c => c.Order)
                     .ToList();
             }

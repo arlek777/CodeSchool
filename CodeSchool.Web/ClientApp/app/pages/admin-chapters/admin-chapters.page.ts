@@ -21,7 +21,7 @@ export class AdminChaptersPage implements OnInit {
     }
 
     ngOnInit() {
-        //this.chapter.companyId = UserHelper.getCompanyId();
+        this.chapter.companyId = UserHelper.getCompanyId();
     }
 
     onCategoryChanged(categoryId: number) {
@@ -39,7 +39,7 @@ export class AdminChaptersPage implements OnInit {
             } 
             this.chapter = new ChapterViewModel();
             this.chapter.categoryId = this.currentCategoryId;
-            //this.chapter.companyId = UserHelper.getCompanyId();//TODO comment it
+            this.chapter.companyId = UserHelper.getCompanyId();
             this.popupService.newSuccessMessage(UserMessages.addedItem);
         });
     }

@@ -60,8 +60,7 @@
         <div class="col-md-6">
             <editor mode="code" [(text)]="lesson.reporterCode" css="admin-lesson-half" header-text="Отчет"></editor>
         </div>
-        <iframe lesson-tester (onTestResultsReceived)="onTestResultsReceived($event)" src="/Home/Test"></iframe>
-        
+
         <div class="col-md-offset-9">
             <div class="form-group pull-right">
                 <ng-container *ngTemplateOutlet="controlButtons"></ng-container>
@@ -120,3 +119,5 @@
         </div>
     </div>
 </div>
+
+<iframe lesson-tester (onTestResultsReceived)="onTestResultsReceived($event)" src="/Home/Test"></iframe>
