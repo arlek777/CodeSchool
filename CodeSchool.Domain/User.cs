@@ -11,7 +11,7 @@ namespace CodeSchool.Domain
         public string UserName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public string CompanyId { get; set; }
+        public Guid CompanyId { get; set; }
         public bool IsAdmin { get; set; }
 
         public virtual ICollection<UserChapter> UserChapters { get; set; }

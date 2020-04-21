@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CodeSchool.DataAccess;
@@ -21,9 +22,9 @@ namespace CodeSchool.Web.Controllers
         }
 
         [Route("[action]")]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(Guid companyId)
         {
-            var users = await _repository.GetAll<User>();
+            var users = await _repository.Where<User>(u => u.CompanyId == companyId && !u.IsAdmin);
             return Ok(users.Select(Mapper.Map<UserStatisticModel>));
         }
     }

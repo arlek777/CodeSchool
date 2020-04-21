@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using CodeSchool.BusinessLogic.Interfaces;
@@ -20,7 +21,7 @@ namespace CodeSchool.BusinessLogic.Services
             _chapterService = chapterService;
         }
 
-        public async Task<Lesson> GetById(string companyId, int id)
+        public async Task<Lesson> GetById(Guid companyId, int id)
         {
             return await _repository.Find<Lesson>(l => l.Id == id && l.CompanyId == companyId);
         }
@@ -57,7 +58,7 @@ namespace CodeSchool.BusinessLogic.Services
             return dbLesson;
         }
 
-        public async Task ChangeOrder(string companyId, int currentLessonId, int toSwapLessonId)
+        public async Task ChangeOrder(Guid companyId, int currentLessonId, int toSwapLessonId)
         {
             var currentLesson = await GetById(companyId, currentLessonId);
             var toSwapLesson = await GetById(companyId, toSwapLessonId);
@@ -69,7 +70,7 @@ namespace CodeSchool.BusinessLogic.Services
             await _repository.SaveChanges();
         }
 
-        public async Task Remove(string companyId, int id)
+        public async Task Remove(Guid companyId, int id)
         {
             var lesson = await GetById(companyId, id);
             _repository.Remove(lesson);
@@ -96,7 +97,7 @@ namespace CodeSchool.BusinessLogic.Services
             }
         }
 
-        private async Task<int> GetNextOrder(string companyId, int chapterId)
+        private async Task<int> GetNextOrder(Guid companyId, int chapterId)
         {
             var chapter = await _chapterService.GetById(companyId, chapterId);
             var lastLesson = chapter.Lessons.LastOrDefault();

@@ -25,7 +25,7 @@ namespace CodeSchool.Web.Infrastructure
             {
                 {"id", user.Id},
                 {"username", user.UserName},
-                {"companyId", user.CompanyId},
+                {"companyId", user.CompanyId.ToString()},
                 {"email", user.Email},
                 {"isAdmin", user.IsAdmin}
             };
@@ -38,7 +38,7 @@ namespace CodeSchool.Web.Infrastructure
             {
                 { "sub", user.Id },
                 { "email", user.Email },
-                {"companyId", user.CompanyId},
+                {"companyId", user.CompanyId.ToString()},
                 { "roles", user.IsAdmin ? new [] { "Admin" } : new string [] {}}
             };
             return GetToken(payload);
@@ -51,7 +51,7 @@ namespace CodeSchool.Web.Infrastructure
             payload.Add("iss", _jwtSettings.Issuer);
             payload.Add("aud", _jwtSettings.Audience);
             payload.Add("iat", DateTime.Now.ConvertToUnixTimestamp());
-            payload.Add("exp", DateTime.Now.AddYears(1).ConvertToUnixTimestamp());
+            payload.Add("exp", DateTime.Now.AddDays(30).ConvertToUnixTimestamp());
 
             IJwtAlgorithm algorithm = new HMACSHA256Algorithm();
             IJsonSerializer serializer = new JsonNetSerializer();

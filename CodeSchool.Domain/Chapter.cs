@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace CodeSchool.Domain
@@ -26,7 +27,7 @@ namespace CodeSchool.Domain
         public string Title { get; set; }
 
         [Required]
-        public string CompanyId { get; set; }
+        public Guid CompanyId { get; set; }
 
         public int Order { get; set; }
 

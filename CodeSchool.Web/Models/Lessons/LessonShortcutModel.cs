@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using CodeSchool.Domain;
 using CodeSchool.Web.Infrastructure;
@@ -23,7 +24,7 @@ namespace CodeSchool.Web.Models.Lessons
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         public LessonLevel Level { get; set; }
 
-        public string CompanyId { get; set; }
+        public Guid CompanyId { get; set; }
 
         public bool Published { get; set; }
     }

@@ -48,12 +48,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Category.cs" />
+    <Compile Include="CodeSnapshot.cs" />
     <Compile Include="ISimpleEntity.cs" />
     <Compile Include="Chapter.cs" />
     <Compile Include="Lesson.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AnswerLessonOption.cs" />
+    <Compile Include="Token.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserChapter.cs" />
     <Compile Include="UserLesson.cs" />

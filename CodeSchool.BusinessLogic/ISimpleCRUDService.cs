@@ -17,7 +17,7 @@ namespace CodeSchool.BusinessLogic
         Task<TEntity> GetById<TEntity>(int id)
             where TEntity : class, ISimpleEntity;
 
-        Task<TEntity> CreateOrUpdate<TEntity>(TEntity entity, Action<TEntity, TEntity> updateFunc)
+        Task<TEntity> CreateOrUpdate<TEntity>(TEntity entity, Action<TEntity, TEntity> updateFunc = null)
             where TEntity : class, ISimpleEntity;
 
         Task RemoveById<TEntity>(int id)

@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using CodeSchool.Web.Infrastructure;
 
@@ -9,6 +10,6 @@ namespace CodeSchool.Web.Models.Chapters
         public int Id { get; set; }
 
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
-        public string CompanyId { get; set; }
+        public Guid CompanyId { get; set; }
     }
 }

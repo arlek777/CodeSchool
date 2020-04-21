@@ -17,7 +17,7 @@ namespace CodeSchool.BusinessLogic.Services
             _repository = repository;
         }
 
-        public async Task<IEnumerable<Chapter>> GetChapters(string companyId, int? categoryId = null)
+        public async Task<IEnumerable<Chapter>> GetChapters(Guid companyId, int? categoryId = null)
         {
             List<Chapter> chapters;
             if (categoryId.HasValue)
@@ -41,7 +41,7 @@ namespace CodeSchool.BusinessLogic.Services
             return chapters;
         }
 
-        public async Task<Chapter> GetById(string companyId, int chapterId)
+        public async Task<Chapter> GetById(Guid companyId, int chapterId)
         {
             var chapter = (await GetChapters(companyId)).FirstOrDefault(c => c.Id == chapterId);
             return chapter;
@@ -65,14 +65,14 @@ namespace CodeSchool.BusinessLogic.Services
             return chapter;
         }
 
-        public async Task Remove(string companyId, int id)
+        public async Task Remove(Guid companyId, int id)
         {
             var chapter = await _repository.Find<Chapter>(c => c.Id == id && c.CompanyId == companyId);
             _repository.Remove(chapter);
             await _repository.SaveChanges();
         }
 
-        public async Task ChangeOrder(string companyId, int currentChapterId, int toSwapChapterId)
+        public async Task ChangeOrder(Guid companyId, int currentChapterId, int toSwapChapterId)
         {
             var currentChapter = await GetById(companyId, currentChapterId);
             var toSwapChapter = await GetById(companyId, toSwapChapterId);
@@ -84,7 +84,7 @@ namespace CodeSchool.BusinessLogic.Services
             await _repository.SaveChanges();
         }
 
-        private async Task<int> GetNextOrder(string companyId)
+        private async Task<int> GetNextOrder(Guid companyId)
         {
             var chapters = await GetChapters(companyId);
             var lastChapter = chapters.LastOrDefault();

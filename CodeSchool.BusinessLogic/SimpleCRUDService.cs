@@ -34,7 +34,7 @@ namespace CodeSchool.BusinessLogic
             return await _repository.Find<TEntity>(l => l.Id == id);
         }
 
-        public async Task<TEntity> CreateOrUpdate<TEntity>(TEntity entity, Action<TEntity, TEntity> updateFunc)
+        public async Task<TEntity> CreateOrUpdate<TEntity>(TEntity entity, Action<TEntity, TEntity> updateFunc = null)
             where TEntity : class, ISimpleEntity
         {
             var dbEntity = await GetById<TEntity>(entity.Id);

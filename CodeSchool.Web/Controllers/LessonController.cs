@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
+using CodeSchool.BusinessLogic;
 using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.Domain;
 using Microsoft.AspNetCore.Mvc;
@@ -17,16 +19,23 @@ namespace CodeSchool.Web.Controllers
     {
         private readonly ILessonService _lessonService;
         private readonly IUserLessonService _userLessonService;
+        private readonly IUserService _userService;
+        private readonly ISimpleCRUDService _simpleCrudService;
 
-        public LessonController(ILessonService lessonService, IUserLessonService userLessonService)
+        public LessonController(ILessonService lessonService, 
+            IUserLessonService userLessonService, 
+            IUserService userService, 
+            ISimpleCRUDService simpleCrudService)
         {
             _lessonService = lessonService;
             _userLessonService = userLessonService;
+            _userService = userService;
+            _simpleCrudService = simpleCrudService;
         }
 
         [HttpGet]
         [Route("[action]/{companyId}/{id}")]
-        public async Task<IActionResult> Get(string companyId, int id)
+        public async Task<IActionResult> Get(Guid companyId, int id)
         {
             var lesson = await _lessonService.GetById(companyId, id);
             return Ok(Mapper.Map<LessonModel>(lesson));
@@ -83,12 +92,39 @@ namespace CodeSchool.Web.Controllers
             return Ok();
         }
 
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> ShareLesson([FromBody] ShareLessonModel model)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
+
+            var newUser = await _userService.CreateNew(new User()
+            {
+                CompanyId = model.CompanyId,
+                Email = model.UserEmail,
+                IsAdmin = false,
+                UserName = model.UserFullName
+            });
+
+            var token = await _simpleCrudService.CreateOrUpdate<Token>(new Token()
+            {
+                CreatedDt = DateTime.UtcNow,
+                LifetimeInDays = model.LinkLifetimeInDays,
+                TokenValue = Guid.NewGuid(),
+                UserId = newUser.Id
+            });
+
+            await _userLessonService.Add(newUser.Id, model.ChapterId, model.LessonId, model.TaskDurationTimeLimitTimeSpan);
+
+            return Ok(token.TokenValue.ToString());
+        }
+
         private async Task PublishLesson(PublishLessonModel model)
         {
             var lesson = await _lessonService.GetById(model.CompanyId, model.LessonId);
             if (!lesson.Published)
             {
-                await _userLessonService.AddToAllUsers(model.LessonId, model.ChapterId);
+                await _userLessonService.Add(model.LessonId, model.ChapterId);
                 lesson.Published = true;
                 await _lessonService.AddOrUpdate(lesson);
             }

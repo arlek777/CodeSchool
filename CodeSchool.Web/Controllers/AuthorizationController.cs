@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.Domain;
@@ -15,17 +16,14 @@ namespace CodeSchool.Web.Controllers
         private readonly IUserService _userService;
         private readonly JWTTokenProvider _jwtTokenProvider;
         private readonly IPasswordHasher _passwordHasher;
-        private readonly IUserChapterService _userChapterService;
 
         public AuthorizationController(IUserService userService, 
             JWTTokenProvider jwtTokenProvider, 
-            IPasswordHasher passwordHasher,
-            IUserChapterService userChapterService)
+            IPasswordHasher passwordHasher)
         {
             _userService = userService;
             _jwtTokenProvider = jwtTokenProvider;
             _passwordHasher = passwordHasher;
-            _userChapterService = userChapterService;
         }
 
         [Route("[action]")]
@@ -65,12 +63,34 @@ namespace CodeSchool.Web.Controllers
                 UserName = model.UserName,
                 Password = _passwordHasher.HashPassword(model.Password),
                 IsAdmin = true,
-                CompanyId = Guid.NewGuid().ToString()
+                CompanyId = Guid.NewGuid()
             };
 
             user = await _userService.CreateNew(user);
             var tokens = GetJWTTokens(user);
 
+            return Ok(tokens);
+        }
+
+        [Route("[action]")]
+        [HttpPost]
+        public async Task<IActionResult> LoginByToken([FromBody] string token)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                return BadRequest();
+            }
+
+            var decodedToken = WebUtility.UrlDecode(token);
+            var parsedToken = Guid.Parse(decodedToken);
+
+            var user = await _userService.GetByToken(parsedToken);
+            if (user == null)
+            {
+                return BadRequest(ValidationResultMessages.LoginWrongCredentials);
+            }
+
+            var tokens = GetJWTTokens(user);
             return Ok(tokens);
         }
 

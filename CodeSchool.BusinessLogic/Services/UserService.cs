@@ -32,5 +32,16 @@ namespace CodeSchool.BusinessLogic.Services
         {
             return await _repository.Find<User>(u => u.Email == email);
         }
+
+        public async Task<User> GetByToken(Guid token)
+        {
+            var dbToken = await _repository.Find<Token>(t => t.TokenValue == token);
+            if (dbToken == null || dbToken.CreatedDt.AddDays(dbToken.LifetimeInDays) < DateTime.UtcNow)
+            {
+                return null;
+            }
+
+            return dbToken.User;
+        }
     }
 }

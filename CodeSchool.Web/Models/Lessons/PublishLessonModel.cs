@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using CodeSchool.Web.Infrastructure;
 
 namespace CodeSchool.Web.Models.Lessons
@@ -6,7 +7,8 @@ namespace CodeSchool.Web.Models.Lessons
     public class PublishLessonModel
     {
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
-        public string CompanyId { get; set; }
+        public Guid CompanyId { get; set; }
+
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         public int LessonId { get; set; }
 
