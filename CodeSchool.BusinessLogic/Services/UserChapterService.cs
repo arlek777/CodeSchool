@@ -67,10 +67,9 @@ namespace CodeSchool.BusinessLogic.Services
         //    await _repository.SaveChanges();
         //}
 
-        public async Task Add(Guid userId)
+        public async Task Add(Guid userId, string companyId)
         {
-            //TODO fix it
-            var chapters = await _chapterService.GetChapters("123");
+            var chapters = await _chapterService.GetChapters(companyId);
 
             foreach (var chapter in chapters)
             {

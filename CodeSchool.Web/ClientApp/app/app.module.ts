@@ -50,7 +50,7 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
     return new InterceptedHttp(xhrBackend, requestOptions);
 }
 
-const DEFAULT_ROUTE: string = "user-chapters/code";
+const DEFAULT_ROUTE: string = "admin-chapters";
 
 @NgModule({
     bootstrap: [AppComponent],
@@ -90,7 +90,7 @@ const DEFAULT_ROUTE: string = "user-chapters/code";
             { path: 'admin-chapters', component: AdminChaptersPage, canActivate: [AdminAuthGuard] },
             { path: 'admin-lesson/:chapterId/:lessonId', component: AdminLessonPage, canActivate: [AdminAuthGuard] },
             { path: 'admin-lesson/:chapterId', component: AdminLessonPage, canActivate: [AdminAuthGuard] },
-            { path: 'users-tatistic', component: UserStatisticPage, canActivate: [AdminAuthGuard] },
+            { path: 'users-statistic', component: UserStatisticPage, canActivate: [AdminAuthGuard] },
             { path: '**', redirectTo: DEFAULT_ROUTE }
         ]),
         AceEditorModule,

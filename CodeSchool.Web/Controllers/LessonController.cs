@@ -7,6 +7,7 @@ using CodeSchool.Web.Models;
 using CodeSchool.Web.Models.Lessons;
 using Microsoft.AspNetCore.Authorization;
 using CodeSchool.Web.Infrastructure;
+using CodeSchool.Web.Models.Chapters;
 
 namespace CodeSchool.Web.Controllers
 {
@@ -65,7 +66,7 @@ namespace CodeSchool.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Remove([FromBody] LessonShortcutModel model)
+        public async Task<IActionResult> Remove([FromBody] RemoveModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
             await _lessonService.Remove(model.CompanyId, model.Id);

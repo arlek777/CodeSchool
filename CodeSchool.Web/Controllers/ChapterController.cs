@@ -56,7 +56,7 @@ namespace CodeSchool.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Remove([FromBody] ChapterShortcutModel model)
+        public async Task<IActionResult> Remove([FromBody] RemoveModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
             await _chapterService.Remove(model.CompanyId, model.Id);
