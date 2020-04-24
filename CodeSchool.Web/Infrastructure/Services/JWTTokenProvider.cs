@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using CodeSchool.BusinessLogic.Extensions;
 using CodeSchool.Domain;
 using CodeSchool.Web.Infrastructure.AppSettings;
@@ -8,7 +9,7 @@ using JWT.Algorithms;
 using JWT.Serializers;
 using Microsoft.Extensions.Options;
 
-namespace CodeSchool.Web.Infrastructure
+namespace CodeSchool.Web.Infrastructure.Services
 {
     public class JWTTokenProvider
     {
@@ -23,9 +24,7 @@ namespace CodeSchool.Web.Infrastructure
         {
             var payload = new Dictionary<string, object>
             {
-                {"id", user.Id},
                 {"username", user.UserName},
-                {"companyId", user.CompanyId.ToString()},
                 {"email", user.Email},
                 {"isAdmin", user.IsAdmin}
             };
@@ -36,10 +35,10 @@ namespace CodeSchool.Web.Infrastructure
         {
             var payload = new Dictionary<string, object>
             {
-                { "sub", user.Id },
-                { "email", user.Email },
-                {"companyId", user.CompanyId.ToString()},
-                { "roles", user.IsAdmin ? new [] { "Admin" } : new string [] {}}
+                { ClaimTypes.Email, user.Email },
+                { ClaimTypes.NameIdentifier, user.Id },
+                { "companyId", user.CompanyId },
+                { ClaimTypes.Role, user.IsAdmin ? new [] { "Admin" } : new string [] {}}
             };
             return GetToken(payload);
         }

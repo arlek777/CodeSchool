@@ -31,6 +31,9 @@
                             <a class="alert-success" [routerLink]="['/admin-lesson', chapter.id]">
                                 <span class="fa fa-plus"></span>
                             </a>
+                            <a href="javascript: " (click)="shareChapter(chapter.id)">
+                                <span class="fa fa-pencil"></span>
+                            </a>
                             <a class="alert-danger" href="javascript: " (click)="removeChapter(chapter.id)">
                                 <span class="fa fa-remove"></span>
                             </a>
@@ -46,7 +49,10 @@
                             <a [routerLink]="['/admin-lesson', chapter.id, lesson.id]">
                                 <h5 style="display: inline-block">{{ lesson.title }}</h5>
                             </a>
-                            <a *ngIf="!lesson.published"  href="javascript: " (click)="publishLesson(chapter.id, lesson)">
+                            <a *ngIf="lesson.published" href="javascript: " (click)="shareLesson(chapter.id, lesson)">
+                                <span class="fa fa-pencil"></span>
+                            </a>
+                            <a *ngIf="!lesson.published" href="javascript: " (click)="publishLesson(chapter.id, lesson)">
                                 <span class="fa fa-pencil"></span>
                             </a>
                             <a class="alert-danger" href="javascript: " (click)="removeLesson(chapter, lesson.id)">

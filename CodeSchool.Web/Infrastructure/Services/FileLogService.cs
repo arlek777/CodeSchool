@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.Domain;
-using JWT.Serializers;
 using Microsoft.AspNetCore.Hosting;
 using Newtonsoft.Json;
 
-namespace CodeSchool.Web.Infrastructure
+namespace CodeSchool.Web.Infrastructure.Services
 {
     public class FileLogService: ILogService
     {

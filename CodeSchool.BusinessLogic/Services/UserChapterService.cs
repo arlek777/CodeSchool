@@ -50,7 +50,7 @@ namespace CodeSchool.BusinessLogic.Services
             return userChapters.FirstOrDefault(c => c.ChapterId == chapterId);
         }
 
-        public async Task Add(Guid userId, Guid companyId, int chapterId)
+        public async Task AddChapterLessons(Guid userId, Guid companyId, int chapterId)
         {
             var dbChapter = await _chapterService.GetById(companyId, chapterId);
 
@@ -79,6 +79,20 @@ namespace CodeSchool.BusinessLogic.Services
 
                 await _repository.SaveChanges();
             }
+        }
+
+        public async Task<UserChapter> AddOnlyChapter(Guid userId, Guid companyId, int chapterId)
+        {
+            var dbChapter = await _chapterService.GetById(companyId, chapterId);
+            var newChapter = new UserChapter()
+            {
+                ChapterId = dbChapter.Id,
+                UserId = userId
+            };
+            _repository.Add(newChapter);
+            await _repository.SaveChanges();
+
+            return newChapter;
         }
 
         public async Task<bool> CanOpen(Guid userId, int userChapterId)

@@ -1,9 +1,10 @@
 using System.Data.Entity;
 using System.Text;
 using CodeSchool.DataAccess;
-using CodeSchool.Web.AttributeFilters;
+using CodeSchool.Web.Attributes;
 using CodeSchool.Web.Infrastructure;
 using CodeSchool.Web.Infrastructure.AppSettings;
+using CodeSchool.Web.Infrastructure.Extensions;
 using CodeSchool.Web.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -43,6 +44,7 @@ namespace CodeSchool.Web
             services.AddMvc(options =>
             {
                 options.Filters.Add(typeof(ApiExceptionFilter));
+                options.Filters.Add(typeof(AutoSetUserInfoFilterAttribute));
                 options.CacheProfiles.Add("DynamicContent", new CacheProfile()
                 {
                     Duration = cacheValues.DynamicContent
@@ -55,6 +57,7 @@ namespace CodeSchool.Web
 
             services.AddMemoryCache();
             services.AddScoped<ApiExceptionFilter>();
+            services.AddScoped<AutoSetUserInfoFilterAttribute>();
             services.AddCodeSchool(Configuration, Env);
         }
 
@@ -84,13 +87,13 @@ namespace CodeSchool.Web
 
             app.UseJwtBearerAuthentication(new JwtBearerOptions
             {
-                TokenValidationParameters = tokenValidationParameters
+                TokenValidationParameters = tokenValidationParameters,
             });
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AutomaticAuthenticate = false,
-                AutomaticChallenge = false
+                AutomaticChallenge = false,
             });
 
             app.UseStaticFiles();

@@ -55,8 +55,6 @@ export class AuthService {
     logout(): void {
         localStorage.removeItem(Constants.accessTokenKey);
         localStorage.removeItem(Constants.currentUserKey);
-        localStorage.removeItem(Constants.userIdKey);
-        localStorage.removeItem(Constants.companyIdKey);
         this._user = null;
 
         this.router.navigate(['/login']);
@@ -67,16 +65,12 @@ export class AuthService {
         var userClaims = JSON.parse(atob(base64UserClaims));
 
         this._user = new User({
-            id: userClaims.id,
             userName: userClaims.username,
-            companyId: userClaims.companyId,
             email: userClaims.email,
             isAdmin: userClaims.isAdmin
         });
 
         localStorage.setItem(Constants.accessTokenKey, tokens.accessToken);
         localStorage.setItem(Constants.currentUserKey, JSON.stringify(this._user));
-        localStorage.setItem(Constants.userIdKey, this._user.id);
-        localStorage.setItem(Constants.companyIdKey, this._user.companyId);
     }
 }

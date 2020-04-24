@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using CodeSchool.Domain;
+using CodeSchool.Web.Attributes;
 using CodeSchool.Web.Infrastructure;
 
 namespace CodeSchool.Web.Models.Lessons

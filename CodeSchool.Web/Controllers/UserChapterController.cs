@@ -21,9 +21,9 @@ namespace CodeSchool.Web.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        public async Task<IActionResult> Get(FilterUserChapterModel filterModel)
+        public async Task<IActionResult> Get(FilterUserChapterModel model)
         {
-            var chapters = await _chapterService.GetUserChapters(filterModel);
+            var chapters = await _chapterService.GetUserChapters(model);
             return Ok(chapters.Select(Mapper.Map<UserChapterShortcutModel>));
         }
 

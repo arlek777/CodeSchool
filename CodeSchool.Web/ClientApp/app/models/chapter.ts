@@ -17,7 +17,6 @@ export class ChapterViewModel {
 
     id: number;
     text: string;
-    companyId: string;
     lessons: LessonViewModel[];
     categoryId: number;
     order: number;

@@ -6,6 +6,7 @@ using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.BusinessLogic.Services;
 using CodeSchool.DataAccess;
 using CodeSchool.Web.Infrastructure.AppSettings;
+using CodeSchool.Web.Infrastructure.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -13,7 +14,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CodeSchool.Web.Infrastructure
+namespace CodeSchool.Web.Infrastructure.Extensions
 {
     public static class ServiceCollectionExtension
     {

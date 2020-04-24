@@ -3,7 +3,6 @@ import { BackendService } from "../../services/backend.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { LessonTestResult } from "../../models/lessontestresult";
 import { LessonTesterDirective } from "../../directives/lesson-tester.directive";
-import { UserHelper } from "../../utils/helpers";
 import { PopupService } from "../../services/popup.service";
 import { UserMessages } from '../../user-messages';
 import { UserLessonBaseComponent } from '../user-lesson-base.component';
@@ -38,7 +37,7 @@ export class UserLessonCodeComponent extends UserLessonBaseComponent implements 
             this.result = new LessonTestResult();
         });
 
-        this.backendService.canOpenLesson(UserHelper.getUserId(), this.userChapterId, this.userLessonId).then(canOpen => {
+        this.backendService.canOpenLesson(this.userChapterId, this.userLessonId).then(canOpen => {
             if (canOpen) {
                 this.loadUserLessonsId(this.userLessonId);
                 this.loadUserLesson(this.userLessonId);

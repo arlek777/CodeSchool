@@ -1,6 +1,4 @@
-﻿import { Constants } from "../constants";
-
-export class Mapper {
+﻿export class Mapper {
     static map(source, destination) {
         if (source) {
             for (var prop in source) {
@@ -8,15 +6,5 @@ export class Mapper {
                     destination[prop] = source[prop];
             }
         }
-    }
-}
-
-export class UserHelper {
-    static getUserId(): string {
-        return localStorage.getItem(Constants.userIdKey);
-    }
-
-    static getCompanyId(): string {
-        return localStorage.getItem(Constants.companyIdKey);
     }
 }

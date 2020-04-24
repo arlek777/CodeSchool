@@ -1,8 +1,8 @@
+using System;
 using System.Collections.Generic;
 using CodeSchool.Web.Models.Lessons;
 using System.ComponentModel.DataAnnotations;
 using CodeSchool.Domain;
-using CodeSchool.Web.Infrastructure;
 
 namespace CodeSchool.Web.Models.Chapters
 {
@@ -22,7 +22,7 @@ namespace CodeSchool.Web.Models.Chapters
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         public int CategoryId { get; set; }
 
-        public string CompanyId { get; set; }
+        public Guid CompanyId { get; set; }
 
         public int Order { get; set; }
 

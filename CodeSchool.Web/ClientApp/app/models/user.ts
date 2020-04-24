@@ -5,9 +5,7 @@ export class User {
         Mapper.map(user, this);
     }
 
-    id: string;
     userName: string;
-    companyId: string;
     email: string;
     isAdmin: boolean;
 }

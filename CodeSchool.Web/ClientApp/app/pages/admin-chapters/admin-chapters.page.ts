@@ -1,16 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ChapterViewModel } from "../../models/chapter";
 import { LessonViewModel } from "../../models/lesson";
 import { BackendService } from "../../services/backend.service";
 import { PopupService } from "../../services/popup.service";
 import { UserMessages } from "../../user-messages";
 import { ChapterType } from "../../models/chapter";
-import { UserHelper } from "../../utils/helpers";
 
 @Component({
     templateUrl: './admin-chapters.page.html'
 })
-export class AdminChaptersPage implements OnInit {
+export class AdminChaptersPage {
     private currentCategoryId: number;
 
     chapters: ChapterViewModel[] = [];
@@ -20,14 +19,10 @@ export class AdminChaptersPage implements OnInit {
     constructor(private backendService: BackendService, private popupService: PopupService) {
     }
 
-    ngOnInit() {
-        this.chapter.companyId = UserHelper.getCompanyId();
-    }
-
     onCategoryChanged(categoryId: number) {
         this.currentCategoryId = categoryId;
         this.chapter.categoryId = categoryId;
-        this.backendService.getChaptersByCategoryId(UserHelper.getCompanyId(), categoryId).then(chapters => {
+        this.backendService.getChaptersByCategoryId(categoryId).then(chapters => {
             this.chapters = chapters;
         });
     }
@@ -39,7 +34,6 @@ export class AdminChaptersPage implements OnInit {
             } 
             this.chapter = new ChapterViewModel();
             this.chapter.categoryId = this.currentCategoryId;
-            this.chapter.companyId = UserHelper.getCompanyId();
             this.popupService.newSuccessMessage(UserMessages.addedItem);
         });
     }
@@ -51,7 +45,7 @@ export class AdminChaptersPage implements OnInit {
     publishLesson(chapterId, lesson: LessonViewModel) {
         if (!confirm(UserMessages.publishLesson)) return;
 
-        this.backendService.publishLesson(UserHelper.getCompanyId(), chapterId, lesson.id).then(() => {
+        this.backendService.publishLesson(chapterId, lesson.id).then(() => {
             this.popupService.newSuccessMessage(UserMessages.published);
             lesson.published = true;
         });
@@ -61,7 +55,7 @@ export class AdminChaptersPage implements OnInit {
         var result = confirm("Are you sure?");
         if (!result) return;
 
-        this.backendService.removeLesson(UserHelper.getCompanyId(), id).then(() => {
+        this.backendService.removeLesson(id).then(() => {
             chapter.lessons = chapter.lessons.filter(l => l.id !== id);
         });
     }
@@ -70,7 +64,7 @@ export class AdminChaptersPage implements OnInit {
         var result = confirm("Are you sure?");
         if (!result) return;
 
-        this.backendService.removeChapter(UserHelper.getCompanyId(), id).then(() => {
+        this.backendService.removeChapter(id).then(() => {
             this.chapters = this.chapters.filter(ch => ch.id !== id);
         });
     }
@@ -82,7 +76,7 @@ export class AdminChaptersPage implements OnInit {
         var currentId = this.chapters[currentIndex].id;
         var toSwapId = this.chapters[toSwapIndex].id;
 
-        this.backendService.changeChapterOrder(UserHelper.getCompanyId(), currentId, toSwapId);
+        this.backendService.changeChapterOrder(currentId, toSwapId);
     }
 
     changeLessonOrder(chapter: ChapterViewModel, currentIndex, toSwapIndex) {
@@ -92,7 +86,15 @@ export class AdminChaptersPage implements OnInit {
         var currentId = chapter.lessons[currentIndex].id;
         var toSwapId = chapter.lessons[toSwapIndex].id;
 
-        this.backendService.changeLessonOrder(UserHelper.getCompanyId(), currentId, toSwapId);
+        this.backendService.changeLessonOrder(currentId, toSwapId);
+    }
+
+    shareChapter(chapterId: number) {
+        //TODO open new share window
+    }
+
+    shareLesson(chapterId: number, lesson: LessonViewModel) {
+        //TODO open new share window
     }
 
     private swapOrder(currentIndex, toSwapIndex, array: Array<any>) {

@@ -9,7 +9,7 @@ using CodeSchool.Web.Models;
 using CodeSchool.Web.Models.Chapters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using CodeSchool.Web.Infrastructure;
+using CodeSchool.Web.Infrastructure.Extensions;
 
 namespace CodeSchool.Web.Controllers
 {
@@ -34,7 +34,7 @@ namespace CodeSchool.Web.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{companyId}")]
+        [Route("[action]")]
         public async Task<IActionResult> Get(Guid companyId)
         {
             var chapters = await _chapterService.GetChapters(companyId);
@@ -42,7 +42,7 @@ namespace CodeSchool.Web.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{categoryId}/{companyId}")]
+        [Route("[action]/{categoryId}")]
         public async Task<IActionResult> GetByCategoryId(int categoryId, Guid companyId)
         {
             var chapters = await _chapterService.GetChapters(companyId, categoryId);
@@ -89,7 +89,7 @@ namespace CodeSchool.Web.Controllers
 
             var newUser = await _userService.CreateNew(new User()
             {
-                CompanyId = model.CompanyId,
+                CompanyId = Guid.Empty,
                 Email = model.UserEmail,
                 IsAdmin = false,
                 UserName = model.UserFullName
@@ -103,7 +103,7 @@ namespace CodeSchool.Web.Controllers
                 UserId = newUser.Id
             });
 
-            await _userChapterService.Add(newUser.Id, newUser.CompanyId, model.ChapterId);
+            await _userChapterService.AddChapterLessons(newUser.Id, newUser.CompanyId, model.ChapterId);
 
             return Ok(token.TokenValue.ToString());
         }

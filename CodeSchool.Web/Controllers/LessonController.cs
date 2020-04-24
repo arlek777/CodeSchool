@@ -9,6 +9,7 @@ using CodeSchool.Web.Models;
 using CodeSchool.Web.Models.Lessons;
 using Microsoft.AspNetCore.Authorization;
 using CodeSchool.Web.Infrastructure;
+using CodeSchool.Web.Infrastructure.Extensions;
 using CodeSchool.Web.Models.Chapters;
 
 namespace CodeSchool.Web.Controllers
@@ -34,7 +35,7 @@ namespace CodeSchool.Web.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{companyId}/{id}")]
+        [Route("[action]/{id}")]
         public async Task<IActionResult> Get(Guid companyId, int id)
         {
             var lesson = await _lessonService.GetById(companyId, id);
@@ -100,11 +101,13 @@ namespace CodeSchool.Web.Controllers
 
             var newUser = await _userService.CreateNew(new User()
             {
-                CompanyId = model.CompanyId,
+                CompanyId = Guid.Empty, //TODO change it
                 Email = model.UserEmail,
                 IsAdmin = false,
                 UserName = model.UserFullName
             });
+
+            var test = User.Identity;
 
             var token = await _simpleCrudService.CreateOrUpdate<Token>(new Token()
             {
@@ -124,7 +127,6 @@ namespace CodeSchool.Web.Controllers
             var lesson = await _lessonService.GetById(model.CompanyId, model.LessonId);
             if (!lesson.Published)
             {
-                await _userLessonService.Add(model.LessonId, model.ChapterId);
                 lesson.Published = true;
                 await _lessonService.AddOrUpdate(lesson);
             }

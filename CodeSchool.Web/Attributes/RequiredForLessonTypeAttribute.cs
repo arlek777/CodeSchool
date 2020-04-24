@@ -4,7 +4,7 @@ using System.Linq;
 using CodeSchool.Domain;
 using CodeSchool.Web.Models.Lessons;
 
-namespace CodeSchool.Web.Infrastructure
+namespace CodeSchool.Web.Attributes
 {
     public class RequiredForLessonTypeAttribute : ValidationAttribute
     {

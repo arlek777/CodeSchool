@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.Linq;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace CodeSchool.Web.Infrastructure
+namespace CodeSchool.Web.Infrastructure.Extensions
 {
     public static class ModelStateDictionaryExtensions
     {

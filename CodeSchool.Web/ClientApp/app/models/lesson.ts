@@ -26,7 +26,6 @@ export class LessonViewModel {
 
     id: number;
     chapterId: number;
-    companyId: string;
     text: string;
     taskText: string;
     answer: string;

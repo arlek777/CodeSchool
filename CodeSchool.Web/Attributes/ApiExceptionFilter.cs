@@ -2,11 +2,12 @@
 using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.Domain;
 using CodeSchool.Web.Infrastructure;
+using CodeSchool.Web.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace CodeSchool.Web.AttributeFilters
+namespace CodeSchool.Web.Attributes
 {
     public class ApiExceptionFilter: ExceptionFilterAttribute
     {

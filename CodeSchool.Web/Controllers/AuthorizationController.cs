@@ -1,12 +1,18 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.Domain;
 using CodeSchool.Web.Infrastructure;
+using CodeSchool.Web.Infrastructure.Extensions;
+using CodeSchool.Web.Infrastructure.Services;
 using CodeSchool.Web.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace CodeSchool.Web.Controllers
 {

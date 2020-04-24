@@ -37,6 +37,10 @@ namespace CodeSchool.BusinessLogic.Services
         {
             var user = await _repository.Find<User>(u => u.Id == userId);
             var userChapter = await _userChapterService.GetUserChapterByChapterId(user.Id, chapterId);
+            if (userChapter == null)
+            {
+                userChapter = await _userChapterService.AddOnlyChapter(userId, user.CompanyId, chapterId);
+            }
 
             _repository.Add(new UserLesson()
             {

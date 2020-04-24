@@ -1,6 +1,5 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { BackendService } from "../../services/backend.service";
-import { UserHelper } from "../../utils/helpers";
 import { ActivatedRoute } from "@angular/router";
 import { LessonType } from '../../models/lesson';
 
@@ -19,7 +18,7 @@ export class UserLessonPage implements OnInit {
     ngOnInit(): void {
         this.userLessonId = parseInt(this.route.snapshot.params["userLessonId"]);
         this.userChapterId = parseInt(this.route.snapshot.params["userChapterId"]);
-        this.backendService.getUserLesson(UserHelper.getUserId(), this.userLessonId)
+        this.backendService.getUserLesson(this.userLessonId)
             .then(userLesson => {
                 this.currentLessonType = userLesson.lesson.type;
             });

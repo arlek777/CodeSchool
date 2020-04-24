@@ -1,7 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { BackendService } from "../../services/backend.service";
 import { UserChapterModel } from "../../models/userchapter";
-import { UserHelper } from "../../utils/helpers";
 import { UserLessonModel } from "../../models/userlesson";
 import { Router, ActivatedRoute } from "@angular/router";
 import { PopupService } from "../../services/popup.service";
@@ -39,7 +38,7 @@ export class UserChaptersPage implements OnInit {
     }
 
     onCategoryChanged(categoryId: number) {
-        this.backendService.getUserChapters(UserHelper.getUserId(), { categoryId: categoryId, type: this.currentTypeParams.type }).then(userChapters => {
+        this.backendService.getUserChapters({ categoryId: categoryId, type: this.currentTypeParams.type }).then(userChapters => {
             this.userChapters = userChapters;
         });
     }
@@ -56,7 +55,7 @@ export class UserChaptersPage implements OnInit {
             return;
         }
 
-        this.backendService.canOpenChapter(userChapter.userId, userChapter.id)
+        this.backendService.canOpenChapter(userChapter.id)
             .then(canOpen => {
                 if (canOpen) {
                     this.router.navigate(['/user-lesson', userChapter.id, lessonToOpen.id]);
@@ -72,7 +71,7 @@ export class UserChaptersPage implements OnInit {
             return;
         }
 
-        this.backendService.canOpenLesson(userChapter.userId, userChapter.id, userLesson.id)
+        this.backendService.canOpenLesson(userChapter.id, userLesson.id)
             .then(canOpen => {
                 if (canOpen) {
                     this.router.navigate(['/user-lesson', userChapter.id, userLesson.id]);

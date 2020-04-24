@@ -5,7 +5,6 @@ import { ChapterViewModel, ChapterType } from "../models/chapter";
 import { LoginViewModel } from "../models/auth/login";
 import { UserStatisticModel } from "../models/userstatistic";
 import { RegistrationViewModel } from "../models/auth/registration";
-import { User } from "../models/user";
 import { JWTTokens } from "../models/auth/jwttokens";
 import 'rxjs/add/operator/toPromise';
 import { UserLessonModel } from "../models/userlesson";
@@ -27,20 +26,20 @@ export class BackendService {
             .then((result) => { return new JWTTokens(result.json()); });
     }
 
-    getLesson(companyId: string, id: number): Promise<LessonViewModel> {
-        return this.http.get(`/api/lesson/get/${companyId}/${id}`).toPromise().then((response) => {
+    getLesson(id: number): Promise<LessonViewModel> {
+        return this.http.get(`/api/lesson/get/${id}`).toPromise().then((response) => {
             return new LessonViewModel(response.json());
         });
     }
    
-    getChapters(companyId: string): Promise<ChapterViewModel[]> {
-        return this.http.get(`/api/chapter/get/${companyId}`).toPromise().then((response) => {
+    getChapters(): Promise<ChapterViewModel[]> {
+        return this.http.get(`/api/chapter/get`).toPromise().then((response) => {
             return response.json().map(c => new ChapterViewModel(c));
         });
     }
 
-    getChaptersByCategoryId(companyId: string, categoryId: number): Promise<ChapterViewModel[]> {
-        return this.http.get(`/api/chapter/getbycategoryid/${categoryId}/${companyId}`).toPromise().then((response) => {
+    getChaptersByCategoryId(categoryId: number): Promise<ChapterViewModel[]> {
+        return this.http.get(`/api/chapter/getbycategoryid/${categoryId}`).toPromise().then((response) => {
             return response.json().map(c => new ChapterViewModel(c));
         });
     }
@@ -51,8 +50,8 @@ export class BackendService {
         });
     }
 
-    removeChapter(companyId: string, id): Promise<void> {
-        return this.http.post("/api/chapter/remove", { companyId: companyId, id: id }).toPromise().then((response) => {
+    removeChapter(id): Promise<void> {
+        return this.http.post("/api/chapter/remove", { id: id }).toPromise().then((response) => {
         });
     }
 
@@ -62,26 +61,36 @@ export class BackendService {
         });
     }
 
-    removeLesson(companyId: string, id): Promise<void> {
-        return this.http.post("/api/lesson/remove", { companyId: companyId, id: id }).toPromise().then((response) => {
+    removeLesson(id): Promise<void> {
+        return this.http.post("/api/lesson/remove", { id: id }).toPromise().then((response) => {
         });
     }
 
-    changeLessonOrder(companyId: string, currentId, toSwapId): Promise<void> {
-        return this.http.post("/api/lesson/changeorder", { companyId: companyId, currentId: currentId, toSwapId: toSwapId }).toPromise()
+    changeLessonOrder(currentId, toSwapId): Promise<void> {
+        return this.http.post("/api/lesson/changeorder", { currentId: currentId, toSwapId: toSwapId }).toPromise()
             .then((response) => {
         });
     }
 
-    changeChapterOrder(companyId: string, currentId, toSwapId): Promise<void> {
-        return this.http.post("/api/chapter/changeorder", { companyId: companyId, currentId: currentId, toSwapId: toSwapId }).toPromise()
+    changeChapterOrder(currentId, toSwapId): Promise<void> {
+        return this.http.post("/api/chapter/changeorder", { currentId: currentId, toSwapId: toSwapId }).toPromise()
             .then((response) => {
         });
     }
 
-    getUserChapters(userId: string, filterModel?: { categoryId?: number, type?: ChapterType}): Promise<UserChapterModel[]> {
+    shareChapter(model: any): Promise<void> {
+        return this.http.post("/api/chapter/shareChapter", model).toPromise()
+            .then((response) => {
+            });
+    }
+
+    shareLesson(model: any): Promise<void> {
+        return this.http.post("/api/lesson/shareLesson", model).toPromise()
+            .then((response) => {});
+    }
+
+    getUserChapters(filterModel?: { categoryId?: number, type?: ChapterType}): Promise<UserChapterModel[]> {
         let params = new URLSearchParams();
-        params.set("userId", userId);
         if (filterModel) {
             for (let key in filterModel) {
                 if (filterModel[key] !== null || filterModel[key] !== undefined) {
@@ -95,14 +104,14 @@ export class BackendService {
         });
     }
 
-    getUserLessonIds(userId: string, userChapterId: number): Promise<number[]> {
-        return this.http.get(`/api/userlesson/getuserlessonids/${userId}/${userChapterId}`).toPromise().then((response) => {
+    getUserLessonIds(userChapterId: number): Promise<number[]> {
+        return this.http.get(`/api/userlesson/getuserlessonids/${userChapterId}`).toPromise().then((response) => {
             return response.json();
         });
     }
 
-    getUserLesson(userId: string, userLessonId: number): Promise<UserLessonModel> {
-        return this.http.get(`/api/userlesson/getbyid/${userId}/${userLessonId}`).toPromise().then((response) => {
+    getUserLesson(userLessonId: number): Promise<UserLessonModel> {
+        return this.http.get(`/api/userlesson/getbyid/${userLessonId}`).toPromise().then((response) => {
             return new UserLessonModel(response.json());
         });
     }
@@ -119,22 +128,22 @@ export class BackendService {
         });
     }
 
-    canOpenChapter(userId, userChapterId): Promise<boolean> {
-        return this.http.post("/api/userchapter/canopen/", { userId: userId, userChapterId: userChapterId })
+    canOpenChapter(userChapterId): Promise<boolean> {
+        return this.http.post("/api/userchapter/canopen/", { userChapterId: userChapterId })
             .toPromise().then((response) => {
                 return response.json();
             });
     }
 
-    canOpenLesson(userId, userChapterId, userLessonId): Promise<boolean> {
-        return this.http.post("/api/userlesson/canopen/", { userId: userId, userChapterId: userChapterId, userLessonId: userLessonId })
+    canOpenLesson(userChapterId, userLessonId): Promise<boolean> {
+        return this.http.post("/api/userlesson/canopen/", { userChapterId: userChapterId, userLessonId: userLessonId })
             .toPromise().then((response) => {
                 return response.json();
             });
     }
 
-    publishLesson(companyId: string, chapterId, lessonId): Promise<void> {
-        return this.http.post("/api/lesson/publish/", { companyId: companyId, chapterId: chapterId, lessonId: lessonId })
+    publishLesson(chapterId, lessonId): Promise<void> {
+        return this.http.post("/api/lesson/publish/", { chapterId: chapterId, lessonId: lessonId })
             .toPromise().then(() => {
             });
     }

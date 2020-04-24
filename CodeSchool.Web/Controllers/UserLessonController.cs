@@ -7,6 +7,7 @@ using CodeSchool.Domain;
 using Microsoft.AspNetCore.Mvc;
 using CodeSchool.Web.Models.Lessons;
 using CodeSchool.Web.Infrastructure;
+using CodeSchool.Web.Infrastructure.Extensions;
 
 namespace CodeSchool.Web.Controllers
 {

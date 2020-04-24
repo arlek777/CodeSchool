@@ -46,6 +46,4 @@ it("contains spec with an expectation", function() {
 
     static accessTokenKey = "accessToken";
     static currentUserKey = "user";
-    static userIdKey = "userId";
-    static companyIdKey = "companyId";
 }
