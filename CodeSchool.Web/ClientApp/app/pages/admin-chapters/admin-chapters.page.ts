@@ -89,14 +89,6 @@ export class AdminChaptersPage {
         this.backendService.changeLessonOrder(currentId, toSwapId);
     }
 
-    shareChapter(chapterId: number) {
-        //TODO open new share window
-    }
-
-    shareLesson(chapterId: number, lesson: LessonViewModel) {
-        //TODO open new share window
-    }
-
     private swapOrder(currentIndex, toSwapIndex, array: Array<any>) {
         var toSwapOrder = array[toSwapIndex].order;
         array[toSwapIndex].order = array[currentIndex].order;

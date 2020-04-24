@@ -25,6 +25,7 @@ import { LoginPage } from "./pages/login/login.page";
 import { RegisterPage } from "./pages/register/register.page";
 import { LiteraturePage } from "./pages/literature/literature.page";
 import { UserStatisticPage } from "./pages/user-statistic/user-statistic.page";
+import { SharePage } from "./pages/share/share.page";
 
 import { ToggleMobileNavbarDirective } from "./directives/toggle-mobile-navbar.directive";
 import { LessonTesterDirective } from "./directives/lesson-tester.directive";
@@ -73,7 +74,8 @@ const DEFAULT_ROUTE: string = "admin-chapters";
         LoginPage,
         RegisterPage,
         LiteraturePage,
-        UserStatisticPage
+        UserStatisticPage,
+        SharePage
     ],
     imports: [
         BrowserModule,
@@ -91,6 +93,8 @@ const DEFAULT_ROUTE: string = "admin-chapters";
             { path: 'admin-lesson/:chapterId/:lessonId', component: AdminLessonPage, canActivate: [AdminAuthGuard] },
             { path: 'admin-lesson/:chapterId', component: AdminLessonPage, canActivate: [AdminAuthGuard] },
             { path: 'users-statistic', component: UserStatisticPage, canActivate: [AdminAuthGuard] },
+            { path: 'share/:chapterId', component: SharePage, canActivate: [AdminAuthGuard] },
+            { path: 'share/:chapterId/:lessonId', component: SharePage, canActivate: [AdminAuthGuard] },
             { path: '**', redirectTo: DEFAULT_ROUTE }
         ]),
         AceEditorModule,

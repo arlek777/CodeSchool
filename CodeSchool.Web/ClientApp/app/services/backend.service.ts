@@ -78,15 +78,16 @@ export class BackendService {
         });
     }
 
-    shareChapter(model: any): Promise<void> {
+    shareChapter(model: any): Promise<string> {
         return this.http.post("/api/chapter/shareChapter", model).toPromise()
-            .then((response) => {
-            });
+            .then((response) => response.text());
     }
 
-    shareLesson(model: any): Promise<void> {
+    shareLesson(model: any): Promise<string> {
         return this.http.post("/api/lesson/shareLesson", model).toPromise()
-            .then((response) => {});
+            .then((response) => {
+                return response.text();
+            });
     }
 
     getUserChapters(filterModel?: { categoryId?: number, type?: ChapterType}): Promise<UserChapterModel[]> {
