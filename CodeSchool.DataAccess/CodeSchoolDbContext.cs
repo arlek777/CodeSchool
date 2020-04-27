@@ -29,6 +29,8 @@ namespace CodeSchool.DataAccess
             base.OnModelCreating(modelBuilder);
         }
 
+        public DbSet<CodeSnapshot> CodeSnapshots { get; set; }
+        public DbSet<Token> Tokens { get; set; }
         public DbSet<Chapter> Chapters { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
         public DbSet<User> Users { get; set; }

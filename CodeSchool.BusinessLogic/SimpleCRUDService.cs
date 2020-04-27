@@ -48,7 +48,7 @@ namespace CodeSchool.BusinessLogic
             }
 
             await _repository.SaveChanges();
-            return dbEntity;
+            return dbEntity ?? entity;
         }
 
         public async Task RemoveById<TEntity>(int id)

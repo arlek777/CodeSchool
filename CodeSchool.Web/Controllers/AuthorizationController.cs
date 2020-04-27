@@ -12,6 +12,7 @@ using CodeSchool.Web.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
 namespace CodeSchool.Web.Controllers
@@ -79,15 +80,21 @@ namespace CodeSchool.Web.Controllers
         }
 
         [Route("[action]")]
-        [HttpPost]
-        public async Task<IActionResult> LoginByToken([FromBody] string token)
+        [HttpGet]
+        public async Task<IActionResult> LoginByToken(string token)
         {
             if (string.IsNullOrWhiteSpace(token))
             {
                 return BadRequest();
             }
 
-            var decodedToken = WebUtility.UrlDecode(token);
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                return BadRequest("You have already been authenticated.");
+            }
+
+            var base64Token = Base64UrlEncoder.Decode(token);
+            var decodedToken = WebUtility.UrlDecode(base64Token);
             var parsedToken = Guid.Parse(decodedToken);
 
             var user = await _userService.GetByToken(parsedToken);

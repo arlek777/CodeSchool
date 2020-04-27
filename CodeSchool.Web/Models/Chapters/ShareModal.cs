@@ -4,7 +4,7 @@ using CodeSchool.Web.Infrastructure;
 
 namespace CodeSchool.Web.Models.Chapters
 {
-    public class ShareChapterModal
+    public class ShareModal
     {
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         [StringLength(256, ErrorMessage = ValidationResultMessages.MaxLength)]
@@ -12,6 +12,7 @@ namespace CodeSchool.Web.Models.Chapters
 
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         [StringLength(256, ErrorMessage = ValidationResultMessages.MaxLength)]
+        [EmailAddress(ErrorMessage = ValidationResultMessages.EmailRequiredOrInvalid)]
         public string UserEmail { get; set; }
 
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
@@ -21,6 +22,9 @@ namespace CodeSchool.Web.Models.Chapters
         public int LinkLifetimeInDays { get; set; }
 
         public string TaskDurationTimeLimit { get; set; }
+
+        [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
+        public Guid CompanyId { get; set; }
 
         public TimeSpan TaskDurationTimeLimitTimeSpan
         {
@@ -35,7 +39,7 @@ namespace CodeSchool.Web.Models.Chapters
         }
     }
 
-    public class ShareLessonModel : ShareChapterModal
+    public class ShareLessonModel : ShareModal
     {
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         public int LessonId { get; set; }

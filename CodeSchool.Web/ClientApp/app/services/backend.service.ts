@@ -79,12 +79,12 @@ export class BackendService {
     }
 
     shareChapter(model: any): Promise<string> {
-        return this.http.post("/api/chapter/shareChapter", model).toPromise()
+        return this.http.post("/api/share/shareChapter", model).toPromise()
             .then((response) => response.text());
     }
 
     shareLesson(model: any): Promise<string> {
-        return this.http.post("/api/lesson/shareLesson", model).toPromise()
+        return this.http.post("/api/share/shareLesson", model).toPromise()
             .then((response) => {
                 return response.text();
             });

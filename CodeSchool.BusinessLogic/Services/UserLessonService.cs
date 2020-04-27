@@ -48,7 +48,7 @@ namespace CodeSchool.BusinessLogic.Services
                 UserChapterId = userChapter.Id,
                 LessonId = lessonId,
                 UpdatedDt = DateTime.UtcNow,
-                TaskDurationLimit = taskDurationLimit
+                TaskDurationLimit = taskDurationLimit.ToString()
             });
             await _repository.SaveChanges();
         }
