@@ -27,21 +27,29 @@ namespace CodeSchool.Web.Attributes
                 var companyId = context.HttpContext.User.Identity.GetCompanyId();
                 var userId = context.HttpContext.User.Identity.GetUserId();
 
-                if (context.ActionArguments.ContainsKey("companyId")) context.ActionArguments.Remove("companyId");
-                if (context.ActionArguments.ContainsKey("userId")) context.ActionArguments.Remove("userId");
-
-                context.ActionArguments.Add("companyId", companyId);
-                context.ActionArguments.Add("userId", userId);
-
-                context.ActionArguments.TryGetValue("model", out var model);
-                if (model != null)
+                try
                 {
-                    var companyIdProp = model.GetType().GetProperty("CompanyId", typeof(Guid));
-                    companyIdProp?.SetValue(model, companyId, null);
+                    if (context.ActionArguments.ContainsKey("companyId")) context.ActionArguments.Remove("companyId");
+                    if (context.ActionArguments.ContainsKey("userId")) context.ActionArguments.Remove("userId");
 
-                    var userIdProp = model.GetType().GetProperty("UserId", typeof(Guid));
-                    userIdProp?.SetValue(model, userId, null);
+                    context.ActionArguments.Add("companyId", companyId);
+                    context.ActionArguments.Add("userId", Guid.Parse(userId));
+
+                    context.ActionArguments.TryGetValue("model", out var model);
+                    if (model != null)
+                    {
+                        var companyIdProp = model.GetType().GetProperty("CompanyId", typeof(Guid));
+                        companyIdProp?.SetValue(model, companyId, null);
+
+                        var userIdProp = model.GetType().GetProperty("UserId", typeof(Guid));
+                        userIdProp?.SetValue(model, Guid.Parse(userId), null);
+                    }
                 }
+                catch (Exception e)
+                {
+                    var msg = e.Message;
+                }
+                
             }
         }
     }

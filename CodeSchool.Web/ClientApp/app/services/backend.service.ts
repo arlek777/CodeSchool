@@ -26,6 +26,11 @@ export class BackendService {
             .then((result) => { return new JWTTokens(result.json()); });
     }
 
+    loginByToken(token: string): Promise<JWTTokens> {
+        return this.http.get("/api/auth/loginByToken?token=" + token).toPromise()
+            .then((result) => { return new JWTTokens(result.json()); });
+    }
+
     getLesson(id: number): Promise<LessonViewModel> {
         return this.http.get(`/api/lesson/get/${id}`).toPromise().then((response) => {
             return new LessonViewModel(response.json());
@@ -99,20 +104,25 @@ export class BackendService {
                 }
             }
         }
-        var url = `/api/userchapter/get?${params.toString()}`;
+        var url;
+        if (params.toString()) {
+            url = `/api/userchapter/get?${params.toString()}`;
+        } else {
+            url = `/api/userchapter/get`;
+        }
         return this.http.get(url).toPromise().then((response) => {
             return response.json().map(c => new UserChapterModel(c));
         });
     }
 
     getUserLessonIds(userChapterId: number): Promise<number[]> {
-        return this.http.get(`/api/userlesson/getuserlessonids/${userChapterId}`).toPromise().then((response) => {
+        return this.http.get(`/api/userlesson/getuserlessonids?userChapterId=${userChapterId}`).toPromise().then((response) => {
             return response.json();
         });
     }
 
     getUserLesson(userLessonId: number): Promise<UserLessonModel> {
-        return this.http.get(`/api/userlesson/getbyid/${userLessonId}`).toPromise().then((response) => {
+        return this.http.get(`/api/userlesson/getbyid?userLessonId=${userLessonId}`).toPromise().then((response) => {
             return new UserLessonModel(response.json());
         });
     }

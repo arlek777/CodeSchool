@@ -40,9 +40,15 @@ export class InterceptedHttp extends Http {
 
         var accessToken = localStorage.getItem(Constants.accessTokenKey);
         var user = localStorage.getItem(Constants.currentUserKey);
+
+        if (!accessToken && !user) {
+            accessToken = sessionStorage.getItem(Constants.accessTokenKey);
+            user = sessionStorage.getItem(Constants.currentUserKey);
+        }
+
         if (accessToken && user) {
             options.headers.append('Authorization', 'Bearer ' + accessToken);
-        }
+        } 
 
         return options;
     }

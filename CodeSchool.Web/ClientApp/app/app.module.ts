@@ -26,6 +26,7 @@ import { RegisterPage } from "./pages/register/register.page";
 import { LiteraturePage } from "./pages/literature/literature.page";
 import { UserStatisticPage } from "./pages/user-statistic/user-statistic.page";
 import { SharePage } from "./pages/share/share.page";
+import { OpenSharedLinkPage } from "./pages/open-shared-link/open-shared-link.page";
 
 import { ToggleMobileNavbarDirective } from "./directives/toggle-mobile-navbar.directive";
 import { LessonTesterDirective } from "./directives/lesson-tester.directive";
@@ -51,7 +52,7 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
     return new InterceptedHttp(xhrBackend, requestOptions);
 }
 
-const DEFAULT_ROUTE: string = "admin-chapters";
+const DEFAULT_ROUTE: string = "literature";
 
 @NgModule({
     bootstrap: [AppComponent],
@@ -75,7 +76,8 @@ const DEFAULT_ROUTE: string = "admin-chapters";
         RegisterPage,
         LiteraturePage,
         UserStatisticPage,
-        SharePage
+        SharePage,
+        OpenSharedLinkPage
     ],
     imports: [
         BrowserModule,
@@ -87,8 +89,9 @@ const DEFAULT_ROUTE: string = "admin-chapters";
             { path: 'login', component: LoginPage },
             { path: 'register', component: RegisterPage },
             { path: 'literature', component: LiteraturePage },
-            { path: 'user-chapters/:chapterType', component: UserChaptersPage, canActivate: [AuthGuard] },
-            { path: 'user-lesson/:userChapterId/:userLessonId', component: UserLessonPage, canActivate: [AuthGuard] },
+            //{ path: 'user-chapters/:chapterType', component: UserChaptersPage, canActivate: [AuthGuard] },
+            { path: 'link/:token', component: OpenSharedLinkPage },
+            { path: 'task/:userChapterId/:userLessonId', component: UserLessonPage, canActivate: [AuthGuard] },
             { path: 'admin-chapters', component: AdminChaptersPage, canActivate: [AdminAuthGuard] },
             { path: 'admin-lesson/:chapterId/:lessonId', component: AdminLessonPage, canActivate: [AdminAuthGuard] },
             { path: 'admin-lesson/:chapterId', component: AdminLessonPage, canActivate: [AdminAuthGuard] },

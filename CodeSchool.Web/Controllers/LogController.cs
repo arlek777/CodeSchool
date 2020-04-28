@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeSchool.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class LogController: Controller
     {
         private readonly IHostingEnvironment _env;

@@ -7,8 +7,8 @@ import { LessonType } from '../../models/lesson';
     templateUrl: './user-lesson.page.html'
 })
 export class UserLessonPage implements OnInit {
-    currentLessonType: LessonType;
     LessonType = LessonType;
+    currentLessonType = LessonType.Code;
     userLessonId: number;
     userChapterId: number;
 
@@ -18,9 +18,9 @@ export class UserLessonPage implements OnInit {
     ngOnInit(): void {
         this.userLessonId = parseInt(this.route.snapshot.params["userLessonId"]);
         this.userChapterId = parseInt(this.route.snapshot.params["userChapterId"]);
-        this.backendService.getUserLesson(this.userLessonId)
-            .then(userLesson => {
-                this.currentLessonType = userLesson.lesson.type;
-            });
+        //this.backendService.getUserLesson(this.userLessonId)
+        //    .then(userLesson => {
+        //        this.currentLessonType = userLesson.lesson.type;
+        //    });
     }
 }

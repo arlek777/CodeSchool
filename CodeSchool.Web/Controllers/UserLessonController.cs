@@ -8,10 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 using CodeSchool.Web.Models.Lessons;
 using CodeSchool.Web.Infrastructure;
 using CodeSchool.Web.Infrastructure.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CodeSchool.Web.Controllers
 {
-    [ResponseCache(CacheProfileName = "DynamicContent")]
     [Route("api/[controller]")]
     public class UserLessonController : Controller
     {
@@ -25,16 +25,16 @@ namespace CodeSchool.Web.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{userId}/{userLessonId}")]
-        public async Task<IActionResult> GetById(Guid userId, int userLessonId)
+        [Route("[action]")]
+        public async Task<IActionResult> GetById(int userLessonId, Guid userId)
         {
             var userlesson = await _userLessonService.GetUserLessonById(userId, userLessonId);
             return Ok(Mapper.Map<UserLessonModel>(userlesson));
         }
 
         [HttpGet]
-        [Route("[action]/{userId}/{userChapterId}")]
-        public async Task<IActionResult> GetUserLessonIds(Guid userId, int userChapterId)
+        [Route("[action]")]
+        public async Task<IActionResult> GetUserLessonIds(int userChapterId , Guid userId)
         {
             var userlessons = await _userLessonService.GetUserLessonsById(userId, userChapterId);
             return Ok(userlessons.Select(l => new { id = l.Id, isPassed = l.IsPassed }));
@@ -66,7 +66,8 @@ namespace CodeSchool.Web.Controllers
             var canOpenChapter = await _userChapterService.CanOpen(model.UserId, model.UserChapterId);
             if (canOpenChapter)
             {
-                return Ok(await _userLessonService.CanOpen(model.UserId, model.UserChapterId, model.UserLessonId));
+                var canOpenLesson = await _userLessonService.CanOpen(model.UserId, model.UserChapterId, model.UserLessonId);
+                return Ok(canOpenLesson);
             }
 
             return Ok(false);

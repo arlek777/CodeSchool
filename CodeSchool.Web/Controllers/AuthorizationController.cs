@@ -1,19 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.Domain;
-using CodeSchool.Web.Infrastructure;
 using CodeSchool.Web.Infrastructure.Extensions;
 using CodeSchool.Web.Infrastructure.Services;
 using CodeSchool.Web.Models;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 
 namespace CodeSchool.Web.Controllers
 {
@@ -107,12 +102,12 @@ namespace CodeSchool.Web.Controllers
             return Ok(tokens);
         }
 
-        private dynamic GetJWTTokens(User user)
+        private dynamic GetJWTTokens(User user, bool sessionLifetime = false)
         {
             return new
             {
-                accessToken = _jwtTokenProvider.GetAccessToken(user),
-                idToken = _jwtTokenProvider.GetIdToken(user)
+                accessToken = _jwtTokenProvider.GetAccessToken(user, sessionLifetime),
+                idToken = _jwtTokenProvider.GetIdToken(user, sessionLifetime)
             };
         }
     }

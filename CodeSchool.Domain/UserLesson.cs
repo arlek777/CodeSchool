@@ -35,8 +35,7 @@ namespace CodeSchool.Domain
 
         public string Code { get; set; }
 
-        public DateTime UpdatedDt { get; set; }
-        public DateTime SubmittedDt { get; set; }
+        public DateTime? UpdatedDt { get; set; }
         public string TaskDurationLimit { get; set; }
 
         // Maybe will be removed in future

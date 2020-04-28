@@ -4,11 +4,11 @@ using AutoMapper;
 using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.BusinessLogic.Models;
 using CodeSchool.Web.Models.Chapters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeSchool.Web.Controllers
 {
-    [ResponseCache(CacheProfileName = "DynamicContent")]
     [Route("api/[controller]")]
     public class UserChapterController : Controller
     {

@@ -51,14 +51,14 @@ export class UserChaptersPage implements OnInit {
         if (!lessonToOpen) lessonToOpen = userLessons[userLessons.length - 1];
 
         if (this.currentTypeParams.type === ChapterType.Test) {
-            this.router.navigate(['/user-lesson', userChapter.id, lessonToOpen.id]);
+            this.router.navigate(['/task', userChapter.id, lessonToOpen.id]);
             return;
         }
 
         this.backendService.canOpenChapter(userChapter.id)
             .then(canOpen => {
                 if (canOpen) {
-                    this.router.navigate(['/user-lesson', userChapter.id, lessonToOpen.id]);
+                    this.router.navigate(['/task', userChapter.id, lessonToOpen.id]);
                 } else {
                     this.popupService.newValidationError(UserMessages.notAllowedOpenLesson);
                 }
@@ -67,14 +67,14 @@ export class UserChaptersPage implements OnInit {
 
     openLesson(userChapter: UserChapterModel, userLesson: UserLessonModel) {
         if (this.currentTypeParams.type === ChapterType.Test) {
-            this.router.navigate(['/user-lesson', userChapter.id, userLesson.id]);
+            this.router.navigate(['/task', userChapter.id, userLesson.id]);
             return;
         }
 
         this.backendService.canOpenLesson(userChapter.id, userLesson.id)
             .then(canOpen => {
                 if (canOpen) {
-                    this.router.navigate(['/user-lesson', userChapter.id, userLesson.id]);
+                    this.router.navigate(['/task', userChapter.id, userLesson.id]);
                 } else {
                     this.popupService.newValidationError(UserMessages.notAllowedOpenLesson);
                 }

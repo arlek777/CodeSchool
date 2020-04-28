@@ -37,7 +37,7 @@ export abstract class UserLessonBaseComponent {
 
         var nextId = this.userLessonIds[nextIndex].id;
         this.loadUserLesson(nextId);
-        this.router.navigate(['/user-lesson', this.userChapterId, nextId]);
+        this.router.navigate(['/task', this.userChapterId, nextId]);
     }
 
     getPreviousLesson() {

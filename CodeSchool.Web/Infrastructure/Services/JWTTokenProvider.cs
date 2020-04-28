@@ -20,7 +20,7 @@ namespace CodeSchool.Web.Infrastructure.Services
             _jwtSettings = optionsAccessor.Value;
         }
 
-        public string GetIdToken(User user)
+        public string GetIdToken(User user, bool sessionLifetime = false)
         {
             var payload = new Dictionary<string, object>
             {
@@ -28,10 +28,10 @@ namespace CodeSchool.Web.Infrastructure.Services
                 {"email", user.Email},
                 {"isAdmin", user.IsAdmin}
             };
-            return GetToken(payload);
+            return GetToken(payload, sessionLifetime);
         }
 
-        public string GetAccessToken(User user)
+        public string GetAccessToken(User user, bool sessionLifetime = false)
         {
             var payload = new Dictionary<string, object>
             {
@@ -40,17 +40,21 @@ namespace CodeSchool.Web.Infrastructure.Services
                 { "companyId", user.CompanyId },
                 { ClaimTypes.Role, user.IsAdmin ? new [] { "Admin" } : new string [] {}}
             };
-            return GetToken(payload);
+            return GetToken(payload, sessionLifetime);
         }
 
-        private string GetToken(Dictionary<string, object> payload)
+        private string GetToken(Dictionary<string, object> payload, bool sessionLifetime = false)
         {
             var secret = _jwtSettings.SecretKey;
 
             payload.Add("iss", _jwtSettings.Issuer);
             payload.Add("aud", _jwtSettings.Audience);
-            payload.Add("iat", DateTime.Now.ConvertToUnixTimestamp());
-            payload.Add("exp", DateTime.Now.AddDays(30).ConvertToUnixTimestamp());
+            payload.Add("iat", DateTime.UtcNow.ConvertToUnixTimestamp());
+
+            if (!sessionLifetime)
+            {
+                payload.Add("exp", DateTime.UtcNow.AddDays(30).ConvertToUnixTimestamp());
+            }
 
             IJwtAlgorithm algorithm = new HMACSHA256Algorithm();
             IJsonSerializer serializer = new JsonNetSerializer();

@@ -17,12 +17,6 @@ export class AppComponent implements OnInit {
         this.toastr.setRootViewContainerRef(viewRef);
     }
 
-    fileName = "test.pdf";
-
-    getSafeUrl(fileName) {
-        return this.sanitizer.bypassSecurityTrustResourceUrl("./uploads/" + fileName);
-    }
-
     ngOnInit() {
         this.popupService.successMessages$.subscribe((text: string) => {
             setTimeout(() => {

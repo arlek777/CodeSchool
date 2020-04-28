@@ -41,7 +41,11 @@ namespace CodeSchool.BusinessLogic.Services
                 return null;
             }
 
-            return dbToken.User;
+            var user = dbToken.User;
+            //_repository.Remove(dbToken);
+            //await _repository.SaveChanges();
+
+            return user;
         }
     }
 }
