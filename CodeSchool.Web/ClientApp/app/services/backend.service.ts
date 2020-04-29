@@ -31,6 +31,16 @@ export class BackendService {
             .then((result) => { return new JWTTokens(result.json()); });
     }
 
+    verifyInvitationToken(token: string): Promise<boolean> {
+        return this.http.get("/api/auth/verifyInvitationToken?token=" + token).toPromise()
+            .then((result) => { return result.json(); });
+    }
+
+    startUserTask(): Promise<any> {
+        return this.http.get("/api/userChapter/startUserTask").toPromise()
+            .then((result) => { return result.json(); });
+    }
+
     getLesson(id: number): Promise<LessonViewModel> {
         return this.http.get(`/api/lesson/get/${id}`).toPromise().then((response) => {
             return new LessonViewModel(response.json());

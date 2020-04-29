@@ -37,6 +37,8 @@ namespace CodeSchool.Web.Models.Chapters
                 return TimeSpan.Zero;
             }
         }
+
+        public string CompanyName { get; set; }
     }
 
     public class ShareLessonModel : ShareModal

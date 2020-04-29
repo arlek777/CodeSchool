@@ -44,6 +44,16 @@ namespace CodeSchool.BusinessLogic.Extensions
             return model;
         }
 
+        public static CanOpenChapter CheckOnAlreadyStarted(this CanOpenChapter model)
+        {
+            if (model.CanOpen) return model;
+
+            var userChapter = model.UserChapters.FirstOrDefault(c => c.Id == model.UserChapterId);
+            model.CanOpen = userChapter != null && !userChapter.StartedDt.HasValue;
+
+            return model;
+        }
+
         public static CanOpenChapter CheckAllPreviousPassed(this CanOpenChapter model)
         {
             if (model.CanOpen) return model;

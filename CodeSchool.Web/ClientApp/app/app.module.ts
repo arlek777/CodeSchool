@@ -26,7 +26,7 @@ import { RegisterPage } from "./pages/register/register.page";
 import { LiteraturePage } from "./pages/literature/literature.page";
 import { UserStatisticPage } from "./pages/user-statistic/user-statistic.page";
 import { SharePage } from "./pages/share/share.page";
-import { OpenSharedLinkPage } from "./pages/open-shared-link/open-shared-link.page";
+import { InvitationPage } from "./pages/invitation/invitation.page";
 
 import { ToggleMobileNavbarDirective } from "./directives/toggle-mobile-navbar.directive";
 import { LessonTesterDirective } from "./directives/lesson-tester.directive";
@@ -77,7 +77,7 @@ const DEFAULT_ROUTE: string = "literature";
         LiteraturePage,
         UserStatisticPage,
         SharePage,
-        OpenSharedLinkPage
+        InvitationPage
     ],
     imports: [
         BrowserModule,
@@ -90,7 +90,7 @@ const DEFAULT_ROUTE: string = "literature";
             { path: 'register', component: RegisterPage },
             { path: 'literature', component: LiteraturePage },
             //{ path: 'user-chapters/:chapterType', component: UserChaptersPage, canActivate: [AuthGuard] },
-            { path: 'link/:token', component: OpenSharedLinkPage },
+            { path: 'invitation/:token', component: InvitationPage },
             { path: 'task/:userChapterId/:userLessonId', component: UserLessonPage, canActivate: [AuthGuard] },
             { path: 'admin-chapters', component: AdminChaptersPage, canActivate: [AdminAuthGuard] },
             { path: 'admin-lesson/:chapterId/:lessonId', component: AdminLessonPage, canActivate: [AdminAuthGuard] },

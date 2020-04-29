@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -32,6 +33,14 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> CanOpen([FromBody] CanOpenChapterModel model)
         {
             return Ok(await _chapterService.CanOpen(model.UserId, model.UserChapterId));
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> StartUserTask(Guid userId)
+        {
+            var startChapterAndLesson = await _chapterService.StartUserTask(userId);
+            return Ok(startChapterAndLesson);
         }
     }
 }

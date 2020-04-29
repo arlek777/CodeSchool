@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -59,7 +60,8 @@ namespace CodeSchool.BusinessLogic.Services
                 var newChapter = new UserChapter()
                 {
                     ChapterId = chapter.Id,
-                    UserId = userId
+                    UserId = userId,
+                    CreatedDt = DateTime.UtcNow
                 };
                 _repository.Add(newChapter);
                 await _repository.SaveChanges();
@@ -71,7 +73,7 @@ namespace CodeSchool.BusinessLogic.Services
                         UserChapterId = newChapter.Id,
                         UserId = userId,
                         LessonId = lesson.Id,
-                        UpdatedDt = DateTime.UtcNow
+                        CreatedDt = DateTime.UtcNow
                     };
 
                     _repository.Add(newLesson);
@@ -87,7 +89,8 @@ namespace CodeSchool.BusinessLogic.Services
             var newChapter = new UserChapter()
             {
                 ChapterId = dbChapter.Id,
-                UserId = userId
+                UserId = userId,
+                CreatedDt = DateTime.UtcNow
             };
             _repository.Add(newChapter);
             await _repository.SaveChanges();
@@ -109,12 +112,39 @@ namespace CodeSchool.BusinessLogic.Services
             };
 
             canOpenChapter = canOpenChapter
-                .CheckType()
-                .CheckFirst()
-                .CheckOnPassed()
-                .CheckAllPreviousPassed();
+                .CheckOnAlreadyStarted()
+                .CheckOnPassed();
 
             return canOpenChapter.CanOpen;
+        }
+
+        public async Task<StartUserTask> StartUserTask(Guid userId)
+        {
+            var userChapters = await GetUserChapters(new FilterUserChapterModel() { UserId = userId });
+
+            if (userChapters == null || !userChapters.Any() || !userChapters.First().UserLessons.Any())
+            {
+                throw new ArgumentNullException($"{nameof(StartUserTask)} User chapter was not found.");
+            }
+
+            var userChapter = userChapters.First();
+            var userLesson = userChapter.UserLessons.First();
+
+            if (userChapter.StartedDt.HasValue)
+            {
+                throw new InvalidDataException($"{nameof(StartUserTask)} This user chapter has already started and cannot be started again.");
+            }
+
+            userChapter.StartedDt = DateTime.UtcNow;
+            await _repository.SaveChanges();
+
+            var result = new StartUserTask()
+            {
+                UserChapterId = userChapter.Id,
+                UserLessonId = userLesson.Id
+            };
+
+            return result;
         }
     }
 }

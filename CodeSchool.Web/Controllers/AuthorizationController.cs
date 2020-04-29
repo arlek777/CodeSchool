@@ -88,11 +88,9 @@ namespace CodeSchool.Web.Controllers
                 return BadRequest("You have already been authenticated.");
             }
 
-            var base64Token = Base64UrlEncoder.Decode(token);
-            var decodedToken = WebUtility.UrlDecode(base64Token);
-            var parsedToken = Guid.Parse(decodedToken);
+            var parsedToken = GetParsedToken(token);
 
-            var user = await _userService.GetByToken(parsedToken);
+            var user = await _userService.GetUserByToken(parsedToken);
             if (user == null)
             {
                 return BadRequest(ValidationResultMessages.LoginWrongCredentials);
@@ -100,6 +98,29 @@ namespace CodeSchool.Web.Controllers
 
             var tokens = GetJWTTokens(user);
             return Ok(tokens);
+        }
+
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<IActionResult> VerifyInvitationToken(string token)
+        {
+            if (HttpContext.User.Identity.IsAuthenticated || string.IsNullOrWhiteSpace(token))
+            {
+                return Ok(false);
+            }
+
+            var parsedToken = GetParsedToken(token);
+            var user = await _userService.GetUserByToken(parsedToken, false);
+
+            return Ok(user != null);
+        }
+
+        private Guid GetParsedToken(string token)
+        {
+            var base64Token = Base64UrlEncoder.Decode(token);
+            var decodedToken = WebUtility.UrlDecode(base64Token);
+            var parsedToken = Guid.Parse(decodedToken);
+            return parsedToken;
         }
 
         private dynamic GetJWTTokens(User user, bool sessionLifetime = false)

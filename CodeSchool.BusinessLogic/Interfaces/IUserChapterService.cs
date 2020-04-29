@@ -14,5 +14,6 @@ namespace CodeSchool.BusinessLogic.Interfaces
         Task AddChapterLessons(Guid userId, Guid companyId, int chapterId);
         Task<UserChapter> AddOnlyChapter(Guid userId, Guid companyId, int chapterId);
         Task<bool> CanOpen(Guid userId, int userChapterId);
+        Task<StartUserTask> StartUserTask(Guid userId);
     }
 }
