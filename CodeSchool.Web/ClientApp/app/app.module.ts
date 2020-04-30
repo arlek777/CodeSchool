@@ -27,6 +27,7 @@ import { LiteraturePage } from "./pages/literature/literature.page";
 import { UserStatisticPage } from "./pages/user-statistic/user-statistic.page";
 import { SharePage } from "./pages/share/share.page";
 import { InvitationPage } from "./pages/invitation/invitation.page";
+import { HomePage } from "./pages/home/home.page";
 
 import { ToggleMobileNavbarDirective } from "./directives/toggle-mobile-navbar.directive";
 import { LessonTesterDirective } from "./directives/lesson-tester.directive";
@@ -52,7 +53,7 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
     return new InterceptedHttp(xhrBackend, requestOptions);
 }
 
-const DEFAULT_ROUTE: string = "literature";
+const DEFAULT_ROUTE: string = "home";
 
 @NgModule({
     bootstrap: [AppComponent],
@@ -77,7 +78,8 @@ const DEFAULT_ROUTE: string = "literature";
         LiteraturePage,
         UserStatisticPage,
         SharePage,
-        InvitationPage
+        InvitationPage,
+        HomePage
     ],
     imports: [
         BrowserModule,
@@ -85,7 +87,7 @@ const DEFAULT_ROUTE: string = "literature";
         HttpModule,
         RouterModule.forRoot([
             { path: '', redirectTo: DEFAULT_ROUTE, pathMatch: 'full' },
-            { path: 'home', redirectTo: DEFAULT_ROUTE },
+            { path: 'home', component: HomePage },
             { path: 'login', component: LoginPage },
             { path: 'register', component: RegisterPage },
             { path: 'literature', component: LiteraturePage },

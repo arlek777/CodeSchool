@@ -7,6 +7,8 @@ import { JWTTokens } from "../models/auth/jwttokens";
 import { Constants } from "../constants";
 import { Router } from "@angular/router";
 
+export let authStorage: any = localStorage;
+
 @Injectable()
 export class AuthService {
     private _accessToken: string;
@@ -19,12 +21,7 @@ export class AuthService {
 
     get user(): User {
         if (this._user) return this._user;
-        var localStorageUser = localStorage.getItem(Constants.currentUserKey);
-
-        if (!localStorageUser) {
-            localStorageUser = sessionStorage.getItem(Constants.currentUserKey);
-        }
-
+        var localStorageUser = authStorage.getItem(Constants.currentUserKey);
         if (localStorageUser) {
             this._user = JSON.parse(localStorageUser);
             return this._user;
@@ -34,12 +31,7 @@ export class AuthService {
 
     get accessToken(): string {
         if (this._accessToken) return this._accessToken;
-        var localStorageToken = localStorage.getItem(Constants.accessTokenKey);
-
-        if (!localStorageToken) {
-            localStorageToken = sessionStorage.getItem(Constants.accessTokenKey);
-        }
-
+        var localStorageToken = authStorage.getItem(Constants.accessTokenKey);
         if (localStorageToken) {
             this._accessToken = localStorageToken;
             return this._accessToken;
@@ -69,8 +61,8 @@ export class AuthService {
     }
 
     logout(): void {
-        localStorage.removeItem(Constants.accessTokenKey);
-        localStorage.removeItem(Constants.currentUserKey);
+        authStorage.removeItem(Constants.accessTokenKey);
+        authStorage.removeItem(Constants.currentUserKey);
         this._user = null;
 
         this.router.navigate(['/login']);
@@ -86,12 +78,9 @@ export class AuthService {
             isAdmin: userClaims.isAdmin
         });
 
-        if (!sessionExpiration) {
-            localStorage.setItem(Constants.accessTokenKey, tokens.accessToken);
-            localStorage.setItem(Constants.currentUserKey, JSON.stringify(this._user));
-        } else {
-            sessionStorage.setItem(Constants.accessTokenKey, tokens.accessToken);
-            sessionStorage.setItem(Constants.currentUserKey, JSON.stringify(this._user));
-        }
+        authStorage = sessionExpiration ? sessionStorage : localStorage;
+
+        authStorage.setItem(Constants.accessTokenKey, tokens.accessToken);
+        authStorage.setItem(Constants.currentUserKey, JSON.stringify(this._user));
     }
 }

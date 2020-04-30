@@ -37,7 +37,17 @@ export class BackendService {
     }
 
     startUserTask(): Promise<any> {
-        return this.http.get("/api/userChapter/startUserTask").toPromise()
+        return this.http.post("/api/userChapter/startUserTask", {}).toPromise()
+            .then((result) => { return result.json(); });
+    }
+
+    finishUserTask(): Promise<any> {
+        return this.http.post("/api/userChapter/finishUserTask", {}).toPromise()
+            .then((result) => { return result.json(); });
+    }
+
+    getFirstChapterAndLesson(): Promise<any> {
+        return this.http.get("/api/userChapter/getFirstChapterAndLesson", {}).toPromise()
             .then((result) => { return result.json(); });
     }
 

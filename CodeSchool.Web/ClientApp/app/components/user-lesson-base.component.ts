@@ -1,10 +1,11 @@
-import { UserLessonModel } from "../models/userlesson";
+﻿import { UserLessonModel } from "../models/userlesson";
 import { LessonViewModel } from "../models/lesson";
-import { UserMessages } from "../user-messages";
 import { BackendService } from "../services/backend.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PopupService } from "../services/popup.service";
+import { AuthService } from "../services/auth.service";
 import { Subject } from "rxjs/Subject";
+import { UserMessages } from "../user-messages";
 
 export abstract class UserLessonBaseComponent {
     private newLessonLoadedSource = new Subject<void>();
@@ -16,8 +17,10 @@ export abstract class UserLessonBaseComponent {
     currentIndex = -1;
     userChapterId: number;
     userLessonId: number;
+    showFinishedTaskMessage = false;
 
     constructor(protected backendService: BackendService,
+        protected authService: AuthService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected popupService: PopupService) {
@@ -26,13 +29,18 @@ export abstract class UserLessonBaseComponent {
     }
 
     getNextLesson() {
-        if (!this.userLesson.isPassed) return;
-
         var nextIndex = ++this.currentIndex;
         if (nextIndex === this.userLessonIds.length) {
-            this.router.navigate(['/user-chapters']);
-            this.popupService.newSuccessMessage(UserMessages.chapterDone);
+            this.finishTask();
+            this.currentIndex -= 1;
             return;
+        }
+
+       if (!this.userLesson.isPassed) {
+            if (!confirm(UserMessages.notPassedTaskNextConfirm)
+            ) {
+                return;
+            }
         }
 
         var nextId = this.userLessonIds[nextIndex].id;
@@ -45,6 +53,20 @@ export abstract class UserLessonBaseComponent {
         var prevIndex = --this.currentIndex;
 
         this.loadUserLesson(this.userLessonIds[prevIndex].id);
+    }
+
+    protected finishTask() {
+        if (confirm(UserMessages.finishUserTaskConfirm)) {
+            this.backendService.updateUserLesson(this.userLesson).then(() => {
+                this.backendService.finishUserTask().then(() => {
+                    this.showFinishedTaskMessage = true;
+
+                    setTimeout(() => {
+                        this.authService.logout();
+                    }, 5000);
+                });
+            });
+        }
     }
 
     protected loadUserLessonsId(userLessonId){

@@ -12,8 +12,11 @@ namespace CodeSchool.BusinessLogic.Interfaces
         Task<ICollection<UserChapter>> GetUserChapters(FilterUserChapterModel filterModel);
         Task<UserChapter> GetUserChapterByChapterId(Guid userId, int chapterId);
         Task AddChapterLessons(Guid userId, Guid companyId, int chapterId);
-        Task<UserChapter> AddOnlyChapter(Guid userId, Guid companyId, int chapterId);
+        Task<UserChapter> AddOnlyChapter(Guid userId, Guid companyId, int chapterId, TimeSpan taskDurationLimit);
         Task<bool> CanOpen(Guid userId, int userChapterId);
-        Task<StartUserTask> StartUserTask(Guid userId);
+
+        Task<UserChapterLessonInfo> GetFirstChapterAndLesson(Guid userId);
+        Task<bool> StartUserTask(Guid userId);
+        Task FinishUserTask(Guid userId);
     }
 }

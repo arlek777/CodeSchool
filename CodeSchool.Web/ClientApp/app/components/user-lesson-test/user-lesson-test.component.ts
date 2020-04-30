@@ -28,7 +28,7 @@ export class UserLessonTestComponent extends UserLessonBaseComponent implements 
         router: Router,
         popupService: PopupService) {
 
-        super(backendService, route, router, popupService);
+        super(backendService, null, route, router, popupService);
     }
 
     ngOnInit(): void {

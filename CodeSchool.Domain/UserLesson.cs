@@ -27,18 +27,12 @@ namespace CodeSchool.Domain
 
         public Guid UserId { get; set; }
 
-        public int UnfocusCount { get; set; }
-
-        public int CopyPasteCount { get; set; }
-
         public bool IsPassed { get; set; }
 
         public string Code { get; set; }
 
         public DateTime? CreatedDt { get; set; }
         public DateTime? UpdatedDt { get; set; }
-        public DateTime? StartedDt { get; set; }
-        public string TaskDurationLimit { get; set; }
 
         // Maybe will be removed in future
         public int? SelectedAnswerOptionId { get; set; }

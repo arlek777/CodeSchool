@@ -25,6 +25,7 @@ export class InvitationPage implements OnInit {
         const valid = await this.backendService.verifyInvitationToken(token);
         if (!valid) {
             this.showError = true;
+            this.authService.logout();
         }
     }
 
@@ -32,7 +33,7 @@ export class InvitationPage implements OnInit {
         const token = this.route.snapshot.params["token"];
 
         this.authService.loginByToken(token).then(() => {
-            this.backendService.startUserTask().then((data: any) => {
+            this.backendService.getFirstChapterAndLesson().then((data: any) => {
                 if (!data) {
                     this.showError = true;
                 } else {

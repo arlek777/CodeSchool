@@ -62,7 +62,7 @@ namespace CodeSchool.Web.Controllers
             var base64Token = Base64UrlEncoder.Encode(tokenValue.ToString());
             var encodedToken = WebUtility.UrlEncode(base64Token);
 
-            var result = this.GetFullUrl($"/link/{encodedToken}");
+            var result = this.GetFullUrl($"/invitation/{encodedToken}");
             return result;
         }
 

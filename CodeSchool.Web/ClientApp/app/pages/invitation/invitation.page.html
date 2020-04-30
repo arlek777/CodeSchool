@@ -1,13 +1,22 @@
 ﻿<div class="container">
     <div class="panel panel-default">
         <div class="panel-heading text-center">
-            <h4>{{ showError && 'Приглашение не действительное' }}</h4>
-            <h4 *ngIf="!showError">Тестовое Задание от </h4>
+            <h4 *ngIf="showError">Приглашение не действительное</h4>
+            <h4 *ngIf="!showError">Тестовое задание от </h4>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" *ngIf="!showError">
             <div class="row">
-                
-                <button class="btn btn-success" (ngClick)="start()">Начать Задание</button>
+                <div class="col-md-12">
+                    <p style="line-height: 1.8">
+                        Добро пожаловать на тестовое задание от компании: "". <br />
+                        У вас есть "" на прохождения теста. <br />
+                        Пожалуйста, убедитесь, что у вас есть достаточно времени, так как после начала теста у вас не будет возможности вернутся или начать заново. <br />
+                        Если вы закроете окно/браузер или выключте компьютер результаты теста будут утеряны. <br />
+
+                        Желаем Вам Удачи!
+                    </p>
+                    <button class="btn btn-success" (click)="start()">Начать Задание</button>
+                </div>
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 namespace CodeSchool.BusinessLogic.Models
 {
-    public class StartUserTask
+    public class UserChapterLessonInfo
     {
         public int UserChapterId { get; set; }
         public int UserLessonId { get; set; }

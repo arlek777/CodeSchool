@@ -2,6 +2,7 @@
 import { ConnectionBackend, RequestOptions, Request, RequestOptionsArgs, Response, Http, Headers } from "@angular/http";
 import { Observable } from "rxjs/Rx";
 import { Constants } from "./constants";
+import { authStorage } from "./services/auth.service";
 
 @Injectable()
 export class InterceptedHttp extends Http {
@@ -38,13 +39,8 @@ export class InterceptedHttp extends Http {
         }
         options.headers.append('Content-Type', 'application/json');
 
-        var accessToken = localStorage.getItem(Constants.accessTokenKey);
-        var user = localStorage.getItem(Constants.currentUserKey);
-
-        if (!accessToken && !user) {
-            accessToken = sessionStorage.getItem(Constants.accessTokenKey);
-            user = sessionStorage.getItem(Constants.currentUserKey);
-        }
+        var accessToken = authStorage.getItem(Constants.accessTokenKey);
+        var user = authStorage.getItem(Constants.currentUserKey);
 
         if (accessToken && user) {
             options.headers.append('Authorization', 'Bearer ' + accessToken);

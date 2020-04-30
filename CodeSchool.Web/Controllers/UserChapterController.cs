@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CodeSchool.Web.Controllers
 {
+    [Authorize(Roles = "User")]
     [Route("api/[controller]")]
     public class UserChapterController : Controller
     {
@@ -35,12 +36,28 @@ namespace CodeSchool.Web.Controllers
             return Ok(await _chapterService.CanOpen(model.UserId, model.UserChapterId));
         }
 
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<IActionResult> GetFirstChapterAndLesson(Guid userId)
+        {
+            var result = await _chapterService.GetFirstChapterAndLesson(userId);
+            return Ok(result);
+        }
+
         [HttpPost]
         [Route("[action]")]
         public async Task<IActionResult> StartUserTask(Guid userId)
         {
-            var startChapterAndLesson = await _chapterService.StartUserTask(userId);
-            return Ok(startChapterAndLesson);
+            await _chapterService.StartUserTask(userId);
+            return Ok(true);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> FinishUserTask(Guid userId)
+        {
+            await _chapterService.FinishUserTask(userId);
+            return Ok(true);
         }
     }
 }

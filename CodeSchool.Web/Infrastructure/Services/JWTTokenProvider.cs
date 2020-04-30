@@ -38,7 +38,7 @@ namespace CodeSchool.Web.Infrastructure.Services
                 { ClaimTypes.Email, user.Email },
                 { ClaimTypes.NameIdentifier, user.Id },
                 { "companyId", user.CompanyId },
-                { ClaimTypes.Role, user.IsAdmin ? new [] { "Admin" } : new string [] {}}
+                { ClaimTypes.Role, user.IsAdmin ? new [] { "Admin" } : new[] { "User" }}
             };
             return GetToken(payload, sessionLifetime);
         }

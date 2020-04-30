@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CodeSchool.Web.Controllers
 {
+    [Authorize(Roles = "User")]
     [Route("api/[controller]")]
     public class UserLessonController : Controller
     {
@@ -29,7 +30,9 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> GetById(int userLessonId, Guid userId)
         {
             var userlesson = await _userLessonService.GetUserLessonById(userId, userLessonId);
-            return Ok(Mapper.Map<UserLessonModel>(userlesson));
+            var mappedLesson = Mapper.Map<UserLessonModel>(userlesson);
+            mappedLesson.Lesson.Answer = string.Empty;
+            return Ok(mappedLesson);
         }
 
         [HttpGet]
@@ -64,6 +67,7 @@ namespace CodeSchool.Web.Controllers
         public async Task<IActionResult> CanOpen([FromBody] CanOpenLessonModel model)
         {
             var canOpenChapter = await _userChapterService.CanOpen(model.UserId, model.UserChapterId);
+            return Ok(canOpenChapter);
             if (canOpenChapter)
             {
                 var canOpenLesson = await _userLessonService.CanOpen(model.UserId, model.UserChapterId, model.UserLessonId);

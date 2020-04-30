@@ -22,7 +22,7 @@ export class UserLessonModel {
     userId: string;
     isPassed: boolean;
     code: string;
-    updatedDt: any;
+    createdDt: any;
     lessonTitle: string;
     lessonOrder: number;
     lesson: LessonViewModel;

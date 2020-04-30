@@ -45,8 +45,8 @@ namespace CodeSchool.BusinessLogic.Services
 
             if (removeToken)
             {
-                //_repository.Remove(dbToken);
-                //await _repository.SaveChanges();
+                _repository.Remove(dbToken);
+                await _repository.SaveChanges();
             }
 
             return user;

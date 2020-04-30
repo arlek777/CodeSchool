@@ -6,6 +6,7 @@ import { LessonTesterDirective } from "../../directives/lesson-tester.directive"
 import { PopupService } from "../../services/popup.service";
 import { UserMessages } from '../../user-messages';
 import { UserLessonBaseComponent } from '../user-lesson-base.component';
+import { AuthService } from "../../services/auth.service";
 
 @Component({
     selector: "user-lesson-code",
@@ -25,11 +26,12 @@ export class UserLessonCodeComponent extends UserLessonBaseComponent implements 
     private lessonTester: LessonTesterDirective;
 
     constructor(backendService: BackendService,
+        authService: AuthService,
         route: ActivatedRoute,
         router: Router,
         popupService: PopupService) {
 
-        super(backendService, route, router, popupService);
+        super(backendService, authService, route, router, popupService);
     }
 
     ngOnInit(): void {
@@ -37,13 +39,14 @@ export class UserLessonCodeComponent extends UserLessonBaseComponent implements 
             this.result = new LessonTestResult();
         });
 
-        this.backendService.canOpenLesson(this.userChapterId, this.userLessonId).then(canOpen => {
+        this.backendService.canOpenLesson(this.userChapterId, this.userLessonId).then((canOpen) => {
             if (canOpen) {
-                this.loadUserLessonsId(this.userLessonId);
-                this.loadUserLesson(this.userLessonId);
+                this.backendService.startUserTask().then(() => {
+                    this.loadUserLessonsId(this.userLessonId);
+                    this.loadUserLesson(this.userLessonId);
+                }, () => this.router.navigate(['invitation']));
             } else {
-                this.router.navigate(['/code-chapters']);
-                this.popupService.newValidationError(UserMessages.notAllowedOpenLesson);
+                this.router.navigate(['invitation']);
             }
         });
     }
@@ -70,13 +73,9 @@ export class UserLessonCodeComponent extends UserLessonBaseComponent implements 
     }
 
     getProgressInPercents(): string {
-        var passedCount = this.getPassedUserLessonsCount();
+        var passedCount = this.userLessonIds.filter(l => l.isPassed).length;
         var result = (passedCount * 100) / this.userLessonIds.length;
 
         return Math.round(result).toString() + "%";
-    }
-
-    getPassedUserLessonsCount(): number {
-        return this.userLessonIds.filter(l => l.isPassed).length;
     }
 }

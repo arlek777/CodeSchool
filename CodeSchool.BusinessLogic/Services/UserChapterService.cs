@@ -83,14 +83,16 @@ namespace CodeSchool.BusinessLogic.Services
             }
         }
 
-        public async Task<UserChapter> AddOnlyChapter(Guid userId, Guid companyId, int chapterId)
+        public async Task<UserChapter> AddOnlyChapter(Guid userId, Guid companyId, int chapterId,
+            TimeSpan taskDurationLimit)
         {
             var dbChapter = await _chapterService.GetById(companyId, chapterId);
             var newChapter = new UserChapter()
             {
                 ChapterId = dbChapter.Id,
                 UserId = userId,
-                CreatedDt = DateTime.UtcNow
+                CreatedDt = DateTime.UtcNow,
+                TaskDurationLimit = taskDurationLimit.ToString()
             };
             _repository.Add(newChapter);
             await _repository.SaveChanges();
@@ -112,13 +114,12 @@ namespace CodeSchool.BusinessLogic.Services
             };
 
             canOpenChapter = canOpenChapter
-                .CheckOnAlreadyStarted()
-                .CheckOnPassed();
+                .CheckOnAlreadyStarted();
 
             return canOpenChapter.CanOpen;
         }
 
-        public async Task<StartUserTask> StartUserTask(Guid userId)
+        public async Task<UserChapterLessonInfo> GetFirstChapterAndLesson(Guid userId)
         {
             var userChapters = await GetUserChapters(new FilterUserChapterModel() { UserId = userId });
 
@@ -130,6 +131,25 @@ namespace CodeSchool.BusinessLogic.Services
             var userChapter = userChapters.First();
             var userLesson = userChapter.UserLessons.First();
 
+            var result = new UserChapterLessonInfo()
+            {
+                UserChapterId = userChapter.Id,
+                UserLessonId = userLesson.Id
+            };
+
+            return result;
+        }
+
+        public async Task<bool> StartUserTask(Guid userId)
+        {
+            var userChapters = await GetUserChapters(new FilterUserChapterModel() { UserId = userId });
+
+            if (userChapters == null || !userChapters.Any())
+            {
+                throw new ArgumentNullException($"{nameof(StartUserTask)} User chapter was not found.");
+            }
+
+            var userChapter = userChapters.First();
             if (userChapter.StartedDt.HasValue)
             {
                 throw new InvalidDataException($"{nameof(StartUserTask)} This user chapter has already started and cannot be started again.");
@@ -138,13 +158,26 @@ namespace CodeSchool.BusinessLogic.Services
             userChapter.StartedDt = DateTime.UtcNow;
             await _repository.SaveChanges();
 
-            var result = new StartUserTask()
-            {
-                UserChapterId = userChapter.Id,
-                UserLessonId = userLesson.Id
-            };
+            return true;
+        }
 
-            return result;
+        public async Task FinishUserTask(Guid userId)
+        {
+            var userChapters = await GetUserChapters(new FilterUserChapterModel() { UserId = userId });
+
+            if (userChapters == null || !userChapters.Any())
+            {
+                throw new ArgumentNullException($"{nameof(StartUserTask)} User chapter was not found.");
+            }
+
+            var userChapter = userChapters.First();
+            if (!userChapter.StartedDt.HasValue)
+            {
+                throw new InvalidDataException($"{nameof(StartUserTask)} This user chapter has not been started and cannot be finished.");
+            }
+
+            userChapter.FinishedDt = DateTime.UtcNow;
+            await _repository.SaveChanges();
         }
     }
 }

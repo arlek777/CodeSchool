@@ -39,7 +39,7 @@ namespace CodeSchool.BusinessLogic.Services
             var userChapter = await _userChapterService.GetUserChapterByChapterId(user.Id, chapterId);
             if (userChapter == null)
             {
-                userChapter = await _userChapterService.AddOnlyChapter(userId, user.CompanyId, chapterId);
+                userChapter = await _userChapterService.AddOnlyChapter(userId, user.CompanyId, chapterId, taskDurationLimit);
             }
 
             _repository.Add(new UserLesson()
@@ -47,8 +47,7 @@ namespace CodeSchool.BusinessLogic.Services
                 UserId = user.Id,
                 UserChapterId = userChapter.Id,
                 LessonId = lessonId,
-                UpdatedDt = DateTime.UtcNow,
-                TaskDurationLimit = taskDurationLimit.ToString()
+                CreatedDt = DateTime.UtcNow
             });
             await _repository.SaveChanges();
         }
@@ -100,7 +99,7 @@ namespace CodeSchool.BusinessLogic.Services
                 .CheckOnPassed()
                 .CheckAllPreviousPassed();
 
-            return canOpenLesson.CanOpen;
+            return true;
         }
     }
 }
