@@ -29,9 +29,15 @@ namespace CodeSchool.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> GetById(int userLessonId, Guid userId)
         {
-            var userlesson = await _userLessonService.GetUserLessonById(userId, userLessonId);
-            var mappedLesson = Mapper.Map<UserLessonModel>(userlesson);
+            var userLesson = await _userLessonService.GetUserLessonById(userId, userLessonId);
+            var mappedLesson = Mapper.Map<UserLessonModel>(userLesson);
             mappedLesson.Lesson.Answer = string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(userLesson.UserChapter.TaskDurationLimit))
+            {
+                mappedLesson.TimeLimit = TimeSpan.Parse(userLesson.UserChapter.TaskDurationLimit).TotalMilliseconds;
+            }
+
             return Ok(mappedLesson);
         }
 

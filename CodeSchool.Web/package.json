@@ -47,7 +47,8 @@
     "ng2-ace-editor": "0.2.5",
     "ng2-toastr": "4.1.2",
     "angular2-tinymce": "2.1.2",
-    "font-awesome": "4.7.0"
+    "font-awesome": "4.7.0",
+    "angular-countdown-timer":  "0.0.1" 
   },
   "devDependencies": {
     "@types/chai": "3.5.2",

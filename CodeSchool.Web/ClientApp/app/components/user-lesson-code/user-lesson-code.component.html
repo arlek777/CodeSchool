@@ -20,6 +20,13 @@
 <div *ngIf="!showFinishedTaskMessage">
     <div class="row margin-bottom-20">
         <div class="col-md-offset-4 col-md-4 text-center">
+            <h3 *ngIf="timeLimitDate">
+                Оставшееся время:
+                <span *ngIf="!timeLimitFinished">
+                    <countdown-timer [end]="timeLimitDate" (zeroTrigger)="timeLimitCountdown()"></countdown-timer>
+                </span>
+                <span *ngIf="timeLimitFinished" style="color: red">00:00:00</span>
+            </h3>
             <h3>Прогресс ({{ currentIndex + 1 }} из {{ userLessonIds.length }})</h3>
             <div class="progress">
                 <div [ngStyle]="{ 'width': getProgressInPercents() }" style="min-width: 10px"

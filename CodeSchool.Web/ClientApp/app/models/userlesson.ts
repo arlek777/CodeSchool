@@ -25,5 +25,6 @@ export class UserLessonModel {
     createdDt: any;
     lessonTitle: string;
     lessonOrder: number;
+    timeLimit: number;
     lesson: LessonViewModel;
 }

@@ -18,6 +18,8 @@ export abstract class UserLessonBaseComponent {
     userChapterId: number;
     userLessonId: number;
     showFinishedTaskMessage = false;
+    timeLimitDate = null;
+    timeLimitFinished = false;
 
     constructor(protected backendService: BackendService,
         protected authService: AuthService,
@@ -55,6 +57,10 @@ export abstract class UserLessonBaseComponent {
         this.loadUserLesson(this.userLessonIds[prevIndex].id);
     }
 
+    timeLimitCountdown() {
+        this.timeLimitFinished = true;
+    }
+
     protected finishTask() {
         if (confirm(UserMessages.finishUserTaskConfirm)) {
             this.backendService.updateUserLesson(this.userLesson).then(() => {
@@ -81,6 +87,9 @@ export abstract class UserLessonBaseComponent {
             .then(userLesson => {
                 this.userLesson = userLesson;
                 this.newLessonLoadedSource.next();
+                if (this.userLesson.timeLimit) {
+                    this.timeLimitDate = new Date(Date.now() + this.userLesson.timeLimit);
+                }
             });
     }
 }

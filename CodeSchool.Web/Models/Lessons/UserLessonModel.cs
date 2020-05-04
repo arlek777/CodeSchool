@@ -10,5 +10,6 @@ namespace CodeSchool.Web.Models.Lessons
         public string Code { get; set; }
         public UserLessonAnswerScore? Score { get; set; }
         public LessonModel Lesson { get; set; }
+        public double TimeLimit { get; set; }
     }
 }
