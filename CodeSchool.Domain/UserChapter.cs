@@ -14,10 +14,12 @@ namespace CodeSchool.Domain
         public DateTime CreatedDt { get; set; }
 
         public DateTime? StartedDt { get; set; }
+
+        public DateTime? UpdatedDt { get; set; }
         
         public DateTime? FinishedDt { get; set; }
 
-        public string TaskDurationLimit { get; set; }
+        public double TaskDurationLimit { get; set; }
 
         public int UnfocusCount { get; set; }
 

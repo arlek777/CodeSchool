@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, ViewChild, Input } from '@angular/core';
+﻿import { Component, OnInit, ViewChild, Input, HostListener } from '@angular/core';
 import { BackendService } from "../../services/backend.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { LessonTestResult } from "../../models/lessontestresult";
@@ -25,6 +25,17 @@ export class UserLessonCodeComponent extends UserLessonBaseComponent implements 
     @ViewChild(LessonTesterDirective)
     private lessonTester: LessonTesterDirective;
 
+    @HostListener('window:keydown',['$event'])
+    onKeyPress($event: KeyboardEvent) {
+        if(($event.ctrlKey || $event.metaKey) && $event.keyCode === 86)
+            this.userLessonAutoSave.CPC += 1;
+    }
+
+    @HostListener('window:blur',['$event'])
+    onWindowUnFocus($event: any) {
+        this.userLessonAutoSave.UF += 1;
+    }
+
     constructor(backendService: BackendService,
         authService: AuthService,
         route: ActivatedRoute,
@@ -44,11 +55,16 @@ export class UserLessonCodeComponent extends UserLessonBaseComponent implements 
                 this.backendService.startUserTask().then(() => {
                     this.loadUserLessonsId(this.userLessonId);
                     this.loadUserLesson(this.userLessonId);
+                    //const testTiming = 10000;
+                    const realTiming = 1000 * 60 * 2;
+                    setInterval(() => this.autoSave(), realTiming); // each 2 minute
                 }, () => this.router.navigate(['invitation']));
             } else {
                 this.router.navigate(['invitation']);
             }
         });
+
+        
     }
 
     onTestResultsReceived(result: LessonTestResult) {

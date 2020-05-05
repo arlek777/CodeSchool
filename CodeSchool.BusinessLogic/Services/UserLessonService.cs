@@ -33,7 +33,7 @@ namespace CodeSchool.BusinessLogic.Services
             return await _repository.Find<UserLesson>(c => c.Id == userLessonId && c.UserId == userId);
         }
 
-        public async Task Add(Guid userId, int lessonId, int chapterId, TimeSpan taskDurationLimit)
+        public async Task Add(Guid userId, int lessonId, int chapterId, double taskDurationLimit)
         {
             var user = await _repository.Find<User>(u => u.Id == userId);
             var userChapter = await _userChapterService.GetUserChapterByChapterId(user.Id, chapterId);
@@ -74,6 +74,27 @@ namespace CodeSchool.BusinessLogic.Services
 
             userLesson.UserChapter.IsPassed = (await GetUserLessonsById(model.UserId, model.UserChapterId))
                 .All(l => l.IsPassed);
+
+            await _repository.SaveChanges();
+
+            return userLesson;
+        }
+
+        public async Task<UserLesson> SaveSnapshot(UserTaskSnapshot model)
+        {
+            var now = DateTime.UtcNow;
+
+            var userLesson = await GetUserLessonById(model.UserId, model.Id);
+            userLesson.UserChapter.CopyPasteCount += model.CopyPasteCount;
+            userLesson.UserChapter.UnfocusCount += model.UnfocusCount;
+            userLesson.UpdatedDt = now;
+            userLesson.UserChapter.UpdatedDt = now;
+
+            userLesson.CodeSnapshots.Add(new CodeSnapshot()
+            {
+                Code = model.Code,
+                CreatedDt = now
+            });
 
             await _repository.SaveChanges();
 

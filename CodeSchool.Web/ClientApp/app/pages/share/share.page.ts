@@ -20,6 +20,7 @@ export class SharePage implements OnInit {
         this.share.chapterId = this.route.snapshot.params["chapterId"];
 
         this.share.linkLifetimeInDays = 1;
+        this.share.taskDurationTimeLimit = "1:00";
     }
 
     submit() {

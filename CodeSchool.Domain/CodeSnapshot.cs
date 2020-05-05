@@ -14,7 +14,6 @@ namespace CodeSchool.Domain
         [Required]
         public DateTime CreatedDt { get; set; }
 
-        [Required]
         public string Code { get; set; }
     }
 }

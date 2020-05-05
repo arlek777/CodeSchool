@@ -1,4 +1,5 @@
 ﻿import { UserLessonModel } from "../models/userlesson";
+import { UserLessonAutoSaveModel } from "../models/userlessonautosave";
 import { LessonViewModel } from "../models/lesson";
 import { BackendService } from "../services/backend.service";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -13,6 +14,7 @@ export abstract class UserLessonBaseComponent {
     protected newLessonLoaded$ = this.newLessonLoadedSource.asObservable();
 
     userLesson: UserLessonModel = new UserLessonModel();
+    userLessonAutoSave: UserLessonAutoSaveModel = new UserLessonAutoSaveModel();
     userLessonIds = [];
     currentIndex = -1;
     userChapterId: number;
@@ -38,11 +40,9 @@ export abstract class UserLessonBaseComponent {
             return;
         }
 
-       if (!this.userLesson.isPassed) {
-            if (!confirm(UserMessages.notPassedTaskNextConfirm)
-            ) {
-                return;
-            }
+        if (!this.userLesson.isPassed && !confirm(UserMessages.notPassedTaskNextConfirm)) {
+            this.currentIndex -= 1;
+            return;
         }
 
         var nextId = this.userLessonIds[nextIndex].id;
@@ -59,6 +59,13 @@ export abstract class UserLessonBaseComponent {
 
     timeLimitCountdown() {
         this.timeLimitFinished = true;
+    }
+
+    protected autoSave() {
+        this.userLessonAutoSave.userLesson = this.userLesson;
+        this.backendService.autoSaveUserLesson(this.userLessonAutoSave).then(() => {
+            this.userLessonAutoSave = new UserLessonAutoSaveModel();
+        });
     }
 
     protected finishTask() {

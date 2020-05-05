@@ -18,5 +18,8 @@ namespace CodeSchool.Web.Models
         [StringLength(30, ErrorMessage = ValidationResultMessages.MaxLength)]
         [MinLength(5, ErrorMessage = ValidationResultMessages.PasswordShort)]
         public string Password { get; set; }
+
+        [StringLength(256, ErrorMessage = ValidationResultMessages.MaxLength)]
+        public string CompanyName { get; set; }
     }
 }

@@ -35,12 +35,12 @@ namespace CodeSchool.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> ShareChapter([FromBody] ShareModal model)
+        public async Task<IActionResult> ShareChapter([FromBody] ShareChapterModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
             var token = await CreateUserWithToken(model);
-            await _userChapterService.AddChapterLessons(token.UserId, model.CompanyId, model.ChapterId);
+            await _userChapterService.AddChapterLessons(token.UserId, model.CompanyId, model.ChapterId, model.ParsedTaskDurationTimeLimitTime);
 
             return Ok(GenerateShareLink(token.TokenValue));
         }
@@ -52,7 +52,7 @@ namespace CodeSchool.Web.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
             var token = await CreateUserWithToken(model);
-            await _userLessonService.Add(token.UserId, model.LessonId, model.ChapterId, model.TaskDurationTimeLimitTimeSpan);
+            await _userLessonService.Add(token.UserId, model.LessonId, model.ChapterId, model.ParsedTaskDurationTimeLimitTime);
 
             return Ok(GenerateShareLink(token.TokenValue));
         }
@@ -66,7 +66,7 @@ namespace CodeSchool.Web.Controllers
             return result;
         }
 
-        private async Task<Token> CreateUserWithToken(ShareModal model)
+        private async Task<Token> CreateUserWithToken(ShareChapterModel model)
         {
             var newUser = await _userService.CreateNew(new User()
             {
@@ -81,7 +81,8 @@ namespace CodeSchool.Web.Controllers
                 CreatedDt = DateTime.UtcNow,
                 LifetimeInDays = model.LinkLifetimeInDays,
                 TokenValue = Guid.NewGuid(),
-                UserId = newUser.Id
+                UserId = newUser.Id,
+                ExtraData = model.TaskDurationTimeLimit
             });
 
             return token;

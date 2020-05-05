@@ -31,12 +31,11 @@ namespace CodeSchool.Web.Controllers
         {
             var userLesson = await _userLessonService.GetUserLessonById(userId, userLessonId);
             var mappedLesson = Mapper.Map<UserLessonModel>(userLesson);
-            mappedLesson.Lesson.Answer = string.Empty;
 
-            if (!string.IsNullOrWhiteSpace(userLesson.UserChapter.TaskDurationLimit))
-            {
-                mappedLesson.TimeLimit = TimeSpan.Parse(userLesson.UserChapter.TaskDurationLimit).TotalMilliseconds;
-            }
+            mappedLesson.Lesson.Answer = string.Empty;
+            mappedLesson.UserId = Guid.Empty;
+            mappedLesson.Lesson.CompanyId = Guid.Empty;
+            mappedLesson.TimeLimit = userLesson.UserChapter.TaskDurationLimit;
 
             return Ok(mappedLesson);
         }
@@ -64,6 +63,23 @@ namespace CodeSchool.Web.Controllers
                 IsPassed = model.IsPassed,
                 UserId = model.UserId,
                 UserChapterId = model.UserChapterId
+            });
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> AutoSave([FromBody] UserTaskSnapshot model)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
+            await _userLessonService.SaveSnapshot(new BusinessLogic.Models.UserTaskSnapshot()
+            {
+                Id = model.UserLesson.Id,
+                Code = model.UserLesson.Code,
+                UserId = model.UserLesson.UserId,
+                UserChapterId = model.UserLesson.UserChapterId,
+                CopyPasteCount = model.CPC,
+                UnfocusCount = model.UF
             });
             return Ok();
         }

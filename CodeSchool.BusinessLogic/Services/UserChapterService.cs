@@ -51,40 +51,41 @@ namespace CodeSchool.BusinessLogic.Services
             return userChapters.FirstOrDefault(c => c.ChapterId == chapterId);
         }
 
-        public async Task AddChapterLessons(Guid userId, Guid companyId, int chapterId)
+        public async Task<int> AddChapterLessons(Guid userId, Guid companyId, int chapterId,
+            double timeLimit)
         {
-            var dbChapter = await _chapterService.GetById(companyId, chapterId);
+            var chapter = await _chapterService.GetById(companyId, chapterId);
 
-            foreach (var chapter in new List<Chapter>() { dbChapter })
+            var newChapter = new UserChapter()
             {
-                var newChapter = new UserChapter()
+                ChapterId = chapter.Id,
+                UserId = userId,
+                CreatedDt = DateTime.UtcNow,
+                TaskDurationLimit = timeLimit
+            };
+            _repository.Add(newChapter);
+            await _repository.SaveChanges();
+
+            foreach (var lesson in chapter.Lessons)
+            {
+                var newLesson = new UserLesson()
                 {
-                    ChapterId = chapter.Id,
+                    UserChapterId = newChapter.Id,
                     UserId = userId,
+                    LessonId = lesson.Id,
                     CreatedDt = DateTime.UtcNow
                 };
-                _repository.Add(newChapter);
-                await _repository.SaveChanges();
 
-                foreach (var lesson in chapter.Lessons)
-                {
-                    var newLesson = new UserLesson()
-                    {
-                        UserChapterId = newChapter.Id,
-                        UserId = userId,
-                        LessonId = lesson.Id,
-                        CreatedDt = DateTime.UtcNow
-                    };
-
-                    _repository.Add(newLesson);
-                }
-
-                await _repository.SaveChanges();
+                _repository.Add(newLesson);
             }
+
+            await _repository.SaveChanges();
+
+            return newChapter.Id;
         }
 
         public async Task<UserChapter> AddOnlyChapter(Guid userId, Guid companyId, int chapterId,
-            TimeSpan taskDurationLimit)
+            double taskDurationLimit)
         {
             var dbChapter = await _chapterService.GetById(companyId, chapterId);
             var newChapter = new UserChapter()
@@ -92,7 +93,7 @@ namespace CodeSchool.BusinessLogic.Services
                 ChapterId = dbChapter.Id,
                 UserId = userId,
                 CreatedDt = DateTime.UtcNow,
-                TaskDurationLimit = taskDurationLimit.ToString()
+                TaskDurationLimit = taskDurationLimit
             };
             _repository.Add(newChapter);
             await _repository.SaveChanges();

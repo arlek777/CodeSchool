@@ -50,6 +50,7 @@
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Models\UserChapterLessonInfo.cs" />
     <Compile Include="ISimpleCRUDService.cs" />
+    <Compile Include="Models\UserTaskSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\CanOpenChapter.cs" />
     <Compile Include="Extensions\CanOpenChapterExtensions.cs" />

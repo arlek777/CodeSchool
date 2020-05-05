@@ -65,8 +65,13 @@ namespace CodeSchool.Web.Controllers
                 UserName = model.UserName,
                 Password = _passwordHasher.HashPassword(model.Password),
                 IsAdmin = true,
-                CompanyId = Guid.NewGuid()
             };
+
+            if (!string.IsNullOrWhiteSpace(model.CompanyName))
+            {
+                user.CompanyId = Guid.NewGuid();
+                user.CompanyName = model.CompanyName;
+            }
 
             user = await _userService.CreateNew(user);
             var tokens = GetJWTTokens(user);
@@ -90,19 +95,19 @@ namespace CodeSchool.Web.Controllers
 
             var parsedToken = GetParsedToken(token);
 
-            var user = await _userService.GetUserByToken(parsedToken);
-            if (user == null)
+            var dbToken = await _userService.GetUserToken(parsedToken);
+            if (dbToken?.User == null)
             {
                 return BadRequest(ValidationResultMessages.LoginWrongCredentials);
             }
 
-            var tokens = GetJWTTokens(user);
+            var tokens = GetJWTTokens(dbToken.User);
             return Ok(tokens);
         }
 
         [HttpGet]
         [Route("[action]")]
-        public async Task<IActionResult> VerifyInvitationToken(string token)
+        public async Task<IActionResult> GetInvitation(string token)
         {
             if (HttpContext.User.Identity.IsAuthenticated || string.IsNullOrWhiteSpace(token))
             {
@@ -110,9 +115,18 @@ namespace CodeSchool.Web.Controllers
             }
 
             var parsedToken = GetParsedToken(token);
-            var user = await _userService.GetUserByToken(parsedToken, false);
+            var dbToken = await _userService.GetUserToken(parsedToken, false);
 
-            return Ok(user != null);
+            if (dbToken?.User == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(new
+            {
+                from = dbToken.User.CompanyName,
+                timeLimit = !string.IsNullOrWhiteSpace(dbToken.ExtraData) ? dbToken.ExtraData : null
+            });
         }
 
         private Guid GetParsedToken(string token)

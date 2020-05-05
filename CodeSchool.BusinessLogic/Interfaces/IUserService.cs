@@ -9,6 +9,6 @@ namespace CodeSchool.BusinessLogic.Interfaces
         Task<User> CreateNew(User user);
         Task<User> GetById(Guid id);
         Task<User> GetByEmail(string email);
-        Task<User> GetUserByToken(Guid token, bool removeToken = true);
+        Task<Token> GetUserToken(Guid token, bool removeToken = true);
     }
 }

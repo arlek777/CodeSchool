@@ -8,6 +8,7 @@ import { RegistrationViewModel } from "../models/auth/registration";
 import { JWTTokens } from "../models/auth/jwttokens";
 import 'rxjs/add/operator/toPromise';
 import { UserLessonModel } from "../models/userlesson";
+import { UserLessonAutoSaveModel } from "../models/userlessonautosave";
 import { UserChapterModel } from "../models/userchapter";
 import { CategoryViewModel } from "../models/category";
 
@@ -31,8 +32,8 @@ export class BackendService {
             .then((result) => { return new JWTTokens(result.json()); });
     }
 
-    verifyInvitationToken(token: string): Promise<boolean> {
-        return this.http.get("/api/auth/verifyInvitationToken?token=" + token).toPromise()
+    getInvitation(token: string): Promise<any> {
+        return this.http.get("/api/auth/getInvitation?token=" + token).toPromise()
             .then((result) => { return result.json(); });
     }
 
@@ -149,6 +150,12 @@ export class BackendService {
 
     updateUserLesson(model): Promise<void> {
         return this.http.post("/api/userlesson/update", model).toPromise()
+            .then((response) => {
+            });
+    }
+    
+    autoSaveUserLesson(model: UserLessonAutoSaveModel): Promise<void> {
+        return this.http.post("/api/userlesson/autoSave", model).toPromise()
             .then((response) => {
             });
     }

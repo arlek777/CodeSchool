@@ -8,6 +8,7 @@ import { AuthService } from "../../services/auth.service";
 })
 export class InvitationPage implements OnInit {
     showError = false;
+    invitation: { from: string, timeLimit?: string };
 
     constructor(private authService: AuthService, 
         private backendService: BackendService,
@@ -22,11 +23,14 @@ export class InvitationPage implements OnInit {
             return;
         }
 
-        const valid = await this.backendService.verifyInvitationToken(token);
-        if (!valid) {
+        const result = await this.backendService.getInvitation(token);
+        if (!result) {
             this.showError = true;
             this.authService.logout();
+            return;
         }
+
+        this.invitation = result;
     }
 
     start() {

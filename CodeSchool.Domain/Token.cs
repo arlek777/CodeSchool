@@ -14,6 +14,8 @@ namespace CodeSchool.Domain
         [Required]
         public Guid TokenValue { get; set; }
 
+        public string ExtraData { get; set; }
+
         [Required]
         public DateTime CreatedDt { get; set; }
 
