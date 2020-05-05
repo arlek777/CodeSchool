@@ -15,6 +15,7 @@ namespace CodeSchool.Domain
         public string CompanyName { get; set; }
         public bool IsAdmin { get; set; }
 
+        public virtual ICollection<Token> Tokens { get; set; }
         public virtual ICollection<UserChapter> UserChapters { get; set; }
         public virtual ICollection<UserLesson> UserLessons { get; set; }
     }

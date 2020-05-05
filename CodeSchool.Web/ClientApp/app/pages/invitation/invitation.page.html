@@ -4,7 +4,7 @@
             <h4 *ngIf="showError">Приглашение не действительное</h4>
             <h4 *ngIf="!showError">Тестовое задание</h4>
         </div>
-        <div class="panel-body" *ngIf="!showError">
+        <div class="panel-body" *ngIf="!showError && invitation">
             <div class="row">
                 <div class="col-md-12">
                     <p style="line-height: 1.8">

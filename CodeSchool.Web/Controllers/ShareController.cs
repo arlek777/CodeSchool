@@ -71,6 +71,7 @@ namespace CodeSchool.Web.Controllers
             var newUser = await _userService.CreateNew(new User()
             {
                 CompanyId = model.CompanyId,
+                CompanyName = User.Identity.GetCompanyName(),
                 Email = model.UserEmail,
                 IsAdmin = false,
                 UserName = model.UserFullName

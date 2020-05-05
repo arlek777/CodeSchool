@@ -96,12 +96,15 @@ namespace CodeSchool.Web.Controllers
             var parsedToken = GetParsedToken(token);
 
             var dbToken = await _userService.GetUserToken(parsedToken);
-            if (dbToken?.User == null)
+            if (dbToken == null)
             {
                 return BadRequest(ValidationResultMessages.LoginWrongCredentials);
             }
 
             var tokens = GetJWTTokens(dbToken.User);
+
+            await _userService.RemoveUserToken(dbToken);
+
             return Ok(tokens);
         }
 
@@ -115,7 +118,7 @@ namespace CodeSchool.Web.Controllers
             }
 
             var parsedToken = GetParsedToken(token);
-            var dbToken = await _userService.GetUserToken(parsedToken, false);
+            var dbToken = await _userService.GetUserToken(parsedToken);
 
             if (dbToken?.User == null)
             {

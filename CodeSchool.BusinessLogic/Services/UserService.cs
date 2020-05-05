@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.DataAccess;
@@ -33,18 +34,18 @@ namespace CodeSchool.BusinessLogic.Services
             return await _repository.Find<User>(u => u.Email == email);
         }
 
-        public async Task<Token> GetUserToken(Guid token, bool removeToken = true)
+        public async Task RemoveUserToken(Token token)
+        {
+            _repository.Remove(token);
+            await _repository.SaveChanges();
+        }
+
+        public async Task<Token> GetUserToken(Guid token)
         {
             var dbToken = await _repository.Find<Token>(t => t.TokenValue == token);
             if (dbToken == null || dbToken.CreatedDt.AddDays(dbToken.LifetimeInDays) < DateTime.UtcNow)
             {
                 return null;
-            }
-
-            if (removeToken)
-            {
-                _repository.Remove(dbToken);
-                await _repository.SaveChanges();
             }
 
             return dbToken;

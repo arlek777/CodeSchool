@@ -17,5 +17,16 @@ namespace CodeSchool.Web.Infrastructure.Extensions
 
             return Guid.Empty;
         }
+
+        public static string GetCompanyName(this IIdentity identity)
+        {
+            if (identity is ClaimsIdentity claimsPrincipal)
+            {
+                var companyNameStr = claimsPrincipal.Claims.FirstOrDefault(c => c.Type.Contains("companyName"));
+                return companyNameStr?.Value;
+            }
+
+            return null;
+        }
     }
 }
