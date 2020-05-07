@@ -37,11 +37,11 @@ export class InvitationPage implements OnInit {
         const token = this.route.snapshot.params["token"];
 
         this.authService.loginByToken(token).then(() => {
-            this.backendService.getFirstChapterAndLesson().then((data: any) => {
+            this.backendService.getFirstTaskHeadAndSubTask().then((data: any) => {
                 if (!data) {
                     this.showError = true;
                 } else {
-                    this.router.navigate(['/task', data.userChapterId, data.userLessonId]);
+                    this.router.navigate(['/task', data.userTaskHeadId, data.userSubTaskId]);
                 }
             });
         }, () => this.showError = true);

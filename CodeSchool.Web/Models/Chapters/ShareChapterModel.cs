@@ -2,9 +2,9 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using CodeSchool.Web.Infrastructure;
 
-namespace CodeSchool.Web.Models.Chapters
+namespace CodeSchool.Web.Models.TaskHeads
 {
-    public class ShareChapterModel
+    public class ShareTaskHeadModel
     {
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         [StringLength(256, ErrorMessage = ValidationResultMessages.MaxLength)]
@@ -16,7 +16,7 @@ namespace CodeSchool.Web.Models.Chapters
         public string UserEmail { get; set; }
 
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
-        public int ChapterId { get; set; }
+        public int TaskHeadId { get; set; }
 
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         public int LinkLifetimeInDays { get; set; }
@@ -41,9 +41,9 @@ namespace CodeSchool.Web.Models.Chapters
         public string CompanyName { get; set; }
     }
 
-    public class ShareLessonModel : ShareChapterModel
+    public class ShareSubTaskModel : ShareTaskHeadModel
     {
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
-        public int LessonId { get; set; }
+        public int SubTaskId { get; set; }
     }
 }

@@ -7,7 +7,7 @@ namespace CodeSchool.Domain
     {
         public Category()
         {
-            Chapters = new List<Chapter>();
+            TaskHeads = new List<TaskHead>();
         }
 
         [Required]
@@ -15,6 +15,6 @@ namespace CodeSchool.Domain
         [Required]
         public string Title { get; set; }
 
-        public virtual ICollection<Chapter> Chapters { get; set; }
+        public virtual ICollection<TaskHead> TaskHeads { get; set; }
     }
 }

@@ -1,0 +1,123 @@
+﻿<ng-template #controlButtons>
+    <button (click)="testSubTask()" class="btn btn-primary btn-lg">Тест</button>
+    <button (click)="addOrUpdate(false)" class="btn btn-warning btn-lg">Сохранить</button>
+    <button (click)="addOrUpdate(true)" class="btn btn-success btn-lg">Готово</button>
+    <button (click)="back()" class="btn btn-danger btn-lg">Назад</button>
+</ng-template>
+
+<div (window:keydown)="onKey($event)">
+    <div class="col-md-3">
+        <div class="form-group">
+            <input class="form-control" placeholder="Название" [(ngModel)]="SubTask.title"/>
+        </div>
+    </div>
+
+    <div *ngIf="!SubTask.id" class="col-md-2">
+        <div class="form-group">
+            <select class="form-control" [(ngModel)]="SubTask.type">
+                <option value="0">Код</option>
+                <option value="1">Тест</option>
+                <option value="2">Вопрос</option>
+            </select>
+        </div>
+    </div>
+        
+    <div class="col-md-2">
+        <div class="form-group">
+            <select class="form-control" [(ngModel)]="SubTask.level">
+                <option value="0">Junior</option>
+                <option value="1">Middle</option>
+                <option value="2">Senior</option>
+            </select>
+        </div>
+    </div>
+
+    <div *ngIf="!SubTask.published" class="col-md-1">
+        <div class="form-group">
+            <label for="publishSubTask">Опубликовать</label>
+            <input id="publishSubTask" type="checkbox" [(ngModel)]="SubTask.publishNow"/>
+        </div>
+    </div>
+        
+    <div class="col-md-4" [ngClass]="{'col-md-offset-3': SubTask.id}">
+        <div class="form-group pull-right">
+            <ng-container *ngTemplateOutlet="controlButtons"></ng-container>
+        </div>
+    </div>
+    
+    <!-- Code Type -->
+    <div *ngIf="SubTask.type == SubTaskType.Code">
+        <div class="col-md-6">
+            <editor mode="text" [(text)]="SubTask.text" css="admin-task-full" header-text="Текст"></editor>
+        </div>
+        <div class="col-md-6">
+            <editor mode="text" [(text)]="SubTask.taskText" css="admin-task-half" header-text="Задание"></editor>
+            <editor mode="code" [(text)]="SubTask.answer" css="admin-task-half" header-text="Код Ответ"></editor>
+        </div>
+        <div class="col-md-6">
+            <editor mode="code" [(text)]="SubTask.unitTestsCode" css="admin-task-half" header-text="Тесты"></editor>
+        </div>
+        <div class="col-md-6">
+            <editor mode="code" [(text)]="SubTask.reporterCode" css="admin-task-half" header-text="Отчет"></editor>
+        </div>
+
+        <div class="col-md-offset-9">
+            <div class="form-group pull-right">
+                <ng-container *ngTemplateOutlet="controlButtons"></ng-container>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Test Type -->
+    <div *ngIf="SubTask.type == SubTaskType.Test">
+        <div class="col-md-6">
+            <editor mode="text" [(text)]="SubTask.taskText" css="admin-task-half" header-text="Задание"></editor>
+        </div>
+        <div class="col-md-6">
+            <editor mode="text" [(text)]="SubTask.answer" css="admin-task-half" header-text="Ответ"></editor>
+        </div>
+        <div class="col-md-6">
+            <editor mode="text" [(text)]="answerOption.text" css="admin-task-half" [header-template]="headerTemplate">
+                <ng-template #headerTemplate>
+                    Вариант ответа
+                    <input type="checkbox" [(ngModel)]="answerOption.isCorrect"/>
+                    Верный
+                    <button class="btn btn-lg" (click)="saveAnswerOption()"><span class="fa fa-save"></span></button>
+                </ng-template>
+            </editor>
+        </div>
+        <div class="col-md-12">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Вариант</th>
+                    <th>Верный</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let option of SubTask.answerSubTaskOptions">
+                    <td [trust-html]="option.text"></td>
+                    <td>{{ option.isCorrect ? 'Да' : 'Нет' }}</td>
+                    <td>
+                        <button class="btn btn-success" (click)="editAnswerOption(option)"><span class="fa fa-edit"></span></button>
+                        <button class="btn btn-danger" (click)="removeAnswerOption(option)"><span class="fa fa-remove"></span></button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Long Answer Type -->
+    <div *ngIf="SubTask.type == SubTaskType.LongAnswer">
+        <div class="col-md-6">
+            <editor mode="text" [(text)]="SubTask.taskText" css="admin-task-full" header-text="Задание"></editor>
+        </div>
+        <div class="col-md-6">
+            <editor mode="text" [(text)]="SubTask.answer" css="admin-task-full" header-text="Ответ"></editor>
+        </div>
+    </div>
+</div>
+
+<iframe task-tester (onTestResultsReceived)="onTestResultsReceived($event)" src="/Home/Test"></iframe>

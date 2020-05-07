@@ -4,15 +4,6 @@ using CodeSchool.Domain;
 
 namespace CodeSchool.DataAccess
 {
-    public class Car: ISimpleEntity
-    {
-        public int Id { get; set; }
-        public string Mark { get; set; }
-        public string Model { get; set; }
-        public int Year { get; set; }
-        public string Price { get; set; }
-    }
-
     public class CodeSchoolDbContext: DbContext
     {
         static CodeSchoolDbContext()
@@ -31,14 +22,13 @@ namespace CodeSchool.DataAccess
 
         public DbSet<CodeSnapshot> CodeSnapshots { get; set; }
         public DbSet<Token> Tokens { get; set; }
-        public DbSet<Chapter> Chapters { get; set; }
-        public DbSet<Lesson> Lessons { get; set; }
+        public DbSet<TaskHead> TaskHeads { get; set; }
+        public DbSet<SubTask> SubTasks { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<UserChapter> UserChapters{ get; set; }
-        public DbSet<UserLesson> UserLessons { get; set; }
+        public DbSet<UserTaskHead> UserTaskHeads{ get; set; }
+        public DbSet<UserSubTask> UserSubTasks { get; set; }
         public DbSet<Log> Logs { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<AnswerLessonOption> AnswerLessonOptions { get; set; }
-        public DbSet<Car> Cars { get; set; }
+        public DbSet<AnswerSubTaskOption> AnswerSubTaskOptions { get; set; }
     }
 }

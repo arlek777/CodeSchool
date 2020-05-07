@@ -9,7 +9,7 @@ namespace CodeSchool.Domain
         public int Id { get; set; }
 
         [Required]
-        public int UserLessonId { get; set; }
+        public int UserSubTaskId { get; set; }
 
         [Required]
         public DateTime CreatedDt { get; set; }

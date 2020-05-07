@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using CodeSchool.Web.Infrastructure;
 
-namespace CodeSchool.Web.Models.Chapters
+namespace CodeSchool.Web.Models.TaskHeads
 {
     public class RemoveModel
     {

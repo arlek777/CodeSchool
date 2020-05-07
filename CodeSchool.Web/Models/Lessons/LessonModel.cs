@@ -4,27 +4,27 @@ using CodeSchool.Domain;
 using CodeSchool.Web.Attributes;
 using CodeSchool.Web.Infrastructure;
 
-namespace CodeSchool.Web.Models.Lessons
+namespace CodeSchool.Web.Models.SubTasks
 {
-    public class LessonModel: LessonShortcutModel
+    public class SubTaskModel: SubTaskShortcutModel
     {
-        [RequiredForLessonType(LessonType.Code, ErrorMessage = ValidationResultMessages.RequiredField)]
+        [RequiredForSubTaskType(SubTaskType.Code, ErrorMessage = ValidationResultMessages.RequiredField)]
         public string Text { get; set; }
 
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         public string TaskText { get; set; }
 
-        [RequiredForLessonType(LessonType.Code, LessonType.LongAnswer, ErrorMessage = ValidationResultMessages.RequiredField)]
+        [RequiredForSubTaskType(SubTaskType.Code, SubTaskType.LongAnswer, ErrorMessage = ValidationResultMessages.RequiredField)]
         public string Answer { get; set; }
 
-        [RequiredForLessonType(LessonType.Code, ErrorMessage = ValidationResultMessages.RequiredField)]
+        [RequiredForSubTaskType(SubTaskType.Code, ErrorMessage = ValidationResultMessages.RequiredField)]
         public string UnitTestsCode { get; set; }
 
-        [RequiredForLessonType(LessonType.Code, ErrorMessage = ValidationResultMessages.RequiredField)]
+        [RequiredForSubTaskType(SubTaskType.Code, ErrorMessage = ValidationResultMessages.RequiredField)]
         public string ReporterCode { get; set; }
 
-        [RequiredForLessonType(LessonType.Test, ErrorMessage = ValidationResultMessages.RequiredField)]
-        public AnswerLessonOptionModel[] AnswerLessonOptions { get; set; }
+        [RequiredForSubTaskType(SubTaskType.Test, ErrorMessage = ValidationResultMessages.RequiredField)]
+        public AnswerSubTaskOptionModel[] AnswerSubTaskOptions { get; set; }
 
         public bool PublishNow { get; set; }
     }

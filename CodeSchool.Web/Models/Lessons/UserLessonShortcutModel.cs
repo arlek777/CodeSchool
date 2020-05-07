@@ -1,15 +1,15 @@
 ﻿using System;
 
-namespace CodeSchool.Web.Models.Lessons
+namespace CodeSchool.Web.Models.SubTasks
 {
-    public class UserLessonShortcutModel
+    public class UserSubTaskShortcutModel
     {
         public int Id { get; set; }
-        public int LessonId { get; set; }
-        public int UserChapterId { get; set; }
+        public int SubTaskId { get; set; }
+        public int UserTaskHeadId { get; set; }
         public Guid UserId { get; set; }
         public bool IsPassed { get; set; }
-        public string LessonTitle { get; set; }
-        public int LessonOrder { get; set; }
+        public string SubTaskTitle { get; set; }
+        public int SubTaskOrder { get; set; }
     }
 }

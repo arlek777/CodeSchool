@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace CodeSchool.Web.Models.Lessons
+namespace CodeSchool.Web.Models.SubTasks
 {
-    public class CanOpenLessonModel
+    public class CanOpenSubTaskModel
     {
         public Guid UserId { get; set; }
-        public int UserChapterId { get; set; }
-        public int UserLessonId { get; set; }
+        public int UserTaskHeadId { get; set; }
+        public int UserSubTaskId { get; set; }
     }
 }

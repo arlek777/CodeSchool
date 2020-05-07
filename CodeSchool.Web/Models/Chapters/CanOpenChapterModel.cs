@@ -1,10 +1,10 @@
 using System;
 
-namespace CodeSchool.Web.Models.Chapters
+namespace CodeSchool.Web.Models.TaskHeads
 {
-    public class CanOpenChapterModel
+    public class CanOpenTaskHeadModel
     {
         public Guid UserId { get; set; }
-        public int UserChapterId { get; set; }
+        public int UserTaskHeadId { get; set; }
     }
 }

@@ -3,14 +3,14 @@ using System.ComponentModel.DataAnnotations;
 using CodeSchool.Domain;
 using CodeSchool.Web.Infrastructure;
 
-namespace CodeSchool.Web.Models.Lessons
+namespace CodeSchool.Web.Models.SubTasks
 {
-    public class LessonShortcutModel
+    public class SubTaskShortcutModel
     {
         public int Id { get; set; }
 
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
-        public int ChapterId { get; set; }
+        public int TaskHeadId { get; set; }
 
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         [StringLength(256, ErrorMessage = ValidationResultMessages.MaxLength)]
@@ -19,10 +19,10 @@ namespace CodeSchool.Web.Models.Lessons
         public int Order { get; set; }
 
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
-        public LessonType Type { get; set; }
+        public SubTaskType Type { get; set; }
 
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
-        public LessonLevel Level { get; set; }
+        public SubTaskLevel Level { get; set; }
 
         public Guid CompanyId { get; set; }
 

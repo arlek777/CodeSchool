@@ -48,33 +48,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\DateTimeExtensions.cs" />
-    <Compile Include="Models\UserChapterLessonInfo.cs" />
+    <Compile Include="Models\UserTaskHeadSubTaskInfo.cs" />
     <Compile Include="ISimpleCRUDService.cs" />
     <Compile Include="Models\UserTaskSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\CanOpenChapter.cs" />
-    <Compile Include="Extensions\CanOpenChapterExtensions.cs" />
-    <Compile Include="Models\CanOpenLesson.cs" />
-    <Compile Include="Extensions\CanOpenLessonExtensions.cs" />
-    <Compile Include="Services\AnswerLessonOptionService.cs" />
-    <Compile Include="Services\ChapterService.cs" />
-    <Compile Include="Interfaces\IChapterService.cs" />
-    <Compile Include="Interfaces\ILessonService.cs" />
-    <Compile Include="Interfaces\IUserChapterService.cs" />
-    <Compile Include="Interfaces\IUserLessonService.cs" />
+    <Compile Include="Models\CanOpenTaskHead.cs" />
+    <Compile Include="Extensions\CanOpenTaskHeadExtensions.cs" />
+    <Compile Include="Models\CanOpenSubTask.cs" />
+    <Compile Include="Extensions\CanOpenSubTaskExtensions.cs" />
+    <Compile Include="Services\AnswerSubTaskOptionService.cs" />
+    <Compile Include="Services\TaskHeadService.cs" />
+    <Compile Include="Interfaces\ITaskHeadService.cs" />
+    <Compile Include="Interfaces\ISubTaskService.cs" />
+    <Compile Include="Interfaces\IUserTaskHeadService.cs" />
+    <Compile Include="Interfaces\IUserSubTaskService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Interfaces\ILogService.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
-    <Compile Include="Models\FilterUserChapterModel.cs" />
-    <Compile Include="Interfaces\IAnswerLessonOptionService.cs" />
-    <Compile Include="Services\LessonService.cs" />
+    <Compile Include="Models\FilterUserTaskHeadModel.cs" />
+    <Compile Include="Interfaces\IAnswerSubTaskOptionService.cs" />
+    <Compile Include="Services\SubTaskService.cs" />
     <Compile Include="Services\EntityFrameworkLogService.cs" />
     <Compile Include="Extensions\ParameterRebinder.cs" />
-    <Compile Include="Services\UserChapterService.cs" />
-    <Compile Include="Services\UserLessonService.cs" />
+    <Compile Include="Services\UserTaskHeadService.cs" />
+    <Compile Include="Services\UserSubTaskService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="SimpleCRUDService.cs" />
-    <Compile Include="TypeScriptGenerator\Class1.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeSchool.DataAccess\CodeSchool.DataAccess.csproj">

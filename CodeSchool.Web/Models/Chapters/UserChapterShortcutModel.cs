@@ -1,28 +1,28 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CodeSchool.Web.Models.Lessons;
+using CodeSchool.Web.Models.SubTasks;
 
-namespace CodeSchool.Web.Models.Chapters
+namespace CodeSchool.Web.Models.TaskHeads
 {
-    public class UserChapterShortcutModel
+    public class UserTaskHeadShortcutModel
     {
-        public UserChapterShortcutModel()
+        public UserTaskHeadShortcutModel()
         {
-            UserLessons = new List<UserLessonShortcutModel>();
+            UserSubTasks = new List<UserSubTaskShortcutModel>();
         }
 
         public int Id { get; set; }
         public Guid UserId { get; set; }
-        public int ChapterId { get; set; }
+        public int TaskHeadId { get; set; }
         public bool IsPassed { get; set; }
-        public string ChapterTitle { get; set; }
-        public int ChapterOrder { get; set; }
+        public string TaskHeadTitle { get; set; }
+        public int TaskHeadOrder { get; set; }
 
-        public UserLessonShortcutModel FirstLesson
+        public UserSubTaskShortcutModel FirstSubTask
         {
-            get { return UserLessons.FirstOrDefault();  }
+            get { return UserSubTasks.FirstOrDefault();  }
         }
-        public List<UserLessonShortcutModel> UserLessons { get; set; }
+        public List<UserSubTaskShortcutModel> UserSubTasks { get; set; }
     }
 }

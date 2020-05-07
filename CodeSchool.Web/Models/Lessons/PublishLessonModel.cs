@@ -2,17 +2,17 @@
 using System.ComponentModel.DataAnnotations;
 using CodeSchool.Web.Infrastructure;
 
-namespace CodeSchool.Web.Models.Lessons
+namespace CodeSchool.Web.Models.SubTasks
 {
-    public class PublishLessonModel
+    public class PublishSubTaskModel
     {
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
         public Guid CompanyId { get; set; }
 
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
-        public int LessonId { get; set; }
+        public int SubTaskId { get; set; }
 
         [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
-        public int ChapterId { get; set; }
+        public int TaskHeadId { get; set; }
     }
 }

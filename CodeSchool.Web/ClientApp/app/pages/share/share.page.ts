@@ -16,22 +16,22 @@ export class SharePage implements OnInit {
     }
 
     ngOnInit(): void {
-        this.share.lessonId = this.route.snapshot.params["lessonId"];
-        this.share.chapterId = this.route.snapshot.params["chapterId"];
+        this.share.subTaskId = this.route.snapshot.params["subTaskId"];
+        this.share.taskHeadId = this.route.snapshot.params["taskHeadId"];
 
         this.share.linkLifetimeInDays = 1;
         this.share.taskDurationTimeLimit = "1:00";
     }
 
     submit() {
-        if (this.share.lessonId) {
-            this.backendService.shareLesson(this.share).then(result => this.shareLink = result);
+        if (this.share.subTaskId) {
+            this.backendService.shareSubTask(this.share).then(result => this.shareLink = result);
         } else {
-            this.backendService.shareChapter(this.share).then(result => this.shareLink = result);
+            this.backendService.shareTaskHead(this.share).then(result => this.shareLink = result);
         }
     }
 
     close() {
-        this.router.navigate(['/admin-chapters']);
+        this.router.navigate(['/admin-TaskHeads']);
     }
 }

@@ -13,10 +13,10 @@
         <div class='navbar-collapse'>
             <ul class='nav navbar-nav'>
                 <li *ngIf="isAdmin" [routerLinkActive]="['active']">
-                    <a class="router-link" [routerLink]="['/admin-chapters']">Редактор заданий</a>
+                    <a class="router-link" [routerLink]="['/admin-TaskHeads']">Редактор заданий</a>
                 </li>
                 <li *ngIf="isAdmin" [routerLinkActive]="['active']">
-                    <a class="router-link" [routerLink]="['/users-statistic']">Результаты заданий</a>
+                    <a class="router-link" [routerLink]="['/user-task-reports']">Результаты заданий</a>
                 </li>
                 <li *ngIf="isAdmin">
                     <a class="router-link" target="_blank" href="/Log/Get">Логи</a>

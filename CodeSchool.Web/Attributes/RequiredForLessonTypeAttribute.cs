@@ -2,21 +2,21 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using CodeSchool.Domain;
-using CodeSchool.Web.Models.Lessons;
+using CodeSchool.Web.Models.SubTasks;
 
 namespace CodeSchool.Web.Attributes
 {
-    public class RequiredForLessonTypeAttribute : ValidationAttribute
+    public class RequiredForSubTaskTypeAttribute : ValidationAttribute
     {
-        private readonly LessonType[] _types;
-        public RequiredForLessonTypeAttribute(params LessonType[] types)
+        private readonly SubTaskType[] _types;
+        public RequiredForSubTaskTypeAttribute(params SubTaskType[] types)
         {
             _types = types;
         }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var model = (LessonModel) validationContext.ObjectInstance;
+            var model = (SubTaskModel) validationContext.ObjectInstance;
             if(_types.Contains(model.Type))
             {
                 string GetFormattedError () => String.Format(ErrorMessage, validationContext.MemberName);

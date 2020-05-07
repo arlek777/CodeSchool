@@ -7,8 +7,8 @@ export class ShareModel {
 
     userFullName: string;
     userEmail: string;
-    chapterId: number;
-    lessonId?: number;
+    taskHeadId: number;
+    subTaskId?: number;
     linkLifetimeInDays: number;
     taskDurationTimeLimit: string;
 }

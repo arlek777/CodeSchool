@@ -37,14 +37,14 @@ namespace CodeSchool.Web.Infrastructure.Extensions
         private static void ConfigureBusinessLogic(IServiceCollection services)
         {
             services.AddTransient<IUserService, UserService>();
-            services.AddTransient<ILessonService, LessonService>();
-            services.AddTransient<IChapterService, ChapterService>();
-            services.AddTransient<IUserLessonService, UserLessonService>();
-            services.AddTransient<IUserChapterService, UserChapterService>();
+            services.AddTransient<ISubTaskService, SubTaskService>();
+            services.AddTransient<ITaskHeadService, TaskHeadService>();
+            services.AddTransient<IUserSubTaskService, UserSubTaskService>();
+            services.AddTransient<IUserTaskHeadService, UserTaskHeadService>();
             services.AddTransient<IPasswordHasher, PasswordHasher>();
             services.AddTransient<ILogService, FileLogService>();
             services.AddTransient<ISimpleCRUDService, SimpleCRUDService>();
-            services.AddTransient<IAnswerLessonOptionService, AnswerLessonOptionService>();
+            services.AddTransient<IAnswerSubTaskOptionService, AnswerSubTaskOptionService>();
         }
 
         private static void ConfigureSecurity(IServiceCollection services, IConfigurationRoot configuration)

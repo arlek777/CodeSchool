@@ -16,7 +16,7 @@ namespace CodeSchool.Domain
         public bool IsAdmin { get; set; }
 
         public virtual ICollection<Token> Tokens { get; set; }
-        public virtual ICollection<UserChapter> UserChapters { get; set; }
-        public virtual ICollection<UserLesson> UserLessons { get; set; }
+        public virtual ICollection<UserTaskHead> UserTaskHeads { get; set; }
+        public virtual ICollection<UserSubTask> UserSubTasks { get; set; }
     }
 }

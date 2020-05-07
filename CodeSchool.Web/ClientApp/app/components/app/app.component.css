@@ -2,28 +2,28 @@
     padding-top: 90px;
 }
 
-.admin-lesson-full {
+.admin-SubTask-full {
     height: 780px;
     overflow-y: auto;
 }
 
-.admin-lesson-half {
+.admin-SubTask-half {
     height: 380px;
     overflow-y: auto;
 }
 
-.lesson-full {
+.SubTask-full {
     height: 800px;
     overflow-y: auto;
 }
 
-.lesson-small {
+.SubTask-small {
     min-height: 100px;
     max-height: 250px;
     overflow-y: auto;
 }
 
-.lesson-half {
+.SubTask-half {
     height: 528px;
     overflow-y: auto;
 }

@@ -1,5 +1,5 @@
 ﻿export class Constants {
-    static defaultLessonReporter = ` 
+    static defaultSubTaskReporter = ` 
 var myReporter = {
     specDone: function (result) {
         window.parent.resultsReceived(result);
@@ -10,7 +10,7 @@ var myReporter = {
 jasmine.getEnv().clearReporters();
 jasmine.getEnv().addReporter(myReporter);`;
 
-    static startLessonReporter = `
+    static startSubTaskReporter = `
 var myReporter = {
     specDone: function (result) {
         var testResult = {

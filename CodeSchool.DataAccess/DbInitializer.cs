@@ -8,14 +8,14 @@ namespace CodeSchool.DataAccess
     {
         protected override void Seed(CodeSchoolDbContext context)
         {
-            //var lessons1 = new List<Lesson>()
+            //var SubTasks1 = new List<SubTask>()
             //{
-            //    new Lesson()
+            //    new SubTask()
             //    {
             //        Title = "Test 1",
             //        StartCode = "alert('hello')",
-            //        Text = "This is a test lesson",
-            //        UnitTestsCode = @"describe('1 Lesson Tests', function () {
+            //        Text = "This is a test SubTask",
+            //        UnitTestsCode = @"describe('1 SubTask Tests', function () {
             //        it('test', function () {
             //        spyOn(window, 'alert');
 
@@ -36,30 +36,30 @@ namespace CodeSchool.DataAccess
             //jasmine.getEnv().clearReporters();
             //jasmine.getEnv().addReporter(myReporter);"
             //    },
-            //    new Lesson()
+            //    new SubTask()
             //    {
             //        Title = "Test 2",
-            //        Text = "This is a test lesson",
+            //        Text = "This is a test SubTask",
             //        ReporterCode = "fdf",
             //        UnitTestsCode = "dfdf",
             //        StartCode = "dsfdf"
             //    }
             //};
 
-            //var chapters = new List<Chapter>()
+            //var TaskHeads = new List<TaskHead>()
             //{
-            //    new Chapter() { Title = "Chapter 1"},
-            //    new Chapter() { Title = "Chapter 2"}
+            //    new TaskHead() { Title = "TaskHead 1"},
+            //    new TaskHead() { Title = "TaskHead 2"}
             //};
 
-            //foreach (var chapter in chapters)
+            //foreach (var TaskHead in TaskHeads)
             //{
-            //    var chapterAdded = context.Set<Chapter>().Add(chapter);
+            //    var TaskHeadAdded = context.Set<TaskHead>().Add(TaskHead);
             //    context.SaveChanges();
 
-            //    foreach (var lesson in lessons1)
+            //    foreach (var SubTask in SubTasks1)
             //    {
-            //        chapterAdded.Lessons.Add(lesson);
+            //        TaskHeadAdded.SubTasks.Add(SubTask);
             //        context.SaveChanges();
             //    }
             //}

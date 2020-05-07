@@ -1,15 +1,14 @@
 ﻿import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
-import { LessonViewModel } from "../models/lesson";
-import { ChapterViewModel, ChapterType } from "../models/chapter";
+import { SubTaskViewModel } from "../models/sub-task";
+import { TaskHeadViewModel, TaskHeadType } from "../models/task-head";
 import { LoginViewModel } from "../models/auth/login";
-import { UserStatisticModel } from "../models/userstatistic";
 import { RegistrationViewModel } from "../models/auth/registration";
 import { JWTTokens } from "../models/auth/jwttokens";
 import 'rxjs/add/operator/toPromise';
-import { UserLessonModel } from "../models/userlesson";
-import { UserLessonAutoSaveModel } from "../models/userlessonautosave";
-import { UserChapterModel } from "../models/userchapter";
+import { UserSubTaskModel } from "../models/userSubTask";
+import { UserSubTaskAutoSaveModel } from "../models/userSubTaskautosave";
+import { UserTaskHeadModel } from "../models/userTaskHead";
 import { CategoryViewModel } from "../models/category";
 
 @Injectable()
@@ -38,85 +37,85 @@ export class BackendService {
     }
 
     startUserTask(): Promise<any> {
-        return this.http.post("/api/userChapter/startUserTask", {}).toPromise()
+        return this.http.post("/api/userTaskHead/startUserTask", {}).toPromise()
             .then((result) => { return result.json(); });
     }
 
     finishUserTask(): Promise<any> {
-        return this.http.post("/api/userChapter/finishUserTask", {}).toPromise()
+        return this.http.post("/api/userTaskHead/finishUserTask", {}).toPromise()
             .then((result) => { return result.json(); });
     }
 
-    getFirstChapterAndLesson(): Promise<any> {
-        return this.http.get("/api/userChapter/getFirstChapterAndLesson", {}).toPromise()
+    getFirstTaskHeadAndSubTask(): Promise<any> {
+        return this.http.get("/api/userTaskHead/getFirstTaskHeadAndSubTask", {}).toPromise()
             .then((result) => { return result.json(); });
     }
 
-    getLesson(id: number): Promise<LessonViewModel> {
-        return this.http.get(`/api/lesson/get/${id}`).toPromise().then((response) => {
-            return new LessonViewModel(response.json());
+    getSubTask(id: number): Promise<SubTaskViewModel> {
+        return this.http.get(`/api/SubTask/get/${id}`).toPromise().then((response) => {
+            return new SubTaskViewModel(response.json());
         });
     }
    
-    getChapters(): Promise<ChapterViewModel[]> {
-        return this.http.get(`/api/chapter/get`).toPromise().then((response) => {
-            return response.json().map(c => new ChapterViewModel(c));
+    getTaskHeads(): Promise<TaskHeadViewModel[]> {
+        return this.http.get(`/api/TaskHead/get`).toPromise().then((response) => {
+            return response.json().map(c => new TaskHeadViewModel(c));
         });
     }
 
-    getChaptersByCategoryId(categoryId: number): Promise<ChapterViewModel[]> {
-        return this.http.get(`/api/chapter/getbycategoryid/${categoryId}`).toPromise().then((response) => {
-            return response.json().map(c => new ChapterViewModel(c));
+    getTaskHeadsByCategoryId(categoryId: number): Promise<TaskHeadViewModel[]> {
+        return this.http.get(`/api/TaskHead/getbycategoryid/${categoryId}`).toPromise().then((response) => {
+            return response.json().map(c => new TaskHeadViewModel(c));
         });
     }
 
-    addOrUpdateChapter(chapter:ChapterViewModel): Promise<ChapterViewModel> {
-        return this.http.post("/api/chapter/addorupdate", chapter).toPromise().then((response) => {
-            return new ChapterViewModel(response.json());
+    addOrUpdateTaskHead(TaskHead:TaskHeadViewModel): Promise<TaskHeadViewModel> {
+        return this.http.post("/api/TaskHead/addorupdate", TaskHead).toPromise().then((response) => {
+            return new TaskHeadViewModel(response.json());
         });
     }
 
-    removeChapter(id): Promise<void> {
-        return this.http.post("/api/chapter/remove", { id: id }).toPromise().then((response) => {
+    removeTaskHead(id): Promise<void> {
+        return this.http.post("/api/TaskHead/remove", { id: id }).toPromise().then((response) => {
         });
     }
 
-    addOrUpdateLesson(lesson: LessonViewModel): Promise<LessonViewModel> {
-        return this.http.post("/api/lesson/addorupdate", lesson).toPromise().then((response) => {
-            return new LessonViewModel(response.json());
+    addOrUpdateSubTask(SubTask: SubTaskViewModel): Promise<SubTaskViewModel> {
+        return this.http.post("/api/SubTask/addorupdate", SubTask).toPromise().then((response) => {
+            return new SubTaskViewModel(response.json());
         });
     }
 
-    removeLesson(id): Promise<void> {
-        return this.http.post("/api/lesson/remove", { id: id }).toPromise().then((response) => {
+    removeSubTask(id): Promise<void> {
+        return this.http.post("/api/SubTask/remove", { id: id }).toPromise().then((response) => {
         });
     }
 
-    changeLessonOrder(currentId, toSwapId): Promise<void> {
-        return this.http.post("/api/lesson/changeorder", { currentId: currentId, toSwapId: toSwapId }).toPromise()
+    changeSubTaskOrder(currentId, toSwapId): Promise<void> {
+        return this.http.post("/api/SubTask/changeorder", { currentId: currentId, toSwapId: toSwapId }).toPromise()
             .then((response) => {
         });
     }
 
-    changeChapterOrder(currentId, toSwapId): Promise<void> {
-        return this.http.post("/api/chapter/changeorder", { currentId: currentId, toSwapId: toSwapId }).toPromise()
+    changeTaskHeadOrder(currentId, toSwapId): Promise<void> {
+        return this.http.post("/api/TaskHead/changeorder", { currentId: currentId, toSwapId: toSwapId }).toPromise()
             .then((response) => {
         });
     }
 
-    shareChapter(model: any): Promise<string> {
-        return this.http.post("/api/share/shareChapter", model).toPromise()
+    shareTaskHead(model: any): Promise<string> {
+        return this.http.post("/api/share/shareTaskHead", model).toPromise()
             .then((response) => response.text());
     }
 
-    shareLesson(model: any): Promise<string> {
-        return this.http.post("/api/share/shareLesson", model).toPromise()
+    shareSubTask(model: any): Promise<string> {
+        return this.http.post("/api/share/shareSubTask", model).toPromise()
             .then((response) => {
                 return response.text();
             });
     }
 
-    getUserChapters(filterModel?: { categoryId?: number, type?: ChapterType}): Promise<UserChapterModel[]> {
+    getUserTaskHeads(filterModel?: { categoryId?: number, type?: TaskHeadType}): Promise<UserTaskHeadModel[]> {
         let params = new URLSearchParams();
         if (filterModel) {
             for (let key in filterModel) {
@@ -127,67 +126,73 @@ export class BackendService {
         }
         var url;
         if (params.toString()) {
-            url = `/api/userchapter/get?${params.toString()}`;
+            url = `/api/userTaskHead/get?${params.toString()}`;
         } else {
-            url = `/api/userchapter/get`;
+            url = `/api/userTaskHead/get`;
         }
         return this.http.get(url).toPromise().then((response) => {
-            return response.json().map(c => new UserChapterModel(c));
+            return response.json().map(c => new UserTaskHeadModel(c));
         });
     }
 
-    getUserLessonIds(userChapterId: number): Promise<number[]> {
-        return this.http.get(`/api/userlesson/getuserlessonids?userChapterId=${userChapterId}`).toPromise().then((response) => {
+    getUserSubTaskIds(userTaskHeadId: number): Promise<number[]> {
+        return this.http.get(`/api/userSubTask/getuserSubTaskids?userTaskHeadId=${userTaskHeadId}`).toPromise().then((response) => {
             return response.json();
         });
     }
 
-    getUserLesson(userLessonId: number): Promise<UserLessonModel> {
-        return this.http.get(`/api/userlesson/getbyid?userLessonId=${userLessonId}`).toPromise().then((response) => {
-            return new UserLessonModel(response.json());
+    getUserSubTask(userSubTaskId: number): Promise<UserSubTaskModel> {
+        return this.http.get(`/api/userSubTask/getbyid?userSubTaskId=${userSubTaskId}`).toPromise().then((response) => {
+            return new UserSubTaskModel(response.json());
         });
     }
 
-    updateUserLesson(model): Promise<void> {
-        return this.http.post("/api/userlesson/update", model).toPromise()
+    updateUserSubTask(model): Promise<void> {
+        return this.http.post("/api/userSubTask/update", model).toPromise()
             .then((response) => {
             });
     }
     
-    autoSaveUserLesson(model: UserLessonAutoSaveModel): Promise<void> {
-        return this.http.post("/api/userlesson/autoSave", model).toPromise()
+    autoSaveUserSubTask(model: UserSubTaskAutoSaveModel): Promise<void> {
+        return this.http.post("/api/userSubTask/autoSave", model).toPromise()
             .then((response) => {
             });
     }
 
-    getUserStatistics(): Promise<UserStatisticModel[]> {
-        return this.http.get("/api/userstatistic/get/").toPromise().then((response) => {
+    getUserTaskReports(): Promise<any[]> {
+        return this.http.get("/api/userSubTaskReport/getUserReports/").toPromise().then((response) => {
             return response.json();
         });
     }
 
-    canOpenChapter(userChapterId): Promise<boolean> {
-        return this.http.post("/api/userchapter/canopen/", { userChapterId: userChapterId })
+    canOpenTaskHead(userTaskHeadId): Promise<boolean> {
+        return this.http.post("/api/userTaskHead/canopen/", { userTaskHeadId: userTaskHeadId })
             .toPromise().then((response) => {
                 return response.json();
             });
     }
 
-    canOpenLesson(userChapterId, userLessonId): Promise<boolean> {
-        return this.http.post("/api/userlesson/canopen/", { userChapterId: userChapterId, userLessonId: userLessonId })
+    canOpenSubTask(userTaskHeadId, userSubTaskId): Promise<boolean> {
+        return this.http.post("/api/userSubTask/canopen/", { userTaskHeadId: userTaskHeadId, userSubTaskId: userSubTaskId })
             .toPromise().then((response) => {
                 return response.json();
             });
     }
 
-    publishLesson(chapterId, lessonId): Promise<void> {
-        return this.http.post("/api/lesson/publish/", { chapterId: chapterId, lessonId: lessonId })
+    publishSubTask(TaskHeadId, SubTaskId): Promise<void> {
+        return this.http.post("/api/SubTask/publish/", { TaskHeadId: TaskHeadId, SubTaskId: SubTaskId })
             .toPromise().then(() => {
             });
     }
 
     getCategories(): Promise<CategoryViewModel[]> {
         return this.http.get("/api/category/get/").toPromise().then((response) => {
+            return response.json();
+        });
+    }
+
+    getUserTaskReport(userEmail: string) {
+        return this.http.get("/api/userSubTaskReport/getDetailedUserReport?userEmail=" + userEmail).toPromise().then((response) => {
             return response.json();
         });
     }

@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
-using CodeSchool.Web.Models.Lessons;
+using CodeSchool.Web.Models.SubTasks;
 using System.ComponentModel.DataAnnotations;
 using CodeSchool.Domain;
 
-namespace CodeSchool.Web.Models.Chapters
+namespace CodeSchool.Web.Models.TaskHeads
 {
-    public class ChapterShortcutModel
+    public class TaskHeadShortcutModel
     {
-        public ChapterShortcutModel()
+        public TaskHeadShortcutModel()
         {
-            Lessons = new List<LessonShortcutModel>();
+            SubTasks = new List<SubTaskShortcutModel>();
         }
 
         public int Id { get; set; }
@@ -26,8 +26,8 @@ namespace CodeSchool.Web.Models.Chapters
 
         public int Order { get; set; }
 
-        public ChapterType Type { get; set; }
+        public TaskType Type { get; set; }
 
-        public IEnumerable<LessonShortcutModel> Lessons { get; set; }
+        public IEnumerable<SubTaskShortcutModel> SubTasks { get; set; }
     }
 }

@@ -2,8 +2,9 @@
 using AutoMapper;
 using CodeSchool.Domain;
 using CodeSchool.Web.Models;
-using CodeSchool.Web.Models.Chapters;
-using CodeSchool.Web.Models.Lessons;
+using CodeSchool.Web.Models.TaskHeads;
+using CodeSchool.Web.Models.SubTasks;
+using CodeSchool.Web.Models.UserReport;
 
 namespace CodeSchool.Web.Infrastructure
 {
@@ -13,24 +14,35 @@ namespace CodeSchool.Web.Infrastructure
         {
             Mapper.Initialize(c =>
             {
-                c.CreateMap<Chapter, ChapterShortcutModel>().ReverseMap();
-                c.CreateMap<Lesson, LessonShortcutModel>().ReverseMap();
-                c.CreateMap<Lesson, LessonModel>().ReverseMap();
-                c.CreateMap<AnswerLessonOption, AnswerLessonOptionModel>().ReverseMap();
+                c.CreateMap<TaskHead, TaskHeadShortcutModel>().ReverseMap();
+                c.CreateMap<SubTask, SubTaskShortcutModel>().ReverseMap();
+                c.CreateMap<SubTask, SubTaskModel>().ReverseMap();
+                c.CreateMap<AnswerSubTaskOption, AnswerSubTaskOptionModel>().ReverseMap();
 
-                c.CreateMap<UserChapter, UserChapterShortcutModel>()
-                .ForMember(ch => ch.ChapterTitle, opts => opts.MapFrom(ch => ch.Chapter.Title))
-                .ForMember(ch => ch.ChapterOrder, opts => opts.MapFrom(ch => ch.Chapter.Order));
+                c.CreateMap<UserTaskHead, UserTaskHeadShortcutModel>()
+                .ForMember(ch => ch.TaskHeadTitle, opts => opts.MapFrom(ch => ch.TaskHead.Title))
+                .ForMember(ch => ch.TaskHeadOrder, opts => opts.MapFrom(ch => ch.TaskHead.Order));
 
-                c.CreateMap<UserLesson, UserLessonShortcutModel>()
-                    .ForMember(ch => ch.LessonTitle, opts => opts.MapFrom(ch => ch.Lesson.Title))
-                    .ForMember(ch => ch.LessonOrder, opts => opts.MapFrom(ch => ch.Lesson.Order));
+                c.CreateMap<UserSubTask, UserSubTaskShortcutModel>()
+                    .ForMember(ch => ch.SubTaskTitle, opts => opts.MapFrom(ch => ch.SubTask.Title))
+                    .ForMember(ch => ch.SubTaskOrder, opts => opts.MapFrom(ch => ch.SubTask.Order));
 
-                c.CreateMap<UserLesson, UserLessonModel>();
+                c.CreateMap<UserSubTask, UserSubTaskModel>();
+                c.CreateMap<UserSubTask, UserSubTaskReportModel>();
 
-                c.CreateMap<User, UserStatisticModel>()
-                    .ForMember(u => u.PassedLessons, opts => 
-                        opts.MapFrom(u => u.UserLessons.Where(l => l.IsPassed).Select(l => l.Lesson.Title)));
+                c.CreateMap<UserTaskHead, UserTaskHeadReportModel>()
+                    .ForMember(u => u.LinkSentDt, opts =>
+                        opts.MapFrom(u => u.CreatedDt))
+                    .ForMember(u => u.UserName, opts =>
+                        opts.MapFrom(u => u.User.UserName))
+                    .ForMember(u => u.UserEmail, opts =>
+                        opts.MapFrom(u => u.User.Email))
+                    .ForMember(u => u.TotalSubTasksCount, opts =>
+                        opts.MapFrom(u => u.UserSubTasks.Count))
+                    .ForMember(u => u.PassedSubTasksCount, opts =>
+                        opts.MapFrom(u => u.UserSubTasks.Count(cu => cu.IsPassed)));
+
+                c.CreateMap<UserTaskHead, UserTaskHeadDetailedReportModel>();
             });
         }
     }

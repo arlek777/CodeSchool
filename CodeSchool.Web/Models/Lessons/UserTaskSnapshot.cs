@@ -1,8 +1,8 @@
-namespace CodeSchool.Web.Models.Lessons
+namespace CodeSchool.Web.Models.SubTasks
 {
     public class UserTaskSnapshot
     {
-        public UpdateUserLessonModel UserLesson { get; set; }
+        public UpdateUserSubTaskModel UserSubTask { get; set; }
         public int UF { get; set; }
         public int CPC { get; set; }
     }

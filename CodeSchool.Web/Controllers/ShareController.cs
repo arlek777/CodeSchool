@@ -5,7 +5,7 @@ using CodeSchool.BusinessLogic;
 using CodeSchool.BusinessLogic.Interfaces;
 using CodeSchool.Domain;
 using CodeSchool.Web.Infrastructure.Extensions;
-using CodeSchool.Web.Models.Chapters;
+using CodeSchool.Web.Models.TaskHeads;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -18,41 +18,41 @@ namespace CodeSchool.Web.Controllers
     {
         private readonly ISimpleCRUDService _simpleCrudService;
         private readonly IUserService _userService;
-        private readonly IUserChapterService _userChapterService;
-        private readonly IUserLessonService _userLessonService;
+        private readonly IUserTaskHeadService _userTaskHeadService;
+        private readonly IUserSubTaskService _userSubTaskService;
 
         public ShareController(
             ISimpleCRUDService simpleCrudService,
             IUserService userService, 
-            IUserChapterService userChapterService, 
-            IUserLessonService userLessonService)
+            IUserTaskHeadService userTaskHeadService, 
+            IUserSubTaskService userSubTaskService)
         {
             _simpleCrudService = simpleCrudService;
             _userService = userService;
-            _userChapterService = userChapterService;
-            _userLessonService = userLessonService;
+            _userTaskHeadService = userTaskHeadService;
+            _userSubTaskService = userSubTaskService;
         }
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> ShareChapter([FromBody] ShareChapterModel model)
+        public async Task<IActionResult> ShareTaskHead([FromBody] ShareTaskHeadModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
             var token = await CreateUserWithToken(model);
-            await _userChapterService.AddChapterLessons(token.UserId, model.CompanyId, model.ChapterId, model.ParsedTaskDurationTimeLimitTime);
+            await _userTaskHeadService.AddTaskHeadSubTasks(token.UserId, model.CompanyId, model.TaskHeadId, model.ParsedTaskDurationTimeLimitTime);
 
             return Ok(GenerateShareLink(token.TokenValue));
         }
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> ShareLesson([FromBody] ShareLessonModel model)
+        public async Task<IActionResult> ShareSubTask([FromBody] ShareSubTaskModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
             var token = await CreateUserWithToken(model);
-            await _userLessonService.Add(token.UserId, model.LessonId, model.ChapterId, model.ParsedTaskDurationTimeLimitTime);
+            await _userSubTaskService.Add(token.UserId, model.SubTaskId, model.TaskHeadId, model.ParsedTaskDurationTimeLimitTime);
 
             return Ok(GenerateShareLink(token.TokenValue));
         }
@@ -66,7 +66,7 @@ namespace CodeSchool.Web.Controllers
             return result;
         }
 
-        private async Task<Token> CreateUserWithToken(ShareChapterModel model)
+        private async Task<Token> CreateUserWithToken(ShareTaskHeadModel model)
         {
             var newUser = await _userService.CreateNew(new User()
             {

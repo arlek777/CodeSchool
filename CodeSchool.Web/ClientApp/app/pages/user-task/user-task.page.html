@@ -1,0 +1,10 @@
+﻿<ng-container *ngIf="currentSubTaskType == SubTaskType.Code then codeSubTask else testSubTask">
+</ng-container>
+
+
+<ng-template #codeSubTask>
+    <user-sub-task-code [user-sub-task-id]="userSubTaskId" [user-task-head-id]="userTaskHeadId"></user-sub-task-code>
+</ng-template>
+<ng-template #testSubTask>
+    <user-sub-task-test [user-sub-task-id]="userSubTaskId" [user-task-head-id]="userTaskHeadId"></user-sub-task-test>
+</ng-template>
