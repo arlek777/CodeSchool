@@ -2,28 +2,28 @@
     padding-top: 90px;
 }
 
-.admin-SubTask-full {
+.admin-task-full {
     height: 780px;
     overflow-y: auto;
 }
 
-.admin-SubTask-half {
+.admin-task-half {
     height: 380px;
     overflow-y: auto;
 }
 
-.SubTask-full {
+.sub-task-full {
     height: 800px;
     overflow-y: auto;
 }
 
-.SubTask-small {
+.sub-task-small {
     min-height: 100px;
     max-height: 250px;
     overflow-y: auto;
 }
 
-.SubTask-half {
+.sub-task-half {
     height: 528px;
     overflow-y: auto;
 }

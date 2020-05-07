@@ -38,7 +38,7 @@
     </div>
 
     <div class="col-md-6">
-        <div class="panel panel-default SubTask-full">
+        <div class="panel panel-default sub-task-full">
             <div class="panel-heading">
                 <h4>
                     <button *ngIf="currentIndex > 0" (click)="getPreviousSubTask()" class="btn btn-default btn-sm">Назад </button>
@@ -51,11 +51,11 @@
 
     <div class="col-md-6">
         <div>
-            <div class="panel panel-default SubTask-small">
+            <div class="panel panel-default sub-task-small">
                 <div class="panel-heading">Задание - {{ userSubTask.isPassed ? 'Выполненно' : 'Не выполненно' }}</div>
                 <div class="panel-body" [trust-html]="userSubTask.SubTask.taskText"></div>
             </div>
-            <div class="panel panel-default SubTask-half">
+            <div class="panel panel-default sub-task-half">
                 <div class="panel-heading">
                     Код
                 </div>

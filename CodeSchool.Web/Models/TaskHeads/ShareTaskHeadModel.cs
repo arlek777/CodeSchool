@@ -40,10 +40,4 @@ namespace CodeSchool.Web.Models.TaskHeads
 
         public string CompanyName { get; set; }
     }
-
-    public class ShareSubTaskModel : ShareTaskHeadModel
-    {
-        [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
-        public int SubTaskId { get; set; }
-    }
 }

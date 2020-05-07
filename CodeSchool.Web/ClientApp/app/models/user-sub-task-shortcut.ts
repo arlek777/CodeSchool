@@ -1,4 +1,4 @@
-﻿import { UserSubTaskAnswerScore } from "./usersubtask";
+﻿import { UserSubTaskAnswerScore } from "./user-sub-task";
 import Helpers = require("../utils/helpers");
 import Mapper = Helpers.Mapper;
 

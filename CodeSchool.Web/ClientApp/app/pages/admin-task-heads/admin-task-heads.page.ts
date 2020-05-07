@@ -10,7 +10,7 @@ import { TaskHeadType } from "../../models/task-head";
     templateUrl: './admin-task-heads.page.html'
 })
 export class AdminTaskHeadsPage {
-    private currentCategoryId: number;
+    private currentCategoryId: number = 1;
 
     taskHeads: TaskHeadViewModel[] = [];
     taskHead: TaskHeadViewModel = new TaskHeadViewModel();

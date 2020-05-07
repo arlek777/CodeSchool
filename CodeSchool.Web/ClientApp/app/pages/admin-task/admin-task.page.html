@@ -8,13 +8,13 @@
 <div (window:keydown)="onKey($event)">
     <div class="col-md-3">
         <div class="form-group">
-            <input class="form-control" placeholder="Название" [(ngModel)]="SubTask.title"/>
+            <input class="form-control" placeholder="Название" [(ngModel)]="subTask.title"/>
         </div>
     </div>
 
-    <div *ngIf="!SubTask.id" class="col-md-2">
+    <div *ngIf="!subTask.id" class="col-md-2">
         <div class="form-group">
-            <select class="form-control" [(ngModel)]="SubTask.type">
+            <select class="form-control" [(ngModel)]="subTask.type">
                 <option value="0">Код</option>
                 <option value="1">Тест</option>
                 <option value="2">Вопрос</option>
@@ -24,7 +24,7 @@
         
     <div class="col-md-2">
         <div class="form-group">
-            <select class="form-control" [(ngModel)]="SubTask.level">
+            <select class="form-control" [(ngModel)]="subTask.level">
                 <option value="0">Junior</option>
                 <option value="1">Middle</option>
                 <option value="2">Senior</option>
@@ -32,33 +32,33 @@
         </div>
     </div>
 
-    <div *ngIf="!SubTask.published" class="col-md-1">
+    <div *ngIf="!subTask.published" class="col-md-1">
         <div class="form-group">
             <label for="publishSubTask">Опубликовать</label>
-            <input id="publishSubTask" type="checkbox" [(ngModel)]="SubTask.publishNow"/>
+            <input id="publishSubTask" type="checkbox" [(ngModel)]="subTask.publishNow"/>
         </div>
     </div>
         
-    <div class="col-md-4" [ngClass]="{'col-md-offset-3': SubTask.id}">
+    <div class="col-md-4" [ngClass]="{'col-md-offset-3': subTask.id}">
         <div class="form-group pull-right">
             <ng-container *ngTemplateOutlet="controlButtons"></ng-container>
         </div>
     </div>
     
     <!-- Code Type -->
-    <div *ngIf="SubTask.type == SubTaskType.Code">
+    <div *ngIf="subTask.type == SubTaskType.Code">
         <div class="col-md-6">
-            <editor mode="text" [(text)]="SubTask.text" css="admin-task-full" header-text="Текст"></editor>
+            <editor mode="text" [(text)]="subTask.text" css="admin-task-full" header-text="Текст"></editor>
         </div>
         <div class="col-md-6">
-            <editor mode="text" [(text)]="SubTask.taskText" css="admin-task-half" header-text="Задание"></editor>
-            <editor mode="code" [(text)]="SubTask.answer" css="admin-task-half" header-text="Код Ответ"></editor>
+            <editor mode="text" [(text)]="subTask.taskText" css="admin-task-half" header-text="Задание"></editor>
+            <editor mode="code" [(text)]="subTask.answer" css="admin-task-half" header-text="Код Ответ"></editor>
         </div>
         <div class="col-md-6">
-            <editor mode="code" [(text)]="SubTask.unitTestsCode" css="admin-task-half" header-text="Тесты"></editor>
+            <editor mode="code" [(text)]="subTask.unitTestsCode" css="admin-task-half" header-text="Тесты"></editor>
         </div>
         <div class="col-md-6">
-            <editor mode="code" [(text)]="SubTask.reporterCode" css="admin-task-half" header-text="Отчет"></editor>
+            <editor mode="code" [(text)]="subTask.reporterCode" css="admin-task-half" header-text="Отчет"></editor>
         </div>
 
         <div class="col-md-offset-9">
@@ -69,12 +69,12 @@
     </div>
     
     <!-- Test Type -->
-    <div *ngIf="SubTask.type == SubTaskType.Test">
+    <div *ngIf="subTask.type == SubTaskType.Test">
         <div class="col-md-6">
-            <editor mode="text" [(text)]="SubTask.taskText" css="admin-task-half" header-text="Задание"></editor>
+            <editor mode="text" [(text)]="subTask.taskText" css="admin-task-half" header-text="Задание"></editor>
         </div>
         <div class="col-md-6">
-            <editor mode="text" [(text)]="SubTask.answer" css="admin-task-half" header-text="Ответ"></editor>
+            <editor mode="text" [(text)]="subTask.answer" css="admin-task-half" header-text="Ответ"></editor>
         </div>
         <div class="col-md-6">
             <editor mode="text" [(text)]="answerOption.text" css="admin-task-half" [header-template]="headerTemplate">
@@ -96,7 +96,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let option of SubTask.answerSubTaskOptions">
+                <tr *ngFor="let option of subTask.answerSubTaskOptions">
                     <td [trust-html]="option.text"></td>
                     <td>{{ option.isCorrect ? 'Да' : 'Нет' }}</td>
                     <td>
@@ -110,12 +110,12 @@
     </div>
     
     <!-- Long Answer Type -->
-    <div *ngIf="SubTask.type == SubTaskType.LongAnswer">
+    <div *ngIf="subTask.type == SubTaskType.LongAnswer">
         <div class="col-md-6">
-            <editor mode="text" [(text)]="SubTask.taskText" css="admin-task-full" header-text="Задание"></editor>
+            <editor mode="text" [(text)]="subTask.taskText" css="admin-task-full" header-text="Задание"></editor>
         </div>
         <div class="col-md-6">
-            <editor mode="text" [(text)]="SubTask.answer" css="admin-task-full" header-text="Ответ"></editor>
+            <editor mode="text" [(text)]="subTask.answer" css="admin-task-full" header-text="Ответ"></editor>
         </div>
     </div>
 </div>

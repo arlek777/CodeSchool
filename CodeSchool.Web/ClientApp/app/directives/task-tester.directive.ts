@@ -4,7 +4,7 @@ import { SubTaskTestResult } from "../models/tasktestresult";
 import { Constants } from "../constants";
 
 @Directive({
-    selector: '[SubTask-tester]'
+    selector: '[task-tester]'
 })
 export class SubTaskTesterDirective {
     @Output() onTestResultsReceived = new EventEmitter<SubTaskTestResult>();

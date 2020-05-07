@@ -6,8 +6,8 @@ import { LoginViewModel } from "../models/auth/login";
 import { RegistrationViewModel } from "../models/auth/registration";
 import { JWTTokens } from "../models/auth/jwttokens";
 import 'rxjs/add/operator/toPromise';
-import { UserSubTaskModel } from "../models/userSubTask";
-import { UserSubTaskAutoSaveModel } from "../models/userSubTaskautosave";
+import { UserSubTaskModel } from "../models/user-sub-task";
+import { UserSubTaskAutoSaveModel } from "../models/user-sub-task-autosave";
 import { UserTaskHeadModel } from "../models/userTaskHead";
 import { CategoryViewModel } from "../models/category";
 

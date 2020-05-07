@@ -1,5 +1,5 @@
-﻿import { UserSubTaskModel } from "../models/userSubTask";
-import { UserSubTaskAutoSaveModel } from "../models/usersubtaskautosave";
+﻿import { UserSubTaskModel } from "../models/user-sub-task";
+import { UserSubTaskAutoSaveModel } from "../models/user-sub-task-autosave";
 import { SubTaskViewModel } from "../models/sub-task";
 import { BackendService } from "../services/backend.service";
 import { ActivatedRoute, Router } from "@angular/router";

@@ -1,8 +1,8 @@
 ﻿<div class="container">
     <div class="row">
-        <div class="col-md-4">
+        <!--<div class="col-md-4">
             <category-selector local-storage-key="adminTaskHeads" (onCategoryChanged)="onCategoryChanged($event)"></category-selector>
-        </div>
+        </div>-->
         <div class="col-md-4">
             <div class="form-group">
                 <input class="form-control" placeholder="Название раздела" [(ngModel)]="taskHead.title" />
@@ -28,7 +28,7 @@
                             <a href="javascript: " (click)="editTaskHead(taskHead)"><h4 style="display: inline-block">
                                 {{ taskHead.title }} - {{ TaskHeadType[taskHead.type] }}
                             </h4></a>
-                            <a class="alert-success" [routerLink]="['/admin-task', taskHead.id]">
+                            <a class="alert-success" [routerLink]="['/admin-sub-task', taskHead.id]">
                                 <span class="fa fa-plus"></span>
                             </a>
                             <a class="alert-danger" href="javascript: " (click)="removeTaskHead(taskHead.id)">
@@ -45,23 +45,23 @@
                             </a>
                         </div>
 
-                        <div class="col-md-12" *ngFor="let SubTask of taskHead.SubTasks; let i = index;">
-                            <a [routerLink]="['/admin-SubTask', taskHead.id, SubTask.id]">
-                                <h5 style="display: inline-block">{{ SubTask.title }}</h5>
+                        <div class="col-md-12" *ngFor="let subTask of taskHead.subTasks; let i = index;">
+                            <a [routerLink]="['/admin-sub-task', taskHead.id, subTask.id]">
+                                <h5 style="display: inline-block">{{ subTask.title }}</h5>
                             </a>
-                            <a *ngIf="!SubTask.published" href="javascript: " (click)="publishSubTask(taskHead.id, SubTask)">
+                            <a *ngIf="!subTask.published" href="javascript: " (click)="publishSubTask(taskHead.id, subTask)">
                                 <span class="fa fa-pencil"></span>
                             </a>
-                            <a class="alert-danger" href="javascript: " (click)="removeSubTask(taskHead, SubTask.id)">
+                            <a class="alert-danger" href="javascript: " (click)="removeSubTask(taskHead, subTask.id)">
                                 <span class="fa fa-remove"></span>
                             </a>
                             <a *ngIf="i != 0" class="alert-info" href="javascript: " (click)="changeSubTaskOrder(taskHead, i, i-1)">
                                 <span class="fa fa-arrow-up"></span>
                             </a>
-                            <a *ngIf="i != taskHead.SubTasks.length-1" class="alert-info" href="javascript: " (click)="changeSubTaskOrder(taskHead, i, i+1)">
+                            <a *ngIf="i != taskHead.subTasks.length-1" class="alert-info" href="javascript: " (click)="changeSubTaskOrder(taskHead, i, i+1)">
                                 <span class="fa fa-arrow-down"></span>
                             </a>
-                            <a *ngIf="SubTask.published" href="javascript: " [routerLink]="['/share', taskHead.id, SubTask.id]">
+                            <a *ngIf="subTask.published" href="javascript: " [routerLink]="['/share', taskHead.id, subTask.id]">
                                 <span class="fa fa-share"></span>
                             </a>
                         </div>

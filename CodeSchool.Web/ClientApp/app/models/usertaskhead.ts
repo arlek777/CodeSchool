@@ -1,5 +1,5 @@
 ﻿import { Mapper } from "../utils/helpers";
-import { UserSubTaskModel } from "./usersubtask";
+import { UserSubTaskModel } from "./user-sub-task";
 import { TaskHeadViewModel } from "./task-head";
 
 export class UserTaskHeadModel {

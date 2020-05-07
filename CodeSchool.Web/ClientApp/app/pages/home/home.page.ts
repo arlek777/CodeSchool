@@ -11,7 +11,7 @@ export class HomePage {
 
     ngOnInit() {
         if (this.authService.isLoggedIn && this.authService.isAdmin) {
-            this.router.navigate(['/admin-TaskHeads']);
+            this.router.navigate(['/admin-task-heads']);
         } else if (this.authService.isLoggedIn && !this.authService.isAdmin) {
             this.router.navigate(['/invitation', false]);
         } else {

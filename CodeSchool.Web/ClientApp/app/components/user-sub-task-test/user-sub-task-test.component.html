@@ -35,7 +35,7 @@
         </div>
         
         <div *ngIf="userSubTask.SubTask.type == SubTaskType.Test">
-            <div class="panel panel-default SubTask-half">
+            <div class="panel panel-default sub-task-half">
                 <div class="panel-heading"><h4>Варианты</h4></div>
                 <div class="panel-body">
                     <div *ngIf="userSubTask.selectedAnswerOptionId" [trust-html]="userSubTask.SubTask.answer"></div>

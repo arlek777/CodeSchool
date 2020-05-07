@@ -1,7 +1,7 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { BackendService } from "../../services/backend.service";
-import { UserTaskHeadModel } from "../../models/userTaskHead";
-import { UserSubTaskModel } from "../../models/userSubTask";
+import { UserTaskHeadModel } from "../../models/usertaskhead";
+import { UserSubTaskModel } from "../../models/user-sub-task";
 import { Router, ActivatedRoute } from "@angular/router";
 import { PopupService } from "../../services/popup.service";
 import { UserMessages } from "../../user-messages";
