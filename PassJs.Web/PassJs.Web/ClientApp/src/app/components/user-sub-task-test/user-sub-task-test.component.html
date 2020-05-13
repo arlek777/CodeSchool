@@ -1,0 +1,60 @@
+﻿<div [spinner]="userSubTask.id > 0" class="container">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>
+                    <button *ngIf="currentIndex > 0" (click)="getPreviousSubTask()" class="btn btn-default btn-sm">Назад </button>
+                    {{ userSubTask.SubTaskTitle }}
+                </h4>
+            </div>
+            <div class="panel-body" [trust-html]="userSubTask.SubTask.taskText"></div>
+        </div>
+    </div>
+    
+    <div class="col-md-12">
+        <div *ngIf="userSubTask.SubTask.type == SubTaskType.LongAnswer">
+            <div class="panel panel-default">
+                <div class="panel-heading">Ответ</div>
+                <div class="panel-body">
+                    <button *ngIf="!confirmedShowAnswer" (click)="showAnswer()" class="btn btn-warning btn-lg">
+                        Показать Ответ
+                    </button>
+                    
+                    <ng-container *ngIf="confirmedShowAnswer">
+                        <span [trust-html]="userSubTask.SubTask.answer"></span>
+
+                        <ng-container *ngIf="!userSubTask.score">
+                            <button (click)="rateSubTask(UserSubTaskAnswerScore.DontKnow)" class="btn btn-danger">Не знал</button>
+                            <button (click)="rateSubTask(UserSubTaskAnswerScore.HardToRemember)" class="btn btn-warning">Почти вспомнил</button>
+                            <button (click)="rateSubTask(UserSubTaskAnswerScore.KnowIt)" class="btn btn-success">Знал</button>
+                        </ng-container>
+                        <button *ngIf="userSubTask.score" (click)="getNextSubTask()" class="btn btn-success btn-lg">Дальше</button>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        
+        <div *ngIf="userSubTask.SubTask.type == SubTaskType.Test">
+            <div class="panel panel-default sub-task-half">
+                <div class="panel-heading"><h4>Варианты</h4></div>
+                <div class="panel-body">
+                    <div *ngIf="userSubTask.selectedAnswerOptionId" [trust-html]="userSubTask.SubTask.answer"></div>
+                    <ol>
+                        <li *ngFor="let option of userSubTask.SubTask.answerSubTaskOptions"
+                            [style.color]="option.isCorrect && userSubTask.selectedAnswerOptionId ? 'green' : 'inherit'">
+                            <span [trust-html]="option.text"></span>
+                            <input [disabled]="userSubTask.selectedAnswerOptionId" type="radio" [(ngModel)]="selectedAnswerOptionId" [value]="option.id"/>
+                        </li>
+                    </ol>
+
+                    <button *ngIf="!userSubTask.selectedAnswerOptionId" (click)="submitAnswerOption()" class="btn btn-info">Подтвердить</button>
+                    <button *ngIf="userSubTask.selectedAnswerOptionId" (click)="getNextSubTask()" class="btn btn-success">Дальше</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+      
+
+

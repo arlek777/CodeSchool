@@ -1,0 +1,26 @@
+﻿<div class="container">
+    <div class="col-md-12">
+        <table class="table table-striped table-hover table-bordered">
+            <thead>
+                <tr>
+                    <td>Имя</td>
+                    <td>Дата приглашения</td>
+                    <td>Дата начала</td>
+                    <td>Пройденно</td>
+                    <td>Дата окончания</td>
+                    <td>Вероятность читерства</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let rep of [report]" style="cursor: pointer">
+                    <td>{{ rep.fullName }}</td>
+                    <td>{{ rep.linkSentDt | date: 'dd-MM-yyyy-hh:MM' }}</td>
+                    <td>{{ rep.startedDt | date: 'dd-MM-yyyy-hh:MM' }}</td>
+                    <td>{{ rep.passedSubTasksCount }} из {{ rep.totalSubTasksCount }}</td>
+                    <td>{{ rep.finishedDt | date: 'dd-MM-yyyy-hh:MM' }}</td>
+                    <td>{{ rep.cheating ? 'ДА' : 'Нет' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

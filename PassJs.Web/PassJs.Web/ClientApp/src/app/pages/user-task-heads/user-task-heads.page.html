@@ -1,0 +1,56 @@
+﻿<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-1">
+                    <h4>Категория</h4>
+                </div>
+                <div class="col-md-4">
+                    <category-selector [local-storage-key]="currentTypeParams.localStorageKey" 
+                                       (onCategoryChanged)="onCategoryChanged($event)"></category-selector>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="userTaskHeads && userTaskHeads.length == 0">
+            <div class="col-md-12">
+                <h4>В данной категории еще не чего нету.</h4>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div *ngFor="let userTaskHead of userTaskHeads" class="col-md-12">
+                    <ng-container *ngIf="userTaskHead.userSubTasks.length > 0">
+                        <div class="col-md-1" style="width: 2%">
+                            <a href="javascript: " (click)="userTaskHead.isExpanded=!userTaskHead.isExpanded;">
+                                <h4>
+                                    <span class="fa"
+                                          [ngClass]="{ 'fa-toggle-right': !userTaskHead.isExpanded, 'fa-toggle-down': userTaskHead.isExpanded }">
+                                    </span>
+                                </h4>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="javascript: " (click)="openTaskHead(userTaskHead)">
+                                <h4>
+                                    {{ userTaskHead.TaskHeadTitle }}
+                                    <span class="green-color" [ngClass]="{'fa fa-check': userTaskHead.isPassed}"></span>
+                                </h4>
+                            </a>
+                        </div>
+
+                        <ng-container *ngIf="userTaskHead.isExpanded">
+                            <div class="col-md-12" *ngFor="let userSubTask of userTaskHead.userSubTasks">
+                                <div class="col-md-4">
+                                    <a href="javascript: " (click)="openSubTask(userTaskHead, userSubTask)">
+                                        {{ userSubTask.SubTaskTitle }}
+                                        <span class="green-color" [ngClass]="{'fa fa-check': userSubTask.isPassed}"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

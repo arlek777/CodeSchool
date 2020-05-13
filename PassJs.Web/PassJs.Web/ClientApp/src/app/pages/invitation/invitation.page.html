@@ -1,0 +1,23 @@
+﻿<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading text-center">
+            <h4 *ngIf="showError">Приглашение не действительное</h4>
+            <h4 *ngIf="!showError">Тестовое задание</h4>
+        </div>
+        <div class="panel-body" *ngIf="!showError && invitation">
+            <div class="row">
+                <div class="col-md-12">
+                    <p style="line-height: 1.8">
+                        Добро пожаловать на тестовое задание от {{ invitation.from }}. <br />
+                        <span *ngIf="invitation.timeLimit">У вас есть {{ invitation.timeLimit }} на прохождения теста. <br /></span>
+                        Пожалуйста, убедитесь, что у вас есть достаточно времени, так как после начала теста у вас не будет возможности вернутся или начать заново. <br />
+                        Если вы закроете вкладку, браузер или выключте компьютер результаты теста будут утеряны. <br />
+                        
+                        Желаем Вам Удачи!
+                    </p>
+                    <button class="btn btn-success" (click)="start()">Начать Задание</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

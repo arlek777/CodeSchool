@@ -1,0 +1,51 @@
+﻿<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading"><h4>{{ !shareLink ? 'Отправить Задание' : 'Задание успешно отправлено' }}</h4></div>
+        <div class="panel-body" *ngIf="!shareLink">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>ФИО</label>
+                        <input class="form-control" type="text" placeholder="ФИО Кандидата" [(ngModel)]="share.userFullName"/>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Email Кандидата</label>
+                        <input class="form-control" type="email" placeholder="Email Кандидата" [(ngModel)]="share.userEmail"/>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Сколько дней доступно приглашение?</label>
+                        <input class="form-control" type="number" placeholder="Сколько дней доступно приглашение?" [(ngModel)]="share.linkLifetimeInDays"/>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Лимит времени на задание (00:30м, 12ч:30м и т.д.)</label>
+                        <input class="form-control" type="text" placeholder="Лимит времени на задание" [(ngModel)]="share.taskDurationTimeLimit"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <button (click)="submit()" class="btn btn-primary">Отправить</button>
+                        <button (click)="close()" class="btn btn-danger">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body" *ngIf="shareLink">
+            <p>Ссылка на задание: <a href="{{ shareLink }}">{{ shareLink }}</a></p>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <button (click)="close()" class="btn btn-success">Готово</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

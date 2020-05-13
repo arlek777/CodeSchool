@@ -1,0 +1,24 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace PassJs.Web.Models
+{
+    public class RegistrationModel
+    {
+        [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
+        [StringLength(50, ErrorMessage = ValidationResultMessages.MaxLength)]
+        [EmailAddress(ErrorMessage = ValidationResultMessages.EmailRequiredOrInvalid)]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
+        [StringLength(30, ErrorMessage = ValidationResultMessages.MaxLength)]
+        public string UserName { get; set; }
+
+        [Required(ErrorMessage = ValidationResultMessages.RequiredField)]
+        [StringLength(30, ErrorMessage = ValidationResultMessages.MaxLength)]
+        [MinLength(5, ErrorMessage = ValidationResultMessages.PasswordShort)]
+        public string Password { get; set; }
+
+        [StringLength(256, ErrorMessage = ValidationResultMessages.MaxLength)]
+        public string CompanyName { get; set; }
+    }
+}

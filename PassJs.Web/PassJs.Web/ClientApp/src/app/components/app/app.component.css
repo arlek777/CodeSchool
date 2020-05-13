@@ -1,0 +1,55 @@
+.body-content {
+    padding-top: 90px;
+}
+
+.admin-task-full {
+    height: 780px;
+    overflow-y: auto;
+}
+
+.admin-task-half {
+    height: 380px;
+    overflow-y: auto;
+}
+
+.sub-task-full {
+    height: 800px;
+    overflow-y: auto;
+}
+
+.sub-task-small {
+    min-height: 100px;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.sub-task-half {
+    height: 528px;
+    overflow-y: auto;
+}
+
+.green-color {
+    color: green;
+}
+
+.margin-bottom-20{
+    margin-bottom: 20px;
+}
+
+.slider {
+    overflow-y: hidden;
+    max-height: 500px; /* approximate max height */
+    transition-property: all;
+    transition-duration: .5s;
+    transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
+
+.slider.closed {
+    max-height: 0;
+}
+
+.spinner {
+    font-size: 24px;
+    text-align: center;
+    padding-top: 150px;
+}
