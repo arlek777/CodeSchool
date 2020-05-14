@@ -1,34 +1,23 @@
-//// =============================
-//// Email: info@ebenmonney.com
-//// www.ebenmonney.com/templates
-//// =============================
-
-//import { Injectable, ErrorHandler } from '@angular/core';
-//import { AlertService, MessageSeverity } from './services/alert.service';
+import { Injectable, ErrorHandler, Injector } from '@angular/core';
+import { PopupService } from "./services/popup.service";
 
 
-//@Injectable()
-//export class AppErrorHandler extends ErrorHandler {
+@Injectable()
+export class AppErrorHandler extends ErrorHandler {
 
-//    // private alertService: AlertService;
-
-//    constructor() {
-//        super();
-//    }
+    constructor( private popupService: PopupService, private injector: Injector) {
+        super();
+    }
 
 
-//    handleError(error: any) {
-//        // if (this.alertService == null) {
-//        //    this.alertService = this.injector.get(AlertService);
-//        // }
+    handleError(error: any) {
+         if (this.popupService == null) {
+            this.popupService = this.injector.get(PopupService);
+         }
 
-//        // this.alertService.showStickyMessage("Fatal Error!", "An unresolved error has occured. Please reload the page to correct this error", MessageSeverity.warn);
-//        // this.alertService.showStickyMessage("Unhandled Error", error.message || error, MessageSeverity.error, error);
+        this.popupService.newValidationError(error.message);
+        console.log("ERROR", error);  
 
-//        if (confirm('Fatal Error!\nAn unresolved error has occured. Do you want to reload the page to correct this?\n\nError: ' + error.message)) {
-//            window.location.reload(true);
-//        }
-
-//        super.handleError(error);
-//    }
-//}
+        super.handleError(error);
+    }
+}

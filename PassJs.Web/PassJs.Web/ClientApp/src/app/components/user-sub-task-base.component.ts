@@ -1,11 +1,11 @@
-﻿import { UserSubTaskModel } from "../models/user-sub-task";
+import { UserSubTaskModel } from "../models/user-sub-task";
 import { UserSubTaskAutoSaveModel } from "../models/user-sub-task-autosave";
 import { SubTaskViewModel } from "../models/sub-task";
 import { BackendService } from "../services/backend.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PopupService } from "../services/popup.service";
 import { AuthService } from "../services/auth.service";
-import { Subject } from "rxjs/Subject";
+import { Subject } from "rxjs";
 import { UserMessages } from "../user-messages";
 
 export abstract class UserSubTaskBaseComponent {

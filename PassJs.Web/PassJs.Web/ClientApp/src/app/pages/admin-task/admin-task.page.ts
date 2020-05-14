@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SubTaskViewModel, SubTaskType, SubTaskLevel } from "../../models/sub-task";
 import { BackendService } from "../../services/backend.service";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -19,7 +19,7 @@ export class AdminSubTaskPage implements OnInit {
     SubTaskType = SubTaskType;
     SubTaskLevel = SubTaskLevel;
 
-    @ViewChild(SubTaskTesterDirective)
+  @ViewChild(SubTaskTesterDirective, { static: true })
     private SubTaskTester: SubTaskTesterDirective;
 
     constructor(private backendService: BackendService,

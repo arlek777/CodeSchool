@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, ViewChild, Input, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, HostListener } from '@angular/core';
 import { BackendService } from "../../services/backend.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { SubTaskTestResult } from "../../models/tasktestresult";
@@ -22,7 +22,7 @@ export class UserSubTaskCodeComponent extends UserSubTaskBaseComponent implement
     result: SubTaskTestResult;
     failedAttempts = 0;
 
-    @ViewChild(SubTaskTesterDirective)
+    @ViewChild(SubTaskTesterDirective, { static: false })
     private SubTaskTester: SubTaskTesterDirective;
 
     @HostListener('window:keydown',['$event'])

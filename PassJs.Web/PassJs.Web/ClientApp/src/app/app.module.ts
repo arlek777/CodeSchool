@@ -1,14 +1,12 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpModule, XHRBackend, RequestOptions, Http } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { AceEditorModule } from 'ng2-ace-editor';
-import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
-import { TinymceModule } from 'angular2-tinymce';
 import { CountdownTimerModule } from 'angular-countdown-timer';
+import { ToastaModule } from 'ngx-toasta';
 
 import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
@@ -24,7 +22,6 @@ import { AdminSubTaskPage } from './pages/admin-task/admin-task.page';
 import { AdminTaskHeadsPage } from './pages/admin-task-heads/admin-task-heads.page';
 import { LoginPage } from "./pages/login/login.page";
 import { RegisterPage } from "./pages/register/register.page";
-import { LiteraturePage } from "./pages/literature/literature.page";
 import { UserReportsPage } from "./pages/user-reports/user-reports.page";
 import { UserTaskReportPage } from "./pages/user-task-report/user-task-report.page";
 import { SharePage } from "./pages/share/share.page";
@@ -41,19 +38,9 @@ import { PopupService } from "./services/popup.service";
 
 import { AuthService } from "./services/auth.service";
 import { AdminAuthGuard, AuthGuard } from "./services/auth-guard.service";
-import { GlobalErrorHandler } from "./services/global-error-handler.service";
-import { InterceptedHttp } from "./http.interceptor";
+import { AppErrorHandler } from "./app-error.handler";
+import { TokenInterceptor } from "./http.interceptor";
 
-
-export class CustomToastOption extends ToastOptions {
-    maxShown = 1;
-    toastLife = 3000;
-    showCloseButton = true;
-}
-
-function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
-    return new InterceptedHttp(xhrBackend, requestOptions);
-}
 
 const DEFAULT_ROUTE: string = "home";
 
@@ -77,7 +64,6 @@ const DEFAULT_ROUTE: string = "home";
         AdminTaskHeadsPage,
         LoginPage,
         RegisterPage,
-        LiteraturePage,
         UserReportsPage,
         SharePage,
         InvitationPage,
@@ -87,13 +73,12 @@ const DEFAULT_ROUTE: string = "home";
     imports: [
         BrowserModule,
         FormsModule,
-        HttpModule,
+        HttpClientModule,
         RouterModule.forRoot([
             { path: '', redirectTo: DEFAULT_ROUTE, pathMatch: 'full' },
             { path: 'home', component: HomePage },
             { path: 'login', component: LoginPage },
             { path: 'register', component: RegisterPage },
-            { path: 'literature', component: LiteraturePage },
             //{ path: 'user-TaskHeads/:TaskHeadType', component: UserTaskHeadsPage, canActivate: [AuthGuard] },
             { path: 'invitation/:token', component: InvitationPage },
             { path: 'task/:userTaskHeadId/:userSubTaskId', component: UserSubTaskPage, canActivate: [AuthGuard] },
@@ -106,25 +91,20 @@ const DEFAULT_ROUTE: string = "home";
             { path: 'share/:taskHeadId/:subTaskId', component: SharePage, canActivate: [AdminAuthGuard] },
             { path: '**', redirectTo: DEFAULT_ROUTE }
         ]),
-        AceEditorModule,
         BrowserAnimationsModule,
-        CountdownTimerModule,
-        ToastModule.forRoot(),
-        TinymceModule.withConfig({
-            browser_spellcheck: true
-        })
+        ToastaModule.forRoot(),
+        CountdownTimerModule
     ],
     providers: [
         { provide: 'ORIGIN_URL', useValue: location.origin },
-        { provide: ToastOptions, useClass: CustomToastOption },
         {
-            provide: Http,
-            useFactory: httpFactory,
-            deps: [XHRBackend, RequestOptions]
+          provide: HTTP_INTERCEPTORS,
+          useClass: TokenInterceptor,
+          multi: true
         },
         {
             provide: ErrorHandler,
-            useClass: GlobalErrorHandler
+            useClass: AppErrorHandler
         },
         BackendService,
         PopupService,

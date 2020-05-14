@@ -1,6 +1,5 @@
-﻿import { UserSubTaskAnswerScore } from "./user-sub-task";
-import Helpers = require("../utils/helpers");
-import Mapper = Helpers.Mapper;
+import { UserSubTaskAnswerScore } from "./user-sub-task";
+import { Mapper } from "../utils/helpers";
 
 export class UserSubTaskShortcutModel {
     constructor(model?: UserSubTaskShortcutModel) {
