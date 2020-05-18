@@ -1,18 +1,19 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using CodeSchool.BusinessLogic;
-using CodeSchool.BusinessLogic.Interfaces;
-using CodeSchool.Domain;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using PassJs.Core;
+using PassJs.Core.Interfaces;
+using PassJs.DomainModels;
 using PassJs.Web.Infrastructure.Extensions;
 using PassJs.Web.Models.TaskHeads;
 
 namespace PassJs.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
     [Route("api/[controller]")]
     public class ShareController : ControllerBase
     {
@@ -68,10 +69,10 @@ namespace PassJs.Web.Controllers
 
         private async Task<Token> CreateUserWithToken(ShareTaskHeadModel model)
         {
-            var newUser = await _userService.CreateNew(new User()
+            var newUser = await _userService.CreateNew(new PassJs.DomainModels.User()
             {
                 CompanyId = model.CompanyId,
-                CompanyName = User.Identity.GetCompanyName(),
+                CompanyName = User.GetCompanyName(),
                 Email = model.UserEmail,
                 IsAdmin = false,
                 UserName = model.UserFullName

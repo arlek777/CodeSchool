@@ -1,10 +1,10 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using CodeSchool.BusinessLogic.Interfaces;
-using CodeSchool.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using PassJs.Core.Interfaces;
+using PassJs.DomainModels;
 using PassJs.Web.Helpers;
 using PassJs.Web.Infrastructure.Extensions;
 using PassJs.Web.Infrastructure.Services;

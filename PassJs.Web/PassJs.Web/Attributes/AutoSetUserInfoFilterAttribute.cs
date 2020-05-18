@@ -24,8 +24,8 @@ namespace PassJs.Web.Attributes
         {
             if (context.HttpContext.User != null && context.HttpContext.User.Identity.IsAuthenticated)
             {
-                var companyId = context.HttpContext.User.Identity.GetCompanyId();
-                var userId = context.HttpContext.User.Identity.GetSubjectId();
+                var companyId = context.HttpContext.User.GetCompanyId();
+                var userId = context.HttpContext.User.GetUserId();
 
                 try
                 {
@@ -33,7 +33,7 @@ namespace PassJs.Web.Attributes
                     if (context.ActionArguments.ContainsKey("userId")) context.ActionArguments.Remove("userId");
 
                     context.ActionArguments.Add("companyId", companyId);
-                    context.ActionArguments.Add("userId", Guid.Parse(userId));
+                    context.ActionArguments.Add("userId", userId);
 
                     context.ActionArguments.TryGetValue("model", out var model);
                     if (model != null)
@@ -42,7 +42,7 @@ namespace PassJs.Web.Attributes
                         companyIdProp?.SetValue(model, companyId, null);
 
                         var userIdProp = model.GetType().GetProperty("UserId", typeof(Guid));
-                        userIdProp?.SetValue(model, Guid.Parse(userId), null);
+                        userIdProp?.SetValue(model, userId, null);
                     }
                 }
                 catch (Exception e)

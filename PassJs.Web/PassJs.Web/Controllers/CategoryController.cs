@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CodeSchool.BusinessLogic;
-using CodeSchool.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using PassJs.Core;
+using PassJs.DomainModels;
 
 namespace PassJs.Web.Controllers
 {

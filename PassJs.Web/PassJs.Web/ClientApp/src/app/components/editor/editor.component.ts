@@ -30,6 +30,8 @@ export class EditorComponent {
 
     isTextPreviewMode = false;
 
+    editorOptions = { theme: 'vs-dark', language: 'javascript' };
+
     textChanged(event) {
         this.textChange.emit(event);
     }

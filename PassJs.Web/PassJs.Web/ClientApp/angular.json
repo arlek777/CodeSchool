@@ -25,10 +25,17 @@
             "progress": true,
             "extractCss": true,
             "assets": [
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/ngx-monaco-editor/assets/monaco",
+                "output": "./assets/monaco/"
+              }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "./node_modules/froala-editor/css/froala_editor.pkgd.min.css",
+              "./node_modules/froala-editor/css/froala_style.min.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.slim.js",

@@ -3,15 +3,16 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
-using CodeSchool.DataAccess;
-using CodeSchool.Domain;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PassJs.DataAccess;
+using PassJs.DomainModels;
 using PassJs.Web.Models.UserReport;
 
 namespace PassJs.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
     [Route("api/[controller]")]
     public class UserSubTaskReportController: ControllerBase
     {

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using CodeSchool.Domain;
 using PassJs.Web.Models.SubTasks;
 using PassJs.Web.Models.TaskHeads;
 using PassJs.Web.Models.UserReport;
 using System.Linq;
+using PassJs.DomainModels;
 
 namespace PassJs.Web.Infrastructure
 {

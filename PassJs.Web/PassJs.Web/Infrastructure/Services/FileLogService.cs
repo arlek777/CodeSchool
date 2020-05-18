@@ -2,10 +2,10 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using CodeSchool.BusinessLogic.Interfaces;
-using CodeSchool.Domain;
 using Microsoft.AspNetCore.Hosting;
 using Newtonsoft.Json;
+using PassJs.Core.Interfaces;
+using PassJs.DomainModels;
 
 namespace PassJs.Web.Infrastructure.Services
 {

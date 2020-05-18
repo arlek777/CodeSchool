@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using CodeSchool.BusinessLogic.Extensions;
-using CodeSchool.Domain;
 using IdentityModel;
 using JWT;
 using JWT.Algorithms;
 using JWT.Serializers;
 using Microsoft.Extensions.Options;
+using PassJs.Core.Extensions;
+using PassJs.DomainModels;
 using PassJs.Web.Infrastructure.AppSettings;
 
 namespace PassJs.Web.Infrastructure.Services
@@ -36,11 +36,11 @@ namespace PassJs.Web.Infrastructure.Services
         {
             var payload = new Dictionary<string, object>
             {
-                { ClaimTypes.Email, user.Email },
+                { JwtClaimTypes.Email, user.Email },
                 { JwtClaimTypes.Subject, user.Id },
                 { "companyId", user.CompanyId },
                 { "companyName", user.CompanyName },
-                { ClaimTypes.Role, user.IsAdmin ? new [] { "Admin" } : new[] { "User" }}
+                { JwtClaimTypes.Role, user.IsAdmin ? new [] { "Admin" } : new[] { "User" }}
             };
             return GetToken(payload, sessionLifetime);
         }
@@ -49,9 +49,9 @@ namespace PassJs.Web.Infrastructure.Services
         {
             var secret = _jwtSettings.SecretKey;
 
-            payload.Add("iss", _jwtSettings.Issuer);
-            payload.Add("aud", _jwtSettings.Audience);
-            payload.Add("iat", DateTime.UtcNow.ConvertToUnixTimestamp());
+            payload.Add(JwtClaimTypes.Issuer, _jwtSettings.Issuer);
+            payload.Add(JwtClaimTypes.Audience, _jwtSettings.Audience);
+            payload.Add(JwtClaimTypes.IssuedAt, DateTime.UtcNow.ConvertToUnixTimestamp());
 
             if (!sessionLifetime)
             {

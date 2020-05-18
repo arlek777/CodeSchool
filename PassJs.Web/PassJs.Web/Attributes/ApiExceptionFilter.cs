@@ -1,10 +1,10 @@
 ﻿using System;
-using CodeSchool.BusinessLogic.Interfaces;
-using CodeSchool.Domain;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Hosting;
+using PassJs.Core.Interfaces;
+using PassJs.DomainModels;
 using PassJs.Web.Models;
 
 namespace PassJs.Web.Attributes

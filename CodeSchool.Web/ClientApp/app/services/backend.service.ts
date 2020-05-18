@@ -64,7 +64,7 @@ export class BackendService {
     }
 
     getTaskHeadsByCategoryId(categoryId: number): Promise<TaskHeadViewModel[]> {
-        return this.http.get(`/api/TaskHead/getbycategoryid/${categoryId}`).toPromise().then((response) => {
+        return this.http.get(`/api/TaskHead/getbycategoryid?categoryId=${categoryId}`).toPromise().then((response) => {
             return response.json().map(c => new TaskHeadViewModel(c));
         });
     }

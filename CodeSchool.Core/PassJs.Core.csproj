@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <AssemblyName>PassJs.Core</AssemblyName>
+    <RootNamespace>PassJs.Core</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CodeSchool.DomainModels\PassJs.DomainModels.csproj" />
+    <ProjectReference Include="..\PassJs.DataAccess\PassJs.DataAccess.csproj" />
+  </ItemGroup>
+
+</Project>

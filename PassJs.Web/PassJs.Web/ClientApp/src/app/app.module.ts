@@ -7,6 +7,8 @@ import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CountdownTimerModule } from 'angular-countdown-timer';
 import { ToastaModule } from 'ngx-toasta';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
@@ -93,6 +95,9 @@ const DEFAULT_ROUTE: string = "home";
         ]),
         BrowserAnimationsModule,
         ToastaModule.forRoot(),
+        FroalaEditorModule.forRoot(),
+        FroalaViewModule.forRoot(),
+        MonacoEditorModule.forRoot(),
         CountdownTimerModule
     ],
     providers: [

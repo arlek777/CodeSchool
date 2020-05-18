@@ -19,10 +19,9 @@ export class AdminTaskHeadsPage {
     constructor(private backendService: BackendService, private popupService: PopupService) {
     }
 
-    onCategoryChanged(categoryId: number) {
-        this.currentCategoryId = categoryId;
-        this.taskHead.categoryId = categoryId;
-        this.backendService.getTaskHeadsByCategoryId(categoryId).then(taskHeads => {
+    ngOnInit() {
+        this.taskHead.categoryId = this.currentCategoryId;
+        this.backendService.getTaskHeadsByCategoryId(this.currentCategoryId).then(taskHeads => {
             this.taskHeads = taskHeads;
         });
     }

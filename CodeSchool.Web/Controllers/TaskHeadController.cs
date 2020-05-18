@@ -32,7 +32,7 @@ namespace CodeSchool.Web.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{categoryId}")]
+        [Route("[action]")]
         public async Task<IActionResult> GetByCategoryId(int categoryId, Guid companyId)
         {
             var TaskHeads = await _TaskHeadService.GetTaskHeads(companyId, categoryId);

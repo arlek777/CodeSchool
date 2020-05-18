@@ -7,26 +7,22 @@ namespace PassJs.Web.Infrastructure.Extensions
 {
     public static class UserIdentityExtensions
     {
-        public static Guid GetCompanyId(this IIdentity identity)
+        public static Guid GetCompanyId(this ClaimsPrincipal identity)
         {
-            if (identity is ClaimsIdentity claimsPrincipal)
-            {
-                var companyIdStr = claimsPrincipal.Claims.FirstOrDefault(c => c.Type.Contains("companyId"));
-                return Guid.Parse(companyIdStr.Value);
-            }
-
-            return Guid.Empty;
+            var companyIdStr = identity.Claims.FirstOrDefault(c => c.Type.Contains("companyId"));
+            return Guid.Parse(companyIdStr.Value);
         }
 
-        public static string GetCompanyName(this IIdentity identity)
+        public static string GetCompanyName(this ClaimsPrincipal identity)
         {
-            if (identity is ClaimsIdentity claimsPrincipal)
-            {
-                var companyNameStr = claimsPrincipal.Claims.FirstOrDefault(c => c.Type.Contains("companyName"));
-                return companyNameStr?.Value;
-            }
+            var companyNameStr = identity.Claims.FirstOrDefault(c => c.Type.Contains("companyName"));
+            return companyNameStr?.Value;
+        }
 
-            return null;
+        public static Guid GetUserId(this ClaimsPrincipal identity)
+        {
+            var userIdStr = identity.Claims.FirstOrDefault(c => c.Type.Contains(ClaimTypes.NameIdentifier));
+            return Guid.Parse(userIdStr.Value);
         }
     }
 }

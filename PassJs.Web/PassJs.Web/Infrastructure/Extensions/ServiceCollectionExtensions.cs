@@ -1,16 +1,12 @@
-﻿using System.Data.Entity;
-using System.Net;
-using System.Threading.Tasks;
-using CodeSchool.BusinessLogic;
-using CodeSchool.BusinessLogic.Interfaces;
-using CodeSchool.BusinessLogic.Services;
-using CodeSchool.DataAccess;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PassJs.Core;
+using PassJs.Core.Interfaces;
+using PassJs.Core.Services;
+using PassJs.DataAccess;
 using PassJs.Web.Infrastructure.AppSettings;
 using PassJs.Web.Infrastructure.Services;
 
@@ -41,7 +37,7 @@ namespace PassJs.Web.Infrastructure.Extensions
             services.AddTransient<ITaskHeadService, TaskHeadService>();
             services.AddTransient<IUserSubTaskService, UserSubTaskService>();
             services.AddTransient<IUserTaskHeadService, UserTaskHeadService>();
-            services.AddTransient<ILogService, FileLogService>();
+            services.AddTransient<PassJs.Core.Interfaces.ILogService, PassJs.Web.Infrastructure.Services.FileLogService>();
             services.AddTransient<ISimpleCRUDService, SimpleCRUDService>();
             services.AddTransient<IAnswerSubTaskOptionService, AnswerSubTaskOptionService>();
         }

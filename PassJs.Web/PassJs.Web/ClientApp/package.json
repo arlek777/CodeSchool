@@ -22,14 +22,14 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~8.2.9",
-    "@angular/common": "~8.2.9",
-    "@angular/compiler": "~8.2.9",
-    "@angular/core": "~8.2.9",
-    "@angular/forms": "~8.2.9",
-    "@angular/platform-browser": "~8.2.9",
-    "@angular/platform-browser-dynamic": "~8.2.9",
-    "@angular/router": "~8.2.9",
+    "@angular/animations": "8.2.9",
+    "@angular/common": "8.2.9",
+    "@angular/compiler": "8.2.9",
+    "@angular/core": "8.2.9",
+    "@angular/forms": "8.2.9",
+    "@angular/platform-browser": "8.2.9",
+    "@angular/platform-browser-dynamic": "8.2.9",
+    "@angular/router": "8.2.9",
     "@ngx-translate/core": "^11.0.1",
     "@swimlane/ngx-datatable": "^16.0.2",
     "angular-oauth2-oidc": "^8.0.4",
@@ -48,7 +48,9 @@
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1",
-    "angular-countdown-timer": "0.0.1"
+    "angular-countdown-timer": "0.0.1",
+    "angular-froala-wysiwyg": "3.1.1",
+    "ngx-monaco-editor": "8.1.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.803.8",

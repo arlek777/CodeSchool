@@ -1,4 +1,4 @@
-﻿ <div class="panel panel-default" [ngClass]="cssClasses">
+ <div class="panel panel-default" [ngClass]="cssClasses">
      <ng-container *ngIf="mode === 'text'">
          <div class="panel-heading">
              <ng-container *ngIf="headerTemplate" [ngTemplateOutlet]="headerTemplate"></ng-container>
@@ -7,24 +7,19 @@
                  <a href="javascript: " (click)="isTextPreviewMode = !isTextPreviewMode;">Превью</a>
              </ng-container>
          </div>
-         <div [ngClass]="{ 'hidden': isTextPreviewMode }" class="panel-body">
-             <app-tinymce [ngModel]='text' (ngModelChange)="textChanged($event)"></app-tinymce>
-         </div>
+       <div [ngClass]="{ 'hidden': isTextPreviewMode }" class="panel-body">
+         <div [froalaEditor]></div>
+         <!--<app-tinymce [ngModel]='text' (ngModelChange)="textChanged($event)"></app-tinymce>-->
+       </div>
          <div [ngClass]="{ 'hidden': !isTextPreviewMode }" class="panel-body" [trust-html]="text"></div>
      </ng-container>
 
      <ng-container *ngIf="mode === 'code'" >
          <div class="panel-heading">{{ headerText }}</div>
-         <div class="panel-body">
-             <div ace-editor
-                  [text]="text"
-                  (textChange)="textChanged($event)"
-                  [mode]="'javascript'"
-                  [theme]="'eclipse'"
-                  [readOnly]="false"
-                  [autoUpdateContent]="true"
-                  [durationBeforeCallback]="1000"
-                  style="height: 400px; width: 100%; overflow: auto;"></div>
+       <div class="panel-body">
+         <div style="height: 400px; width: 100%; overflow: auto;">
+           <ngx-monaco-editor [options]="editorOptions" [(ngModel)]="text"></ngx-monaco-editor>
          </div>
+       </div>
      </ng-container>
 </div>

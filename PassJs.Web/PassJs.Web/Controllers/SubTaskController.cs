@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AutoMapper;
-using CodeSchool.BusinessLogic.Interfaces;
-using CodeSchool.Domain;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PassJs.Core.Interfaces;
+using PassJs.DomainModels;
 using PassJs.Web.Infrastructure.Extensions;
 using PassJs.Web.Models;
 using PassJs.Web.Models.SubTasks;
@@ -12,7 +13,7 @@ using PassJs.Web.Models.TaskHeads;
 
 namespace PassJs.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
     [Route("api/[controller]")]
     public class SubTaskController : ControllerBase
     {

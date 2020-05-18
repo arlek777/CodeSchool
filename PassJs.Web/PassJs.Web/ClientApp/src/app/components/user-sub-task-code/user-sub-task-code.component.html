@@ -1,4 +1,4 @@
-﻿<div *ngIf="showFinishedTaskMessage">
+<div *ngIf="showFinishedTaskMessage">
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading text-center">
@@ -59,32 +59,26 @@
                 <div class="panel-heading">
                     Код
                 </div>
-                <div class="panel-body">
-                    <div ace-editor
-                         [(text)]="userSubTask.code"
-                         [mode]="'javascript'"
-                         [theme]="'eclipse'"
-                         [readOnly]="false"
-                         [autoUpdateContent]="true"
-                         [durationBeforeCallback]="1000"
-                         style="min-height: 340px; width:100%; overflow: auto;"></div>
-
-                    <div *ngIf="result && result.messages.length" class="alert small"
-                         [ngClass]="{'alert-danger': !result.isSucceeded, 'alert-success': result.isSucceeded }">
-                        <span *ngFor="let message of result.messages">{{ message }}</span>
-                    </div>
-
-                    <button (click)="checkSubTask()" class="btn btn-default btn-lg">Проверить</button>
-                    <!--<button *ngIf="!userSubTask.isPassed && failedAttempts >= 3" (click)="showAnswer()" class="btn btn-warning btn-lg">
-                        Показать Ответ
-                    </button>-->
-                    <button *ngIf="currentIndex > 0" (click)="getPreviousSubTask()" class="btn btn-warning btn-lg">
-                        Назад
-                    </button>
-                    <button (click)="getNextSubTask()" class="btn btn-success btn-lg">
-                        {{ userSubTaskIds.length === 1 ? 'Завершить' : 'Следующее Задание' }}
-                    </button>
+              <div class="panel-body">
+                <div style="min-height: 340px; width: 100%; overflow: auto;">
+                  <ngx-monaco-editor [options]="editorOptions" [(ngModel)]="userSubTask.code"></ngx-monaco-editor>
                 </div>
+                <div *ngIf="result && result.messages.length" class="alert small"
+                     [ngClass]="{'alert-danger': !result.isSucceeded, 'alert-success': result.isSucceeded }">
+                  <span *ngFor="let message of result.messages">{{ message }}</span>
+                </div>
+
+                <button (click)="checkSubTask()" class="btn btn-default btn-lg">Проверить</button>
+                <!--<button *ngIf="!userSubTask.isPassed && failedAttempts >= 3" (click)="showAnswer()" class="btn btn-warning btn-lg">
+                  Показать Ответ
+                </button>-->
+                <button *ngIf="currentIndex > 0" (click)="getPreviousSubTask()" class="btn btn-warning btn-lg">
+                  Назад
+                </button>
+                <button (click)="getNextSubTask()" class="btn btn-success btn-lg">
+                  {{ userSubTaskIds.length === 1 ? 'Завершить' : 'Следующее Задание' }}
+                </button>
+              </div>
 
                 <iframe SubTask-tester (onTestResultsReceived)="onTestResultsReceived($event)" src="/Home/Test"></iframe>
             </div>

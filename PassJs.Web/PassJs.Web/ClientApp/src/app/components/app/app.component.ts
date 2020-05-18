@@ -26,20 +26,19 @@ export class AppComponent implements OnInit {
     ngOnInit() {
         this.popupService.successMessages$.subscribe((text: string) => {
             setTimeout(() => {
-              this.toastOptions.msg = text;
-              this.toastaService.success(this.toastOptions);
+              this.toastaService.success({msg: text, title: "Сообщение" , ...this.toastOptions});
             });
         });
 
         this.popupService.validationErrors$.subscribe((text: string) => {
             setTimeout(() => {
-              this.toastaService.error(this.toastOptions);
+              this.toastaService.error({msg: text, title: "Ошибка" , ...this.toastOptions});
             });
         });
 
         this.popupService.serverErrors$.subscribe((text: string) => {
             setTimeout(() => {
-              this.toastaService.error(this.toastOptions);
+              this.toastaService.error({msg: "Произошла ошибка сервера", title: "Ошибка" , ...this.toastOptions});
             });
         });
     }

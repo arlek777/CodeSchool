@@ -23,7 +23,7 @@ export class UserSubTaskCodeComponent extends UserSubTaskBaseComponent implement
     failedAttempts = 0;
 
     @ViewChild(SubTaskTesterDirective)
-    private SubTaskTester: SubTaskTesterDirective;
+    private subTaskTester: SubTaskTesterDirective;
 
     @HostListener('window:keydown',['$event'])
     onKeyPress($event: KeyboardEvent) {
@@ -56,8 +56,8 @@ export class UserSubTaskCodeComponent extends UserSubTaskBaseComponent implement
                     this.loadUserSubTasksId(this.userSubTaskId);
                     this.loadUserSubTask(this.userSubTaskId);
                     //const testTiming = 10000;
-                    const realTiming = 1000 * 60 * 2;
-                    setInterval(() => this.autoSave(), realTiming); // each 2 minute
+                    const realTiming = 1000 * 60 * 2; // each 2 minute
+                    setInterval(() => this.autoSave(), realTiming);
                 }, () => this.router.navigate(['invitation']));
             } else {
                 this.router.navigate(['invitation']);
@@ -79,7 +79,7 @@ export class UserSubTaskCodeComponent extends UserSubTaskBaseComponent implement
     checkSubTask() {
         if (!this.userSubTask.code) return;
 
-        this.SubTaskTester.checkSubTask(this.userSubTask.code, this.userSubTask.subTask);
+        this.subTaskTester.checkSubTask(this.userSubTask.code, this.userSubTask.subTask);
     }
 
     showAnswer() {

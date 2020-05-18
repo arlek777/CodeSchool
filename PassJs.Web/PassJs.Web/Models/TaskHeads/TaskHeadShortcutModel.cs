@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using CodeSchool.Domain;
+using PassJs.DomainModels;
 using PassJs.Web.Models.SubTasks;
 
 namespace PassJs.Web.Models.TaskHeads

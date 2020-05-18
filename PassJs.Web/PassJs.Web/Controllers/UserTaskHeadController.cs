@@ -2,15 +2,16 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CodeSchool.BusinessLogic.Interfaces;
-using CodeSchool.BusinessLogic.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PassJs.Core.Interfaces;
+using PassJs.Core.Models;
 using PassJs.Web.Models.TaskHeads;
 
 namespace PassJs.Web.Controllers
 {
-    [Authorize(Roles = "User")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
     [Route("api/[controller]")]
     public class UserTaskHeadController : ControllerBase
     {

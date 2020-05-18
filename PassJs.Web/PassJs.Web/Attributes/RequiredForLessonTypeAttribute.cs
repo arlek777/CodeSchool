@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using CodeSchool.Domain;
+using PassJs.DomainModels;
 using PassJs.Web.Models.SubTasks;
 
 namespace PassJs.Web.Attributes

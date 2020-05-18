@@ -2,16 +2,17 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CodeSchool.BusinessLogic.Interfaces;
-using CodeSchool.Domain;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PassJs.Core.Interfaces;
+using PassJs.DomainModels;
 using PassJs.Web.Infrastructure.Extensions;
 using PassJs.Web.Models.SubTasks;
 
 namespace PassJs.Web.Controllers
 {
-    [Authorize(Roles = "User")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
     [Route("api/[controller]")]
     public class UserSubTaskController : ControllerBase
     {
@@ -71,7 +72,7 @@ namespace PassJs.Web.Controllers
         public async Task<IActionResult> AutoSave([FromBody] UserTaskSnapshot model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
-            await _userSubTaskService.SaveSnapshot(new CodeSchool.BusinessLogic.Models.UserTaskSnapshot()
+            await _userSubTaskService.SaveSnapshot(new PassJs.Core.Models.UserTaskSnapshot()
             {
                 Id = model.UserSubTask.Id,
                 Code = model.UserSubTask.Code,

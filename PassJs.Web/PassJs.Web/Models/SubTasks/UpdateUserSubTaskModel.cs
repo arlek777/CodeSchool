@@ -1,6 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using CodeSchool.Domain;
+using PassJs.DomainModels;
 
 namespace PassJs.Web.Models.SubTasks
 {

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using CodeSchool.Domain;
+using PassJs.DomainModels;
 using PassJs.Web.Models.SubTasks;
 
 namespace PassJs.Web.Models.UserReport
