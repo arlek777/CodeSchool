@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CodeSchool.DomainModels\PassJs.DomainModels.csproj" />
+    <ProjectReference Include="..\PassJs.DomainModels\PassJs.DomainModels.csproj" />
   </ItemGroup>
 
 </Project>

@@ -55,9 +55,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\CodeSchool.Core\PassJs.Core.csproj" />
-    <ProjectReference Include="..\..\CodeSchool.DomainModels\PassJs.DomainModels.csproj" />
+    <ProjectReference Include="..\..\PassJs.Core\PassJs.Core.csproj" />
     <ProjectReference Include="..\..\PassJs.DataAccess\PassJs.DataAccess.csproj" />
+    <ProjectReference Include="..\..\PassJs.DomainModels\PassJs.DomainModels.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

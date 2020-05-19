@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "quickapp": {
+    "passjs": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -34,6 +34,7 @@
             ],
             "styles": [
               "src/styles.scss",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/froala-editor/css/froala_editor.pkgd.min.css",
               "./node_modules/froala-editor/css/froala_style.min.css"
             ],
@@ -81,18 +82,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "quickapp:build"
+            "browserTarget": "passjs:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "quickapp:build:production"
+              "browserTarget": "passjs:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "quickapp:build"
+            "browserTarget": "passjs:build"
           }
         },
         "test": {
@@ -128,16 +129,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "quickapp:serve"
+            "devServerTarget": "passjs:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "quickapp:serve:production"
+              "devServerTarget": "passjs:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "quickapp"
+  "defaultProject": "passjs"
 }

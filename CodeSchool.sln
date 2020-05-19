@@ -13,9 +13,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeSchool.BusinessLogic", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PassJs.Web", "PassJs.Web\PassJs.Web\PassJs.Web.csproj", "{C10673B5-7966-40AD-B658-330A6650272F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassJs.Core", "CodeSchool.Core\PassJs.Core.csproj", "{0E42E041-A624-4935-8DAA-08D0199C1300}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassJs.Core", "PassJs.Core\PassJs.Core.csproj", "{0E42E041-A624-4935-8DAA-08D0199C1300}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassJs.DomainModels", "CodeSchool.DomainModels\PassJs.DomainModels.csproj", "{D91E76F5-D5E0-4791-9947-0709B48C9C76}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassJs.DomainModels", "PassJs.DomainModels\PassJs.DomainModels.csproj", "{D91E76F5-D5E0-4791-9947-0709B48C9C76}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassJs.DataAccess", "PassJs.DataAccess\PassJs.DataAccess.csproj", "{486C5699-9753-40C9-996F-F421C4D3103D}"
 EndProject
