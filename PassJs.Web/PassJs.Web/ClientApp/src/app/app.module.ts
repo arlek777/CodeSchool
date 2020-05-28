@@ -9,6 +9,9 @@ import { CountdownTimerModule } from 'angular-countdown-timer';
 import { ToastaModule } from 'ngx-toasta';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 
 import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
@@ -94,6 +97,9 @@ const DEFAULT_ROUTE: string = "home";
             { path: '**', redirectTo: DEFAULT_ROUTE }
         ]),
         BrowserAnimationsModule,
+        MatPaginatorModule,
+        MatTableModule,
+        MatSortModule,
         ToastaModule.forRoot(),
         FroalaEditorModule.forRoot(),
         FroalaViewModule.forRoot(),

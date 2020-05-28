@@ -15,18 +15,18 @@ namespace PassJs.Web.Controllers
     [Route("api/[controller]")]
     public class UserTaskHeadController : ControllerBase
     {
-        private readonly IUserTaskHeadService _TaskHeadService;
+        private readonly IUserTaskHeadService _taskHeadService;
 
         public UserTaskHeadController(IUserTaskHeadService TaskHeadService)
         {
-            _TaskHeadService = TaskHeadService;
+            _taskHeadService = TaskHeadService;
         }
 
         [HttpGet]
         [Route("[action]")]
         public async Task<IActionResult> Get(FilterUserTaskHeadModel model)
         {
-            var TaskHeads = await _TaskHeadService.GetUserTaskHeads(model);
+            var TaskHeads = await _taskHeadService.GetUserTaskHeads(model);
             return Ok(TaskHeads.Select(Mapper.Map<UserTaskHeadShortcutModel>));
         }
 
@@ -34,14 +34,14 @@ namespace PassJs.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> CanOpen([FromBody] CanOpenTaskHeadModel model)
         {
-            return Ok(await _TaskHeadService.CanOpen(model.UserId, model.UserTaskHeadId));
+            return Ok(await _taskHeadService.CanOpen(model.UserId, model.UserTaskHeadId));
         }
 
         [HttpGet]
         [Route("[action]")]
         public async Task<IActionResult> GetFirstTaskHeadAndSubTask(Guid userId)
         {
-            var result = await _TaskHeadService.GetFirstTaskHeadAndSubTask(userId);
+            var result = await _taskHeadService.GetFirstTaskHeadAndSubTask(userId);
             return Ok(result);
         }
 
@@ -49,7 +49,7 @@ namespace PassJs.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> StartUserTask(Guid userId)
         {
-            await _TaskHeadService.StartUserTask(userId);
+            await _taskHeadService.StartUserTask(userId);
             return Ok(true);
         }
 
@@ -57,7 +57,7 @@ namespace PassJs.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> FinishUserTask(Guid userId)
         {
-            await _TaskHeadService.FinishUserTask(userId);
+            await _taskHeadService.FinishUserTask(userId);
             return Ok(true);
         }
     }

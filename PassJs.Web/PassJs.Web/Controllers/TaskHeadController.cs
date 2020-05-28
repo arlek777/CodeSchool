@@ -17,18 +17,18 @@ namespace PassJs.Web.Controllers
     [Route("api/[controller]")]
     public class TaskHeadController : ControllerBase
     {
-        private readonly ITaskHeadService _TaskHeadService;
+        private readonly ITaskHeadService _taskHeadService;
     
         public TaskHeadController(ITaskHeadService TaskHeadService)
         {
-            _TaskHeadService = TaskHeadService;
+            _taskHeadService = TaskHeadService;
         }
 
         [HttpGet]
         [Route("[action]")]
         public async Task<IActionResult> Get(Guid companyId)
         {
-            var TaskHeads = await _TaskHeadService.GetTaskHeads(companyId);
+            var TaskHeads = await _taskHeadService.GetTaskHeads(companyId);
             return Ok(TaskHeads.Select(Mapper.Map<TaskHeadShortcutModel>));
         }
 
@@ -36,7 +36,7 @@ namespace PassJs.Web.Controllers
         [Route("[action]/{categoryId}")]
         public async Task<IActionResult> GetByCategoryId(int categoryId, Guid companyId)
         {
-            var TaskHeads = await _TaskHeadService.GetTaskHeads(companyId, categoryId);
+            var TaskHeads = await _taskHeadService.GetTaskHeads(companyId, categoryId);
             return Ok(TaskHeads.Select(Mapper.Map<TaskHeadShortcutModel>));
         }
 
@@ -46,7 +46,7 @@ namespace PassJs.Web.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
-            var TaskHead = await _TaskHeadService.AddOrUpdate(Mapper.Map<TaskHead>(model));
+            var TaskHead = await _taskHeadService.AddOrUpdate(Mapper.Map<TaskHead>(model));
 
             model.Id = TaskHead.Id;
             model.Order = TaskHead.Order;
@@ -58,7 +58,7 @@ namespace PassJs.Web.Controllers
         public async Task<IActionResult> Remove([FromBody] RemoveModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
-            await _TaskHeadService.Remove(model.CompanyId, model.Id);
+            await _taskHeadService.Remove(model.CompanyId, model.Id);
             return Ok();
         }
 
@@ -68,7 +68,7 @@ namespace PassJs.Web.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
-            await _TaskHeadService.ChangeOrder(model.CompanyId, model.CurrentId, model.ToSwapId);
+            await _taskHeadService.ChangeOrder(model.CompanyId, model.CurrentId, model.ToSwapId);
             return Ok();
         }
     }

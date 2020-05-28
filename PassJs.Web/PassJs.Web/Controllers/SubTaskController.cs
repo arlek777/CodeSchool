@@ -17,18 +17,18 @@ namespace PassJs.Web.Controllers
     [Route("api/[controller]")]
     public class SubTaskController : ControllerBase
     {
-        private readonly ISubTaskService _SubTaskService;
+        private readonly ISubTaskService _subTaskService;
 
         public SubTaskController(ISubTaskService SubTaskService)
         {
-            _SubTaskService = SubTaskService;
+            _subTaskService = SubTaskService;
         }
 
         [HttpGet]
         [Route("[action]/{id}")]
         public async Task<IActionResult> Get(Guid companyId, int id)
         {
-            var SubTask = await _SubTaskService.GetById(companyId, id);
+            var SubTask = await _subTaskService.GetById(companyId, id);
             return Ok(Mapper.Map<SubTaskModel>(SubTask));
         }
 
@@ -38,7 +38,7 @@ namespace PassJs.Web.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
-            var SubTask = await _SubTaskService.AddOrUpdate(Mapper.Map<SubTask>(model));
+            var SubTask = await _subTaskService.AddOrUpdate(Mapper.Map<SubTask>(model));
             if (model.PublishNow)
             {
                 await PublishSubTask(new PublishSubTaskModel
@@ -69,7 +69,7 @@ namespace PassJs.Web.Controllers
         public async Task<IActionResult> Remove([FromBody] RemoveModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
-            await _SubTaskService.Remove(model.CompanyId, model.Id);
+            await _subTaskService.Remove(model.CompanyId, model.Id);
             return Ok();
         }
 
@@ -79,17 +79,17 @@ namespace PassJs.Web.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.GetFirstError());
 
-            await _SubTaskService.ChangeOrder(model.CompanyId, model.CurrentId, model.ToSwapId);
+            await _subTaskService.ChangeOrder(model.CompanyId, model.CurrentId, model.ToSwapId);
             return Ok();
         }
 
         private async Task PublishSubTask(PublishSubTaskModel model)
         {
-            var SubTask = await _SubTaskService.GetById(model.CompanyId, model.SubTaskId);
+            var SubTask = await _subTaskService.GetById(model.CompanyId, model.SubTaskId);
             if (!SubTask.Published)
             {
                 SubTask.Published = true;
-                await _SubTaskService.AddOrUpdate(SubTask);
+                await _subTaskService.AddOrUpdate(SubTask);
             }
         }
     }

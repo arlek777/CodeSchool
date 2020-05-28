@@ -51,7 +51,7 @@ export class BackendService {
     }
 
     getSubTask(id: number): Promise<SubTaskViewModel> {
-        return this.http.get<any>(`/api/SubTask/get<any>/${id}`).toPromise().then((response) => {
+        return this.http.get<any>(`/api/SubTask/get/${id}`).toPromise().then((response) => {
             return new SubTaskViewModel(response);
         });
     }

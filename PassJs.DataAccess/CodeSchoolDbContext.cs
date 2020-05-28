@@ -14,7 +14,7 @@ namespace PassJs.DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_connStr);
+            optionsBuilder.UseSqlServer(_connStr).UseLazyLoadingProxies();
         }
 
         public DbSet<CodeSnapshot> CodeSnapshots { get; set; }

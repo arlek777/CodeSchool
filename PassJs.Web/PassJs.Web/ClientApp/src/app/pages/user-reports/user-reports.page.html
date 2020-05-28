@@ -1,26 +1,69 @@
-﻿<div class="container">
-    <div class="col-md-12">
-        <table class="table table-striped table-hover table-bordered">
-            <thead>
-                <tr>
-                    <td>Имя</td>
-                    <td>Дата приглашения</td>
-                    <td>Дата начала</td>
-                    <td>Пройденно</td>
-                    <td>Дата окончания</td>
-                    <td>Вероятность читерства</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let rep of reports" style="cursor: pointer" (click)="openReport(rep)">
-                    <td>{{ rep.fullName }}</td>
-                    <td>{{ rep.linkSentDt | date: 'dd-MM-yyyy-hh:MM' }}</td>
-                    <td>{{ rep.startedDt | date: 'dd-MM-yyyy-hh:MM' }}</td>
-                    <td>{{ rep.passedSubTasksCount }} из {{ rep.totalSubTasksCount }}</td>
-                    <td>{{ rep.finishedDt | date: 'dd-MM-yyyy-hh:MM' }}</td>
-                    <td>{{ rep.cheating ? 'ДА' : 'Нет' }}</td>
-                </tr>
-            </tbody>
-        </table>
+<div class="container">
+  <div class="col-md-12">
+    <div class="mat-elevation-z8">
+      <div class="form-group" style="padding: 20px 20px 0 20px; margin-bottom: 12px">
+        <input class="form-control" placeholder="Поиск.." [ngModel]="filter" (ngModelChange)="filterChanged($event)" />
+        <form style="margin-top: 10px">
+          <label class="radio-inline" style="padding-left: 0;">
+            <h4>Показать:</h4>
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="optradio" (click)="setFilter('all')" checked>Все
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="optradio" (click)="setFilter('expired')">Просроченные
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="optradio" (click)="setFilter('notPassed')">Не пройденные
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="optradio" (click)="setFilter('inProgress')">В процессе
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="optradio" (click)="setFilter('passed')">Пройденные
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="optradio" (click)="setFilter('cheating')">Мухлеж
+          </label>
+        </form>
+      </div>
+      <table mat-table [dataSource]="dataSource" matSort class="mat-table cdk-table mat-sort" role="grid">
+
+        <ng-container matColumnDef="fullName">
+          <th mat-header-cell *matHeaderCellDef> ФИО </th>
+          <td mat-cell *matCellDef="let element"> {{element.fullName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="linkSent">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Дата приглашения </th>
+          <td mat-cell *matCellDef="let element"> {{element.linkSent | date: 'dd-MM-yyyy hh:MM'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="started">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Дата начала </th>
+          <td mat-cell *matCellDef="let element"> {{element.started | date: 'dd-MM-yyyy hh:MM'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="finished">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Дата окончания </th>
+          <td mat-cell *matCellDef="let element"> {{element.finished | date: 'dd-MM-yyyy hh:MM'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="passedSubTasksCount">
+          <th mat-header-cell *matHeaderCellDef> Пройденно </th>
+          <td mat-cell *matCellDef="let element"> {{ element.passedSubTasksCount }} из {{ element.totalSubTasksCount }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cheating">
+          <th mat-header-cell *matHeaderCellDef> Мухлевание </th>
+          <td mat-cell *matCellDef="let element"> {{element.cheating ? 'Да' : 'Нет'}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openReport(row)"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>
     </div>
+  </div>
 </div>
