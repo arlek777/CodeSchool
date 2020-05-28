@@ -26,7 +26,7 @@
     "@angular/material": "8.2.3",
     "@ngx-translate/core": "^11.0.1",
     "angular-oauth2-oidc": "^8.0.4",
-    "bootstrap": "3.3.0",
+    "bootstrap": "3.4.1",
     "bootstrap-datepicker": "^1.9.0",
     "bootstrap-select": "^1.13.11",
     "bootstrap-toggle": "^2.2.2",
